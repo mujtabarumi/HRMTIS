@@ -1,0 +1,216 @@
+<!-- Navigation Bar-->
+<header id="topnav" *ngIf="nav.visible">
+  <div class="topbar-main">
+    <div class="container-fluid">
+
+      <div class="logo">
+
+        <a routerLink="/home" class="logo">
+          <h3>HR</h3>
+        </a>
+
+      </div>
+
+      <div class="menu-extras topbar-custom">
+
+
+        <ul class="list-inline float-right mb-0">
+
+          <!-- Messages-->
+          <!--<li class="list-inline-item dropdown notification-list">-->
+            <!--<a class="nav-link dropdown-toggle arrow-none waves-effect" data-toggle="dropdown" href="#" role="button"-->
+               <!--aria-haspopup="false" aria-expanded="false">-->
+              <!--<i class="mdi mdi-email-outline noti-icon"></i>-->
+              <!--<span class="badge badge-danger noti-icon-badge">3</span>-->
+            <!--</a>-->
+            <!--<div class="dropdown-menu dropdown-menu-right dropdown-arrow dropdown-menu-lg">-->
+              <!--&lt;!&ndash; item&ndash;&gt;-->
+              <!--<div class="dropdown-item noti-title">-->
+                <!--<h5><span class="badge badge-danger float-right">745</span>Messages</h5>-->
+              <!--</div>-->
+
+              <!--&lt;!&ndash; item&ndash;&gt;-->
+<!--&lt;!&ndash;              <a href="javascript:void(0);" class="dropdown-item notify-item">&ndash;&gt;-->
+<!--&lt;!&ndash;                <div class="notify-icon"><img src="assets/images/users/avatar-2.jpg" alt="user-img" class="img-fluid rounded-circle" /> </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                <p class="notify-details"><b>Charles M. Jones</b><small class="text-muted">Dummy text of the printing and typesetting industry.</small></p>&ndash;&gt;-->
+<!--&lt;!&ndash;              </a>&ndash;&gt;-->
+
+<!--&lt;!&ndash;              &lt;!&ndash; item&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;              <a href="javascript:void(0);" class="dropdown-item notify-item">&ndash;&gt;-->
+<!--&lt;!&ndash;                <div class="notify-icon"><img src="assets/images/users/avatar-3.jpg" alt="user-img" class="img-fluid rounded-circle" /> </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                <p class="notify-details"><b>Thomas J. Mimms</b><small class="text-muted">You have 87 unread messages</small></p>&ndash;&gt;-->
+<!--&lt;!&ndash;              </a>&ndash;&gt;-->
+
+<!--&lt;!&ndash;              &lt;!&ndash; item&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;              <a href="javascript:void(0);" class="dropdown-item notify-item">&ndash;&gt;-->
+<!--&lt;!&ndash;                <div class="notify-icon"><img src="assets/images/users/avatar-4.jpg" alt="user-img" class="img-fluid rounded-circle" /> </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                <p class="notify-details"><b>Luis M. Konrad</b><small class="text-muted">It is a long established fact that a reader will</small></p>&ndash;&gt;-->
+<!--&lt;!&ndash;              </a>&ndash;&gt;-->
+
+<!--&lt;!&ndash;              &lt;!&ndash; All&ndash;&gt;&ndash;&gt;-->
+              <!--<a href="javascript:void(0);" class="dropdown-item notify-item">-->
+                <!--View All-->
+              <!--</a>-->
+
+            <!--</div>-->
+          <!--</li>-->
+          <!-- notification-->
+          <!--<li class="list-inline-item dropdown notification-list">-->
+            <!--<a class="nav-link dropdown-toggle arrow-none waves-effect" data-toggle="dropdown" href="#" role="button"-->
+               <!--aria-haspopup="false" aria-expanded="false">-->
+              <!--<i class="mdi mdi-bell-outline noti-icon"></i>-->
+              <!--<span class="badge badge-danger noti-icon-badge">3</span>-->
+            <!--</a>-->
+            <!--<div class="dropdown-menu dropdown-menu-right dropdown-arrow dropdown-menu-lg">-->
+              <!--&lt;!&ndash; item&ndash;&gt;-->
+              <!--<div class="dropdown-item noti-title">-->
+                <!--<h5>Notification (3)</h5>-->
+              <!--</div>-->
+
+<!--&lt;!&ndash;              &lt;!&ndash; item&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;              <a href="javascript:void(0);" class="dropdown-item notify-item active">&ndash;&gt;-->
+<!--&lt;!&ndash;                <div class="notify-icon bg-success"><i class="mdi mdi-cart-outline"></i></div>&ndash;&gt;-->
+<!--&lt;!&ndash;                <p class="notify-details"><b>Your order is placed</b><small class="text-muted">Dummy text of the printing and typesetting industry.</small></p>&ndash;&gt;-->
+<!--&lt;!&ndash;              </a>&ndash;&gt;-->
+
+<!--&lt;!&ndash;              &lt;!&ndash; item&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;              <a href="javascript:void(0);" class="dropdown-item notify-item">&ndash;&gt;-->
+<!--&lt;!&ndash;                <div class="notify-icon bg-warning"><i class="mdi mdi-message"></i></div>&ndash;&gt;-->
+<!--&lt;!&ndash;                <p class="notify-details"><b>New Message received</b><small class="text-muted">You have 87 unread messages</small></p>&ndash;&gt;-->
+<!--&lt;!&ndash;              </a>&ndash;&gt;-->
+
+<!--&lt;!&ndash;              &lt;!&ndash; item&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;              <a href="javascript:void(0);" class="dropdown-item notify-item">&ndash;&gt;-->
+<!--&lt;!&ndash;                <div class="notify-icon bg-info"><i class="mdi mdi-martini"></i></div>&ndash;&gt;-->
+<!--&lt;!&ndash;                <p class="notify-details"><b>Your item is shipped</b><small class="text-muted">It is a long established fact that a reader will</small></p>&ndash;&gt;-->
+<!--&lt;!&ndash;              </a>&ndash;&gt;-->
+
+              <!--&lt;!&ndash; All&ndash;&gt;-->
+              <!--<a href="javascript:void(0);" class="dropdown-item notify-item">-->
+                <!--View All-->
+              <!--</a>-->
+
+            <!--</div>-->
+          <!--</li>-->
+          <!-- User-->
+          <li class="list-inline-item dropdown notification-list">
+            <a class="nav-link dropdown-toggle arrow-none waves-effect nav-user" data-toggle="dropdown" href="#" role="button"
+               aria-haspopup="false" aria-expanded="false">
+              <img src="assets/images/users/avatar-1.jpg" alt="user" class="rounded-circle">
+            </a>
+            <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
+              <a class="dropdown-item" href="#"><i class="dripicons-user text-muted"></i> Profile</a>
+<!--              <a class="dropdown-item" href="#"><i class="dripicons-wallet text-muted"></i> My Wallet</a>-->
+<!--              <a class="dropdown-item" href="#"><span class="badge badge-success pull-right m-t-5">5</span><i class="dripicons-gear text-muted"></i> Settings</a>-->
+<!--              <a class="dropdown-item" href="#" (click)="whoAmI($event)"><i class="dripicons-lock text-muted"></i> Who Am I</a>-->
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#" (click)="logout($event)"><i class="dripicons-exit text-muted"></i> Logout</a>
+            </div>
+          </li>
+          <li class="menu-item list-inline-item">
+            <!-- Mobile menu toggle-->
+            <a class="navbar-toggle nav-link">
+              <div class="lines">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </a>
+            <!-- End mobile menu toggle-->
+          </li>
+
+        </ul>
+      </div>
+      <!-- end menu-extras -->
+
+      <div class="clearfix"></div>
+
+    </div> <!-- end container -->
+  </div>
+  <!-- end topbar-main -->
+
+  <!-- MENU Start -->
+  <div class="navbar-custom">
+    <div class="container-fluid">
+      <div id="navigation">
+        <!-- Navigation Menu-->
+        <ul class="navigation-menu">
+
+          <li class="has-submenu" routerLinkActive="active">
+            <a routerLink="/home" ><i class="ti-home"></i>Dashboard</a>
+          </li>
+
+          <li class="has-submenu" routerLinkActive="active">
+            <a href="#"><i class="ti-bookmark-alt"></i>Settings</a>
+            <ul class="submenu">
+              <li class="has-submenu" *ngxPermissionsOnly="['admin']">
+                <a href="#">Roster</a>
+                <ul class="submenu">
+                  <li><a >All Roster</a></li>
+                  <li><a >Shift Roster</a></li>
+                </ul>
+              </li>
+
+
+
+
+
+              <!--<li class="has-submenu" *ngxPermissionsOnly="['admin']">-->
+                <!--<a href="#">Employee</a>-->
+                <!--<ul class="submenu">-->
+                  <!--<li><a routerLink="employee">Employee</a></li>-->
+                  <!--<li><a routerLink="employee/past">Past Employee</a></li>-->
+                  <!--<li><a routerLink="employee/add">Add Employee</a></li>-->
+                <!--</ul>-->
+              <!--</li>-->
+
+
+
+
+
+            </ul>
+          </li>
+
+
+          <li class="has-submenu" routerLinkActive="active">
+            <a href="#"><i class="fa fa-chart"></i>Report</a>
+            <ul class="submenu">
+              <li class="">
+                <a >Attendance</a>
+
+              </li>
+            </ul>
+          </li>
+
+
+
+
+
+
+
+
+
+
+          <!--<li class="has-submenu">-->
+            <!--<a href="#"><i class="ti-files"></i>Pages</a>-->
+            <!--<ul class="submenu megamenu">-->
+              <!--<li>-->
+                <!--<ul>-->
+                  <!--<li><a routerLink="/login">Login</a></li>-->
+                <!--</ul>-->
+              <!--</li>-->
+            <!--</ul>-->
+          <!--</li>-->
+
+        </ul>
+        <!-- End navigation menu -->
+      </div> <!-- end #navigation -->
+    </div> <!-- end container -->
+  </div> <!-- end navbar-custom -->
+
+
+
+
+</header>
+<!-- End Navigation Bar-->
+
