@@ -50,25 +50,30 @@ export class AddDepartmentComponent implements OnInit {
 
   }
   onSubmit(){
-    console.log(this.departmentField);
+   // console.log(this.departmentField);
     const token=this.token.get();
     this.http.post(Constants.API_URL+'department/post'+'?token='+token,this.departmentField).subscribe(data => {
       //  console.log(data);
         this.getDepartments();
 
-        // $.alert({
-        //   title: 'Success!',
-        //   type: 'Green',
-        //   content: 'Leave Rejected',
-        //   buttons: {
-        //     tryAgain: {
-        //       text: 'Ok',
-        //       btnClass: 'btn-red',
-        //       action: function () {
-        //       }
-        //     }
-        //   }
-        // });
+        this.departmentField={} as Department;
+
+        $.alert({
+          title: 'Success!',
+          type: 'Green',
+          content: data['message'],
+          buttons: {
+            tryAgain: {
+              text: 'Ok',
+              btnClass: 'btn-red',
+              action: function () {
+
+
+
+              }
+            }
+          }
+        });
 
       },
       error => {

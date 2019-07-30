@@ -10,6 +10,7 @@ import {AuthService} from "./services/auth.service";
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import {EmployeeComponent} from "./components/user/employee/employee.component";
 import {AddDepartmentComponent} from "./components/configuration/department/add-department/add-department.component";
+import {ShiftComponent} from "./components/configuration/shift/shift.component";
 
 
 
@@ -29,6 +30,7 @@ const routes: Routes = [
     { path: 'home', component: HomeComponent,canActivate: [AuthService] },
     { path: 'employee', component: EmployeeComponent,canActivate: [AuthService] },
     { path: 'configuration/department/add', component: AddDepartmentComponent,canActivate: [AuthService]  },
+    { path: 'configuration/shift', component: ShiftComponent,canActivate: [AuthService] },
 
 
 ];

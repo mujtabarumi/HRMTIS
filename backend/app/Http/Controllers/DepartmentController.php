@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 class DepartmentController extends Controller
 {
     public function get(){
-        $departments=Department::get();
+        $departments=Department::orderBy('id','desc')->get();
         return $departments;
     }
 
