@@ -14,6 +14,8 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { NgxPermissionsModule } from 'ngx-permissions';
+import { EmployeeComponent } from './components/user/employee/employee.component';
+
 
 
 @NgModule({
@@ -22,6 +24,8 @@ import { NgxPermissionsModule } from 'ngx-permissions';
     HomeComponent,
     NavbarComponent,
     LoginComponent,
+    EmployeeComponent,
+
 
 
   ],

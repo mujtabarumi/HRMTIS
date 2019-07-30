@@ -15,7 +15,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
 Route::get('/clear-cache', function() {
 
     Artisan::call('cache:clear');
@@ -25,3 +24,5 @@ Route::get('/clear-cache', function() {
    // return redirect('/');
     return "Cache is cleared";
 });
+
+

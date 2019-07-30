@@ -45,7 +45,7 @@ export class AppComponent {
 
         // const token=this.token.get();
         this.http.post(Constants.API_URL+'me?token='+token.get(),null).subscribe(data => {
-                // console.log(data);
+                 console.log(token.get());
                 localStorage.setItem('user',JSON.stringify(data));
 
                 let perm = [];

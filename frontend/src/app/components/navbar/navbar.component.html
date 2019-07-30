@@ -139,6 +139,19 @@
           <li class="has-submenu" routerLinkActive="active">
             <a routerLink="/home" ><i class="ti-home"></i>Dashboard</a>
           </li>
+          <li class="has-submenu" routerLinkActive="active">
+            <a ><i class="ti-home"></i>User</a>
+            <ul class="submenu">
+              <li class="has-submenu" *ngxPermissionsOnly="['admin']">
+                <a href="#">Employee</a>
+                <ul class="submenu">
+                  <li><a routerLink="employee">Employee</a></li>
+                  <!--                  <li><a routerLink="employee/past">Past Employee</a></li>-->
+                  <!--                  <li><a routerLink="employee/add">Add Employee</a></li>-->
+                </ul>
+              </li>
+            </ul>
+          </li>
 
           <li class="has-submenu" routerLinkActive="active">
             <a href="#"><i class="ti-bookmark-alt"></i>Settings</a>
@@ -155,14 +168,7 @@
 
 
 
-              <!--<li class="has-submenu" *ngxPermissionsOnly="['admin']">-->
-                <!--<a href="#">Employee</a>-->
-                <!--<ul class="submenu">-->
-                  <!--<li><a routerLink="employee">Employee</a></li>-->
-                  <!--<li><a routerLink="employee/past">Past Employee</a></li>-->
-                  <!--<li><a routerLink="employee/add">Add Employee</a></li>-->
-                <!--</ul>-->
-              <!--</li>-->
+
 
 
 

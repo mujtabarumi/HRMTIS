@@ -41,6 +41,9 @@ Route::group([
     Route::post('me', 'AuthController@me');
     Route::post('profile/password/change', 'AuthController@changePassword');
 
+    /*Employee Info*/
+    Route::post('employee/get','EmployeeController@getAllEmployee');
+
 
 
 });

@@ -8,6 +8,8 @@ import {LoginComponent} from "./components/login/login.component";
 import {GuestService} from "./services/guest.service";
 import {AuthService} from "./services/auth.service";
 import { NgxPermissionsGuard } from 'ngx-permissions';
+import {EmployeeComponent} from "./components/user/employee/employee.component";
+
 
 
 
@@ -24,6 +26,9 @@ const routes: Routes = [
     {path: '', component: LoginComponent, canActivate: [GuestService] },
     { path: 'login', component: LoginComponent, canActivate: [GuestService] },
     { path: 'home', component: HomeComponent,canActivate: [AuthService] },
+    { path: 'employee', component: EmployeeComponent,canActivate: [AuthService] },
+
+
 ];
 
 
