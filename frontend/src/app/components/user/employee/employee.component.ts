@@ -10,7 +10,7 @@ import {ActivatedRoute, Router} from "@angular/router";
   templateUrl: './employee.component.html',
   styleUrls: ['./employee.component.css']
 })
-export class EmployeeComponent implements AfterViewInit,OnInit {
+export class EmployeeComponent implements AfterViewInit, OnInit {
 
   employee:any;
   dtOptions:DataTables.Settings={};
@@ -49,21 +49,23 @@ export class EmployeeComponent implements AfterViewInit,OnInit {
     };
   }
   //
-  // ngAfterViewInit(): void {
-  //   this.dtTrigger.next();
-  //   this.renderer.listenGlobal('document', 'click', (event) => {
-  //
-  //     if (event.target.hasAttribute("data-emp-id")) {
-  //      // this.router.navigate(["employee/edit/" + event.target.getAttribute("data-emp-id")]);
-  //     }
-  //     // else if (event.target.hasAttribute("data-emp-id2")) {
-  //     //
-  //     //   this.router.navigate([])
-  //     //     .then(result => {  window.open("user/user-cv-view/" + event.target.getAttribute("data-emp-id2", '_blank')) });
-  //     // }
-  //
-  //   });
-  // }
+  ngAfterViewInit(): void {
+
+    this.dtTrigger.next();
+    this.renderer.listenGlobal('document', 'click', (event) => {
+
+      if (event.target.hasAttribute("data-emp-id")) {
+       // this.router.navigate(["employee/edit/" + event.target.getAttribute("data-emp-id")]);
+      }
+      // else if (event.target.hasAttribute("data-emp-id2")) {
+      //
+      //   this.router.navigate([])
+      //     .then(result => {  window.open("user/user-cv-view/" + event.target.getAttribute("data-emp-id2", '_blank')) });
+      // }
+
+    });
+
+  }
 
 
   // getAllemployee(){

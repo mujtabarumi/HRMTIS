@@ -15,6 +15,8 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { EmployeeComponent } from './components/user/employee/employee.component';
+import { AddDepartmentComponent } from './components/configuration/department/add-department/add-department.component';
+
 
 
 
@@ -25,6 +27,8 @@ import { EmployeeComponent } from './components/user/employee/employee.component
     NavbarComponent,
     LoginComponent,
     EmployeeComponent,
+    AddDepartmentComponent,
+
 
 
 

@@ -45,6 +45,11 @@ Route::group([
     Route::post('employee/get','EmployeeController@getAllEmployee');
 
 
+    //department Info
+    Route::get('department/get','DepartmentController@get');
+    Route::post('department/post','DepartmentController@postDepartment');
+
+
 
 });
 

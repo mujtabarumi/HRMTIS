@@ -9,6 +9,7 @@ import {GuestService} from "./services/guest.service";
 import {AuthService} from "./services/auth.service";
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import {EmployeeComponent} from "./components/user/employee/employee.component";
+import {AddDepartmentComponent} from "./components/configuration/department/add-department/add-department.component";
 
 
 
@@ -27,6 +28,7 @@ const routes: Routes = [
     { path: 'login', component: LoginComponent, canActivate: [GuestService] },
     { path: 'home', component: HomeComponent,canActivate: [AuthService] },
     { path: 'employee', component: EmployeeComponent,canActivate: [AuthService] },
+    { path: 'configuration/department/add', component: AddDepartmentComponent,canActivate: [AuthService]  },
 
 
 ];
