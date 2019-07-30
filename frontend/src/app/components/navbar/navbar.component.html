@@ -145,7 +145,7 @@
               <li class="has-submenu" *ngxPermissionsOnly="['admin']">
                 <a href="#">Employee</a>
                 <ul class="submenu">
-                  <li><a routerLink="employee">Employee</a></li>
+                  <li><a>Employee</a></li>
                   <!--                  <li><a routerLink="employee/past">Past Employee</a></li>-->
                   <!--                  <li><a routerLink="employee/add">Add Employee</a></li>-->
                 </ul>
@@ -161,6 +161,13 @@
                 <ul class="submenu">
                   <li><a >All Roster</a></li>
                   <li><a >Shift Roster</a></li>
+                </ul>
+              </li>
+              <li class="has-submenu" *ngxPermissionsOnly="['admin']">
+                <a href="#">Department</a>
+                <ul class="submenu">
+                  <li><a routerLink="configuration/department/add">Add Department</a></li>
+
                 </ul>
               </li>
 
