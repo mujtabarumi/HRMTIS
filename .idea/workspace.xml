@@ -3,12 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="79f3b666-98ca-415d-99bb-8f59ccc47ed0" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/DepartmentController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/DepartmentController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/app-routing.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/api.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/app/components/configuration/department/add-department/add-department.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/configuration/department/add-department/add-department.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/app/components/configuration/department/add-department/add-department.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/configuration/department/add-department/add-department.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/navbar/navbar.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/navbar/navbar.component.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -159,6 +156,8 @@
       <workItem from="1564468923248" duration="71000" />
       <workItem from="1564469180645" duration="2928000" />
       <workItem from="1564479873602" duration="13148000" />
+      <workItem from="1564556327513" duration="598000" />
+      <workItem from="1564564907926" duration="3087000" />
     </task>
     <servers />
   </component>

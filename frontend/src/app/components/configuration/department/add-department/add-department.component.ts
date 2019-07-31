@@ -13,12 +13,14 @@ export class AddDepartmentComponent implements OnInit {
   @Input('master') data:any;
 
   departments:any[];
+  company:any;
   departmentField={} as Department;
 
   constructor(public http: HttpClient,private token:TokenService) { }
 
   ngOnInit() {
     this.getDepartments();
+    this.getCompany();
   }
 
   getDepartments(){
@@ -31,6 +33,18 @@ export class AddDepartmentComponent implements OnInit {
       }
     );
   }
+  getCompany(){
+    const token=this.token.get();
+    this.http.get(Constants.API_URL+'company/get'+'?token='+token).subscribe(data => {
+
+        this.company=data;
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+
 
   editDept(dept){
     // console.log(dept);

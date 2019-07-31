@@ -49,6 +49,9 @@ Route::group([
     Route::get('department/get','DepartmentController@get');
     Route::post('department/post','DepartmentController@postDepartment');
 
+    //Company Info
+    Route::get('company/get','CompanyController@get');
+
 
 
 });
