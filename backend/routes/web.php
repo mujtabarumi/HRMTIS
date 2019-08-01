@@ -15,6 +15,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+/*rumi test */
+Route::get('test/rumi/{from}/{start}','TestController@testRumi');
+
 Route::get('/clear-cache', function() {
 
     Artisan::call('cache:clear');
