@@ -52,6 +52,16 @@ Route::group([
     //Company Info
     Route::get('company/get','CompanyController@get');
 
+    //Shift
+    Route::post('employee/shift/get','EmployeeController@getAllEmployeeForAttendance');
+    Route::post('employee/leaveteam/get','EmployeeController@leaveTeam');
+
+    Route::get('shift/get','shiftController@getShiftName');
+    Route::post('shift/post','shiftController@createShift');
+    Route::post('user/shift/get','shiftController@getUserShift');
+    Route::post('/getAllShift','shiftController@getAllShift');
+    Route::post('shift/assign','shiftController@assignToShift');
+
 
 
 });
