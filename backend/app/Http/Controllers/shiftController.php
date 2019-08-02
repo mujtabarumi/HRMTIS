@@ -4,12 +4,35 @@ namespace App\Http\Controllers;
 
 use App\Shift;
 use App\ShiftLog;
+use DateTime;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Carbon\Carbon;
 
 class shiftController extends Controller
 {
+    function getDatesFromRange(Request $r, $format = 'Y-m-d') {
+        $array = array();
+        $start=$r->startDate;
+        $end=$r->endDate;
+
+        $interval = new \DateInterval('P1D');
+        $realEnd = new DateTime($end);
+        $realEnd->add($interval);
+        $anotherFormat='l';
+        $period = new \DatePeriod(new DateTime($start), $interval, $realEnd);
+        foreach($period as $date) {
+            $newArray=array(
+                'date'=>  $date->format($format),
+                'day'=>$date->format($anotherFormat),
+            );
+            array_push($array,$newArray);
+//            $array['date'] = $date->format($format);
+//            $array['day'] = $date->format($anotherFormat);
+        }
+        return $array;
+    }
+
     public function getShiftName(){
         $shift = Shift::get();
 
@@ -61,17 +84,25 @@ class shiftController extends Controller
 
 //        return Response()->json($subDate);
 
-        ShiftLog::whereIn('fkemployeeId',$r->allEmp)
-            ->where('endDate',null)
-            ->update(['endDate'=>$subDate]);
+//        ShiftLog::whereIn('fkemployeeId',$r->allEmp)
+//            ->where('endDate',null)
+//            ->update(['endDate'=>$subDate]);
 
         foreach ($r->allEmp as $empId){
-            $log=new ShiftLog();
-            $log->fkemployeeId=$empId;
-            $log->fkshiftId=$r->shiftId;
-            $log->startDate=$date;
-            $log->weekend=$tags;
-            $log->save();
+            foreach ($r->newShiftLog as $sfL){
+
+                $log=new ShiftLog();
+
+                $log->fkemployeeId=$empId;
+                $log->fkshiftId=$sfL['shift'];
+                $log->startDate=$sfL['date'];
+                $log->endDate=$sfL['date'];
+                $log->weekend=$tags;
+
+                $log->save();
+
+            }
+
         }
         return Response()->json("Success");
     }

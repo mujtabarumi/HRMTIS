@@ -33,6 +33,9 @@ Route::group([
 
 
     //Test
+    Route::post('/dateRanges','shiftController@getDatesFromRange');
+
+
     Route::get('/test','TestController@test');
 
     Route::post('login','AuthController@login');

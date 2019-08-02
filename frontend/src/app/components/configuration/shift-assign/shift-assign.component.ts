@@ -25,13 +25,22 @@ export class ShiftAssignComponent implements AfterViewInit,OnDestroy,OnInit {
   shift:any;
   dtInstance:DataTables.Api;
   startDate:string;
+  endDate:string;
   // DROPDOWN
   dropdownList = [];
   selectedItems = [];
   dropdownSettings = {};
-  constructor(private renderer: Renderer,public http: HttpClient, private token:TokenService , public route:ActivatedRoute, private router: Router) { }
+  dates:any;
+  showAssign:boolean;
+  shiftLog=[];
+  newShiftLog=[];
+
+
+constructor(private renderer: Renderer,public http: HttpClient, private token:TokenService , public route:ActivatedRoute, private router: Router,
+            ) { }
 
   ngOnInit() {
+
     this.dropdownList = [
       { item_id: 'saturday', item_text: 'Saturday' },
       { item_id:'sunday', item_text: 'Sunday' },
@@ -54,11 +63,15 @@ export class ShiftAssignComponent implements AfterViewInit,OnDestroy,OnInit {
     this.getData();
     this.getShift();
     // this.getTeam();
+    this.dates=[];
+    this.showAssign=false;
+
 
   }
   onItemSelect(value){
     // console.log(value);
   }
+
   onSelectAll(value){
     // console.log(value);
   }
@@ -112,9 +125,9 @@ export class ShiftAssignComponent implements AfterViewInit,OnDestroy,OnInit {
         { data: 'middleName' ,name:'employeeinfo.middleName'},
         { data: 'lastName' ,name:'employeeinfo.lastName'},
         { data: 'EmployeeId' , name: 'employeeinfo.EmployeeId' },
-        { data: 'shiftName', name: 'shift.shiftName'},
+        // { data: 'shiftName', name: 'shift.shiftName'},
         { data: 'weekend', name: 'shiftlog.weekend'},
-        { data: 'startDate', name: 'shiftlog.startDate'},
+        // { data: 'startDate', name: 'shiftlog.startDate'},
 
       ],
 
@@ -151,10 +164,29 @@ export class ShiftAssignComponent implements AfterViewInit,OnDestroy,OnInit {
 
   }
 
-  selectShift(value){
+  selectShift(value,value2){
     // this.getData();
     this.shiftId=value;
-    console.log(this.shiftId);
+    // if (value2 != ""){
+    //
+    //   this.shiftLog = [{
+    //     date:value2,shift:value
+    //
+    //   }];
+    //   const found = this.newShiftLog.some(el => el.date === value2);
+    //   if (!found) {this.newShiftLog.push(this.shiftLog);}
+    //   else {
+    //     console.log('found');
+    //   }
+    //
+    // }
+
+
+   // this.newShiftLog.push(this.shiftLog);
+
+    //console.log(this.newShiftLog);
+
+   // console.log(this.shiftId);
   }
 
 
@@ -168,7 +200,7 @@ export class ShiftAssignComponent implements AfterViewInit,OnDestroy,OnInit {
 
 
 
-    if(this.shiftId == null || this.startDate ==null || this.allEmp.length ==0 || this.selectedItems.length==0){
+    if(this.newShiftLog == null || this.startDate ==null || this.allEmp.length ==0 || this.selectedItems.length==0){
       alert("Empty");
     }
     else {
@@ -176,7 +208,7 @@ export class ShiftAssignComponent implements AfterViewInit,OnDestroy,OnInit {
 
       let form={
         allEmp:this.allEmp,
-        shiftId:this.shiftId,
+        newShiftLog:this.newShiftLog,
         startDate:new Date(this.startDate).toLocaleDateString(),
         weekends:this.selectedItems
       };
@@ -207,5 +239,34 @@ export class ShiftAssignComponent implements AfterViewInit,OnDestroy,OnInit {
       this.dtTrigger.next();
     });
   }
+  getDayWithName(){
+    if(this.startDate ==null || this.endDate ==null){
+      alert("Empty");
+    }else {
+      let form={
+
+        startDate:new Date(this.startDate).toLocaleDateString(),
+        endDate:new Date(this.endDate).toLocaleDateString(),
+
+      };
+      const token=this.token.get();
+
+      this.http.post(Constants.API_URL+'dateRanges'+'?token='+token,form).subscribe(data => {
+          this.dates=data;
+          this.showAssign=true;
+          console.log(this.showAssign);
+
+
+        },
+        error => {
+          console.log(error);
+        }
+      );
+
+    }
+  }
+
+
 
 }
+

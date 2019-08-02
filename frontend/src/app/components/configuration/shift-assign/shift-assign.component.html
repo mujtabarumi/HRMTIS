@@ -4,21 +4,33 @@
 
     <div class="card-body">
       <div class="row">
-        <div class="form-group col-md-4">
-          <label>Shift</label>
-          <select class="form-control" name="shift"  (change)="selectShift($event.target.value)">
-            <option value="">Select Shift</option>
-            <option *ngFor="let sh of shift" [value]="sh.shiftId">
-              {{sh.shiftName}}
-            </option>
-          </select>
-        </div>
 
         <div class="form-group col-md-4">
           <label>Start Date</label>
           <input bsDatepicker
                  [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"  name="resignDate" [(ngModel)]="startDate" autocomplete="off" class="form-control">
         </div>
+        <div class="form-group col-md-4">
+          <label>End Date</label>
+          <input bsDatepicker
+                 [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"  name="endDate" [(ngModel)]="endDate" autocomplete="off" class="form-control">
+        </div>
+
+        <div class="form-group col-md-4">
+          <button class="btn btn-success btn-sm" style="margin-top: 30px" (click)="getDayWithName()">getDay</button>
+        </div>
+
+<!--        <div class="form-group col-md-4">-->
+<!--          <label>Shift</label>-->
+<!--          <select class="form-control" name="shift"  (change)="selectShift($event.target.value)">-->
+<!--            <option value="">Select Shift</option>-->
+<!--            <option *ngFor="let sh of shift" [value]="sh.shiftId">-->
+<!--              {{sh.shiftName}}-->
+<!--            </option>-->
+<!--          </select>-->
+<!--        </div>-->
+
+
 
         <div class="form-group col-md-4">
           <label>Weekend</label>
@@ -33,6 +45,12 @@
           </ng-multiselect-dropdown>
         </div>
 
+        <div class="form-group col-md-4">
+
+        </div>
+
+
+
 <!--        <div class="form-group col-md-3">-->
 <!--          <label>Team</label>-->
 <!--          <select class="form-control" name="shift" id="team"  (change)="selectTeam($event.target.value)">-->
@@ -43,10 +61,44 @@
 <!--          </select>-->
 <!--        </div>-->
 
+
+
+      </div>
+
+      <div class="row" *ngIf="showAssign">
+        <div class="form-group">
+          <label style="text-align: center">Assig shift</label>
+          <table class="table table-bordered table-responsive">
+
+            <tr>
+
+              <th *ngFor="let date of dates; let i = index">{{date['date']}}-( {{date['day']}} )</th>
+
+            </tr>
+
+
+            <tr>
+
+              <td *ngFor="let date of dates; let i = index">
+
+                <select class="form-control" name="shift[]" (change)="selectShift($event.target.value,date['date'])">
+                  <option value="">Select Shift</option>
+                  <option *ngFor="let sh of shift" [value]="sh.shiftId">
+                    {{sh.shiftName}}->({{sh.inTime}}-{{sh.outTime}} )
+                  </option>
+                </select>
+
+              </td>
+
+            </tr>
+
+          </table>
+        </div>
+      </div>
+      <div class="row">
         <div class="form-group col-md-4">
           <button class="btn btn-success btn-sm" style="margin-top: 30px" (click)="assignShift()">Assign</button>
         </div>
-
       </div>
 
 
@@ -59,9 +111,9 @@
           <th>Middle Name</th>
           <th>Last Name</th>
           <th>Employee ID</th>
-          <th>Shift Name</th>
+<!--          <th>Shift Name</th>-->
           <th>Weekend</th>
-          <th>Shift Start</th>
+<!--          <th>Shift Start</th>-->
 
         </tr>
         </thead>
