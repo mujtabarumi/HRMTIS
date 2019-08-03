@@ -1,0 +1,92 @@
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-header">Employee Details</div>
+
+    <div class="card-body">
+      <div class="row">
+
+        <div class="form-group col-md-4">
+
+
+        <label>Employee</label>
+
+          <ng-multiselect-dropdown
+            [placeholder]="'Select Employee'"
+            [data]="employee"
+            [(ngModel)]="selectedItems"
+            [settings]="dropdownSettings"
+            (onSelect)="onItemSelect($event)"
+
+          >
+          </ng-multiselect-dropdown>
+
+
+        </div>
+
+        <div class="form-group col-md-4">
+          <label>Start Date</label>
+          <input bsDatepicker
+                 [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"  name="startDate" [(ngModel)]="startDate" autocomplete="off" class="form-control">
+        </div>
+        <div class="form-group col-md-4">
+          <label>End Date</label>
+          <input bsDatepicker
+                 [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"  name="endDate" [(ngModel)]="endDate" autocomplete="off" class="form-control">
+        </div>
+
+
+        <div class="form-group col-md-4">
+          <button class="btn btn-success btn-sm" style="margin-top: 30px" (click)="findAttendence()">find</button>
+        </div>
+
+
+
+      </div>
+
+        <div class="row">
+          <div class="form-group">
+            <label style="text-align: center">Assigned shift</label>
+            <div class="table-responsive">
+              <table class="table table-bordered">
+
+                <tr>
+
+                  <th *ngFor="let date of dates; let i = index">{{date['date']}}-( {{date['day']}} )</th>
+
+                </tr>
+
+
+                <tr>
+
+                  <td *ngFor="let date of dates; let i = index">
+
+
+                    <select class="form-control" name="shift[]">
+                      <option value="">Select Shift</option>
+                      <option *ngFor="let sh of shift" [value]="sh.shiftId">
+
+                        {{sh.shiftName}}->({{sh.inTime}}-{{sh.outTime}} )
+                      </option>
+                    </select>
+
+                  </td>
+
+                </tr>
+
+              </table>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+
+
+</div>

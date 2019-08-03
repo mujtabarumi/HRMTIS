@@ -126,7 +126,7 @@ constructor(private renderer: Renderer,public http: HttpClient, private token:To
         { data: 'lastName' ,name:'employeeinfo.lastName'},
         { data: 'EmployeeId' , name: 'employeeinfo.EmployeeId' },
         // { data: 'shiftName', name: 'shift.shiftName'},
-        { data: 'weekend', name: 'shiftlog.weekend'},
+        // { data: 'weekend', name: 'shiftlog.weekend'},
         // { data: 'startDate', name: 'shiftlog.startDate'},
 
       ],
@@ -167,26 +167,25 @@ constructor(private renderer: Renderer,public http: HttpClient, private token:To
   selectShift(value,value2){
     // this.getData();
     this.shiftId=value;
-    // if (value2 != ""){
-    //
-    //   this.shiftLog = [{
-    //     date:value2,shift:value
-    //
-    //   }];
-    //   const found = this.newShiftLog.some(el => el.date === value2);
-    //   if (!found) {this.newShiftLog.push(this.shiftLog);}
-    //   else {
-    //     console.log('found');
-    //   }
-    //
-    // }
 
 
-   // this.newShiftLog.push(this.shiftLog);
+      this.shiftLog = [{
+        date:value2,shift:value
 
-    //console.log(this.newShiftLog);
+      }];
+    for(var i = 0; i < this.newShiftLog.length; i++) {
+      if(this.newShiftLog[i][0].date == value2) {
+        this.newShiftLog.splice(i, 1);
+        break;
+      }
+    }
+    if(value != ""){
+      this.newShiftLog.push(this.shiftLog);
+    }
 
-   // console.log(this.shiftId);
+      console.log(this.newShiftLog);
+
+
   }
 
 
@@ -216,7 +215,15 @@ constructor(private renderer: Renderer,public http: HttpClient, private token:To
 
       this.http.post(Constants.API_URL+'shift/assign'+'?token='+token,form).subscribe(data => {
           console.log(data);
+
+          $.alert({
+            title: data,
+            content: 'Shift Assign Successfull',
+          });
+
           this.rerender();
+
+
 
         },
         error => {

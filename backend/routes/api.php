@@ -46,6 +46,7 @@ Route::group([
 
     /*Employee Info*/
     Route::post('employee/get','EmployeeController@getAllEmployee');
+    Route::get('employee/getAll','EmployeeController@getAllEmployeeInfo');
 
 
     //department Info
@@ -62,6 +63,7 @@ Route::group([
     Route::get('shift/get','shiftController@getShiftName');
     Route::post('shift/post','shiftController@createShift');
     Route::post('user/shift/get','shiftController@getUserShift');
+    Route::post('shift/assigned-shift-show','shiftController@getEmpShiftForUpdate');
     Route::post('/getAllShift','shiftController@getAllShift');
     Route::post('shift/assign','shiftController@assignToShift');
 

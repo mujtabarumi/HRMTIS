@@ -19,11 +19,19 @@ class EmployeeController extends Controller
         $employee = Employee::select('employeeinfo.firstName','employeeinfo.lastName','employeeinfo.middleName','employeeinfo.EmployeeId','designations.title','departments.departmentName','employeeinfo.id as empid')
             ->leftjoin('designations','designations.id','=','employeeinfo.fkDesignation')
             ->leftjoin('departments','departments.id','=','employeeinfo.fkDepartmentId')
-            ->where('resignDate', null)
-            ->where('employeeinfo.fkCompany' , auth()->user()->fkCompany);
+            ->where('resignDate', null);
+//            ->where('employeeinfo.fkCompany' , auth()->user()->fkCompany);
 
         $datatables = Datatables::of($employee);
         return $datatables->make(true);
+    }
+    public function getAllEmployeeInfo(){
+        return $employee = Employee::select('employeeinfo.firstName','employeeinfo.lastName','employeeinfo.middleName','employeeinfo.EmployeeId','designations.title','departments.departmentName','employeeinfo.id as empid')
+            ->leftjoin('designations','designations.id','=','employeeinfo.fkDesignation')
+            ->leftjoin('departments','departments.id','=','employeeinfo.fkDepartmentId')
+            ->where('resignDate', null)
+            ->get();
+
     }
 
     public function getAllEmployeeForAttendance(Request $r){

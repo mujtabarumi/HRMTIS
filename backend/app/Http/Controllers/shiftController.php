@@ -71,6 +71,20 @@ class shiftController extends Controller
         $datatables = Datatables::of($shift);
         return $datatables->make(true);
     }
+    public function getEmpShiftForUpdate(Request $r){
+
+
+
+        return $shift = ShiftLog::where('fkemployeeId','=',$r->empId)
+            ->whereDate('startDate', '>=', Carbon::parse($r->startDate)->format('y-m-d'))
+            ->where(function ($query) use ($r){
+                $query->where('endDate', '<=', Carbon::parse($r->endDate)->format('y-m-d'));
+//                    ->orWhere('endDate', '=', 1);
+            })
+//            ->whereDate('endDate', '<=', Carbon::parse($r->endDate)->format('y-m-d'))
+            ->get();
+
+    }
     public function assignToShift(Request $r){
 
 
@@ -89,14 +103,15 @@ class shiftController extends Controller
 //            ->update(['endDate'=>$subDate]);
 
         foreach ($r->allEmp as $empId){
+
             foreach ($r->newShiftLog as $sfL){
 
                 $log=new ShiftLog();
 
                 $log->fkemployeeId=$empId;
-                $log->fkshiftId=$sfL['shift'];
-                $log->startDate=$sfL['date'];
-                $log->endDate=$sfL['date'];
+                $log->fkshiftId=$sfL[0]['shift'];
+                $log->startDate=$sfL[0]['date'];
+                $log->endDate=$sfL[0]['date'];
                 $log->weekend=$tags;
 
                 $log->save();
