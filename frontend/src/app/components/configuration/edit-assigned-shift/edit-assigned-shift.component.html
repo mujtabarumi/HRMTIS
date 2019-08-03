@@ -61,13 +61,17 @@
                   <td *ngFor="let date of dates; let i = index">
 
 
+
+
                     <select class="form-control" name="shift[]">
                       <option value="">Select Shift</option>
-                      <option *ngFor="let sh of shift" [value]="sh.shiftId">
 
-                        {{sh.shiftName}}->({{sh.inTime}}-{{sh.outTime}} )
+                      <option *ngFor="let aSh of assignedLog" ng-init = "selectedValue = (aSh.startDate == date.['date'])" [value]="aSh.fkshiftId">
+                        {{aSh.fkshiftId}}
                       </option>
                     </select>
+
+
 
                   </td>
 
