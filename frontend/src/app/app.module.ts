@@ -56,7 +56,8 @@ import { EditAssignedShiftComponent } from './components/configuration/edit-assi
     BsDatepickerModule.forRoot(),
     NgbModule.forRoot(),
     NgMultiSelectDropDownModule.forRoot(),
-    NgxPermissionsModule.forRoot()
+    NgxPermissionsModule.forRoot(),
+    NgbModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]

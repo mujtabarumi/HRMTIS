@@ -36,6 +36,7 @@ Route::group([
     Route::post('/dateRanges','shiftController@getDatesFromRange');
 
 
+
     Route::get('/test','TestController@test');
 
     Route::post('login','AuthController@login');
@@ -61,11 +62,15 @@ Route::group([
     Route::post('employee/leaveteam/get','EmployeeController@leaveTeam');
 
     Route::get('shift/get','shiftController@getShiftName');
+
     Route::post('shift/post','shiftController@createShift');
     Route::post('user/shift/get','shiftController@getUserShift');
     Route::post('shift/assigned-shift-show','shiftController@getEmpShiftForUpdate');
     Route::post('/getAllShift','shiftController@getAllShift');
     Route::post('shift/assign','shiftController@assignToShift');
+    Route::post('dateRanges/AssignedShift','shiftController@getDatesFromRangeAssignedShift');
+    Route::post('shift/assigned-shift-update','shiftController@updateShiftAssignedLog');
+    Route::post('shift/assigned-shift-delete','shiftController@deleteShiftAssignedLog');
 
 
 

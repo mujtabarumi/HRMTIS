@@ -82,12 +82,21 @@
 
               <td *ngFor="let date of dates; let i = index">
 
-                <select class="form-control" name="shift[]" (change)="selectShift($event.target.value,date['date'])">
-                  <option value="">Select Shift</option>
-                  <option *ngFor="let sh of shift" [value]="sh.shiftId">
-                    {{sh.shiftName}}->({{sh.inTime}}-{{sh.outTime}} )
-                  </option>
-                </select>
+<!--                <select class="form-control" name="shift[]" (change)="selectShift($event.target.value,date['date'])">-->
+<!--                  <option value="">Select Shift</option>-->
+<!--                  <option *ngFor="let sh of shift" [value]="sh.shiftId">-->
+<!--                    {{sh.shiftName}}->({{sh.inTime}}-{{sh.outTime}} )-->
+<!--                  </option>-->
+<!--                </select>-->
+
+                <ng-multiselect-dropdown
+                  [placeholder]="'Select Shift'"
+                  [data]="shift"
+
+                  [settings]="dropdownSettings2"
+                  (onSelect)="selectShift($event,date['date'])"
+                >
+                </ng-multiselect-dropdown>
 
               </td>
 

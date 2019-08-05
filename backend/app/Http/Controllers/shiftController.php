@@ -32,6 +32,42 @@ class shiftController extends Controller
         }
         return $array;
     }
+    function getDatesFromRangeAssignedShift(Request $r, $format = 'Y-m-d') {
+
+
+        $array = array();
+        $start=$r->startDate;
+        $end=$r->endDate;
+
+        $interval = new \DateInterval('P1D');
+        $realEnd = new DateTime($end);
+        $realEnd->add($interval);
+        $anotherFormat='l';
+        $period = new \DatePeriod(new DateTime($start), $interval, $realEnd);
+        foreach($period as $date) {
+            $shiftName = ShiftLog::select('shiftlog.*','shift.shiftName')
+                ->leftJoin('shift',"shift.shiftId",'shiftlog.fkshiftId')
+                ->where('shiftlog.fkemployeeId','=',$r->empId)
+                ->whereDate('shiftlog.startDate', '=', $date->format($format))
+                ->where(function ($query) use ($format,$date){
+                    $query->where('shiftlog.endDate', '=', $date->format($format));
+//                    ->orWhere('endDate', '=', 1);
+                })
+                ->orderBy('shiftlog.shiftlogId','desc')
+                ->first();
+            $newArray=array(
+                'date'=>  $date->format($format),
+                'day'=>$date->format($anotherFormat),
+                'shiftName'=>$shiftName['shiftName'],
+                'shiftLogId'=>$shiftName['shiftlogId'],
+                'empId'=>$shiftName['fkemployeeId'],
+            );
+            array_push($array,$newArray);
+//            $array['date'] = $date->format($format);
+//            $array['day'] = $date->format($anotherFormat);
+        }
+        return $array;
+    }
 
     public function getShiftName(){
         $shift = Shift::get();
@@ -119,6 +155,30 @@ class shiftController extends Controller
             }
 
         }
+        return Response()->json("Success");
+    }
+    public function updateShiftAssignedLog(Request $r){
+
+        if ($r->shiftLogId !=""){
+            $shiftLog=ShiftLog::findOrFail($r->shiftLogId);
+        }else{
+            $shiftLog=new ShiftLog();
+        }
+        $shiftLog->fkemployeeId=$r->empId;
+        $shiftLog->startDate=$r->date;
+        $shiftLog->endDate=$r->date;
+        $shiftLog->fkshiftId=$r->shiftId;
+
+        $shiftLog->save();
+
+
+        return Response()->json("Success");
+    }
+    public function deleteShiftAssignedLog(Request $r){
+
+
+        $shiftLog=ShiftLog::destroy($r->shiftLogId);
+
         return Response()->json("Success");
     }
 }

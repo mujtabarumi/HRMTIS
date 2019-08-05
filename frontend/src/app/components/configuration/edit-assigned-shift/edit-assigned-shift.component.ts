@@ -5,6 +5,7 @@ import {TokenService} from "../../../services/token.service";
 import {Subject} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
 import {DataTableDirective} from "angular-datatables";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 declare var $ :any;
 
 @Component({
@@ -16,13 +17,22 @@ export class EditAssignedShiftComponent implements OnInit {
   employee:any;
   assignedLog:any;
   dropdownSettings = {};
+  dropdownSettings2 = {};
   selectedItems = [];
+  selectedItems2 = [];
   empId:number;
   startDate:string;
   endDate:string;
   dates:any;
   shift:any;
-  constructor(private renderer: Renderer,public http: HttpClient, private token:TokenService , public route:ActivatedRoute, private router: Router)
+  shiftObj:any={
+    shiftLogId:"",
+    shiftId:"",
+    empId:"",
+    date:'',
+  };
+  modalRef:any;
+  constructor(private modalService: NgbModal,private renderer: Renderer,public http: HttpClient, private token:TokenService , public route:ActivatedRoute, private router: Router)
   { }
 
   ngOnInit() {
@@ -33,7 +43,18 @@ export class EditAssignedShiftComponent implements OnInit {
       // selectAllText: 'Select All',
       // unSelectAllText: 'UnSelect All',
       // itemsShowLimit: 3,
-      allowSearchFilter: true
+      allowSearchFilter: true,
+      closeDropDownOnSelection:true
+    };
+    this.dropdownSettings2 = {
+      singleSelection: true,
+      idField: 'shiftId',
+      textField: 'shiftName',
+      // selectAllText: 'Select All',
+      // unSelectAllText: 'UnSelect All',
+      // itemsShowLimit: 3,
+      allowSearchFilter: true,
+      closeDropDownOnSelection:true
     };
 
     this.getAllEployee();
@@ -57,8 +78,14 @@ export class EditAssignedShiftComponent implements OnInit {
   }
   onItemSelect(value){
 
-  //this.empId=value;
+    this.assignedLog=[];
     // console.log(this.selectedItems);
+
+  }
+  onItemSelect2(value){
+
+    this.selectedItems2=value;
+    // console.log(this.selectedItems2);
 
   }
   findAttendence(){
@@ -77,8 +104,9 @@ export class EditAssignedShiftComponent implements OnInit {
       };
       const token=this.token.get();
 
-      this.http.post(Constants.API_URL+'dateRanges'+'?token='+token,form).subscribe(data1 => {
-          this.dates=data1;
+      this.http.post(Constants.API_URL+'dateRanges/AssignedShift'+'?token='+token,form).subscribe(data1 => {
+          this.assignedLog=data1;
+         // console.log(data1);
 
 
         },
@@ -87,10 +115,38 @@ export class EditAssignedShiftComponent implements OnInit {
         }
       );
 
-      this.http.post(Constants.API_URL+'shift/assigned-shift-show'+'?token='+token,form).subscribe(data => {
+
+    }
+
+
+  }
+  changeAssignShift(){
+
+    if( this.shiftObj.empId ==null || this.selectedItems2.length==0){
+      alert("Empty");
+    }
+    else {
+      // new Date(this.employeeJoiningForm.actualJoinDate).toLocaleDateString();
+
+      let form={
+        empId:this.shiftObj.empId,
+        date:this.shiftObj.date,
+        shiftLogId:this.shiftObj.shiftLogId,
+        shiftId:this.selectedItems2['shiftId'],
+
+      };
+     // console.log(form);
+      const token=this.token.get();
+
+      this.http.post(Constants.API_URL+'shift/assigned-shift-update'+'?token='+token,form).subscribe(data => {
           console.log(data);
-          this.assignedLog=data;
 
+          $.alert({
+            title: data,
+            content: 'Update Successfull',
+          });
+          this.findAttendence();
+          this.modalRef.close();
 
 
 
@@ -100,6 +156,9 @@ export class EditAssignedShiftComponent implements OnInit {
           console.log(error);
         }
       );
+
+
+
     }
 
 
@@ -117,5 +176,84 @@ export class EditAssignedShiftComponent implements OnInit {
     );
 
   }
+
+  edit(shiftlogid,content){
+
+    let i=0;
+    for(i;i<this.assignedLog.length;i++){
+      if(this.assignedLog[i].shiftLogId==shiftlogid){
+
+        this.shiftObj.shiftLogId=shiftlogid;
+        this.shiftObj.shiftId=this.assignedLog[i].shiftId;
+        this.shiftObj.empId=this.selectedItems[0]['empid'];
+        this.shiftObj.date=this.assignedLog[i].date;
+        break;
+      }
+    }
+    console.log(this.assignedLog);
+    console.log(shiftlogid);
+    this.modalRef =  this.modalService.open(content, { size: 'lg'});
+
+  }
+  delete(shiftlogid){
+
+
+    let i=0;
+    for(i;i<this.assignedLog.length;i++){
+      if(this.assignedLog[i].shiftLogId==shiftlogid){
+
+        this.shiftObj.shiftLogId=shiftlogid;
+        this.shiftObj.shiftId=this.assignedLog[i].shiftId;
+        this.shiftObj.empId=this.selectedItems[0]['empid'];
+        this.shiftObj.date=this.assignedLog[i].date;
+        break;
+      }
+    }
+
+    if (shiftlogid == null){
+      $.alert({
+        title: "Alert",
+        content: 'There is no shit for this user on this day',
+      });
+    }else{
+
+      let form={
+        empId:this.selectedItems[0]['empid'],
+        date:this.shiftObj.date,
+        shiftLogId:this.shiftObj.shiftLogId,
+
+
+      };
+      //console.log(form);
+
+      const token=this.token.get();
+
+      this.http.post(Constants.API_URL+'shift/assigned-shift-delete'+'?token='+token,form).subscribe(data => {
+          console.log(data);
+
+          $.alert({
+            title: data,
+            content: 'Update Successfull',
+          });
+
+          this.findAttendence();
+
+
+        },
+        error => {
+          console.log(error);
+        }
+      );
+
+
+    }
+
+
+  }
+  // openLg(content) {
+  //   this.shiftObj={};
+  //   this.modalRef =  this.modalService.open(content, { size: 'lg'});
+  //
+  // }
 
 }

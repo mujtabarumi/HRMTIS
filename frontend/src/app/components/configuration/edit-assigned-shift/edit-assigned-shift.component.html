@@ -1,3 +1,60 @@
+<!--modal-->
+<ng-template #content let-c="close" let-d="dismiss" >
+  <div class="modal-header">
+    <h4 class="modal-title">Shift</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <div class="row">
+      <div class="form-group col-md-6">
+        <label>Shift</label>
+<!--        <select class="form-control" name="shift" >-->
+<!--          <option value="">Select Shift</option>-->
+<!--          <option *ngFor="let sh of shift" [value]="sh.shiftId">-->
+<!--            {{sh.shiftName}}->({{sh.inTime}}-{{sh.outTime}} )-->
+<!--          </option>-->
+<!--        </select>-->
+
+        <ng-multiselect-dropdown
+          [placeholder]="'Select Shift'"
+          [data]="shift"
+          [(ngModel)]="shiftObj.shiftId"
+          [settings]="dropdownSettings2"
+          (onSelect)="onItemSelect2($event)"
+        >
+        </ng-multiselect-dropdown>
+
+      </div>
+      <div class="form-group col-md-6">
+        <label>shift Log Id</label>
+        <input type="text" readonly [(ngModel)]="shiftObj.shiftLogId" class="form-control">
+      </div>
+      <div class="form-group col-md-6">
+        <label>EmpId</label>
+        <input type="text" readonly [(ngModel)]="shiftObj.empId" class="form-control">
+
+      </div>
+      <div class="form-group col-md-6">
+        <label>date</label>
+
+        <input type="text" readonly [(ngModel)]="shiftObj.date" class="form-control">
+      </div>
+      <div class="form-group col-md-12">
+
+        <button class="btn btn-success pull-right" (click)="changeAssignShift()" >Submit</button>
+      </div>
+
+
+    </div>
+
+  </div>
+</ng-template>
+
+<!--modal end-->
+
 <div class="container-fluid">
   <div class="card">
     <div class="card-header">Employee Details</div>
@@ -16,6 +73,7 @@
             [(ngModel)]="selectedItems"
             [settings]="dropdownSettings"
             (onSelect)="onItemSelect($event)"
+
 
           >
           </ng-multiselect-dropdown>
@@ -36,43 +94,39 @@
 
 
         <div class="form-group col-md-4">
-          <button class="btn btn-success btn-sm" style="margin-top: 30px" (click)="findAttendence()">find</button>
+          <button class="btn btn-success btn-sm" style="margin-top: 30px" (click)="findAttendence()">Find</button>
         </div>
 
 
 
       </div>
 
-        <div class="row">
-          <div class="form-group">
+        <div class="row" *ngIf="assignedLog?.length >0">
+
+          <div class="form-group col-md-12">
             <label style="text-align: center">Assigned shift</label>
             <div class="table-responsive">
               <table class="table table-bordered">
-
                 <tr>
-
-                  <th *ngFor="let date of dates; let i = index">{{date['date']}}-( {{date['day']}} )</th>
-
+                  <th>Date</th>
+                  <th>Day</th>
+                  <th>Shift Name</th>
+                  <th>Action</th>
                 </tr>
 
-
-                <tr>
-
-                  <td *ngFor="let date of dates; let i = index">
-
-
-
-
-                    <select class="form-control" name="shift[]">
-                      <option value="">Select Shift</option>
-
-                      <option *ngFor="let aSh of assignedLog" ng-init = "selectedValue = (aSh.startDate == date.['date'])" [value]="aSh.fkshiftId">
-                        {{aSh.fkshiftId}}
-                      </option>
-                    </select>
-
-
-
+                <tr *ngFor="let asgL of assignedLog; let i = index">
+                  <td>
+                    {{asgL['date']}}
+                  </td>
+                  <td>
+                    {{asgL['day']}}
+                  </td>
+                  <td>
+                    {{asgL['shiftName']}}
+                  </td>
+                  <td>
+                    <button class="btn btn-info" (click)="edit(asgL['shiftLogId'],content)"> Edit</button> &nbsp;&nbsp;
+                    <button class="btn btn-info" (click)="delete(asgL['shiftLogId'])"> Delete</button>
                   </td>
 
                 </tr>

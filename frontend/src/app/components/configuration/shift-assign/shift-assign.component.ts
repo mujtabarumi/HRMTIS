@@ -30,6 +30,7 @@ export class ShiftAssignComponent implements AfterViewInit,OnDestroy,OnInit {
   dropdownList = [];
   selectedItems = [];
   dropdownSettings = {};
+  dropdownSettings2 = {};
   dates:any;
   showAssign:boolean;
   shiftLog=[];
@@ -50,6 +51,16 @@ constructor(private renderer: Renderer,public http: HttpClient, private token:To
       { item_id: 'thursday', item_text: 'Thursday' },
       { item_id:'friday', item_text: 'Friday' }
     ];
+    this.dropdownSettings2 = {
+      singleSelection: true,
+      idField: 'shiftId',
+      textField: 'shiftName',
+      // selectAllText: 'Select All',
+      // unSelectAllText: 'UnSelect All',
+      // itemsShowLimit: 3,
+      allowSearchFilter: true,
+      closeDropDownOnSelection:true
+    };
 
     this.dropdownSettings = {
       singleSelection: false,
@@ -71,6 +82,7 @@ constructor(private renderer: Renderer,public http: HttpClient, private token:To
   onItemSelect(value){
     // console.log(value);
   }
+
 
   onSelectAll(value){
     // console.log(value);
@@ -165,12 +177,13 @@ constructor(private renderer: Renderer,public http: HttpClient, private token:To
   }
 
   selectShift(value,value2){
+  //  console.log(value);
     // this.getData();
-    this.shiftId=value;
+    this.shiftId=value.shiftId;
 
 
       this.shiftLog = [{
-        date:value2,shift:value
+        date:value2,shift:value.shiftId
 
       }];
     for(var i = 0; i < this.newShiftLog.length; i++) {
@@ -179,7 +192,7 @@ constructor(private renderer: Renderer,public http: HttpClient, private token:To
         break;
       }
     }
-    if(value != ""){
+    if(value.shiftId != ""){
       this.newShiftLog.push(this.shiftLog);
     }
 
