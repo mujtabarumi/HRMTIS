@@ -19,6 +19,7 @@ import { AddDepartmentComponent } from './components/configuration/department/ad
 import { ShiftComponent } from './components/configuration/shift/shift.component';
 import { ShiftAssignComponent } from './components/configuration/shift-assign/shift-assign.component';
 import { EditAssignedShiftComponent } from './components/configuration/edit-assigned-shift/edit-assigned-shift.component';
+import { AttendanceComponent } from './components/report/attendance/attendance.component';
 
 
 
@@ -37,6 +38,7 @@ import { EditAssignedShiftComponent } from './components/configuration/edit-assi
     ShiftComponent,
     ShiftAssignComponent,
     EditAssignedShiftComponent,
+    AttendanceComponent,
 
 
 
