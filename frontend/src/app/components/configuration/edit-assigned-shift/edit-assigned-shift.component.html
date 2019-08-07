@@ -24,6 +24,9 @@
           [(ngModel)]="shiftObj.shiftId"
           [settings]="dropdownSettings2"
           (onSelect)="onItemSelect2($event)"
+          (onDeSelect)="onItemSelect2($event)"
+          (onSelectAll)="onSelectAll2($event)"
+          (onDeSelectAll)="onDeSelectAll2($event)"
         >
         </ng-multiselect-dropdown>
 
@@ -126,7 +129,7 @@
                   </td>
                   <td>
                     <button class="btn btn-info" (click)="edit(asgL['shiftLogId'],content)"> Edit</button> &nbsp;&nbsp;
-                    <button class="btn btn-info" (click)="delete(asgL['shiftLogId'])"> Delete</button>
+                    <button class="btn btn-info" (click)="delete(asgL['shiftLogId'],asgL['date'],asgL['empId'])"> Delete</button>
                   </td>
 
                 </tr>

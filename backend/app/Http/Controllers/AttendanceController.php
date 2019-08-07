@@ -53,7 +53,7 @@ class AttendanceController extends Controller
             ->whereNull('resignDate')
             ->get();
 
-
+        //  $toDate = Carbon::parse($toDate)->addDays(1);
 
         $results = DB::select( DB::raw("select em.employeeId,ad.id,s.inTime
             , date_format(ad.accessTime,'%Y-%m-%d') attendanceDate

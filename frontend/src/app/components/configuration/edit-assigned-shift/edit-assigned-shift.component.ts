@@ -20,6 +20,7 @@ export class EditAssignedShiftComponent implements OnInit {
   dropdownSettings2 = {};
   selectedItems = [];
   selectedItems2 = [];
+  newSelectedItems2 = [];
   empId:number;
   startDate:string;
   endDate:string;
@@ -47,7 +48,7 @@ export class EditAssignedShiftComponent implements OnInit {
       closeDropDownOnSelection:true
     };
     this.dropdownSettings2 = {
-      singleSelection: true,
+      singleSelection: false,
       idField: 'shiftId',
       textField: 'shiftName',
       // selectAllText: 'Select All',
@@ -84,10 +85,33 @@ export class EditAssignedShiftComponent implements OnInit {
   }
   onItemSelect2(value){
 
-    this.selectedItems2=value;
-    // console.log(this.selectedItems2);
+    console.log(value.shiftId);
+    //this.selectedItems2=value;
+    var index = this.selectedItems2.indexOf(value.shiftId);
+
+    if (index > -1) {
+      this.selectedItems2.splice(index, 1);
+
+    }else {
+      this.selectedItems2.push(value.shiftId);
+    }
+    console.log(this.selectedItems2);
 
   }
+  onSelectAll2(value){
+    this.selectedItems2=[];
+    for(var i = 0; i < value.length; i++) {
+
+      this.selectedItems2.push(value[i].shiftId);
+
+    }
+    console.log(this.selectedItems2);
+
+  }
+  onDeSelectAll2(value){
+    this.selectedItems2=[];
+
+    }
   findAttendence(){
 
     if(this.startDate ==null || this.endDate ==null || this.selectedItems.length==0){
@@ -106,7 +130,8 @@ export class EditAssignedShiftComponent implements OnInit {
 
       this.http.post(Constants.API_URL+'dateRanges/AssignedShift'+'?token='+token,form).subscribe(data1 => {
           this.assignedLog=data1;
-         // console.log(data1);
+          console.log(data1);
+
 
 
         },
@@ -126,13 +151,14 @@ export class EditAssignedShiftComponent implements OnInit {
       alert("Empty");
     }
     else {
-      // new Date(this.employeeJoiningForm.actualJoinDate).toLocaleDateString();
+
+      //console.log(this.selectedItems2);
 
       let form={
         empId:this.shiftObj.empId,
         date:this.shiftObj.date,
         shiftLogId:this.shiftObj.shiftLogId,
-        shiftId:this.selectedItems2['shiftId'],
+        shiftId:this.selectedItems2,
 
       };
      // console.log(form);
@@ -146,6 +172,7 @@ export class EditAssignedShiftComponent implements OnInit {
             content: 'Update Successfull',
           });
           this.findAttendence();
+          this.selectedItems2=[];
           this.modalRef.close();
 
 
@@ -195,7 +222,7 @@ export class EditAssignedShiftComponent implements OnInit {
     this.modalRef =  this.modalService.open(content, { size: 'lg'});
 
   }
-  delete(shiftlogid){
+  delete(shiftlogid,date,empId){
 
 
     let i=0;
@@ -221,6 +248,7 @@ export class EditAssignedShiftComponent implements OnInit {
         empId:this.selectedItems[0]['empid'],
         date:this.shiftObj.date,
         shiftLogId:this.shiftObj.shiftLogId,
+
 
 
       };

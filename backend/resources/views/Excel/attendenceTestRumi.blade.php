@@ -98,9 +98,17 @@
                         $checkOUTCAL=$results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkIn;
                     @endphp
                 @elseif($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkOut == 'nextDay' && $results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime != null )
-                    {{$checkOUTCAL}}
+
+                        {{$checkOUTCAL}}
+                    @php
+                        $checkOUTCAL=0;
+                    @endphp
                 @else
-                    {{ $results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkOut}}
+                    @if($checkOUTCAL ==0)
+                            {{ $results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkOut}}
+                    @else
+                            {{$checkOUTCAL}}
+                    @endif
                 @endif
 
              </td>
@@ -152,7 +160,7 @@
 
 
                                 Absent
-                            </td>
+
                         @endif
 
 

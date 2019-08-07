@@ -8,6 +8,7 @@ use DateTime;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Carbon\Carbon;
+use DB;
 
 class shiftController extends Controller
 {
@@ -34,6 +35,17 @@ class shiftController extends Controller
     }
     function getDatesFromRangeAssignedShift(Request $r, $format = 'Y-m-d') {
 
+//        return $shiftName = ShiftLog::select('shiftlog.*',DB::raw("GROUP_CONCAT(shift.shiftName) AS shiftName"))
+//            ->leftJoin('shift',"shift.shiftId",'shiftlog.fkshiftId')
+//            ->where('shiftlog.fkemployeeId','=',$r->empId)
+//            ->whereDate('shiftlog.startDate', '=', '2019-08-02')
+//            ->where(function ($query) use ($format){
+//                $query->where('shiftlog.endDate', '=', '2019-08-02');
+////                    ->orWhere('endDate', '=', 1);
+//            })
+//            ->orderBy('shiftlog.shiftlogId','ASC')
+//            ->get();
+
 
         $array = array();
         $start=$r->startDate;
@@ -45,7 +57,7 @@ class shiftController extends Controller
         $anotherFormat='l';
         $period = new \DatePeriod(new DateTime($start), $interval, $realEnd);
         foreach($period as $date) {
-            $shiftName = ShiftLog::select('shiftlog.*','shift.shiftName')
+            $shiftName = ShiftLog::select('shiftlog.*',DB::raw("GROUP_CONCAT(shift.shiftName) AS shiftName"))
                 ->leftJoin('shift',"shift.shiftId",'shiftlog.fkshiftId')
                 ->where('shiftlog.fkemployeeId','=',$r->empId)
                 ->whereDate('shiftlog.startDate', '=', $date->format($format))
@@ -53,7 +65,7 @@ class shiftController extends Controller
                     $query->where('shiftlog.endDate', '=', $date->format($format));
 //                    ->orWhere('endDate', '=', 1);
                 })
-                ->orderBy('shiftlog.shiftlogId','desc')
+                ->orderBy('shiftlog.shiftlogId','ASC')
                 ->first();
             $newArray=array(
                 'date'=>  $date->format($format),
@@ -110,7 +122,6 @@ class shiftController extends Controller
     public function getEmpShiftForUpdate(Request $r){
 
 
-
         return $shift = ShiftLog::where('fkemployeeId','=',$r->empId)
             ->whereDate('startDate', '>=', Carbon::parse($r->startDate)->format('y-m-d'))
             ->where(function ($query) use ($r){
@@ -159,17 +170,33 @@ class shiftController extends Controller
     }
     public function updateShiftAssignedLog(Request $r){
 
-        if ($r->shiftLogId !=""){
-            $shiftLog=ShiftLog::findOrFail($r->shiftLogId);
-        }else{
-            $shiftLog=new ShiftLog();
-        }
-        $shiftLog->fkemployeeId=$r->empId;
-        $shiftLog->startDate=$r->date;
-        $shiftLog->endDate=$r->date;
-        $shiftLog->fkshiftId=$r->shiftId;
+        $shiftDelete=ShiftLog::where('fkemployeeId',$r->empId)->whereDate('startDate',$r->date)->whereDate('endDate',$r->date)->whereIn('fkshiftId',$r->shiftId)->delete();
 
-        $shiftLog->save();
+
+        foreach ($r->shiftId as $shiftsId){
+
+            $shiftLog=new ShiftLog();
+
+            $shiftLog->fkemployeeId=$r->empId;
+            $shiftLog->startDate=$r->date;
+            $shiftLog->endDate=$r->date;
+            $shiftLog->fkshiftId=$shiftsId;
+
+            $shiftLog->save();
+
+        }
+
+//        if ($r->shiftLogId !=""){
+//            $shiftLog=ShiftLog::findOrFail($r->shiftLogId);
+//        }else{
+//            $shiftLog=new ShiftLog();
+//        }
+//        $shiftLog->fkemployeeId=$r->empId;
+//        $shiftLog->startDate=$r->date;
+//        $shiftLog->endDate=$r->date;
+//        $shiftLog->fkshiftId=$r->shiftId;
+//
+//        $shiftLog->save();
 
 
         return Response()->json("Success");
@@ -177,7 +204,9 @@ class shiftController extends Controller
     public function deleteShiftAssignedLog(Request $r){
 
 
-        $shiftLog=ShiftLog::destroy($r->shiftLogId);
+//        $shiftLog=ShiftLog::destroy($r->shiftLogId);
+
+        $shiftLog=ShiftLog::where('fkemployeeId',$r->empId)->whereDate('startDate',$r->date)->whereDate('endDate',$r->date)->delete();
 
         return Response()->json("Success");
     }

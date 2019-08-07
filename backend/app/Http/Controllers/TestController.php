@@ -106,7 +106,9 @@ class TestController extends Controller
 
         $startDate=Carbon::parse($fromDate);
         $endDate=Carbon::parse($toDate);
+
         $dates = $this->getDatesFromRange($startDate, $endDate);
+
 
         $allEmp=Employee::select('id','fkDepartmentId',
             DB::raw("CONCAT(COALESCE(firstName,''),' ',COALESCE(middleName,''),' ',COALESCE(lastName,'')) AS empFullname"),
@@ -114,6 +116,8 @@ class TestController extends Controller
             ->whereNull('resignDate')
             ->get();
 
+
+      //  $toDate = Carbon::parse($toDate)->addDays(1);
 
 
        return $results = DB::select( DB::raw("select em.employeeId,ad.id,s.inTime
