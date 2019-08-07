@@ -22,6 +22,7 @@
 
     </tr>
     <tr>
+        <th style="text-align: center;vertical-align: middle;" width="10" ></th>
         <th style="text-align: center;vertical-align: middle;" width="25" >Date</th>
 
         @foreach($dates as $date)
@@ -31,6 +32,7 @@
     </tr>
     <tr >
 
+        <th style="text-align: center;vertical-align: middle;"width="10">ID</th>
         <th style="text-align: center;vertical-align: middle;"width="25">Name</th>
         @foreach($dates as $date)
 
@@ -50,6 +52,7 @@
     <tbody>
     <tr>
 
+        <td width="10" ></td>
         <td width="25" ></td>
         <td width="10" ></td>
         <td width="10" ></td>
@@ -77,6 +80,7 @@
         <tr>
 
 
+            <td class="cell" width="10">{{$aE->attDeviceUserId}}</td>
             <td class="cell" width="25">{{$aE->empFullname}}</td>
             @foreach($dates as $date)
                 @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first())

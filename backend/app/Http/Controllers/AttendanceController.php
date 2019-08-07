@@ -47,9 +47,10 @@ class AttendanceController extends Controller
 
         $dates = $this->getDatesFromRange($startDate, $endDate);
 
-        $allEmp=Employee::select('id','fkDepartmentId',
+        $allEmp=Employee::select('employeeinfo.id','attemployeemap.attDeviceUserId',
             DB::raw("CONCAT(COALESCE(firstName,''),' ',COALESCE(middleName,''),' ',COALESCE(lastName,'')) AS empFullname"),
             'actualJoinDate','practice','weekend')
+            ->leftJoin('attemployeemap','attemployeemap.employeeId','employeeinfo.id')
             ->whereNull('resignDate')
             ->get();
 
