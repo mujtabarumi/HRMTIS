@@ -99,16 +99,16 @@
                     @endphp
                 @elseif($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkOut == 'nextDay' && $results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime != null )
 
-                        {{$checkOUTCAL}}
                     @php
-                        $checkOUTCAL=0;
+                    $nextday=\Carbon\Carbon::parse($date['date'])->addDays(1);
                     @endphp
+                    {{ $results->where('employeeId',$aE->id)->where('attendanceDate',$nextday)->first()->checkOut}}
+
                 @else
-                    @if($checkOUTCAL ==0)
-                            {{ $results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkOut}}
-                    @else
-                            {{$checkOUTCAL}}
-                    @endif
+
+                    {{ $results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkOut}}
+
+
                 @endif
 
              </td>
@@ -145,7 +145,7 @@
                 <td class="cell" width="20">
 
                 </td>
-            <td class="cell" style="background-color: #92D050" width="15">
+            <td class="cell"  width="15">
                 @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkOut == 'nextDay' && $results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime == null )
 
                         @php
@@ -186,12 +186,12 @@
                         $allWeekend=explode(',',strtolower($aE->weekend));
                         @endphp
                         @if(in_array(strtolower($date['day']), $allWeekend))
-                        <td class="cell" style="color: #ffffff;background-color: #f7aec2" width="15">
+                        <td class="cell"  width="15">
 
                             WeekEnd
                         </td>
                         @else
-                            <td class="cell" style="color: #ffffff;background-color: red" width="15">
+                            <td class="cell"  width="15">
                                 @php
                                     $tAb++;$finaltAb=($tAb+$finaltAb);
 

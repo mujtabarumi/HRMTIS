@@ -224,6 +224,7 @@ export class AttendanceComponent implements OnInit {
     this.http.post(Constants.API_URL+'report/attendanceHR'+'?token='+token,{startDate:$('#startDate').val(),endDate:$('#endDate').val()}).subscribe(data => {
 
         this.spinner.hide();
+        console.log(data);
 
 
         let fileName=Constants.Image_URL+'exportedExcel/'+data;

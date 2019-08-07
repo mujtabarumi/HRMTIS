@@ -31,7 +31,7 @@ class AttendanceController extends Controller
 //            $array['date'] = $date->format($format);
 //            $array['day'] = $date->format($anotherFormat);
         }
-        return array_reverse($array);
+        return $array;
     }
     public function getAttendenceDataForHR(Request $r){
 
@@ -53,7 +53,7 @@ class AttendanceController extends Controller
             ->whereNull('resignDate')
             ->get();
 
-        //  $toDate = Carbon::parse($toDate)->addDays(1);
+          $toDate = Carbon::parse($toDate)->addDays(1);
 
         $results = DB::select( DB::raw("select em.employeeId,ad.id,s.inTime
             , date_format(ad.accessTime,'%Y-%m-%d') attendanceDate
@@ -68,7 +68,7 @@ class AttendanceController extends Controller
             left join shiftlog sl on em.employeeId = sl.fkemployeeId and date_format(ad.accessTime,'%Y-%m-%d') between date_format(sl.startDate,'%Y-%m-%d') and ifnull(date_format(sl.endDate,'%Y-%m-%d'),curdate())
             left join shift s on sl.fkshiftId = s.shiftId
             where date_format(ad.accessTime,'%Y-%m-%d') between '".$fromDate."' and '".$toDate."'
-            group by ad.attDeviceUserId, date_format(ad.accessTime,'%Y-%m-%d') order by ad.accessTime desc"));
+            group by ad.attDeviceUserId, date_format(ad.accessTime,'%Y-%m-%d')"));
 
 
 
@@ -104,7 +104,7 @@ class AttendanceController extends Controller
 
         })->store('xls',$filePath);
 
-        return $fileName;
+        return response()->json($fileName);
 
 
 

@@ -204,7 +204,7 @@ export class EditAssignedShiftComponent implements OnInit {
 
   }
 
-  edit(shiftlogid,content){
+  edit(shiftlogid,date,empId,content){
 
     let i=0;
     for(i;i<this.assignedLog.length;i++){
@@ -213,7 +213,7 @@ export class EditAssignedShiftComponent implements OnInit {
         this.shiftObj.shiftLogId=shiftlogid;
         this.shiftObj.shiftId=this.assignedLog[i].shiftId;
         this.shiftObj.empId=this.selectedItems[0]['empid'];
-        this.shiftObj.date=this.assignedLog[i].date;
+        this.shiftObj.date=date;
         break;
       }
     }

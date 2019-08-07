@@ -120,7 +120,7 @@ class TestController extends Controller
       //  $toDate = Carbon::parse($toDate)->addDays(1);
 
 
-       return $results = DB::select( DB::raw("select em.employeeId,ad.id,s.inTime
+       return $results = DB::select( DB::raw("select em.employeeId,ad.id,s.inTime,em.attDeviceUserId
             , date_format(ad.accessTime,'%Y-%m-%d') attendanceDate
             , date_format(min(ad.accessTime),'%H:%i') checkIn
             , case when TIME(s.outTime) > TIME (s.inTime) then date_format(max(ad.accessTime),'%H:%i') else 'nextDay' end checkOut
