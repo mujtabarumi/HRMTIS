@@ -57,16 +57,16 @@ class AttendanceController extends Controller
         $toDate = Carbon::parse($toDate)->addDay(1);
         // return response()->json($toDate);
 
-        $results = DB::select( DB::raw("select em.employeeId,ad.id,s.inTime,em.attDeviceUserId
+        $results = DB::select( DB::raw("select em.employeeId,ad.id,s.inTime,em.attDeviceUserId,sl.multipleShift
             , date_format(ad.accessTime,'%Y-%m-%d') attendanceDate
             , date_format(min(ad.accessTime),'%H:%i') checkIn
-            , case when TIME(s.outTime) > TIME (s.inTime) then date_format(max(ad.accessTime),'%H:%i') else 'previousDay' end checkOut
+            , case when s.inTime is not null and TIME(s.outTime) > TIME (s.inTime)  then date_format(max(ad.accessTime),'%H:%i') 
+             when s.inTime is not null and TIME(s.outTime) > TIME (s.inTime) and sl.multipleShift is not null then date_format(max(ad.accessTime),'%H:%i')  else 'previousDay' end checkOut
             , SUBTIME(date_format(max(ad.accessTime),'%H:%i:%s'),date_format(min(ad.accessTime),'%H:%i:%s')) workingTime
             , case when SUBTIME(date_format(min(ad.accessTime),'%H:%i'),s.inTime) > '00:20:01' then 'Y' else 'N' end late
             , date_format(SUBTIME(date_format(min(ad.accessTime),'%H:%i'),s.inTime),'%H:%i')  as lateTime
             from attendancedata ad left join attemployeemap em on ad.attDeviceUserId = em.attDeviceUserId
             and date_format(ad.accessTime,'%Y-%m-%d') between '" . $fromDate . "' and '" . $toDate . "'
-
             left join shiftlog sl on em.employeeId = sl.fkemployeeId and date_format(ad.accessTime,'%Y-%m-%d') between date_format(sl.startDate,'%Y-%m-%d') and ifnull(date_format(sl.endDate,'%Y-%m-%d'),curdate())
             left join shift s on sl.fkshiftId = s.shiftId
             where date_format(ad.accessTime,'%Y-%m-%d') between '".$fromDate."' and '".$toDate."'

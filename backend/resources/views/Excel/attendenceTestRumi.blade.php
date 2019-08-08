@@ -112,8 +112,17 @@
                     {{ $results->where('employeeId',$aE->id)->where('attendanceDate',$nextday)->first()->checkIn}}
 
                 @else
+                    @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->multipleShift == null)
 
                     {{ $results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkOut}}
+                    @else
+                        @php
+                            $nextShift=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])
+                            ->first()->multipleShift)->format('Y-m-d');
+                        @endphp
+
+                        {{ $results->where('employeeId',$aE->id)->where('attendanceDate',$nextShift)->first()->checkIn}}
+                    @endif
 
 
                 @endif
