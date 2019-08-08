@@ -4,6 +4,7 @@ import {TokenService} from "../../../services/token.service";
 import {HttpClient} from "@angular/common/http";
 import {Subject} from "rxjs";
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+declare var $ :any;
 
 @Component({
   selector: 'app-shift',
@@ -62,6 +63,10 @@ export class ShiftComponent implements OnInit {
 
     this.http.post(Constants.API_URL+'shift/post'+'?token='+token,this.shiftObj).subscribe(data => {
         // console.log(data);
+        $.alert({
+          title: data,
+          content: 'Update Successfull',
+        });
         this.getShift();
 
       },

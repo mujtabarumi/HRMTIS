@@ -82,7 +82,7 @@ class shiftController extends Controller
     }
 
     public function getShiftName(){
-        $shift = Shift::get();
+        $shift = Shift::orderBy('shiftId','desc')->get();
 
         return response()->json($shift);
     }
@@ -107,7 +107,8 @@ class shiftController extends Controller
         $shift->crateBy= auth()->user()->id;
         $shift->fkcompanyId= auth()->user()->fkCompany;
         $shift->save();
-        return response()->json($shift);
+
+        return Response()->json("Success");
     }
     public function getUserShift(Request $r){
         $shiftName = ShiftLog::where('fkemployeeId','=',$r->fkemployeeId)->orderBy('shiftlogId','desc')->first();

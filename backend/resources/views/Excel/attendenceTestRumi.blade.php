@@ -84,11 +84,12 @@
             <td class="cell" width="25">{{$aE->empFullname}}</td>
             @foreach($dates as $date)
                 @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first())
+
             <td class="cell" width="10">
 
-                @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkOut == 'nextDay' && $results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime == null )
+                @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkOut == 'previousDay' && $results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime == null )
 
-                @elseif($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkOut == 'nextDay' && $results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime != null )
+                @elseif($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkOut == 'previousDay' && $results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime != null )
                     {{$results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkIn}}
                 @else
                     {{$results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkIn}}
@@ -97,16 +98,18 @@
 
             </td>
             <td class="cell" width="10">
-                @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkOut == 'nextDay' && $results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime == null )
-                    @php
-                        $checkOUTCAL=$results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkIn;
-                    @endphp
-                @elseif($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkOut == 'nextDay' && $results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime != null )
+                @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkOut == 'previousDay' && $results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime == null )
+
+
+
+                @elseif($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkOut == 'previousDay' && $results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime != null )
 
                     @php
-                    $nextday=\Carbon\Carbon::parse($date['date'])->addDays(1);
+                        $nextday=\Carbon\Carbon::parse($date['date'])->addDays(1)->format('Y-m-d');
+                        $previousday=\Carbon\Carbon::parse($date['date'])->subDay(1);
                     @endphp
-                    {{ $results->where('employeeId',$aE->id)->where('attendanceDate',$nextday)->first()->checkOut}}
+
+                    {{ $results->where('employeeId',$aE->id)->where('attendanceDate',$nextday)->first()->checkIn}}
 
                 @else
 
@@ -117,31 +120,13 @@
 
              </td>
                 <td class="cell" width="5">
-                    @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkOut == 'nextDay' && $results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime == null )
 
-                    @elseif($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkOut == 'nextDay' && $results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime != null )
-                        {{$results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->late}}
-                    @else
-                        {{$results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->late}}
-                    @endif
 
 
                 </td>
                 <td class="cell" width="10">
 
-                    @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkOut == 'nextDay' && $results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime == null )
 
-                    @elseif($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkOut == 'nextDay' && $results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime != null )
-                        @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->late =='Y')
-
-                            {{$results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->lateTime}}
-                        @endif
-                    @else
-                        @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->late =='Y')
-
-                            {{$results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->lateTime}}
-                        @endif
-                    @endif
 
 
                 </td>
@@ -150,29 +135,8 @@
 
                 </td>
             <td class="cell"  width="15">
-                @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkOut == 'nextDay' && $results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime == null )
 
-                        @php
-                            $allWeekend=explode(',',strtolower($aE->weekend));
-                        @endphp
-                        @if(in_array(strtolower($date['day']), $allWeekend))
-
-
-                                WeekEnd
-
-                        @else
-
-
-                                Absent
-
-                        @endif
-
-
-                @elseif($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkOut == 'nextDay' && $results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime != null )
-                    Present
-                @else
-                    Present
-                @endif
+                P
 
             </td>
 
@@ -186,23 +150,13 @@
                     <td class="cell" width="20"></td>
 
 
-                        @php
-                        $allWeekend=explode(',',strtolower($aE->weekend));
-                        @endphp
-                        @if(in_array(strtolower($date['day']), $allWeekend))
-                        <td class="cell"  width="15">
 
-                            WeekEnd
+                        <td class="cell" style="color:#e81809" width="15">
+
+                            A
+
                         </td>
-                        @else
-                            <td class="cell"  width="15">
-                                @php
-                                    $tAb++;$finaltAb=($tAb+$finaltAb);
 
-                                @endphp
-                                Absent
-                            </td>
-                        @endif
 
                 @endif
             @endforeach

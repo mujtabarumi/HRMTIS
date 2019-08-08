@@ -54,12 +54,13 @@ class AttendanceController extends Controller
             ->whereNull('resignDate')
             ->get();
 
-          $toDate = Carbon::parse($toDate)->addDays(1);
+        $toDate = Carbon::parse($toDate)->addDay(1);
+        // return response()->json($toDate);
 
-        $results = DB::select( DB::raw("select em.employeeId,ad.id,s.inTime
+        $results = DB::select( DB::raw("select em.employeeId,ad.id,s.inTime,em.attDeviceUserId
             , date_format(ad.accessTime,'%Y-%m-%d') attendanceDate
             , date_format(min(ad.accessTime),'%H:%i') checkIn
-            , case when TIME(s.outTime) > TIME (s.inTime) then date_format(max(ad.accessTime),'%H:%i') else 'nextDay' end checkOut
+            , case when TIME(s.outTime) > TIME (s.inTime) then date_format(max(ad.accessTime),'%H:%i') else 'previousDay' end checkOut
             , SUBTIME(date_format(max(ad.accessTime),'%H:%i:%s'),date_format(min(ad.accessTime),'%H:%i:%s')) workingTime
             , case when SUBTIME(date_format(min(ad.accessTime),'%H:%i'),s.inTime) > '00:20:01' then 'Y' else 'N' end late
             , date_format(SUBTIME(date_format(min(ad.accessTime),'%H:%i'),s.inTime),'%H:%i')  as lateTime

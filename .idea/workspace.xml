@@ -4,7 +4,11 @@
     <list default="true" id="79f3b666-98ca-415d-99bb-8f59ccc47ed0" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/AttendanceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/AttendanceController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/TestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/TestController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/shiftController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/shiftController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-08-07_20-23-38.xls" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/resources/views/Excel/attendenceTestRumi.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/resources/views/Excel/attendenceTestRumi.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/configuration/shift/shift.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/configuration/shift/shift.component.ts" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -165,7 +169,8 @@
       <workItem from="1564986017407" duration="14567000" />
       <workItem from="1565086493443" duration="932000" />
       <workItem from="1565087977522" duration="10630000" />
-      <workItem from="1565158977963" duration="19424000" />
+      <workItem from="1565158977963" duration="20364000" />
+      <workItem from="1565248266268" duration="10914000" />
     </task>
     <servers />
   </component>
