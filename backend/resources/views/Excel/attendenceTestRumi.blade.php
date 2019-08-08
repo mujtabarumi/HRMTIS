@@ -90,6 +90,7 @@
                 @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkOut == 'previousDay' && $results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime == null )
 
                 @elseif($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkOut == 'previousDay' && $results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime != null )
+
                     {{$results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkIn}}
                 @else
                     {{$results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkIn}}
@@ -108,9 +109,12 @@
                         $nextday=\Carbon\Carbon::parse($date['date'])->addDays(1)->format('Y-m-d');
                         $previousday=\Carbon\Carbon::parse($date['date'])->subDay(1);
                     @endphp
+                @if($results->where('employeeId',$aE->id)->where('attendanceDate',$nextday)->first())
 
                     {{ $results->where('employeeId',$aE->id)->where('attendanceDate',$nextday)->first()->checkIn}}
+                @else
 
+                @endif
                 @else
                     @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->multipleShift == null)
 
@@ -121,7 +125,11 @@
                             ->first()->multipleShift)->format('Y-m-d');
                         @endphp
 
+                    @if($results->where('employeeId',$aE->id)->where('attendanceDate',$nextShift)->first())
+
                         {{ $results->where('employeeId',$aE->id)->where('attendanceDate',$nextShift)->first()->checkIn}}
+                    @else
+                    @endif
                     @endif
 
 
