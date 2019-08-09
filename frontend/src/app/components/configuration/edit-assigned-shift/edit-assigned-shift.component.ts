@@ -31,7 +31,15 @@ export class EditAssignedShiftComponent implements OnInit {
     shiftId:"",
     empId:"",
     date:'',
+    inTime:"",
+    outTime:"",
+    deviceUserId:"",
+    adjustment:"",
+    adjustmentDate:"",
+    leave:"",
   };
+  AdjustmentCheckBox=false;
+  LeaveCheckBox=false;
   modalRef:any;
   constructor(private modalService: NgbModal,private renderer: Renderer,public http: HttpClient, private token:TokenService , public route:ActivatedRoute, private router: Router)
   { }
@@ -45,7 +53,7 @@ export class EditAssignedShiftComponent implements OnInit {
       // unSelectAllText: 'UnSelect All',
       // itemsShowLimit: 3,
       allowSearchFilter: true,
-      closeDropDownOnSelection:true
+      closeDropDownOnSelection:true,
     };
     this.dropdownSettings2 = {
       singleSelection: false,
@@ -55,12 +63,21 @@ export class EditAssignedShiftComponent implements OnInit {
       // unSelectAllText: 'UnSelect All',
       // itemsShowLimit: 3,
       allowSearchFilter: true,
-      closeDropDownOnSelection:true
+      closeDropDownOnSelection:true,
     };
 
     this.getAllEployee();
     this.getShift();
     this.dates=[];
+  }
+  toggleAdjustment(e){
+  this.AdjustmentCheckBox = e.target.checked;
+    if (this.AdjustmentCheckBox==false){
+        this.shiftObj.adjustmentDate="";
+    }
+  }
+  toggleLeave(e){
+  this.LeaveCheckBox = e.target.checked;
   }
   getAllEployee(){
 
@@ -86,6 +103,8 @@ export class EditAssignedShiftComponent implements OnInit {
   onItemSelect2(value){
 
     console.log(value.shiftId);
+    this.shiftObj.inTime="";
+    this.shiftObj.outTime="";
     //this.selectedItems2=value;
     var index = this.selectedItems2.indexOf(value.shiftId);
 
@@ -100,6 +119,8 @@ export class EditAssignedShiftComponent implements OnInit {
   }
   onSelectAll2(value){
     this.selectedItems2=[];
+    this.shiftObj.inTime="";
+    this.shiftObj.outTime="";
     for(var i = 0; i < value.length; i++) {
 
       this.selectedItems2.push(value[i].shiftId);
@@ -110,6 +131,8 @@ export class EditAssignedShiftComponent implements OnInit {
   }
   onDeSelectAll2(value){
     this.selectedItems2=[];
+    this.shiftObj.inTime="";
+    this.shiftObj.outTime="";
 
     }
   findAttendence(){
@@ -147,21 +170,27 @@ export class EditAssignedShiftComponent implements OnInit {
   }
   changeAssignShift(){
 
-    if( this.shiftObj.empId ==null || this.selectedItems2.length==0){
+    if( this.shiftObj.empId ==null){
       alert("Empty");
     }
     else {
 
-      //console.log(this.selectedItems2);
+      console.log(this.shiftObj);
 
       let form={
         empId:this.shiftObj.empId,
         date:this.shiftObj.date,
         shiftLogId:this.shiftObj.shiftLogId,
         shiftId:this.selectedItems2,
+        inTime:this.shiftObj.inTime,
+        outTime:this.shiftObj.outTime,
+        adjustment:this.shiftObj.adjustment,
+        adjustmentDate:this.shiftObj.adjustmentDate,
+        leave:this.shiftObj.leave,
+
 
       };
-     // console.log(form);
+     console.log(form);
       const token=this.token.get();
 
       this.http.post(Constants.API_URL+'shift/assigned-shift-update'+'?token='+token,form).subscribe(data => {
@@ -214,6 +243,9 @@ export class EditAssignedShiftComponent implements OnInit {
         this.shiftObj.shiftId=this.assignedLog[i].shiftId;
         this.shiftObj.empId=this.selectedItems[0]['empid'];
         this.shiftObj.date=date;
+        this.shiftObj.inTime=this.assignedLog[i].inTime;
+        this.shiftObj.outTime=this.assignedLog[i].outTime;
+        this.shiftObj.deviceUserId=this.assignedLog[i].attDeviceUserId;
         break;
       }
     }
@@ -223,7 +255,6 @@ export class EditAssignedShiftComponent implements OnInit {
 
   }
   delete(shiftlogid,date,empId){
-
 
     let i=0;
     for(i;i<this.assignedLog.length;i++){
@@ -252,8 +283,6 @@ export class EditAssignedShiftComponent implements OnInit {
 
 
       };
-      //console.log(form);
-
       const token=this.token.get();
 
       this.http.post(Constants.API_URL+'shift/assigned-shift-delete'+'?token='+token,form).subscribe(data => {
@@ -274,10 +303,13 @@ export class EditAssignedShiftComponent implements OnInit {
       );
 
 
+
+
     }
 
 
   }
+
   // openLg(content) {
   //   this.shiftObj={};
   //   this.modalRef =  this.modalService.open(content, { size: 'lg'});

@@ -57,8 +57,11 @@ class shiftController extends Controller
         $anotherFormat='l';
         $period = new \DatePeriod(new DateTime($start), $interval, $realEnd);
         foreach($period as $date) {
-            $shiftName = ShiftLog::select('shiftlog.*',DB::raw("GROUP_CONCAT(shift.shiftName) AS shiftName"))
+
+
+            $shiftName = ShiftLog::select('shiftlog.*','attemployeemap.attDeviceUserId',DB::raw("CASE When shiftlog.fkshiftId is null then CONCAT(shiftlog.inTime,'-',shiftlog.outTime) else GROUP_CONCAT(shift.shiftName) end shiftName"))
                 ->leftJoin('shift',"shift.shiftId",'shiftlog.fkshiftId')
+                ->leftJoin('attemployeemap',"attemployeemap.employeeId",'shiftlog.fkemployeeId')
                 ->where('shiftlog.fkemployeeId','=',$r->empId)
                 ->whereDate('shiftlog.startDate', '=', $date->format($format))
                 ->where(function ($query) use ($format,$date){
@@ -67,12 +70,16 @@ class shiftController extends Controller
                 })
                 ->orderBy('shiftlog.shiftlogId','ASC')
                 ->first();
+
             $newArray=array(
                 'date'=>  $date->format($format),
                 'day'=>$date->format($anotherFormat),
                 'shiftName'=>$shiftName['shiftName'],
                 'shiftLogId'=>$shiftName['shiftlogId'],
                 'empId'=>$shiftName['fkemployeeId'],
+                'attDeviceUserId'=>$shiftName['attDeviceUserId'],
+                'inTime'=>$shiftName['inTime'],
+                'outTime'=>$shiftName['outTime']
             );
             array_push($array,$newArray);
 //            $array['date'] = $date->format($format);
@@ -140,15 +147,12 @@ class shiftController extends Controller
         for ($i=0;$i<count($r->weekends);$i++){
             array_push($days,$r->weekends[$i]['item_id']);
         }
+
         $tags = implode(',',$days);
         $date= Carbon::parse($r->startDate)->format('y-m-d');
         $subDate=  Carbon::parse($r->startDate)->subDays(1)->format('y-m-d');
 
-//        return Response()->json($subDate);
 
-//        ShiftLog::whereIn('fkemployeeId',$r->allEmp)
-//            ->where('endDate',null)
-//            ->update(['endDate'=>$subDate]);
 
         foreach ($r->allEmp as $empId){
 
@@ -173,19 +177,62 @@ class shiftController extends Controller
 
         $shiftDelete=ShiftLog::where('fkemployeeId',$r->empId)->whereDate('startDate',$r->date)->whereDate('endDate',$r->date)->whereIn('fkshiftId',$r->shiftId)->delete();
 
+        if (count($r->shiftId)>0){
 
-        foreach ($r->shiftId as $shiftsId){
+           for ($i=0;$i<count($r->shiftId);$i++){
+
+               $shift=Shift::select('inTime','outTime')->findOrFail($r->shiftId[$i]);
+
+               $shiftLog=new ShiftLog();
+
+               $shiftLog->fkemployeeId=$r->empId;
+               $shiftLog->startDate=$r->date;
+               $shiftLog->endDate=$r->date;
+               $shiftLog->inTime=$shift->inTime;
+               $shiftLog->outTime=$shift->outTime;
+
+               if ($r->adjustment=='true'){
+                   $shiftLog->adjustmentDate=$r->adjustmentDate;
+               }
+
+               $shiftLog->fkshiftId=$r->shiftId[$i];
+
+               if ($i==0 && count($r->shiftId)>1){
+
+                   $shiftLog->multipleShift=$r->shiftId[(count($r->shiftId)-1)];
+               }
+
+               $shiftLog->save();
+
+           }
+
+
+
+
+
+
+
+        }else{
 
             $shiftLog=new ShiftLog();
 
             $shiftLog->fkemployeeId=$r->empId;
             $shiftLog->startDate=$r->date;
             $shiftLog->endDate=$r->date;
-            $shiftLog->fkshiftId=$shiftsId;
+            $shiftLog->inTime=$r->inTime;
+            $shiftLog->outTime=$r->outTime;
+            if ($r->adjustment=='true'){
+                $shiftLog->adjustmentDate=$r->adjustmentDate;
+            }
+
 
             $shiftLog->save();
 
+
+
         }
+
+
 
 //        if ($r->shiftLogId !=""){
 //            $shiftLog=ShiftLog::findOrFail($r->shiftLogId);
