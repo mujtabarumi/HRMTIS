@@ -60,9 +60,7 @@ class AttendanceController extends Controller
         $results = DB::select( DB::raw("select em.employeeId,ad.id,s.inTime,em.attDeviceUserId,sl.multipleShift
             , date_format(ad.accessTime,'%Y-%m-%d') attendanceDate
             , date_format(min(ad.accessTime),'%Y-%m-%d %H:%i') checkIn
-            , case when s.inTime is not null and TIME(s.outTime) > TIME (s.inTime)  then date_format(max(ad.accessTime),'%Y-%m-%d %H:%i') 
-             when s.inTime is not null and TIME(s.outTime) > TIME (s.inTime) and sl.multipleShift is not null then date_format(max(ad.accessTime),'%Y-%m-%d %H:%i')  else 'previousDay' end checkOut
-             
+            , case when TIME(sl.outTime) > TIME (sl.inTime) THEN 'nextDay' ELSE date_format(max(ad.accessTime),'%Y-%m-%d %H:%i') END checkOut
             , case when s.inTime is not null and SUBTIME(date_format(min(ad.accessTime),'%H:%i'),s.inTime) > '00:20:01' then 'Y' else 'N' end late
             , case when s.inTime is not null then date_format(SUBTIME(date_format(min(ad.accessTime),'%H:%i'),s.inTime),'%H:%i') else '0' end lateTime
             from attendancedata ad left join attemployeemap em on ad.attDeviceUserId = em.attDeviceUserId

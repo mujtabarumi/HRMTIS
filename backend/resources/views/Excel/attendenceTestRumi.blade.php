@@ -119,25 +119,8 @@
 
                         @endif
                         @else
-                            @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->multipleShift == null)
 
-                                {{\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkOut)->format('H:i')}}
-
-
-                            @else
-                                @php
-                                    $nextShift=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])
-                                    ->first()->multipleShift)->format('Y-m-d');
-                                @endphp
-
-                            @if($results->where('employeeId',$aE->id)->where('attendanceDate',$nextShift)->first())
-
-                                    {{\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$nextShift)->first()->checkIn)->format('H:i')}}
-
-
-                            @else
-                            @endif
-                            @endif
+                            {{\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkOut)->format('H:i')}}
 
 
                         @endif
@@ -158,75 +141,6 @@
 
                         <td class="cell" width="20">
 
-                            @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkOut == 'previousDay' && $results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime == null )
-
-                            @elseif($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkOut == 'previousDay' && $results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime != null )
-
-
-                                @php
-                                    $nextday=\Carbon\Carbon::parse($date['date'])->addDays(1)->format('Y-m-d');
-
-                                     $rgular=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkIn);
-
-                                @endphp
-
-                                @if($results->where('employeeId',$aE->id)->where('attendanceDate',$nextday)->first())
-
-                                    @php
-                                        $Working=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$nextday)->first()->checkIn);
-                                    @endphp
-
-                                    {{$Working->diff($rgular)->format('%H:%i')}}
-
-
-
-                                @else
-
-                                @endif
-
-
-
-
-
-
-                            @else
-
-                                @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->multipleShift == null)
-
-                                    @php
-
-
-                                        $rgular=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkIn);
-                                        $Working=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkOut);
-
-                                    @endphp
-
-                                    {{$Working->diff($rgular)->format('%H:%i')}}
-
-
-                                @else
-                                    @php
-                                        $rgular=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkIn);
-
-                                            $nextShift=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])
-                                            ->first()->multipleShift)->format('Y-m-d');
-                                    @endphp
-
-                                    @if($results->where('employeeId',$aE->id)->where('attendanceDate',$nextShift)->first())
-
-                                        @php
-                                            $Working=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$nextShift)->first()->checkIn);
-                                        @endphp
-
-                                        {{$Working->diff($rgular)->format('%H:%i')}}
-
-
-                                    @else
-                                    @endif
-                                @endif
-
-
-                            @endif
 
 
 

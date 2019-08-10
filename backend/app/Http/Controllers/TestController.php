@@ -117,15 +117,17 @@ class TestController extends Controller
             ->get();
 
 
-        $toDate = Carbon::parse($toDate)->addDay(1);
+       
 
 
-       return $results = DB::select( DB::raw("select em.employeeId,ad.id,s.inTime,em.attDeviceUserId,sl.multipleShift
+       return  $results = DB::select( DB::raw("select em.employeeId,ad.id,s.inTime,em.attDeviceUserId,sl.multipleShift
             , date_format(ad.accessTime,'%Y-%m-%d') attendanceDate
             , date_format(min(ad.accessTime),'%Y-%m-%d %H:%i') checkIn
             , case when s.inTime is not null and TIME(s.outTime) > TIME (s.inTime)  then date_format(max(ad.accessTime),'%Y-%m-%d %H:%i') 
-             when s.inTime is not null and TIME(s.outTime) > TIME (s.inTime) and sl.multipleShift is not null then date_format(max(ad.accessTime),'%Y-%m-%d %H:%i')  else 'previousDay' end checkOut, case when s.inTime is not null and SUBTIME(date_format(min(ad.accessTime),'%H:%i'),s.inTime) > '00:20:01' then 'Y' else 'N' end late
+             when s.inTime is not null and TIME(s.outTime) > TIME (s.inTime) and sl.multipleShift is not null then date_format(max(ad.accessTime),'%Y-%m-%d %H:%i')  else 'previousDay' end checkOut, 
+             case when s.inTime is not null and SUBTIME(date_format(min(ad.accessTime),'%H:%i'),s.inTime) > '00:20:01' then 'Y' else 'N' end late
             , case when s.inTime is not null then date_format(SUBTIME(date_format(min(ad.accessTime),'%H:%i'),s.inTime),'%H:%i') else '0' end lateTime
+            ,case when date_format(min(ad.accessTime),'%Y-%m-%d %H:%i')  > '08:00:00' AND date_format(min(ad.accessTime),'%Y-%m-%d %H:%i')  <  '22:00:00'  then 'Y' else 'N' end late
             from attendancedata ad left join attemployeemap em on ad.attDeviceUserId = em.attDeviceUserId
             and date_format(ad.accessTime,'%Y-%m-%d') between '" . $fromDate . "' and '" . $toDate . "'
             left join shiftlog sl on em.employeeId = sl.fkemployeeId and date_format(ad.accessTime,'%Y-%m-%d') between date_format(sl.startDate,'%Y-%m-%d') and ifnull(date_format(sl.endDate,'%Y-%m-%d'),curdate())
@@ -134,26 +136,6 @@ class TestController extends Controller
             where date_format(ad.accessTime,'%Y-%m-%d') between '".$fromDate."' and '".$toDate."'
             group by ad.attDeviceUserId, date_format(ad.accessTime,'%Y-%m-%d')"));
 
-//        return $results = DB::select( DB::raw("select em.employeeId,ad.id
-//            , date_format(ad.accessTime,'%Y-%m-%d') attendanceDate
-//            , date_format(min(ad.accessTime),'%H:%i') checkIn
-//            , date_format(max(ad.accessTime),'%H:%i') checkOut
-//            ,SUBTIME(date_format(max(ad.accessTime),'%H:%i:%s'),date_format(min(ad.accessTime),'%H:%i:%s')) workingTime
-//            , case when SUBTIME(date_format(min(ad.accessTime),'%H:%i'),s.inTime) > '00:00:01' then 'Y' else 'N' end late
-//            , date_format(SUBTIME(date_format(min(ad.accessTime),'%H:%i'),s.inTime),'%H:%i')  as lateTime
-//            from attendancedata ad left join attemployeemap em on ad.attDeviceUserId = em.attDeviceUserId
-//            and date_format(ad.accessTime,'%Y-%m-%d') between '" . $fromDate . "' and '" . $toDate . "'
-//
-//            left join roster_log sl on em.employeeId = sl.fkemployeeId and date_format(ad.accessTime,'%Y-%m-%d') between date_format(sl.startDate,'%Y-%m-%d') and ifnull(date_format(sl.endDate,'%Y-%m-%d'),curdate())
-//            left join shift s on s.shiftId=sl.( CASE WHEN LOWER(date_format(attendancedata.accessTime,'%W'))=saturday THEN s.shiftId = roster_log.saturday
-//                        WHEN LOWER(date_format(attendancedata.accessTime,'%W'))=sunday THEN day
-//                        WHEN LOWER(date_format(attendancedata.accessTime,'%W'))=monday THEN day
-//                        WHEN LOWER(date_format(attendancedata.accessTime,'%W'))=tuesday THEN day
-//                        WHEN LOWER(date_format(attendancedata.accessTime,'%W'))=wednessday THEN day
-//                        WHEN LOWER(date_format(attendancedata.accessTime,'%W'))=thursday THEN day
-//                        WHEN LOWER(date_format(attendancedata.accessTime,'%W'))=friday THEN day END )
-//            where date_format(ad.accessTime,'%Y-%m-%d') between '".$fromDate."' and '".$toDate."'
-//            group by ad.attDeviceUserId, date_format(ad.accessTime,'%Y-%m-%d')"));
 
          $results=collect($results);
 
