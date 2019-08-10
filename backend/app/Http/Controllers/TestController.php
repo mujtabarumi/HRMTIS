@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\AttendanceData;
 use App\Employee;
+use App\ShiftLog;
 use DateTime;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -110,34 +111,54 @@ class TestController extends Controller
         $dates = $this->getDatesFromRange($startDate, $endDate);
 
 
-        $allEmp=Employee::select('id','fkDepartmentId',
+         $allEmp=Employee::select('employeeinfo.id','attemployeemap.attDeviceUserId',
             DB::raw("CONCAT(COALESCE(firstName,''),' ',COALESCE(middleName,''),' ',COALESCE(lastName,'')) AS empFullname"),
             'actualJoinDate','practice','weekend')
+             ->leftJoin('attemployeemap','attemployeemap.employeeId','employeeinfo.id')
             ->whereNull('resignDate')
             ->get();
+        $toDate = Carbon::parse($toDate)->addDay(1);
 
 
-       
+         $sfl=ShiftLog::select("*")
+            ->where(function ($query) use($fromDate,$toDate){
+                $query->whereDate('startDate', '>=',$fromDate )
+                    ->orWhere('endDate', '<=', $toDate);
+            })
+             ->get();
 
 
-       return  $results = DB::select( DB::raw("select em.employeeId,ad.id,s.inTime,em.attDeviceUserId,sl.multipleShift
-            , date_format(ad.accessTime,'%Y-%m-%d') attendanceDate
-            , date_format(min(ad.accessTime),'%Y-%m-%d %H:%i') checkIn
-            , case when s.inTime is not null and TIME(s.outTime) > TIME (s.inTime)  then date_format(max(ad.accessTime),'%Y-%m-%d %H:%i') 
-             when s.inTime is not null and TIME(s.outTime) > TIME (s.inTime) and sl.multipleShift is not null then date_format(max(ad.accessTime),'%Y-%m-%d %H:%i')  else 'previousDay' end checkOut, 
-             case when s.inTime is not null and SUBTIME(date_format(min(ad.accessTime),'%H:%i'),s.inTime) > '00:20:01' then 'Y' else 'N' end late
-            , case when s.inTime is not null then date_format(SUBTIME(date_format(min(ad.accessTime),'%H:%i'),s.inTime),'%H:%i') else '0' end lateTime
-            ,case when date_format(min(ad.accessTime),'%Y-%m-%d %H:%i')  > '08:00:00' AND date_format(min(ad.accessTime),'%Y-%m-%d %H:%i')  <  '22:00:00'  then 'Y' else 'N' end late
-            from attendancedata ad left join attemployeemap em on ad.attDeviceUserId = em.attDeviceUserId
-            and date_format(ad.accessTime,'%Y-%m-%d') between '" . $fromDate . "' and '" . $toDate . "'
-            left join shiftlog sl on em.employeeId = sl.fkemployeeId and date_format(ad.accessTime,'%Y-%m-%d') between date_format(sl.startDate,'%Y-%m-%d') and ifnull(date_format(sl.endDate,'%Y-%m-%d'),curdate())
-            left join shift s on sl.fkshiftId = s.shiftId
+
+
+        return $rt=DB::select( DB::raw("select ad.accessTime,em.attDeviceUserId,em.employeeId,sl.inTime,sl.outTime
             
-            where date_format(ad.accessTime,'%Y-%m-%d') between '".$fromDate."' and '".$toDate."'
-            group by ad.attDeviceUserId, date_format(ad.accessTime,'%Y-%m-%d')"));
+            from attendancedata ad left join attemployeemap em on ad.attDeviceUserId = em.attDeviceUserId
+            left join shiftlog sl on em.employeeId = sl.fkemployeeId and date_format(ad.accessTime,'%Y-%m-%d') between date_format(sl.startDate,'%Y-%m-%d') and ifnull(date_format(sl.endDate,'%Y-%m-%d'),curdate())
+            where date_format(ad.accessTime,'%Y-%m-%d') between '".$fromDate."' and '".$toDate."'"));
+
+         $rt=colect($rt);
 
 
-         $results=collect($results);
+
+
+//       return  $results = DB::select( DB::raw("select em.employeeId,ad.id,s.inTime,em.attDeviceUserId,sl.multipleShift
+//            , date_format(ad.accessTime,'%Y-%m-%d') attendanceDate
+//            , date_format(min(ad.accessTime),'%Y-%m-%d %H:%i') checkIn
+//            , case when s.inTime is not null and TIME(s.outTime) > TIME (s.inTime)  then date_format(max(ad.accessTime),'%Y-%m-%d %H:%i')
+//             when s.inTime is not null and TIME(s.outTime) > TIME (s.inTime) and sl.multipleShift is not null then date_format(max(ad.accessTime),'%Y-%m-%d %H:%i')  else 'previousDay' end checkOut,
+//             case when s.inTime is not null and SUBTIME(date_format(min(ad.accessTime),'%H:%i'),s.inTime) > '00:20:01' then 'Y' else 'N' end late
+//            , case when s.inTime is not null then date_format(SUBTIME(date_format(min(ad.accessTime),'%H:%i'),s.inTime),'%H:%i') else '0' end lateTime
+//            ,case when date_format(min(ad.accessTime),'%Y-%m-%d %H:%i')  > '08:00:00' AND date_format(min(ad.accessTime),'%Y-%m-%d %H:%i')  <  '22:00:00'  then 'Y' else 'N' end late
+//            from attendancedata ad left join attemployeemap em on ad.attDeviceUserId = em.attDeviceUserId
+//            and date_format(ad.accessTime,'%Y-%m-%d') between '" . $fromDate . "' and '" . $toDate . "'
+//            left join shiftlog sl on em.employeeId = sl.fkemployeeId and date_format(ad.accessTime,'%Y-%m-%d') between date_format(sl.startDate,'%Y-%m-%d') and ifnull(date_format(sl.endDate,'%Y-%m-%d'),curdate())
+//            left join shift s on sl.fkshiftId = s.shiftId
+//
+//            where date_format(ad.accessTime,'%Y-%m-%d') between '".$fromDate."' and '".$toDate."'
+//            group by ad.attDeviceUserId, date_format(ad.accessTime,'%Y-%m-%d')"));
+//
+//
+//         $results=collect($results);
 
 //        return $results;
 
@@ -152,18 +173,28 @@ class TestController extends Controller
         );
 
 
-        $check=Excel::create($fileName,function($excel)use ($results,$dates,$allEmp,$fromDate,$toDate, $startDate, $endDate) {
+//        $check=Excel::create($fileName,function($excel)use ($results,$dates,$allEmp,$fromDate,$toDate, $startDate, $endDate) {
+//
+//                $excel->sheet('test', function ($sheet) use ($results,$dates,$allEmp, $fromDate,$toDate,$startDate, $endDate) {
+////                    $sheet->freezePane('B4');
+////                    $sheet->setStyle(array(
+////                        'font' => array(
+////                            'name' => 'Calibri',
+////                            'size' => 10,
+////                            'bold' => false
+////                        )
+////                    ));
+//                    $sheet->loadView('Excel.attendenceTestRumi', compact('results','fromDate', 'toDate','dates','allEmp',
+//                       'startDate','endDate'));
+//                });
+//
+//        })->store('xls',$filePath);
 
-                $excel->sheet('test', function ($sheet) use ($results,$dates,$allEmp, $fromDate,$toDate,$startDate, $endDate) {
-//                    $sheet->freezePane('B4');
-//                    $sheet->setStyle(array(
-//                        'font' => array(
-//                            'name' => 'Calibri',
-//                            'size' => 10,
-//                            'bold' => false
-//                        )
-//                    ));
-                    $sheet->loadView('Excel.attendenceTestRumi', compact('results','fromDate', 'toDate','dates','allEmp',
+        $check=Excel::create($fileName,function($excel)use ($sfl,$rt,$dates,$allEmp,$fromDate,$toDate, $startDate, $endDate) {
+
+                $excel->sheet('test', function ($sheet) use ($sfl,$rt,$dates,$allEmp, $fromDate,$toDate,$startDate, $endDate) {
+
+                    $sheet->loadView('Excel.attendenceTestRumiAnother', compact('results','fromDate', 'toDate','dates','allEmp',
                        'startDate','endDate'));
                 });
 
