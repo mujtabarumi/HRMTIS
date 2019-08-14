@@ -99,7 +99,8 @@
                         $results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime <
                         $results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->outTime )
 
-                            @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->where('accessTime','>=',$nextIn)->first())
+                            @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])
+                            ->where('accessTime','>=',$nextIn)->first())
 
                                 {{\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])
                                     ->where('accessTime','>=',$nextIn)->first()->accessTime)->format('H:i')}}
@@ -189,6 +190,46 @@
 
 
                     </td>
+
+                @else
+
+                    <td class="cell" width="10">
+
+
+                        
+
+
+
+
+                    </td>
+                    <td class="cell" width="10">
+
+
+
+                    </td>
+
+                    <td class="cell"  width="10">
+
+
+
+
+
+                    </td>
+
+                    <td class="cell" width="20">
+
+
+
+
+
+
+                    </td>
+                    <td class="cell"  width="15">
+
+
+
+                    </td>
+
                 @endif
 
             @endforeach
