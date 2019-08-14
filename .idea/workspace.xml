@@ -2,6 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="79f3b666-98ca-415d-99bb-8f59ccc47ed0" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/TestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/TestController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-08-14_18-36-14.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-08-14_18-53-19.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-08-14_19-12-26.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-08-14_19-23-33.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-08-14_19-31-06.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-08-14_19-39-28.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-08-14_19-43-11.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-08-14_20-04-55.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-08-14_20-14-01.xls" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/resources/views/Excel/attendenceTestRumiAnother.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/resources/views/Excel/attendenceTestRumiAnother.blade.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -19,8 +29,8 @@
       <file leaf-file-name="TestController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/backend/app/Http/Controllers/TestController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="308">
-              <caret line="83" column="66" selection-start-line="83" selection-start-column="52" selection-end-line="83" selection-end-column="66" />
+            <state relative-caret-position="189">
+              <caret line="85" column="72" selection-start-line="85" selection-start-column="61" selection-end-line="85" selection-end-column="72" />
             </state>
           </provider>
         </entry>
@@ -37,8 +47,8 @@
       <file leaf-file-name="AttendanceController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/backend/app/Http/Controllers/AttendanceController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="60" column="49" selection-start-line="60" selection-start-column="49" selection-end-line="60" selection-end-column="49" />
+            <state relative-caret-position="289">
+              <caret line="67" column="40" selection-start-line="67" selection-start-column="40" selection-end-line="67" selection-end-column="40" />
             </state>
           </provider>
         </entry>
@@ -46,8 +56,12 @@
       <file leaf-file-name="attendenceTestRumiAnother.blade.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/backend/resources/views/Excel/attendenceTestRumiAnother.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-185">
-              <caret line="198" column="24" selection-start-line="198" selection-start-column="24" selection-end-line="198" selection-end-column="24" />
+            <state relative-caret-position="169">
+              <caret line="205" column="59" selection-start-line="205" selection-start-column="59" selection-end-line="205" selection-end-column="59" />
+              <folding>
+                <element signature="n#style#0;n#td#4;n#tr#1;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#td#11;n#tr#1;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -55,8 +69,8 @@
       <file leaf-file-name="attendenceTestRumi.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/backend/resources/views/Excel/attendenceTestRumi.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="89" column="123" selection-start-line="89" selection-start-column="115" selection-end-line="89" selection-end-column="123" />
+            <state relative-caret-position="1224">
+              <caret line="138" selection-start-line="138" selection-end-line="138" />
             </state>
           </provider>
         </entry>
@@ -312,18 +326,18 @@
       <workItem from="1565416815198" duration="11787000" />
       <workItem from="1565512085736" duration="2420000" />
       <workItem from="1565771299466" duration="9416000" />
-      <workItem from="1565780826983" duration="10307000" />
+      <workItem from="1565780826983" duration="18757000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="22143000" />
+    <option name="totallyTimeSpent" value="30593000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23499268" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22401172" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" weight="0.32868218" />
@@ -400,6 +414,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2091">
           <caret line="123" column="166" selection-start-line="123" selection-start-column="28" selection-end-line="123" selection-end-column="166" />
+          <folding>
+            <element signature="n#style#0;n#td#4;n#tr#1;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#11;n#tr#1;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -429,29 +447,33 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/backend/app/Http/Controllers/AttendanceController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="60" column="49" selection-start-line="60" selection-start-column="49" selection-end-line="60" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/app/Http/Controllers/TestController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="83" column="66" selection-start-line="83" selection-start-column="52" selection-end-line="83" selection-end-column="66" />
+        <state relative-caret-position="289">
+          <caret line="67" column="40" selection-start-line="67" selection-start-column="40" selection-end-line="67" selection-end-column="40" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/backend/resources/views/Excel/attendenceTestRumi.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="89" column="123" selection-start-line="89" selection-start-column="115" selection-end-line="89" selection-end-column="123" />
+        <state relative-caret-position="1224">
+          <caret line="138" selection-start-line="138" selection-end-line="138" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/app/Http/Controllers/TestController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="85" column="72" selection-start-line="85" selection-start-column="61" selection-end-line="85" selection-end-column="72" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/backend/resources/views/Excel/attendenceTestRumiAnother.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-185">
-          <caret line="198" column="24" selection-start-line="198" selection-start-column="24" selection-end-line="198" selection-end-column="24" />
+        <state relative-caret-position="169">
+          <caret line="205" column="59" selection-start-line="205" selection-start-column="59" selection-end-line="205" selection-end-column="59" />
+          <folding>
+            <element signature="n#style#0;n#td#4;n#tr#1;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#11;n#tr#1;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

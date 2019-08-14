@@ -80,9 +80,10 @@ class TestController extends Controller
 
 
 
-             $results = DB::select( DB::raw("select em.employeeId,ad.id,sl.inTime,sl.outTime,em.attDeviceUserId,sl.multipleShift
+             $results = DB::select( DB::raw("select em.employeeId,ad.id,sl.inTime,sl.outTime,sl.multipleShift
             , date_format(ad.accessTime,'%Y-%m-%d') attendanceDate
-            , date_format(ad.accessTime,'%H:%i') accessTime
+            , date_format(ad.accessTime,'%H:%i:%s') accessTime
+            , date_format(ad.accessTime,'%Y-%m-%d %H:%i:%s') accessTime2
             from attendancedata ad left join attemployeemap em on ad.attDeviceUserId = em.attDeviceUserId
             and date_format(ad.accessTime,'%Y-%m-%d') between '" . $fromDate . "' and '" . $toDate . "'
             left join shiftlog sl on em.employeeId = sl.fkemployeeId and date_format(ad.accessTime,'%Y-%m-%d') between date_format(sl.startDate,'%Y-%m-%d') and ifnull(date_format(sl.endDate,'%Y-%m-%d'),curdate())
