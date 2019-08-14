@@ -65,7 +65,7 @@ class shiftController extends Controller
                 ->where('shiftlog.fkemployeeId','=',$r->empId)
                 ->whereDate('shiftlog.startDate', '=', $date->format($format))
                 ->where(function ($query) use ($format,$date){
-                    $query->where('shiftlog.endDate', '=', $date->format($format));
+                    $query->whereDate('shiftlog.endDate', '=', $date->format($format));
 //                    ->orWhere('endDate', '=', 1);
                 })
                 ->orderBy('shiftlog.shiftlogId','ASC')

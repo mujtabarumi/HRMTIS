@@ -82,58 +82,96 @@
             <td class="cell" width="10">{{$aE->attDeviceUserId}}</td>
             <td class="cell" width="25">{{$aE->empFullname}}</td>
             @foreach($dates as $date)
+
                 @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first())
-
                     <td class="cell" width="10">
 
-                        @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkOut == 'previousDay' && $results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime == null )
 
-                        @elseif($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkOut == 'previousDay' && $results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime != null )
+                        @php
+                            $in=$results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime;
+                            $nextIn=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime)->subHours(3)->format('H:i');
+                        @endphp
 
-                            {{\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkIn)->format('H:i')}}
-
-                        @else
-                            {{\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkIn)->format('H:i')}}
-                        @endif
+                        @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime == null)
 
 
-                    </td>
-                    <td class="cell" width="10">
-                        @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkOut == 'previousDay' && $results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime == null )
+                        @elseif($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime != null &&
+                        $results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime <
+                        $results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->outTime )
 
+                            @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->where('accessTime','>=',$nextIn)->first())
 
-
-                        @elseif($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkOut == 'previousDay' && $results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime != null )
-
-                            @php
-                                $nextday=\Carbon\Carbon::parse($date['date'])->addDays(1)->format('Y-m-d');
-                                $previousday=\Carbon\Carbon::parse($date['date'])->subDay(1);
-                            @endphp
-                            @if($results->where('employeeId',$aE->id)->where('attendanceDate',$nextday)->first())
-
-                                {{\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$nextday)->first()->checkIn)->format('H:i')}}
-
-
-                            @else
+                                {{\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])
+                                    ->where('accessTime','>=',$nextIn)->first()->accessTime)->format('H:i')}}
 
                             @endif
+
                         @else
 
-                            {{\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->checkOut)->format('H:i')}}
 
+
+                                @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->where('accessTime','>=',$nextIn)->first())
+
+                                    {{\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])
+                                        ->where('accessTime','>=',$nextIn)->first()->accessTime)->format('H:i')}}
+
+                                @endif
 
                         @endif
+
+
+
+
+                    </td>
+                    <td class="cell" width="10">
+
+                        @php
+                            $nextday=\Carbon\Carbon::parse($date['date'])->addDays(1)->format('Y-m-d');
+                            $previousday=\Carbon\Carbon::parse($date['date'])->subDays(1)->format('Y-m-d');
+
+                            $out=$results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->outTime;
+                           /* $nextOut=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->outTime)->addHours(4)->format('H:i');*/
+                            $nextOut2=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->outTime)->subHours(3)->format('H:i');
+                        @endphp
+
+
+
+                        @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime == null)
+
+
+
+                        @elseif($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime != null &&
+                        $results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime <
+                        $results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->outTime )
+
+                            @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])
+                            ->where('accessTime','>=',$nextOut2)->first())
+
+                                {{\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])
+                                    ->where('accessTime','>=',$nextOut2)->last()->accessTime)->format('H:i')}}
+
+                            @endif
+
+                        @else
+
+
+                            @if($results->where('employeeId',$aE->id)->where('attendanceDate',$nextday)
+                            ->where('accessTime','>=',$nextOut2)->first())
+
+                                {{\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$nextday)
+                                    ->where('accessTime','>=',$nextOut2)->last()->accessTime)->format('H:i')}}
+
+                            @endif
+
+                        @endif
+
 
                     </td>
 
-                    <td class="cell <?php if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->late =='Y'){?> late <?php }?>"  width="10">
+                    <td class="cell"  width="10">
 
 
-                        @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->late== 'Y' )
 
-                            {{$results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->lateTime}}
-
-                        @endif
 
 
                     </td>
@@ -148,29 +186,11 @@
                     </td>
                     <td class="cell"  width="15">
 
-                        P
+
 
                     </td>
-
-                @else
-
-                    <td class="cell" width="10"></td>
-                    <td class="cell" width="10"></td>
-
-                    <td class="cell" width="10"></td>
-
-                    <td class="cell" width="20"></td>
-
-
-
-                    <td class="cell" style="color:#e81809" width="15">
-
-                        A
-
-                    </td>
-
-
                 @endif
+
             @endforeach
 
 
