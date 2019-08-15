@@ -35,10 +35,16 @@ class AttendanceController extends Controller
     }
     public function getAttendenceDataForHR(Request $r){
 
-        ini_set('max_execution_time', 1444);
+
+
 
         $fromDate=$r->startDate;
         $toDate= $r->endDate;
+
+//            $fromDate=$start;
+//            $toDate=$end;
+
+        ini_set('max_execution_time', 0);
 
         $startDate=Carbon::parse($fromDate);
         $endDate=Carbon::parse($toDate);
@@ -55,6 +61,7 @@ class AttendanceController extends Controller
         $fromDate = Carbon::parse($fromDate)->subDays(1);
         $toDate = Carbon::parse($toDate)->addDays(1);
 
+
         $results = DB::select( DB::raw("select em.employeeId,ad.id,sl.inTime,sl.outTime,sl.multipleShift
             , date_format(ad.accessTime,'%Y-%m-%d') attendanceDate
             , date_format(ad.accessTime,'%H:%i:%s') accessTime
@@ -63,41 +70,21 @@ class AttendanceController extends Controller
             and date_format(ad.accessTime,'%Y-%m-%d') between '" . $fromDate . "' and '" . $toDate . "'
             left join shiftlog sl on em.employeeId = sl.fkemployeeId and date_format(ad.accessTime,'%Y-%m-%d') between date_format(sl.startDate,'%Y-%m-%d') and ifnull(date_format(sl.endDate,'%Y-%m-%d'),curdate())
             where date_format(ad.accessTime,'%Y-%m-%d') between '".$fromDate."' and '".$toDate."'
-            "));
+            and em.employeeId is not null"));
 
+          $results=collect($results);
 
-
-        $results=collect($results);
 
 
 
         $excelName="test";
         $filePath=public_path ()."/exportedExcel";
-//        $fileName="AppliedCandidateList".date("Y-m-d_H-i-s");
+
         $fileName="HRTest".date("Y-m-d_H-i-s");
         $fileInfo=array(
             'fileName'=>$fileName,
             'filePath'=>$fileName,
         );
-
-
-//        $check=Excel::create($fileName,function($excel)use ($results,$dates,$allEmp,$fromDate,$toDate, $startDate, $endDate) {
-//
-//            $excel->sheet('test', function ($sheet) use ($results,$dates,$allEmp, $fromDate,$toDate,$startDate, $endDate) {
-////                    $sheet->freezePane('B4');
-////                    $sheet->setStyle(array(
-////                        'font' => array(
-////                            'name' => 'Calibri',
-////                            'size' => 10,
-////                            'bold' => false
-////                        )
-////                    ));
-//                $sheet->loadView('Excel.attendenceTestRumi', compact('results','fromDate', 'toDate','dates','allEmp',
-//                    'startDate','endDate'));
-//            });
-//
-//        })->store('xls',$filePath);
-
 
         $check=Excel::create($fileName,function($excel)use ($results,$dates,$allEmp,$fromDate,$toDate, $startDate, $endDate) {
 
@@ -110,6 +97,7 @@ class AttendanceController extends Controller
         })->store('xls',$filePath);
 
         return response()->json($fileName);
+
 
 
 
