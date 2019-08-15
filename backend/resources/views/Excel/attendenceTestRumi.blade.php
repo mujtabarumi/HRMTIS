@@ -45,6 +45,9 @@
 
         <th style="text-align: center;vertical-align: middle;background-color:#757171"width="15">Attendence</th>
         @endforeach
+        <th style="text-align: center;vertical-align: middle;"width="5"></th>
+        <th style="text-align: center;vertical-align: middle;"width="15">Hour Expected</th>
+        <th style="text-align: center;vertical-align: middle;"width="15">Total Hour</th>
 
 
     </tr>
@@ -63,6 +66,10 @@
 
 
         <td width="15" ></td>
+
+        <th style="text-align: center;vertical-align: middle;"width="5"></th>
+        <th style="text-align: center;vertical-align: middle;"width="15"></th>
+        <th style="text-align: center;vertical-align: middle;"width="15"></th>
 
 
 
@@ -173,6 +180,9 @@
 
                 @endif
             @endforeach
+
+            <th style="text-align: center;vertical-align: middle;"width="15"></th>
+            <th style="text-align: center;vertical-align: middle;"width="15"></th>
 
 
 

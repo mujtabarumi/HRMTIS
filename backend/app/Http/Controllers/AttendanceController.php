@@ -37,8 +37,6 @@ class AttendanceController extends Controller
 
         ini_set('max_execution_time', 1444);
 
-
-
         $fromDate=$r->startDate;
         $toDate= $r->endDate;
 
@@ -54,27 +52,23 @@ class AttendanceController extends Controller
             ->whereNull('resignDate')
             ->get();
 
-        $toDate = Carbon::parse($toDate)->addDay(1);
-        // return response()->json($toDate);
+        $fromDate = Carbon::parse($fromDate)->subDays(1);
+        $toDate = Carbon::parse($toDate)->addDays(1);
 
-        $results = DB::select( DB::raw("select em.employeeId,ad.id,s.inTime,em.attDeviceUserId,sl.multipleShift
+        $results = DB::select( DB::raw("select em.employeeId,ad.id,sl.inTime,sl.outTime,sl.multipleShift
             , date_format(ad.accessTime,'%Y-%m-%d') attendanceDate
-            , date_format(min(ad.accessTime),'%Y-%m-%d %H:%i') checkIn
-            , case when TIME(sl.outTime) > TIME (sl.inTime) THEN 'nextDay' ELSE date_format(max(ad.accessTime),'%Y-%m-%d %H:%i') END checkOut
-            , case when s.inTime is not null and SUBTIME(date_format(min(ad.accessTime),'%H:%i'),s.inTime) > '00:20:01' then 'Y' else 'N' end late
-            , case when s.inTime is not null then date_format(SUBTIME(date_format(min(ad.accessTime),'%H:%i'),s.inTime),'%H:%i') else '0' end lateTime
+            , date_format(ad.accessTime,'%H:%i:%s') accessTime
+            , date_format(ad.accessTime,'%Y-%m-%d %H:%i:%s') accessTime2
             from attendancedata ad left join attemployeemap em on ad.attDeviceUserId = em.attDeviceUserId
             and date_format(ad.accessTime,'%Y-%m-%d') between '" . $fromDate . "' and '" . $toDate . "'
             left join shiftlog sl on em.employeeId = sl.fkemployeeId and date_format(ad.accessTime,'%Y-%m-%d') between date_format(sl.startDate,'%Y-%m-%d') and ifnull(date_format(sl.endDate,'%Y-%m-%d'),curdate())
-            left join shift s on sl.fkshiftId = s.shiftId
             where date_format(ad.accessTime,'%Y-%m-%d') between '".$fromDate."' and '".$toDate."'
-            group by ad.attDeviceUserId, date_format(ad.accessTime,'%Y-%m-%d')"));
+            "));
 
 
 
         $results=collect($results);
 
-//        return $results;
 
 
         $excelName="test";
@@ -87,18 +81,29 @@ class AttendanceController extends Controller
         );
 
 
+//        $check=Excel::create($fileName,function($excel)use ($results,$dates,$allEmp,$fromDate,$toDate, $startDate, $endDate) {
+//
+//            $excel->sheet('test', function ($sheet) use ($results,$dates,$allEmp, $fromDate,$toDate,$startDate, $endDate) {
+////                    $sheet->freezePane('B4');
+////                    $sheet->setStyle(array(
+////                        'font' => array(
+////                            'name' => 'Calibri',
+////                            'size' => 10,
+////                            'bold' => false
+////                        )
+////                    ));
+//                $sheet->loadView('Excel.attendenceTestRumi', compact('results','fromDate', 'toDate','dates','allEmp',
+//                    'startDate','endDate'));
+//            });
+//
+//        })->store('xls',$filePath);
+
+
         $check=Excel::create($fileName,function($excel)use ($results,$dates,$allEmp,$fromDate,$toDate, $startDate, $endDate) {
 
             $excel->sheet('test', function ($sheet) use ($results,$dates,$allEmp, $fromDate,$toDate,$startDate, $endDate) {
-//                    $sheet->freezePane('B4');
-//                    $sheet->setStyle(array(
-//                        'font' => array(
-//                            'name' => 'Calibri',
-//                            'size' => 10,
-//                            'bold' => false
-//                        )
-//                    ));
-                $sheet->loadView('Excel.attendenceTestRumi', compact('results','fromDate', 'toDate','dates','allEmp',
+
+                $sheet->loadView('Excel.attendenceTestRumiAnother', compact('results','fromDate', 'toDate','dates','allEmp',
                     'startDate','endDate'));
             });
 

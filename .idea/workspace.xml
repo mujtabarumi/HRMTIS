@@ -2,17 +2,25 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="79f3b666-98ca-415d-99bb-8f59ccc47ed0" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/AttendanceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/AttendanceController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/TestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/TestController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-08-14_18-36-14.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-08-14_18-53-19.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-08-14_19-12-26.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-08-14_19-23-33.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-08-14_19-31-06.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-08-14_19-39-28.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-08-14_19-43-11.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-08-14_20-04-55.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-08-14_20-14-01.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/resources/views/Excel/attendenceTestRumi.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/resources/views/Excel/attendenceTestRumi.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/resources/views/Excel/attendenceTestRumiAnother.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/resources/views/Excel/attendenceTestRumiAnother.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/dist/angular-tour/3rdpartylicenses.txt" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/dist/angular-tour/3rdpartylicenses.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/dist/angular-tour/assets/images/bg-1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/dist/angular-tour/assets/images/bg-1.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/dist/angular-tour/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/dist/angular-tour/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/dist/angular-tour/main.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/dist/angular-tour/main.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/dist/angular-tour/polyfills.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/dist/angular-tour/polyfills.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/dist/angular-tour/runtime.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/dist/angular-tour/runtime.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/dist/angular-tour/styles.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/dist/angular-tour/styles.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/dist/angular-tour/vendor.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/dist/angular-tour/vendor.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/constants.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/constants.ts" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -29,8 +37,8 @@
       <file leaf-file-name="TestController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/backend/app/Http/Controllers/TestController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="189">
-              <caret line="85" column="72" selection-start-line="85" selection-start-column="61" selection-end-line="85" selection-end-column="72" />
+            <state relative-caret-position="-239">
+              <caret line="38" selection-start-line="38" selection-end-line="38" />
             </state>
           </provider>
         </entry>
@@ -38,30 +46,48 @@
       <file leaf-file-name="shiftController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/backend/app/Http/Controllers/shiftController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
+            <state relative-caret-position="1037">
               <caret line="67" column="37" selection-start-line="67" selection-start-column="37" selection-end-line="67" selection-end-column="37" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AttendanceController.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="AttendanceController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/backend/app/Http/Controllers/AttendanceController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="67" column="40" selection-start-line="67" selection-start-column="40" selection-end-line="67" selection-end-column="40" />
+            <state relative-caret-position="376">
+              <caret line="37" column="42" selection-start-line="37" selection-start-column="42" selection-end-line="37" selection-end-column="42" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="attendenceTestRumiAnother.blade.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="attendenceTestRumiAnother.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/backend/resources/views/Excel/attendenceTestRumiAnother.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="169">
-              <caret line="205" column="59" selection-start-line="205" selection-start-column="59" selection-end-line="205" selection-end-column="59" />
+            <state relative-caret-position="359">
+              <caret line="436" column="33" selection-start-line="436" selection-start-column="33" selection-end-line="436" selection-end-column="33" />
               <folding>
-                <element signature="n#style#0;n#td#4;n#tr#1;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#td#11;n#tr#1;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#th#6;n#tr#2;n#thead#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#th#7;n#tr#2;n#thead#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#th#8;n#tr#2;n#thead#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#th#9;n#tr#2;n#thead#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#th#10;n#tr#2;n#thead#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#th#0;n#tr#0;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#th#1;n#tr#0;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#th#2;n#tr#0;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#th#0;n#tr#1;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#th#1;n#tr#1;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#th#2;n#tr#1;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="constants.ts" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/frontend/src/app/constants.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="204">
+              <caret line="12" selection-start-line="12" selection-end-line="12" />
             </state>
           </provider>
         </entry>
@@ -69,8 +95,18 @@
       <file leaf-file-name="attendenceTestRumi.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/backend/resources/views/Excel/attendenceTestRumi.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1224">
-              <caret line="138" selection-start-line="138" selection-end-line="138" />
+            <state relative-caret-position="340">
+              <caret line="47" column="8" lean-forward="true" selection-start-line="47" selection-start-column="8" selection-end-line="49" selection-end-column="88" />
+              <folding>
+                <element signature="n#style#0;n#th#7;n#tr#2;n#thead#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#th#8;n#tr#2;n#thead#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#th#9;n#tr#2;n#thead#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#th#0;n#tr#0;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#th#1;n#tr#0;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#th#2;n#tr#0;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#th#0;n#tr#1;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#th#1;n#tr#1;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -84,8 +120,11 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/backend/app/Http/Controllers/shiftController.php" />
-        <option value="$PROJECT_DIR$/backend/app/Http/Controllers/TestController.php" />
+        <option value="$PROJECT_DIR$/frontend/src/app/constants.ts" />
+        <option value="$PROJECT_DIR$/backend/resources/views/Excel/attendenceTestRumi.blade.php" />
         <option value="$PROJECT_DIR$/backend/resources/views/Excel/attendenceTestRumiAnother.blade.php" />
+        <option value="$PROJECT_DIR$/backend/app/Http/Controllers/TestController.php" />
+        <option value="$PROJECT_DIR$/backend/app/Http/Controllers/AttendanceController.php" />
       </list>
     </option>
   </component>
@@ -259,6 +298,11 @@
               <item name="views" type="462c0819:PsiDirectoryNode" />
               <item name="Excel" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="HRMTIS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="HRMTIS" type="462c0819:PsiDirectoryNode" />
+              <item name="frontend" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -268,9 +312,9 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../hrsolution" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="ts.external.directory.path" value="C:\xampp\htdocs\HRMTIS\frontend\node_modules\typescript\lib" />
+    <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\PhpStorm 2018.1.6\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -326,27 +370,28 @@
       <workItem from="1565416815198" duration="11787000" />
       <workItem from="1565512085736" duration="2420000" />
       <workItem from="1565771299466" duration="9416000" />
-      <workItem from="1565780826983" duration="18757000" />
+      <workItem from="1565780826983" duration="19355000" />
+      <workItem from="1565878227063" duration="11209000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="30593000" />
+    <option name="totallyTimeSpent" value="42400000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22401172" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" weight="0.32868218" />
-      <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="10" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="9" />
+      <window_info anchor="bottom" id="TypeScript" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22401172" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="right" id="Database" order="3" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -391,6 +436,64 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/backend/app/Http/Controllers/TestController.php">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1309">
+          <caret line="85" column="72" selection-start-line="85" selection-start-column="61" selection-end-line="85" selection-end-column="72" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/app/Http/Controllers/shiftController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1037">
+          <caret line="67" column="37" selection-start-line="67" selection-start-column="37" selection-end-line="67" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/app/Http/Controllers/AttendanceController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1003">
+          <caret line="67" column="40" selection-start-line="67" selection-start-column="40" selection-end-line="67" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/resources/views/Excel/attendenceTestRumi.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2346">
+          <caret line="138" selection-start-line="138" selection-end-line="138" />
+          <folding>
+            <element signature="n#style#0;n#th#7;n#tr#2;n#thead#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#8;n#tr#2;n#thead#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#9;n#tr#2;n#thead#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#0;n#tr#0;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#1;n#tr#0;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#2;n#tr#0;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#0;n#tr#1;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#1;n#tr#1;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/resources/views/Excel/attendenceTestRumiAnother.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3485">
+          <caret line="205" column="59" selection-start-line="205" selection-start-column="59" selection-end-line="205" selection-end-column="59" />
+          <folding>
+            <element signature="n#style#0;n#th#6;n#tr#2;n#thead#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#7;n#tr#2;n#thead#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#8;n#tr#2;n#thead#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#9;n#tr#2;n#thead#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#10;n#tr#2;n#thead#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#0;n#tr#0;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#1;n#tr#0;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#2;n#tr#0;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#0;n#tr#1;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#1;n#tr#1;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#2;n#tr#1;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/app/Http/Controllers/TestController.php">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1241">
           <caret line="81" column="10" selection-start-line="81" selection-start-column="10" selection-end-line="81" selection-end-column="10" />
         </state>
@@ -415,8 +518,17 @@
         <state relative-caret-position="2091">
           <caret line="123" column="166" selection-start-line="123" selection-start-column="28" selection-end-line="123" selection-end-column="166" />
           <folding>
-            <element signature="n#style#0;n#td#4;n#tr#1;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#td#11;n#tr#1;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#6;n#tr#2;n#thead#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#7;n#tr#2;n#thead#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#8;n#tr#2;n#thead#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#9;n#tr#2;n#thead#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#10;n#tr#2;n#thead#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#0;n#tr#0;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#1;n#tr#0;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#2;n#tr#0;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#0;n#tr#1;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#1;n#tr#1;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#2;n#tr#1;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -440,40 +552,69 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/backend/app/Http/Controllers/shiftController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
+        <state relative-caret-position="1037">
           <caret line="67" column="37" selection-start-line="67" selection-start-column="37" selection-end-line="67" selection-end-column="37" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/backend/app/Http/Controllers/AttendanceController.php">
+    <entry file="file://$PROJECT_DIR$/frontend/dist/angular-tour/index.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/app/constants.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="67" column="40" selection-start-line="67" selection-start-column="40" selection-end-line="67" selection-end-column="40" />
+        <state relative-caret-position="204">
+          <caret line="12" selection-start-line="12" selection-end-line="12" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/backend/resources/views/Excel/attendenceTestRumi.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1224">
-          <caret line="138" selection-start-line="138" selection-end-line="138" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/app/Http/Controllers/TestController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="85" column="72" selection-start-line="85" selection-start-column="61" selection-end-line="85" selection-end-column="72" />
+        <state relative-caret-position="340">
+          <caret line="47" column="8" lean-forward="true" selection-start-line="47" selection-start-column="8" selection-end-line="49" selection-end-column="88" />
+          <folding>
+            <element signature="n#style#0;n#th#7;n#tr#2;n#thead#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#8;n#tr#2;n#thead#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#9;n#tr#2;n#thead#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#0;n#tr#0;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#1;n#tr#0;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#2;n#tr#0;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#0;n#tr#1;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#1;n#tr#1;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/backend/resources/views/Excel/attendenceTestRumiAnother.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="169">
-          <caret line="205" column="59" selection-start-line="205" selection-start-column="59" selection-end-line="205" selection-end-column="59" />
+        <state relative-caret-position="359">
+          <caret line="436" column="33" selection-start-line="436" selection-start-column="33" selection-end-line="436" selection-end-column="33" />
           <folding>
-            <element signature="n#style#0;n#td#4;n#tr#1;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#td#11;n#tr#1;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#6;n#tr#2;n#thead#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#7;n#tr#2;n#thead#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#8;n#tr#2;n#thead#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#9;n#tr#2;n#thead#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#10;n#tr#2;n#thead#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#0;n#tr#0;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#1;n#tr#0;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#2;n#tr#0;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#0;n#tr#1;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#1;n#tr#1;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#2;n#tr#1;n#tbody#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/app/Http/Controllers/TestController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-239">
+          <caret line="38" selection-start-line="38" selection-end-line="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/app/Http/Controllers/AttendanceController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="376">
+          <caret line="37" column="42" selection-start-line="37" selection-start-column="42" selection-end-line="37" selection-end-column="42" />
         </state>
       </provider>
     </entry>

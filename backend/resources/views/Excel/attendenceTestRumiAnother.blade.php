@@ -26,7 +26,7 @@
         <th style="text-align: center;vertical-align: middle;" width="25" >Date</th>
 
         @foreach($dates as $date)
-            <th class="Border" colspan="5" style="text-align: center;vertical-align: middle;">{{$date['date']}}({{$date['day']}})</th>
+            <th class="Border" colspan="6" style="text-align: center;vertical-align: middle;">{{$date['date']}}({{$date['day']}})</th>
         @endforeach
 
     </tr>
@@ -44,7 +44,11 @@
             <th style="text-align: center;vertical-align: middle;"width="20">Total Hours Worked</th>
 
             <th style="text-align: center;vertical-align: middle;background-color:#757171"width="15">Attendence</th>
+            <th style="text-align: center;vertical-align: middle;"width="15">Round Hour</th>
         @endforeach
+        <th style="text-align: center;vertical-align: middle;"width="5"></th>
+        <th style="text-align: center;vertical-align: middle;"width="15">Hour Expected</th>
+        <th style="text-align: center;vertical-align: middle;"width="15">Total Hour</th>
 
 
     </tr>
@@ -63,6 +67,10 @@
 
 
         <td width="15" ></td>
+        <td width="15" ></td>
+        <td style="text-align: center;vertical-align: middle;"width="5"></td>
+        <td style="text-align: center;vertical-align: middle;"width="15"></td>
+        <td style="text-align: center;vertical-align: middle;"width="15"></td>
 
 
 
@@ -71,7 +79,9 @@
     </tr>
 
 
-
+    @php
+        $T_roundworkinghour=null;
+    @endphp
     @foreach($allEmp as $aE)
 
         <tr>
@@ -80,7 +90,7 @@
             <td class="cell" width="10">{{$aE->attDeviceUserId}}</td>
             <td class="cell" width="25">{{$aE->empFullname}}</td>
             @php
-                $FINALIN=null;$FINALOUT=null;
+                $FINALIN=null;$FINALOUT=null;$FINALWORKINGHOUR=null;$ROUNDFINALWORKINGHOUR=null;
             @endphp
             @foreach($dates as $date)
 
@@ -293,7 +303,12 @@
 
                         @if($FINALIN != null && $FINALOUT != null)
 
-                            {{$FINALOUT->diff($FINALIN)->format('%H:%i')}}
+                            @php
+                                $FINALWORKINGHOUR=$FINALOUT->diff($FINALIN);
+
+                            @endphp
+
+                            {{$FINALWORKINGHOUR->format('%H:%i')}}
 
                         @endif
 
@@ -302,6 +317,42 @@
                     <td class="cell"  width="15">
 
                         P
+
+
+                    </td>
+                    <td class="cell"  width="15">
+
+                        @if($FINALWORKINGHOUR != null)
+                            @php
+                                $ROUNDFINALWORKINGHOUR=\Carbon\Carbon::createFromTime($FINALWORKINGHOUR->format('%H'),$FINALWORKINGHOUR->format('%i'),0);
+                            @endphp
+
+                            @if($ROUNDFINALWORKINGHOUR->minute >=30)
+
+                                @php
+                                    $ROUNDFINALWORKINGHOUR->minute(0);
+                                    $ROUNDFINALWORKINGHOUR->addHour();
+                                    $T_roundworkinghour=($T_roundworkinghour+$ROUNDFINALWORKINGHOUR->hour);
+                                @endphp
+
+                             @else
+
+                                    @php
+                                        $ROUNDFINALWORKINGHOUR->minute(0);
+                                        $T_roundworkinghour=($T_roundworkinghour+$ROUNDFINALWORKINGHOUR->hour);
+
+                                    @endphp
+
+                             @endif
+
+                            {{$ROUNDFINALWORKINGHOUR->format('H:i')}}
+
+                          @endif
+
+
+
+
+
 
 
                     </td>
@@ -344,14 +395,35 @@
                             A
 
                     </td>
+                    <td class="cell" width="15">
+
+
+
+                    </td>
 
                 @endif
 
                     @php
-                        $FINALIN=null;$FINALOUT=null;
+                        $FINALIN=null;$FINALOUT=null;$FINALWORKINGHOUR=null;$ROUNDFINALWORKINGHOUR=null;
                     @endphp
 
             @endforeach
+
+            <td style="text-align: center;vertical-align: middle;"width="5"></td>
+            <td style="text-align: center;vertical-align: middle;"width="15">
+
+                {{(8*count($dates))}}
+
+            </td>
+            <td style="text-align: center;vertical-align: middle;"width="15">
+
+                @if($T_roundworkinghour !=null)
+                    {{$T_roundworkinghour}}
+
+                @endif
+
+
+            </td>
 
 
 
@@ -360,6 +432,10 @@
 
 
     @endforeach
+
+    @php
+        $T_roundworkinghour=null;
+    @endphp
 
 
 

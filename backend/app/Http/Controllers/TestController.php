@@ -37,11 +37,6 @@ class TestController extends Controller
         ini_set('max_execution_time', 0);
         $start = microtime(true);
 
-
-
-
-
-
         $startDate=Carbon::parse($fromDate);
         $endDate=Carbon::parse($toDate);
 
@@ -57,27 +52,6 @@ class TestController extends Controller
 
         $fromDate = Carbon::parse($fromDate)->subDays(1);
         $toDate = Carbon::parse($toDate)->addDays(1);
-
-//
-//         $sfl=ShiftLog::select("*")
-//            ->where(function ($query) use($fromDate,$toDate){
-//                $query->whereDate('startDate', '>=',$fromDate )
-//                    ->orWhere('endDate', '<=', $toDate);
-//            })
-//             ->get();
-//
-//
-//
-//
-//         $rt=DB::select( DB::raw("select ad.accessTime,em.attDeviceUserId,em.employeeId,sl.inTime,sl.outTime,date_format(ad.accessTime,'%Y-%m-%d') attendanceDate
-//
-//            from attendancedata ad left join attemployeemap em on ad.attDeviceUserId = em.attDeviceUserId
-//            left join shiftlog sl on em.employeeId = sl.fkemployeeId and date_format(ad.accessTime,'%Y-%m-%d') between date_format(sl.startDate,'%Y-%m-%d') and ifnull(date_format(sl.endDate,'%Y-%m-%d'),curdate())
-//            where date_format(ad.accessTime,'%Y-%m-%d') between '".$fromDate."' and '".$toDate."'"));
-//
-//         $rt=collect($rt);
-
-
 
 
              $results = DB::select( DB::raw("select em.employeeId,ad.id,sl.inTime,sl.outTime,sl.multipleShift
