@@ -429,13 +429,15 @@
 
         </tr>
 
+        @php
+            $T_roundworkinghour=null;
+        @endphp
+
 
 
     @endforeach
 
-    @php
-        $T_roundworkinghour=null;
-    @endphp
+
 
 
 

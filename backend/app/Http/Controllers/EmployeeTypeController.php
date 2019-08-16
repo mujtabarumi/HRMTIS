@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Designation;
+use App\EmployeeType;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class DesignationController extends Controller
+class EmployeeTypeController extends Controller
 {
     public function get(){
-        $designation=Designation::get();
-        return $designation;
+        $empType=EmployeeType::get();
+
+        return $empType;
     }
 }

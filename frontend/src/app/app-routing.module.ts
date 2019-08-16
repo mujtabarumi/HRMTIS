@@ -14,6 +14,7 @@ import {ShiftComponent} from "./components/configuration/shift/shift.component";
 import {ShiftAssignComponent} from "./components/configuration/shift-assign/shift-assign.component";
 import {EditAssignedShiftComponent} from "./components/configuration/edit-assigned-shift/edit-assigned-shift.component";
 import {AttendanceComponent} from "./components/report/attendance/attendance.component";
+import {AddEmployeeComponent} from "./components/user/add-employee/add-employee.component";
 
 
 
@@ -33,11 +34,13 @@ const routes: Routes = [
     { path: 'login', component: LoginComponent, canActivate: [GuestService] },
     { path: 'home', component: HomeComponent,canActivate: [AuthService] },
     { path: 'employee', component: EmployeeComponent,canActivate: [AuthService] },
+    { path: 'employee/edit/:id', component: AddEmployeeComponent,canActivate: [AuthService] },
     { path: 'configuration/department/add', component: AddDepartmentComponent,canActivate: [AuthService]  },
     { path: 'configuration/shift', component: ShiftComponent,canActivate: [AuthService] },
     { path: 'configuration/shift/assign', component: ShiftAssignComponent,canActivate: [AuthService] },
     { path: 'configuration/shift/edit-assign', component: EditAssignedShiftComponent,canActivate: [AuthService] },
     { path: 'report/attendance', component: AttendanceComponent,canActivate: [AuthService]  },
+
 
 
 

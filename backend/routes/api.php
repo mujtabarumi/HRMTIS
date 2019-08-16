@@ -48,10 +48,22 @@ Route::group([
     Route::post('employee/get','EmployeeController@getAllEmployee');
     Route::get('employee/getAll','EmployeeController@getAllEmployeeInfo');
 
+    //Employee basicinfo
+    Route::post('employee/basicinfo','EmployeeController@getBasicinfo');
+    //EmployeeType Info
+    Route::get('employee_type/get','EmployeeTypeController@get');
+    //employee Join Info
+    Route::post('joinInfo/get','EmployeeController@getJoinInfo');
+
+    Route::post('joinInfo/post','EmployeeController@updateJoinInfo');
+
 
     //department Info
     Route::get('department/get','DepartmentController@get');
     Route::post('department/post','DepartmentController@postDepartment');
+
+    //Designation Info
+    Route::get('designation/get','DesignationController@get');
 
     //Company Info
     Route::get('company/get','CompanyController@get');

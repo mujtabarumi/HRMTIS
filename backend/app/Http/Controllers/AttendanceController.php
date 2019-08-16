@@ -41,8 +41,6 @@ class AttendanceController extends Controller
         $fromDate=$r->startDate;
         $toDate= $r->endDate;
 
-//            $fromDate=$start;
-//            $toDate=$end;
 
         ini_set('max_execution_time', 0);
 

@@ -20,6 +20,9 @@ import { ShiftComponent } from './components/configuration/shift/shift.component
 import { ShiftAssignComponent } from './components/configuration/shift-assign/shift-assign.component';
 import { EditAssignedShiftComponent } from './components/configuration/edit-assigned-shift/edit-assigned-shift.component';
 import { AttendanceComponent } from './components/report/attendance/attendance.component';
+import { AddEmployeeComponent } from './components/user/add-employee/add-employee.component';
+import { BasicInfoComponent } from './components/user/basic-info/basic-info.component';
+import { JoiningInfoComponent } from './components/user/joining-info/joining-info.component';
 
 
 
@@ -39,6 +42,9 @@ import { AttendanceComponent } from './components/report/attendance/attendance.c
     ShiftAssignComponent,
     EditAssignedShiftComponent,
     AttendanceComponent,
+    AddEmployeeComponent,
+    BasicInfoComponent,
+    JoiningInfoComponent,
 
 
 

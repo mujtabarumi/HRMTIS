@@ -55,7 +55,7 @@ export class EmployeeComponent implements AfterViewInit, OnInit {
     this.renderer.listenGlobal('document', 'click', (event) => {
 
       if (event.target.hasAttribute("data-emp-id")) {
-       // this.router.navigate(["employee/edit/" + event.target.getAttribute("data-emp-id")]);
+        this.router.navigate(["employee/edit/" + event.target.getAttribute("data-emp-id")]);
       }
       // else if (event.target.hasAttribute("data-emp-id2")) {
       //
