@@ -88,6 +88,15 @@ class AttendanceController extends Controller
 
             $excel->sheet('test', function ($sheet) use ($results,$dates,$allEmp, $fromDate,$toDate,$startDate, $endDate) {
 
+                $sheet->freezePane('B4');
+                $sheet->setStyle(array(
+                    'font' => array(
+                        'name' => 'Calibri',
+                        'size' => 10,
+                        'bold' => false
+                    )
+                ));
+
                 $sheet->loadView('Excel.attendenceTestRumiAnother', compact('results','fromDate', 'toDate','dates','allEmp',
                     'startDate','endDate'));
             });

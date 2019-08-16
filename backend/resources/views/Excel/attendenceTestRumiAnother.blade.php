@@ -80,7 +80,7 @@
 
 
     @php
-        $T_roundworkinghour=null;
+        $T_roundworkinghour=null;$T_weekendcount=0;
     @endphp
     @foreach($allEmp as $aE)
 
@@ -90,7 +90,7 @@
             <td class="cell" width="10">{{$aE->attDeviceUserId}}</td>
             <td class="cell" width="25">{{$aE->empFullname}}</td>
             @php
-                $FINALIN=null;$FINALOUT=null;$FINALWORKINGHOUR=null;$ROUNDFINALWORKINGHOUR=null;
+                $FINALIN=null;$FINALOUT=null;$FINALWORKINGHOUR=null;$ROUNDFINALWORKINGHOUR=null;$weekendCount=0;
             @endphp
             @foreach($dates as $date)
 
@@ -390,11 +390,24 @@
 
 
                     </td>
-                    <td class="cell" style="color: #ff0505" width="15">
+                    @php
+                        $allWeekend=explode(',',strtolower($aE->weekend));
+                    @endphp
+                    @if(in_array(strtolower($date['day']), $allWeekend))
+                        <td class="cell" style="color: #ffffff;background-color: #f7aec2" width="15">
+
+                            @php
+                                $weekendCount++;$T_weekendcount=($T_weekendcount+$weekendCount);
+                            @endphp
+
+                            WeekEnd
+                        </td>
+                    @else
+                        <td class="cell" style="color: #ffffff;background-color: #ff0000" width="15">
 
                             A
-
-                    </td>
+                        </td>
+                    @endif
                     <td class="cell" width="15">
 
 
@@ -404,7 +417,7 @@
                 @endif
 
                     @php
-                        $FINALIN=null;$FINALOUT=null;$FINALWORKINGHOUR=null;$ROUNDFINALWORKINGHOUR=null;
+                        $FINALIN=null;$FINALOUT=null;$FINALWORKINGHOUR=null;$ROUNDFINALWORKINGHOUR=null;$weekendCount=0;
                     @endphp
 
             @endforeach
@@ -412,7 +425,7 @@
             <td style="text-align: center;vertical-align: middle;"width="5"></td>
             <td style="text-align: center;vertical-align: middle;"width="15">
 
-                {{(8*count($dates))}}
+                {{(8*(count($dates)-$T_weekendcount))}}
 
             </td>
             <td style="text-align: center;vertical-align: middle;"width="15">
@@ -430,7 +443,7 @@
         </tr>
 
         @php
-            $T_roundworkinghour=null;
+            $T_roundworkinghour=null;$T_weekendcount=0;
         @endphp
 
 

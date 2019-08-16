@@ -83,14 +83,14 @@ class TestController extends Controller
 //        $check=Excel::create($fileName,function($excel)use ($results,$dates,$allEmp,$fromDate,$toDate, $startDate, $endDate) {
 //
 //                $excel->sheet('test', function ($sheet) use ($results,$dates,$allEmp, $fromDate,$toDate,$startDate, $endDate) {
-////                    $sheet->freezePane('B4');
-////                    $sheet->setStyle(array(
-////                        'font' => array(
-////                            'name' => 'Calibri',
-////                            'size' => 10,
-////                            'bold' => false
-////                        )
-////                    ));
+//                    $sheet->freezePane('B4');
+//                    $sheet->setStyle(array(
+//                        'font' => array(
+//                            'name' => 'Calibri',
+//                            'size' => 10,
+//                            'bold' => false
+//                        )
+//                    ));
 //                    $sheet->loadView('Excel.attendenceTestRumi', compact('results','fromDate', 'toDate','dates','allEmp',
 //                       'startDate','endDate'));
 //                });

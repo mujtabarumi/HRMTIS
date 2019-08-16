@@ -23,6 +23,9 @@ import { AttendanceComponent } from './components/report/attendance/attendance.c
 import { AddEmployeeComponent } from './components/user/add-employee/add-employee.component';
 import { BasicInfoComponent } from './components/user/basic-info/basic-info.component';
 import { JoiningInfoComponent } from './components/user/joining-info/joining-info.component';
+import { AddLeaveComponent } from './components/leave/add-leave/add-leave.component';
+import { LeaveSummeryComponent } from './components/leave/leave-summery/leave-summery.component';
+import { LeaveComponent } from './components/configuration/leave/leave.component';
 
 
 
@@ -45,6 +48,9 @@ import { JoiningInfoComponent } from './components/user/joining-info/joining-inf
     AddEmployeeComponent,
     BasicInfoComponent,
     JoiningInfoComponent,
+    AddLeaveComponent,
+    LeaveSummeryComponent,
+    LeaveComponent,
 
 
 

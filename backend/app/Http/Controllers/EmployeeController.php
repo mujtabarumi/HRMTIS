@@ -105,7 +105,8 @@ class EmployeeController extends Controller
     }
 
     public function getAllEmployee(Request $r){
-        $employee = Employee::select('employeeinfo.firstName','employeeinfo.lastName','employeeinfo.middleName','employeeinfo.EmployeeId','designations.title','departments.departmentName','employeeinfo.id as empid')
+        $employee = Employee::select('employeeinfo.firstName','employeeinfo.lastName','employeeinfo.middleName','employeeinfo.EmployeeId','designations.title','departments.departmentName','employeeinfo.id as empid'
+        ,'employeeinfo.weekend')
             ->leftjoin('designations','designations.id','=','employeeinfo.fkDesignation')
             ->leftjoin('departments','departments.id','=','employeeinfo.fkDepartmentId')
             ->where('resignDate', null);
