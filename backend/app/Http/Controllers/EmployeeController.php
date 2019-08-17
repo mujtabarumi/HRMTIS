@@ -116,9 +116,11 @@ class EmployeeController extends Controller
         return $datatables->make(true);
     }
     public function getAllEmployeeInfo(){
-        return $employee = Employee::select('employeeinfo.firstName','employeeinfo.lastName','employeeinfo.middleName','employeeinfo.EmployeeId','designations.title','departments.departmentName','employeeinfo.id as empid')
+        return $employee = Employee::select('employeeinfo.firstName','employeeinfo.lastName','employeeinfo.middleName','employeeinfo.EmployeeId','designations.title','departments.departmentName',
+            'employeeinfo.id as empid','attemployeemap.attDeviceUserId')
             ->leftjoin('designations','designations.id','=','employeeinfo.fkDesignation')
             ->leftjoin('departments','departments.id','=','employeeinfo.fkDepartmentId')
+            ->leftjoin('attemployeemap','attemployeemap.employeeId','=','employeeinfo.id')
             ->where('resignDate', null)
             ->get();
 

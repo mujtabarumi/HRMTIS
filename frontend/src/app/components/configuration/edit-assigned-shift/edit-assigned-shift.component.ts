@@ -6,6 +6,7 @@ import {Subject} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
 import {DataTableDirective} from "angular-datatables";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+
 declare var $ :any;
 
 @Component({
@@ -20,6 +21,7 @@ export class EditAssignedShiftComponent implements OnInit {
   dropdownSettings2 = {};
   selectedItems = [];
   selectedItems2 = [];
+  selectedItems3=[];
   newSelectedItems2 = [];
   empId:number;
   startDate:string;
@@ -56,7 +58,7 @@ export class EditAssignedShiftComponent implements OnInit {
       closeDropDownOnSelection:true,
     };
     this.dropdownSettings2 = {
-      singleSelection: false,
+      singleSelection: true,
       idField: 'shiftId',
       textField: 'shiftName',
       // selectAllText: 'Select All',
@@ -102,7 +104,7 @@ export class EditAssignedShiftComponent implements OnInit {
   }
   onItemSelect2(value){
 
-    console.log(value.shiftId);
+   // console.log(value.shiftId);
     this.shiftObj.inTime="";
     this.shiftObj.outTime="";
     //this.selectedItems2=value;
@@ -235,24 +237,244 @@ export class EditAssignedShiftComponent implements OnInit {
 
   edit(shiftlogid,date,empId,content){
 
-    let i=0;
-    for(i;i<this.assignedLog.length;i++){
-      if(this.assignedLog[i].shiftLogId==shiftlogid){
+    if (shiftlogid != null){
 
-        this.shiftObj.shiftLogId=shiftlogid;
-        this.shiftObj.shiftId=this.assignedLog[i].shiftId;
-        this.shiftObj.empId=this.selectedItems[0]['empid'];
-        this.shiftObj.date=date;
-        this.shiftObj.inTime=this.assignedLog[i].inTime;
-        this.shiftObj.outTime=this.assignedLog[i].outTime;
-        this.shiftObj.deviceUserId=this.assignedLog[i].attDeviceUserId;
-        break;
+      $.alert({
+        title: 'Roster Found',
+        content: 'Please delete the existing roster first',
+      });
+
+    }else {
+
+      let i = 0;
+      for (i; i < this.assignedLog.length; i++) {
+        if (this.assignedLog[i].shiftLogId == shiftlogid) {
+
+          this.shiftObj.shiftLogId = shiftlogid;
+          this.shiftObj.shiftId = this.assignedLog[i].shiftId;
+          this.shiftObj.empId = this.selectedItems[0]['empid'];
+          this.shiftObj.date = date;
+          this.shiftObj.inTime = this.assignedLog[i].inTime;
+          this.shiftObj.outTime = this.assignedLog[i].outTime;
+          this.shiftObj.deviceUserId = this.assignedLog[i].attDeviceUserId;
+          break;
+        }
       }
-    }
-    console.log(this.assignedLog);
-    console.log(shiftlogid);
-    this.modalRef =  this.modalService.open(content, { size: 'lg'});
+      console.log(this.assignedLog);
+      console.log(shiftlogid);
+      this.modalRef = this.modalService.open(content, {size: 'lg'});
 
+    }
+
+  }
+  AdjustmentShiftLog(shiftlogid,date,empId,adjustment){
+
+
+    if (shiftlogid == null){
+      $.alert({
+        title: "Alert",
+        content: 'There is no shit for this user on this day',
+      });
+    }else{
+
+      let i = 0;
+      for (i; i < this.assignedLog.length; i++) {
+        if (this.assignedLog[i].shiftLogId == shiftlogid) {
+
+          this.shiftObj.shiftLogId = shiftlogid;
+          this.shiftObj.shiftId = this.assignedLog[i].shiftId;
+          this.selectedItems2=this.assignedLog[i].shiftId;
+
+          this.shiftObj.empId = this.selectedItems[0]['empid'];
+          this.shiftObj.date = date;
+          this.shiftObj.inTime = this.assignedLog[i].inTime;
+          this.shiftObj.outTime = this.assignedLog[i].outTime;
+          this.shiftObj.deviceUserId = this.assignedLog[i].attDeviceUserId;
+          break;
+        }
+      }
+
+
+      console.log(this.shiftObj.shiftId);
+      this.modalRef = this.modalService.open(adjustment, {size: 'lg'});
+
+
+    }
+
+
+
+
+  }
+  onItemSelect3(value){
+
+    var index = this.selectedItems3.indexOf(value.shiftId);
+
+    if (index > -1) {
+      this.selectedItems3.splice(index, 1);
+
+    }else {
+      this.selectedItems3=[];
+      this.selectedItems3.push(value.shiftId);
+    }
+    console.log(this.selectedItems3);
+
+
+    // if (this.selectedItems3 == value.shiftId) {
+    //   this.selectedItems3=[];
+    //
+    // }else {
+    //   this.selectedItems3=value.shiftId;
+    // }
+
+    const token=this.token.get();
+
+    this.http.get(Constants.API_URL+'shift/getInfo/'+value.shiftId+'?token='+token).subscribe(data => {
+        // console.log(data);
+      this.shiftObj.inTime=data['inTime'];
+      this.shiftObj.outTime=data['outTime'];
+
+
+
+      },
+      error => {
+        console.log(error);
+      }
+    );
+
+
+  }
+
+  submitAdjustment(){
+
+    if(!this.checkForm()){
+      return false;
+    }
+    if (this.shiftObj.adjustmentDate ==""){
+
+      let form={
+        empId:this.selectedItems[0]['empid'],
+        date:this.shiftObj.date,
+        shiftLogId:this.shiftObj.shiftLogId,
+        shiftId:this.selectedItems3,
+        adjustmentDate:"",
+        outTime:this.shiftObj.outTime,
+        inTime:this.shiftObj.inTime,
+
+      };
+    }else {
+      let form={
+        empId:this.selectedItems[0]['empid'],
+        date:this.shiftObj.date,
+        shiftLogId:this.shiftObj.shiftLogId,
+        shiftId:this.selectedItems3,
+        adjustmentDate:new Date(this.shiftObj.adjustmentDate).toLocaleDateString(),
+        outTime:this.shiftObj.outTime,
+        inTime:this.shiftObj.inTime,
+
+      };
+
+    }
+
+   // console.log(form);
+
+    const token=this.token.get();
+
+    this.http.post(Constants.API_URL+'shift/adjustmentAdd'+'?token='+token,form).subscribe(data => {
+        // console.log(data);
+
+        $.alert({
+          title: 'Success!',
+          type: 'Green',
+          content: 'Adjustment updated',
+          buttons: {
+            tryAgain: {
+              text: 'Ok',
+              btnClass: 'btn-red',
+              action: function () {
+
+              }
+            }
+          }
+        });
+        this.findAttendence();
+        this.modalRef.close();
+      },
+      error => {
+        console.log(error);
+      }
+    );
+
+  }
+
+  checkForm(){
+    let message="";
+    let condition=true;
+
+    if(this.selectedItems3.length == 0){
+
+      if (this.shiftObj.inTime == "" ){
+
+        condition=false;
+        message="Please insert inTime";
+
+      }
+      if (this.shiftObj.outTime == "" ){
+
+        condition=false;
+        message="Please insert outTime";
+
+      }
+
+    }
+    // if (this.shiftObj.adjustmentDate==""){
+    //     condition=false;
+    //     message="Please insert adjustment date";
+    // }
+
+    if (condition==false){
+      $.alert({
+        title: 'Alert!',
+        type: 'Red',
+        content: message,
+        buttons: {
+          tryAgain: {
+            text: 'Ok',
+            btnClass: 'btn-red',
+            action: function () {
+            }
+          }
+        }
+      });
+      return false;
+
+    }
+
+    return true;
+
+  }
+  confirmDelete(shiftlogid,date,empId){
+
+
+    let that = this;
+    let t=shiftlogid;
+    let d=date;
+    let e=empId;
+
+
+      $.confirm({
+        title: 'Confirm!',
+        content: 'Are you sure to delete this roster!',
+        buttons: {
+          confirm: function () {
+
+            that.delete(t,d,e);
+
+          },
+          cancel: function () {
+
+          }
+        }
+      });
   }
   delete(shiftlogid,date,empId){
 
@@ -283,6 +505,7 @@ export class EditAssignedShiftComponent implements OnInit {
 
 
       };
+
       const token=this.token.get();
 
       this.http.post(Constants.API_URL+'shift/assigned-shift-delete'+'?token='+token,form).subscribe(data => {

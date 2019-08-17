@@ -81,12 +81,15 @@ Route::group([
     Route::post('shift/assigned-shift-update','shiftController@updateShiftAssignedLog');
     Route::post('shift/assigned-shift-delete','shiftController@deleteShiftAssignedLog');
 
+    Route::get('shift/getInfo/{id}','shiftController@getShiftInfo');
+    Route::post('shift/adjustmentAdd','shiftController@addjustmentShiftLog');
+
     //Attendance
     Route::post('report/attendanceHR','AttendanceController@getAttendenceDataForHR');
 
     //Leave Apply
     Route::get('leave/getLeaveCategory','LeaveController@getLeaveCategory');
-    Route::post('leave/assignLeave','LeaveController@assignLeave');
+    Route::post('leave/assignLeave','LeaveController@dateRanges/AssignedShift');
     Route::post('leave/assignLeavePersonal','LeaveController@assignLeavePersonal');
 
 

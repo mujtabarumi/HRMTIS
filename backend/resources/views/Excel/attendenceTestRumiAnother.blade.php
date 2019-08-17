@@ -26,7 +26,7 @@
         <th style="text-align: center;vertical-align: middle;" width="25" >Date</th>
 
         @foreach($dates as $date)
-            <th class="Border" colspan="6" style="text-align: center;vertical-align: middle;">{{$date['date']}}({{$date['day']}})</th>
+            <th class="Border" colspan="7" style="text-align: center;vertical-align: middle;">{{$date['date']}}({{$date['day']}})</th>
         @endforeach
 
     </tr>
@@ -45,10 +45,14 @@
 
             <th style="text-align: center;vertical-align: middle;background-color:#757171"width="15">Attendence</th>
             <th style="text-align: center;vertical-align: middle;"width="15">Round Hour</th>
+            <th style="text-align: center;vertical-align: middle;"width="15">Adjustment</th>
         @endforeach
         <th style="text-align: center;vertical-align: middle;"width="5"></th>
         <th style="text-align: center;vertical-align: middle;"width="15">Hour Expected</th>
         <th style="text-align: center;vertical-align: middle;"width="15">Total Hour</th>
+        <th style="text-align: center;vertical-align: middle;"width="15">Total Leave</th>
+        <th style="text-align: center;vertical-align: middle;"width="15">Total Weekend</th>
+        <th style="text-align: center;vertical-align: middle;"width="15">Total Holiday</th>
 
 
     </tr>
@@ -68,7 +72,11 @@
 
         <td width="15" ></td>
         <td width="15" ></td>
+        <td width="15" ></td>
         <td style="text-align: center;vertical-align: middle;"width="5"></td>
+        <td style="text-align: center;vertical-align: middle;"width="15"></td>
+        <td style="text-align: center;vertical-align: middle;"width="15"></td>
+        <td style="text-align: center;vertical-align: middle;"width="15"></td>
         <td style="text-align: center;vertical-align: middle;"width="15"></td>
         <td style="text-align: center;vertical-align: middle;"width="15"></td>
 
@@ -80,7 +88,7 @@
 
 
     @php
-        $T_roundworkinghour=null;$T_weekendcount=0;
+        $T_roundworkinghour=null;$T_weekendcount=0;$T_adjustment=0;$finalholiDay=0;
     @endphp
     @foreach($allEmp as $aE)
 
@@ -90,7 +98,8 @@
             <td class="cell" width="10">{{$aE->attDeviceUserId}}</td>
             <td class="cell" width="25">{{$aE->empFullname}}</td>
             @php
-                $FINALIN=null;$FINALOUT=null;$FINALWORKINGHOUR=null;$ROUNDFINALWORKINGHOUR=null;$weekendCount=0;
+                $FINALIN=null;$FINALOUT=null;$FINALWORKINGHOUR=null;$ROUNDFINALWORKINGHOUR=null;$weekendCount=0;$adjustment=0;$holiDay=0;
+
             @endphp
             @foreach($dates as $date)
 
@@ -357,6 +366,19 @@
 
                     </td>
 
+                    <td class="cell" width="15">
+
+                            @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->adjustmentDate != null)
+                                @php
+
+                                    $adjustment++;
+                                    $T_adjustment=($adjustment+$T_adjustment);
+                                @endphp
+                                {{$results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->adjustmentDate}}
+                            @endif
+
+                    </td>
+
                 @else
 
                     <td class="cell" width="10">
@@ -390,24 +412,46 @@
 
 
                     </td>
-                    @php
-                        $allWeekend=explode(',',strtolower($aE->weekend));
-                    @endphp
-                    @if(in_array(strtolower($date['day']), $allWeekend))
-                        <td class="cell" style="color: #ffffff;background-color: #f7aec2" width="15">
+                    @if($allLeave->where('fkEmployeeId',$aE->id)->where('startDate','<=',$date['date'])->where('endDate','>=',$date['date'])->first())
+                        <td class="cell"style="color: #ffffff;background-color: #0070C0" width="15">
+                            {{$allLeave->where('fkEmployeeId',$aE->id)->where('startDate','<=',$date['date'])->where('endDate','>=',$date['date'])->first()->categoryName}}
+                        </td>
+                    @elseif($allHoliday->where('startDate','<=',$date['date'])->where('endDate','>=',$date['date'])->first())
+
+                        @php
+                            $holiDay++;$finalholiDay=($holiDay+$finalholiDay);
+                        @endphp
+
+                        <td class="cell"style="color: #ffffff;background-color: #00ff00" width="15">
+                            Holiday:{{$allHoliday->where('startDate','<=',$date['date'])->where('endDate','>=',$date['date'])->first()->purpose}}
+                        </td>
+
+                    @else
 
                             @php
-                                $weekendCount++;$T_weekendcount=($T_weekendcount+$weekendCount);
+                                $allWeekend=explode(',',strtolower($aE->weekend));
                             @endphp
+                            @if(in_array(strtolower($date['day']), $allWeekend))
+                                <td class="cell" style="color: #ffffff;background-color: #f7aec2" width="15">
 
-                            WeekEnd
-                        </td>
-                    @else
-                        <td class="cell" style="color: #ffffff;background-color: #ff0000" width="15">
+                                    @php
+                                        $weekendCount++;$T_weekendcount=($T_weekendcount+$weekendCount);
+                                    @endphp
 
-                            A
-                        </td>
+                                    WeekEnd
+                                </td>
+                            @else
+                                <td class="cell" style="color: #ffffff;background-color: #ff0000" width="15">
+
+                                    A
+                                </td>
+                            @endif
                     @endif
+                    <td class="cell" width="15">
+
+
+
+                    </td>
                     <td class="cell" width="15">
 
 
@@ -416,25 +460,45 @@
 
                 @endif
 
+
+
                     @php
-                        $FINALIN=null;$FINALOUT=null;$FINALWORKINGHOUR=null;$ROUNDFINALWORKINGHOUR=null;$weekendCount=0;
+                        $FINALIN=null;$FINALOUT=null;$FINALWORKINGHOUR=null;$ROUNDFINALWORKINGHOUR=null;$weekendCount=0;$adjustment=0;$holiDay=0;
+
                     @endphp
+
 
             @endforeach
 
             <td style="text-align: center;vertical-align: middle;"width="5"></td>
             <td style="text-align: center;vertical-align: middle;"width="15">
 
-                {{(8*(count($dates)-$T_weekendcount))}}
+
+
+                {{ ( 8*(count($dates)-( $T_weekendcount + $allLeave->where('fkEmployeeId',$aE->id)->sum('noOfDays') + $finalholiDay)))}}
 
             </td>
             <td style="text-align: center;vertical-align: middle;"width="15">
 
-                @if($T_roundworkinghour !=null)
-                    {{$T_roundworkinghour}}
-
+                @if( $T_roundworkinghour != null)
+                    {{ $T_roundworkinghour }}
                 @endif
 
+
+            </td>
+            <td style="text-align: center;vertical-align: middle;"width="15">
+
+                {{$allLeave->where('fkEmployeeId',$aE->id)->sum('noOfDays')}}
+
+            </td>
+            <td style="text-align: center;vertical-align: middle;"width="15">
+
+                {{$T_weekendcount}}
+
+            </td>
+            <td style="text-align: center;vertical-align: middle;"width="15">
+
+                {{$finalholiDay}}
 
             </td>
 
@@ -443,7 +507,7 @@
         </tr>
 
         @php
-            $T_roundworkinghour=null;$T_weekendcount=0;
+            $T_roundworkinghour=null;$T_weekendcount=0;$T_adjustment=0;$finalholiDay=0;
         @endphp
 
 

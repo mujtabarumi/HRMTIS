@@ -34,8 +34,8 @@
 
       </div>
       <div class="form-group col-md-6">
-        <label>UserId</label>
-        <input type="text" readonly [(ngModel)]="shiftObj.deviceUserId" class="form-control">
+<!--        <label>UserId</label>-->
+        <input type="hidden"  [(ngModel)]="shiftObj.deviceUserId" class="form-control">
 
       </div>
       <div class="form-group col-md-6">
@@ -50,9 +50,9 @@
         <div class="checkbox">
           <label><input type="checkbox" (change)="toggleAdjustment($event)" [(ngModel)]="shiftObj.adjustment" >Adjustment</label>
         </div>
-        <div class="checkbox">
-          <label><input type="checkbox" (change)="toggleLeave($event)" [(ngModel)]="shiftObj.leave" >Leave</label>
-        </div>
+<!--        <div class="checkbox">-->
+<!--          <label><input type="checkbox" (change)="toggleLeave($event)" [(ngModel)]="shiftObj.leave" >Leave</label>-->
+<!--        </div>-->
 
       </div>
 
@@ -86,6 +86,78 @@
         <button class="btn btn-success pull-right" (click)="changeAssignShift()" >Submit</button>
       </div>
 
+
+    </div>
+
+  </div>
+</ng-template>
+
+<ng-template #adjustment let-c="close" let-d="dismiss" >
+  <div class="modal-header">
+    <h4 class="modal-title">Shift</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <div class="row">
+      <div class="form-group col-md-6">
+        <label>Shift</label>
+
+
+        <ng-multiselect-dropdown
+          [placeholder]="'Select Shift'"
+          [data]="shift"
+          [(ngModel)]="shiftObj.shiftId"
+          [settings]="dropdownSettings2"
+          (onSelect)="onItemSelect3($event)"
+          (onDeSelect)="onItemSelect3($event)"
+
+        >
+        </ng-multiselect-dropdown>
+
+      </div>
+      <div class="form-group col-md-6">
+        <label>UserId</label>
+        <input type="text" readonly [(ngModel)]="shiftObj.deviceUserId" class="form-control">
+
+      </div>
+      <div class="form-group col-md-6">
+        <label>In Time</label>
+        <input type="time" [(ngModel)]="shiftObj.inTime" class="form-control">
+      </div>
+      <div class="form-group col-md-6">
+        <label>Out Time</label>
+        <input type="time" [(ngModel)]="shiftObj.outTime" class="form-control">
+      </div>
+
+
+      <div   class="form-group col-md-6">
+        <label>Adjustment Date</label>
+        <input bsDatepicker
+               [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }" [(ngModel)]="shiftObj.adjustmentDate" name="adjustmentDate"  autocomplete="off" class="form-control">
+      </div>
+
+      <div style="display: none" class="form-group col-md-6">
+        <label>shift Log Id</label>
+        <input type="text" readonly [(ngModel)]="shiftObj.shiftLogId" class="form-control">
+      </div>
+
+      <div style="display: none" class="form-group col-md-6">
+        <label>EmpId</label>
+        <input type="text" readonly [(ngModel)]="shiftObj.empId" class="form-control">
+
+      </div>
+
+      <div class="form-group col-md-6">
+        <label>date</label>
+        <input type="text" readonly [(ngModel)]="shiftObj.date" class="form-control">
+      </div>
+      <div class="form-group col-md-12">
+
+        <button class="btn btn-success pull-right" (click)="submitAdjustment()" >Submit</button>
+      </div>
 
     </div>
 
@@ -150,6 +222,7 @@
                   <th>Date</th>
                   <th>Day</th>
                   <th>Shift Name</th>
+                  <th>Adjustment</th>
                   <th>Action</th>
                 </tr>
 
@@ -164,8 +237,12 @@
                     {{asgL['shiftName']}}
                   </td>
                   <td>
-                    <button class="btn btn-info" (click)="edit(asgL['shiftLogId'],asgL['date'],asgL['empId'],content)"> Edit</button> &nbsp;&nbsp;
-                    <button class="btn btn-info" (click)="delete(asgL['shiftLogId'],asgL['date'],asgL['empId'])"> Delete</button>
+                    {{asgL['adjustmentDate']}}
+                  </td>
+                  <td>
+                    <button class="btn btn-info" (click)="edit(asgL['shiftLogId'],asgL['date'],asgL['empId'],content)">Add</button> &nbsp;&nbsp;
+                    <button class="btn btn-info" (click)="confirmDelete(asgL['shiftLogId'],asgL['date'],asgL['empId'])"> Delete</button> &nbsp;
+                    <button class="btn btn-info" (click)="AdjustmentShiftLog(asgL['shiftLogId'],asgL['date'],asgL['empId'],adjustment)"> Adjustment</button>
                   </td>
 
                 </tr>

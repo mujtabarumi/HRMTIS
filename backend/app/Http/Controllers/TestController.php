@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\AttendanceData;
 use App\Employee;
+use App\Leave;
+use App\OrganizationCalander;
 use App\ShiftLog;
 use DateTime;
 use Illuminate\Http\Request;
@@ -50,11 +52,20 @@ class TestController extends Controller
             ->whereNull('resignDate')
             ->get();
 
+        $allLeave=Leave::leftJoin('leavecategories', 'leavecategories.id', '=', 'leaves.fkLeaveCategory')
+            ->where('applicationStatus',"Approved")
+            ->whereBetween('startDate',array($fromDate, $toDate))
+            ->get();
+
+        $allLeave=collect($allLeave);
+
+        $allHoliday=OrganizationCalander::whereMonth('startDate', '=', date('m',strtotime($fromDate)))->orWhereMonth('endDate', '=', date('m',strtotime($toDate)))->get();
+
         $fromDate = Carbon::parse($fromDate)->subDays(1);
         $toDate = Carbon::parse($toDate)->addDays(1);
 
 
-             $results = DB::select( DB::raw("select em.employeeId,ad.id,sl.inTime,sl.outTime,sl.multipleShift
+        $results = DB::select( DB::raw("select em.employeeId,ad.id,sl.inTime,sl.outTime,sl.multipleShift,sl.adjustmentDate
             , date_format(ad.accessTime,'%Y-%m-%d') attendanceDate
             , date_format(ad.accessTime,'%H:%i:%s') accessTime
             , date_format(ad.accessTime,'%Y-%m-%d %H:%i:%s') accessTime2
@@ -62,7 +73,7 @@ class TestController extends Controller
             and date_format(ad.accessTime,'%Y-%m-%d') between '" . $fromDate . "' and '" . $toDate . "'
             left join shiftlog sl on em.employeeId = sl.fkemployeeId and date_format(ad.accessTime,'%Y-%m-%d') between date_format(sl.startDate,'%Y-%m-%d') and ifnull(date_format(sl.endDate,'%Y-%m-%d'),curdate())
             where date_format(ad.accessTime,'%Y-%m-%d') between '".$fromDate."' and '".$toDate."'
-            "));
+            and em.employeeId is not null"));
 //
 //
          $results=collect($results);
@@ -97,11 +108,11 @@ class TestController extends Controller
 //
 //        })->store('xls',$filePath);
 
-        $check=Excel::create($fileName,function($excel)use ($results,$dates,$allEmp,$fromDate,$toDate, $startDate, $endDate) {
+        $check=Excel::create($fileName,function($excel)use ($allHoliday,$allLeave,$results,$dates,$allEmp,$fromDate,$toDate, $startDate, $endDate) {
 
-                $excel->sheet('test', function ($sheet) use ($results,$dates,$allEmp, $fromDate,$toDate,$startDate, $endDate) {
+                $excel->sheet('test', function ($sheet) use ($allHoliday,$allLeave,$results,$dates,$allEmp, $fromDate,$toDate,$startDate, $endDate) {
 
-                    $sheet->loadView('Excel.attendenceTestRumiAnother', compact('results','fromDate', 'toDate','dates','allEmp',
+                    $sheet->loadView('Excel.attendenceTestRumiAnother', compact('allHoliday','allLeave','results','fromDate', 'toDate','dates','allEmp',
                        'startDate','endDate'));
                 });
 

@@ -107,7 +107,7 @@ export class LeaveComponent implements OnInit {
       columns: [
         {
           "data": function (data: any, type: any, full: any) {
-            return '<input type="checkbox" class="chk form-control" (click)="select(this.value)" name="selected_rows[]" value="'+ data.empid +'">';
+            return '<input type="checkbox" class="chk form-control" name="selected_rows[]" value="'+ data.empid +'">';
           },
           "orderable": false, "searchable":false, "name":"selected_rows"
         },
@@ -155,11 +155,7 @@ export class LeaveComponent implements OnInit {
 
 
   }
-  select(){
 
-
-
-  }
 
   selectCategory(value){
     this.fkLeaveCategory=value;
@@ -186,6 +182,8 @@ export class LeaveComponent implements OnInit {
     $(".chk:checked").each(function () {
       that.allEmp.push($(this).val());
     });
+
+   // console.log(this.allEmp);
 
     const token=this.token.get();
 
@@ -220,6 +218,12 @@ export class LeaveComponent implements OnInit {
   checkForm(){
     let message="";
     let condition=true;
+    this.allEmp=[];
+    let that=this;
+    $(".chk:checked").each(function () {
+      that.allEmp.push($(this).val());
+    });
+
     if(this.startDate==''){
       condition=false;
       message="Please Insert Start Date";

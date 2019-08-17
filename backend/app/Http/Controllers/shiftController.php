@@ -35,16 +35,7 @@ class shiftController extends Controller
     }
     function getDatesFromRangeAssignedShift(Request $r, $format = 'Y-m-d') {
 
-//        return $shiftName = ShiftLog::select('shiftlog.*',DB::raw("GROUP_CONCAT(shift.shiftName) AS shiftName"))
-//            ->leftJoin('shift',"shift.shiftId",'shiftlog.fkshiftId')
-//            ->where('shiftlog.fkemployeeId','=',$r->empId)
-//            ->whereDate('shiftlog.startDate', '=', '2019-08-02')
-//            ->where(function ($query) use ($format){
-//                $query->where('shiftlog.endDate', '=', '2019-08-02');
-////                    ->orWhere('endDate', '=', 1);
-//            })
-//            ->orderBy('shiftlog.shiftlogId','ASC')
-//            ->get();
+
 
 
         $array = array();
@@ -79,7 +70,9 @@ class shiftController extends Controller
                 'empId'=>$shiftName['fkemployeeId'],
                 'attDeviceUserId'=>$shiftName['attDeviceUserId'],
                 'inTime'=>$shiftName['inTime'],
-                'outTime'=>$shiftName['outTime']
+                'outTime'=>$shiftName['outTime'],
+                'shiftId'=>$shiftName['fkshiftId'],
+                'adjustmentDate'=>$shiftName['adjustmentDate']
             );
             array_push($array,$newArray);
 //            $array['date'] = $date->format($format);
@@ -208,10 +201,6 @@ class shiftController extends Controller
 
 
 
-
-
-
-
         }else{
 
             $shiftLog=new ShiftLog();
@@ -257,5 +246,35 @@ class shiftController extends Controller
         $shiftLog=ShiftLog::where('fkemployeeId',$r->empId)->whereDate('startDate',$r->date)->whereDate('endDate',$r->date)->delete();
 
         return Response()->json("Success");
+    }
+    public function getShiftInfo($shiftId)
+    {
+       return $shift=Shift::findOrFail($shiftId);
+    }
+
+    public function addjustmentShiftLog(Request $r){
+
+        $shiftLog=ShiftLog::findOrFail($r->shiftLogId);
+        if($r->adjustmentDate==""){
+            $shiftLog->adjustmentDate=null;
+        }else{
+
+            $shiftLog->adjustmentDate=Carbon::parse($r->adjustmentDate);
+        }
+        if (count($r->shiftId)==0){
+            $shiftLog->fkshiftId=null;
+
+        }else{
+            $shiftLog->fkshiftId=$r->shiftId[0];
+        }
+
+        $shiftLog->inTime=$r->inTime;
+        $shiftLog->outTime=$r->outTime;
+
+        $shiftLog->save();
+
+        return Response()->json("Success");
+
+
     }
 }
