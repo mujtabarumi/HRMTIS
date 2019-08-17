@@ -361,6 +361,33 @@ export class EditAssignedShiftComponent implements OnInit {
         inTime:this.shiftObj.inTime,
 
       };
+      const token=this.token.get();
+
+      this.http.post(Constants.API_URL+'shift/adjustmentAdd'+'?token='+token,form).subscribe(data => {
+          // console.log(data);
+
+          $.alert({
+            title: 'Success!',
+            type: 'Green',
+            content: 'Adjustment updated',
+            buttons: {
+              tryAgain: {
+                text: 'Ok',
+                btnClass: 'btn-red',
+                action: function () {
+
+                }
+              }
+            }
+          });
+          this.findAttendence();
+          this.modalRef.close();
+        },
+        error => {
+          console.log(error);
+        }
+      );
+
     }else {
       let form={
         empId:this.selectedItems[0]['empid'],
@@ -373,36 +400,38 @@ export class EditAssignedShiftComponent implements OnInit {
 
       };
 
+      const token=this.token.get();
+
+      this.http.post(Constants.API_URL+'shift/adjustmentAdd'+'?token='+token,form).subscribe(data => {
+          // console.log(data);
+
+          $.alert({
+            title: 'Success!',
+            type: 'Green',
+            content: 'Adjustment updated',
+            buttons: {
+              tryAgain: {
+                text: 'Ok',
+                btnClass: 'btn-red',
+                action: function () {
+
+                }
+              }
+            }
+          });
+          this.findAttendence();
+          this.modalRef.close();
+        },
+        error => {
+          console.log(error);
+        }
+      );
+
     }
 
    // console.log(form);
 
-    const token=this.token.get();
 
-    this.http.post(Constants.API_URL+'shift/adjustmentAdd'+'?token='+token,form).subscribe(data => {
-        // console.log(data);
-
-        $.alert({
-          title: 'Success!',
-          type: 'Green',
-          content: 'Adjustment updated',
-          buttons: {
-            tryAgain: {
-              text: 'Ok',
-              btnClass: 'btn-red',
-              action: function () {
-
-              }
-            }
-          }
-        });
-        this.findAttendence();
-        this.modalRef.close();
-      },
-      error => {
-        console.log(error);
-      }
-    );
 
   }
 

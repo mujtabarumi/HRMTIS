@@ -53,6 +53,7 @@
         <th style="text-align: center;vertical-align: middle;"width="15">Total Leave</th>
         <th style="text-align: center;vertical-align: middle;"width="15">Total Weekend</th>
         <th style="text-align: center;vertical-align: middle;"width="15">Total Holiday</th>
+        <th style="text-align: center;vertical-align: middle;"width="15">Total Addjustment</th>
 
 
     </tr>
@@ -74,6 +75,7 @@
         <td width="15" ></td>
         <td width="15" ></td>
         <td style="text-align: center;vertical-align: middle;"width="5"></td>
+        <td style="text-align: center;vertical-align: middle;"width="15"></td>
         <td style="text-align: center;vertical-align: middle;"width="15"></td>
         <td style="text-align: center;vertical-align: middle;"width="15"></td>
         <td style="text-align: center;vertical-align: middle;"width="15"></td>
@@ -499,6 +501,11 @@
             <td style="text-align: center;vertical-align: middle;"width="15">
 
                 {{$finalholiDay}}
+
+            </td>
+            <td style="text-align: center;vertical-align: middle;"width="15">
+
+                {{$T_adjustment}}
 
             </td>
 

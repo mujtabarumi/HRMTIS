@@ -3,25 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="79f3b666-98ca-415d-99bb-8f59ccc47ed0" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Constants/constants.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Constants/constants.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/AttendanceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/AttendanceController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/EmployeeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/EmployeeController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/TestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/TestController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/shiftController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/shiftController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-08-16_12-34-34.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-08-16_12-36-42.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-08-16_14-03-53.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-08-16_17-10-07.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/resources/views/Excel/attendence.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/resources/views/Excel/attendenceNewTest.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/resources/views/Excel/attendenceTestRumi.blade.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/resources/views/Excel/attendenceTestRumiAnother.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/resources/views/Excel/attendenceTestRumiAnother.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/resources/views/Excel/salarySheet.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/configuration/edit-assigned-shift/edit-assigned-shift.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/configuration/edit-assigned-shift/edit-assigned-shift.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/app/components/configuration/edit-assigned-shift/edit-assigned-shift.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/configuration/edit-assigned-shift/edit-assigned-shift.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/configuration/leave/leave.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/configuration/leave/leave.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/navbar/navbar.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/navbar/navbar.component.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -198,7 +182,7 @@
       <workItem from="1565878227063" duration="11209000" />
       <workItem from="1565892397529" duration="4989000" />
       <workItem from="1565937123209" duration="18124000" />
-      <workItem from="1566023682530" duration="19989000" />
+      <workItem from="1566023682530" duration="22901000" />
     </task>
     <servers />
   </component>

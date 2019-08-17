@@ -96,11 +96,20 @@ class AttendanceController extends Controller
             'filePath'=>$fileName,
         );
 
-        $check=Excel::create($fileName,function($excel)use ($allLeave,$results,$dates,$allEmp,$fromDate,$toDate, $startDate, $endDate) {
+        $check=Excel::create($fileName,function($excel)use ($allHoliday,$allLeave,$results,$dates,$allEmp,$fromDate,$toDate, $startDate, $endDate) {
 
-            $excel->sheet('test', function ($sheet) use ($allLeave,$results,$dates,$allEmp, $fromDate,$toDate,$startDate, $endDate) {
+            $excel->sheet('test', function ($sheet) use ($allHoliday,$allLeave,$results,$dates,$allEmp, $fromDate,$toDate,$startDate, $endDate) {
 
-                $sheet->loadView('Excel.attendenceTestRumiAnother', compact('allLeave','results','fromDate', 'toDate','dates','allEmp',
+                $sheet->freezePane('C4');
+                $sheet->setStyle(array(
+                    'font' => array(
+                        'name' => 'Calibri',
+                        'size' => 10,
+                        'bold' => false
+                    )
+                ));
+
+                $sheet->loadView('Excel.attendenceTestRumiAnother', compact('allHoliday','allLeave','results','fromDate', 'toDate','dates','allEmp',
                     'startDate','endDate'));
             });
 
