@@ -89,7 +89,7 @@ Route::group([
 
     //Leave Apply
     Route::get('leave/getLeaveCategory','LeaveController@getLeaveCategory');
-    Route::post('leave/assignLeave','LeaveController@dateRanges/AssignedShift');
+    Route::post('leave/assignLeave','LeaveController@assignLeave');
     Route::post('leave/assignLeavePersonal','LeaveController@assignLeavePersonal');
 
 

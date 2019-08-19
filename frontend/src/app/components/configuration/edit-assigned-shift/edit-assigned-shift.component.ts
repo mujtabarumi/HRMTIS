@@ -106,7 +106,6 @@ export class EditAssignedShiftComponent implements OnInit {
 
     this.assignedLog=[];
 
-
   }
   onItemSelect2(value){
 
