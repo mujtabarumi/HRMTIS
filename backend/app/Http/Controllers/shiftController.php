@@ -185,7 +185,7 @@ class shiftController extends Controller
                $shiftLog->outTime=$shift->outTime;
 
                if ($r->adjustment=='true'){
-                   $shiftLog->adjustmentDate=$r->adjustmentDate;
+                   $shiftLog->adjustmentDate=Carbon::parse($r->adjustmentDate);
                }
 
                $shiftLog->fkshiftId=$r->shiftId[$i];
@@ -211,7 +211,7 @@ class shiftController extends Controller
             $shiftLog->inTime=$r->inTime;
             $shiftLog->outTime=$r->outTime;
             if ($r->adjustment=='true'){
-                $shiftLog->adjustmentDate=$r->adjustmentDate;
+                $shiftLog->adjustmentDate=Carbon::parse($r->adjustmentDate);
             }
 
 

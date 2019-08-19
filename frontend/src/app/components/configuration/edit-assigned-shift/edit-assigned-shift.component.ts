@@ -102,6 +102,12 @@ export class EditAssignedShiftComponent implements OnInit {
     // console.log(this.selectedItems);
 
   }
+  onItemDeSelect(value){
+
+    this.assignedLog=[];
+
+
+  }
   onItemSelect2(value){
 
    // console.log(value.shiftId);
@@ -114,8 +120,33 @@ export class EditAssignedShiftComponent implements OnInit {
       this.selectedItems2.splice(index, 1);
 
     }else {
+      this.selectedItems2=[];
       this.selectedItems2.push(value.shiftId);
     }
+
+    if (this.selectedItems2.length >0){
+
+      const token=this.token.get();
+
+      this.http.get(Constants.API_URL+'shift/getInfo/'+value.shiftId+'?token='+token).subscribe(data => {
+          // console.log(data);
+          this.shiftObj.inTime=data['inTime'];
+          this.shiftObj.outTime=data['outTime'];
+
+
+
+        },
+        error => {
+          console.log(error);
+        }
+      );
+
+    }else {
+      this.shiftObj.inTime="";
+      this.shiftObj.outTime="";
+    }
+
+
     console.log(this.selectedItems2);
 
   }
@@ -175,45 +206,98 @@ export class EditAssignedShiftComponent implements OnInit {
     if( this.shiftObj.empId ==null){
       alert("Empty");
     }
+
+    if(!this.checkForm2()){
+      return false;
+    }
+
+
     else {
 
       console.log(this.shiftObj);
 
-      let form={
-        empId:this.shiftObj.empId,
-        date:this.shiftObj.date,
-        shiftLogId:this.shiftObj.shiftLogId,
-        shiftId:this.selectedItems2,
-        inTime:this.shiftObj.inTime,
-        outTime:this.shiftObj.outTime,
-        adjustment:this.shiftObj.adjustment,
-        adjustmentDate:this.shiftObj.adjustmentDate,
-        leave:this.shiftObj.leave,
+      if (this.shiftObj.adjustmentDate =="" || this.shiftObj.adjustmentDate == null ) {
+
+        let form = {
+
+          empId: this.shiftObj.empId,
+          date: this.shiftObj.date,
+          shiftLogId: this.shiftObj.shiftLogId,
+          shiftId: this.selectedItems2,
+          inTime: this.shiftObj.inTime,
+          outTime: this.shiftObj.outTime,
+          adjustment: this.shiftObj.adjustment,
+          adjustmentDate: "",
+          leave: this.shiftObj.leave,
 
 
-      };
-     console.log(form);
-      const token=this.token.get();
+        };
 
-      this.http.post(Constants.API_URL+'shift/assigned-shift-update'+'?token='+token,form).subscribe(data => {
-          console.log(data);
+        console.log(form);
+        const token=this.token.get();
 
-          $.alert({
-            title: data,
-            content: 'Update Successfull',
-          });
-          this.findAttendence();
-          this.selectedItems2=[];
-          this.modalRef.close();
+        this.http.post(Constants.API_URL+'shift/assigned-shift-update'+'?token='+token,form).subscribe(data => {
+            console.log(data);
+
+            $.alert({
+              title: data,
+              content: 'Update Successfull',
+            });
+            this.findAttendence();
+            this.selectedItems2=[];
+            this.modalRef.close();
 
 
 
 
-        },
-        error => {
-          console.log(error);
-        }
-      );
+          },
+          error => {
+            console.log(error);
+          }
+        );
+
+      }else {
+
+        let form = {
+
+          empId: this.shiftObj.empId,
+          date: this.shiftObj.date,
+          shiftLogId: this.shiftObj.shiftLogId,
+          shiftId: this.selectedItems2,
+          inTime: this.shiftObj.inTime,
+          outTime: this.shiftObj.outTime,
+          adjustment: this.shiftObj.adjustment,
+          adjustmentDate: new Date(this.shiftObj.adjustmentDate).toLocaleDateString(),
+          leave: this.shiftObj.leave,
+
+
+        };
+
+        console.log(form);
+        const token=this.token.get();
+
+        this.http.post(Constants.API_URL+'shift/assigned-shift-update'+'?token='+token,form).subscribe(data => {
+            console.log(data);
+
+            $.alert({
+              title: data,
+              content: 'Update Successfull',
+            });
+            this.findAttendence();
+            this.selectedItems2=[];
+            this.modalRef.close();
+
+
+
+
+          },
+          error => {
+            console.log(error);
+          }
+        );
+
+      }
+
 
 
 
@@ -459,6 +543,57 @@ export class EditAssignedShiftComponent implements OnInit {
     //     condition=false;
     //     message="Please insert adjustment date";
     // }
+
+    if (condition==false){
+      $.alert({
+        title: 'Alert!',
+        type: 'Red',
+        content: message,
+        buttons: {
+          tryAgain: {
+            text: 'Ok',
+            btnClass: 'btn-red',
+            action: function () {
+            }
+          }
+        }
+      });
+      return false;
+
+    }
+
+    return true;
+
+  }
+  checkForm2(){
+    let message="";
+    let condition=true;
+
+    if(this.selectedItems2.length == 0){
+
+      if (this.shiftObj.inTime == "" || this.shiftObj.inTime ==null ){
+
+        condition=false;
+        message="Please insert inTime";
+
+      }
+      if (this.shiftObj.outTime == "" || this.shiftObj.outTime == null ){
+
+        condition=false;
+        message="Please insert outTime";
+
+      }
+
+    }
+    if(this.shiftObj.adjustment==true){
+
+      if (this.shiftObj.adjustmentDate=="" || this.shiftObj.adjustmentDate==null){
+        condition=false;
+        message="Please insert adjustment date";
+      }
+
+    }
+
 
     if (condition==false){
       $.alert({

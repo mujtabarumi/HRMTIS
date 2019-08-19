@@ -175,7 +175,13 @@
                             $previousday=\Carbon\Carbon::parse($date['date'])->subDays(1)->format('Y-m-d');
 
                             $out=$results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->outTime;
-                           /* $nextOut=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->outTime)->addHours(4)->format('H:i');*/
+                            if ((\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->outTime))->hour <= 21)
+                            { $nextOut=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->outTime)->addHours(3)->format('H:i');}
+                            elseif((\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->outTime))->hour >= 22 &&
+                            (\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->outTime))->hour < 23 )
+                            { $nextOut=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->outTime)->addHours(1)->addMinutes(59)->format('H:i');}
+                             else
+                           { $nextOut=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->outTime)->addMinutes(59)->format('H:i');}
                             $nextOut2=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->outTime)->subHours(3)->format('H:i');
                         @endphp
 
@@ -190,11 +196,12 @@
                         $results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->outTime )
 
                             @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])
-                            ->where('accessTime','>=',$nextOut2)->first())
+                            ->where('accessTime','>=',$nextOut2)->where('accessTime','<=',$nextOut)->first())
 
                                 @php
+
                                     $FINALOUT=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])
-                                    ->where('accessTime','>=',$nextOut2)->last()->accessTime2);
+                                    ->where('accessTime','>=',$nextOut2)->where('accessTime','<=',$nextOut)->last()->accessTime2);
                                 @endphp
 
                                 {{$FINALOUT->format('H:i')}}
@@ -204,13 +211,20 @@
 
                         @else
 
+                            @php
+                                $nextOut=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->outTime)->addHours(3)->format('H:i');
+
+                            @endphp
+
+
 
                             @if($results->where('employeeId',$aE->id)->where('attendanceDate',$nextday)
-                            ->where('accessTime','>=',$nextOut2)->first())
+                            ->where('accessTime','>=',$nextOut2)->where('accessTime','<=',$nextOut)->first())
 
                                 @php
-                                    $FINALOUT=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$nextday)
-                                    ->where('accessTime','>=',$nextOut2)->last()->accessTime2);
+
+                                       $FINALOUT=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$nextday)
+                                       ->where('accessTime','>=',$nextOut2)->where('accessTime','<=',$nextOut)->last()->accessTime2);
                                 @endphp
 
                                 {{$FINALOUT->format('H:i')}}
