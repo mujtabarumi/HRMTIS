@@ -2,7 +2,7 @@
 <ng-template #content let-c="close" let-d="dismiss" >
   <div class="modal-header">
     <h4 class="modal-title">Shift</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+    <button type="button" class="close" aria-label="Close" (click)="modalClose()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -95,7 +95,7 @@
 <ng-template #adjustment let-c="close" let-d="dismiss" >
   <div class="modal-header">
     <h4 class="modal-title">Shift</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+    <button type="button" class="close" aria-label="Close" (click)="modalClose()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -222,7 +222,7 @@
                 <tr>
                   <th>Date</th>
                   <th>Day</th>
-                  <th>Shift Name</th>
+                  <th>Time</th>
                   <th>Adjustment</th>
                   <th>Action</th>
                 </tr>
@@ -241,7 +241,9 @@
                     {{asgL['adjustmentDate']}}
                   </td>
                   <td>
-                    <button class="btn btn-info" (click)="edit(asgL['shiftLogId'],asgL['date'],asgL['empId'],content)">Add</button> &nbsp;&nbsp;
+
+                    <button *ngIf="!asgL['shiftLogId']" class="btn btn-info" (click)="edit(asgL['shiftLogId'],asgL['date'],asgL['empId'],content)">Add</button> &nbsp;&nbsp;
+                    <button *ngIf="asgL['shiftLogId']" class="btn btn-info" (click)="editShiftLog(asgL['shiftLogId'],asgL['date'],asgL['empId'],content)">Edit</button> &nbsp;&nbsp;
                     <button class="btn btn-info" (click)="confirmDelete(asgL['shiftLogId'],asgL['date'],asgL['empId'])"> Delete</button> &nbsp;
                     <button class="btn btn-info" (click)="AdjustmentShiftLog(asgL['shiftLogId'],asgL['date'],asgL['empId'],adjustment)"> Adjustment</button>
                   </td>

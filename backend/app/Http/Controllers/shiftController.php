@@ -50,7 +50,7 @@ class shiftController extends Controller
         foreach($period as $date) {
 
 
-            $shiftName = ShiftLog::select('shiftlog.*','attemployeemap.attDeviceUserId',DB::raw("CASE When shiftlog.fkshiftId is null then CONCAT(shiftlog.inTime,'-',shiftlog.outTime) else GROUP_CONCAT(shift.shiftName) end shiftName"))
+        /*    $shiftName = ShiftLog::select('shiftlog.*','attemployeemap.attDeviceUserId',DB::raw("CASE When shiftlog.fkshiftId is null then CONCAT(shiftlog.inTime,'-',shiftlog.outTime) else GROUP_CONCAT(shift.shiftName) end shiftName"))
                 ->leftJoin('shift',"shift.shiftId",'shiftlog.fkshiftId')
                 ->leftJoin('attemployeemap',"attemployeemap.employeeId",'shiftlog.fkemployeeId')
                 ->where('shiftlog.fkemployeeId','=',$r->empId)
@@ -61,6 +61,20 @@ class shiftController extends Controller
                 })
                 ->orderBy('shiftlog.shiftlogId','ASC')
                 ->first();
+        */
+
+            $shiftName = ShiftLog::select('shiftlog.*','attemployeemap.attDeviceUserId',DB::raw("CONCAT(shiftlog.inTime,'-',shiftlog.outTime) as shiftName"))
+                ->leftJoin('shift',"shift.shiftId",'shiftlog.fkshiftId')
+                ->leftJoin('attemployeemap',"attemployeemap.employeeId",'shiftlog.fkemployeeId')
+                ->where('shiftlog.fkemployeeId','=',$r->empId)
+                ->whereDate('shiftlog.startDate', '=', $date->format($format))
+                ->where(function ($query) use ($format,$date){
+                    $query->whereDate('shiftlog.endDate', '=', $date->format($format));
+//                    ->orWhere('endDate', '=', 1);
+                })
+                ->orderBy('shiftlog.shiftlogId','ASC')
+                ->first();
+
 
             $newArray=array(
                 'date'=>  $date->format($format),
@@ -168,6 +182,8 @@ class shiftController extends Controller
     }
     public function updateShiftAssignedLog(Request $r){
 
+        /* for multiple shift
+
         $shiftDelete=ShiftLog::where('fkemployeeId',$r->empId)->whereDate('startDate',$r->date)->whereDate('endDate',$r->date)->whereIn('fkshiftId',$r->shiftId)->delete();
 
         if (count($r->shiftId)>0){
@@ -221,19 +237,28 @@ class shiftController extends Controller
 
         }
 
+        */
 
 
-//        if ($r->shiftLogId !=""){
-//            $shiftLog=ShiftLog::findOrFail($r->shiftLogId);
-//        }else{
-//            $shiftLog=new ShiftLog();
-//        }
-//        $shiftLog->fkemployeeId=$r->empId;
-//        $shiftLog->startDate=$r->date;
-//        $shiftLog->endDate=$r->date;
-//        $shiftLog->fkshiftId=$r->shiftId;
-//
-//        $shiftLog->save();
+        /* single shift */
+
+        if ($r->shiftLogId !=null){
+            $shiftLog=ShiftLog::findOrFail($r->shiftLogId);
+        }else{
+            $shiftLog=new ShiftLog();
+        }
+
+        $shiftLog->fkemployeeId=$r->empId;
+        $shiftLog->startDate=$r->date;
+        $shiftLog->endDate=$r->date;
+        $shiftLog->inTime=$r->inTime;
+        $shiftLog->outTime=$r->outTime;
+
+        if ($r->adjustment=='true'){
+            $shiftLog->adjustmentDate=Carbon::parse($r->adjustmentDate);
+        }
+
+        $shiftLog->save();
 
 
         return Response()->json("Success");

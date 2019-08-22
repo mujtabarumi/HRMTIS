@@ -43,17 +43,12 @@
 
             <th style="text-align: center;vertical-align: middle;"width="20">Total Hours Worked</th>
 
-            <th style="text-align: center;vertical-align: middle;background-color:#757171"width="15">Attendence</th>
+
             <th style="text-align: center;vertical-align: middle;"width="15">Round Hour</th>
             <th style="text-align: center;vertical-align: middle;"width="15">Adjustment</th>
+            <th style="text-align: center;vertical-align: middle;background-color:#757171"width="15">Attendence</th>
         @endforeach
-        <th style="text-align: center;vertical-align: middle;"width="5"></th>
-        <th style="text-align: center;vertical-align: middle;"width="15">Hour Expected</th>
-        <th style="text-align: center;vertical-align: middle;"width="15">Total Hour</th>
-        <th style="text-align: center;vertical-align: middle;"width="15">Total Leave</th>
-        <th style="text-align: center;vertical-align: middle;"width="15">Total Weekend</th>
-        <th style="text-align: center;vertical-align: middle;"width="15">Total Holiday</th>
-        <th style="text-align: center;vertical-align: middle;"width="15">Total Addjustment</th>
+
 
 
     </tr>
@@ -74,13 +69,7 @@
         <td width="15" ></td>
         <td width="15" ></td>
         <td width="15" ></td>
-        <td style="text-align: center;vertical-align: middle;"width="5"></td>
-        <td style="text-align: center;vertical-align: middle;"width="15"></td>
-        <td style="text-align: center;vertical-align: middle;"width="15"></td>
-        <td style="text-align: center;vertical-align: middle;"width="15"></td>
-        <td style="text-align: center;vertical-align: middle;"width="15"></td>
-        <td style="text-align: center;vertical-align: middle;"width="15"></td>
-        <td style="text-align: center;vertical-align: middle;"width="15"></td>
+
 
 
 
@@ -92,7 +81,7 @@
     @php
         $T_roundworkinghour=null;$T_weekendcount=0;$T_adjustment=0;$finalholiDay=0;
     @endphp
-    @foreach($allEmp->where('fkDepartmentId',$ad->id) as $aE)
+    @foreach($allEmp as $aE)
 
         <tr>
 
@@ -110,10 +99,10 @@
 
 
                         @php
-                                $nextday=\Carbon\Carbon::parse($date['date'])->addDays(1)->format('Y-m-d');
-                                $previousday=\Carbon\Carbon::parse($date['date'])->subDays(1)->format('Y-m-d');
-                                $in=$results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime;
-                                $nextIn=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime)->subHours(3)->format('H:i');
+                            $nextday=\Carbon\Carbon::parse($date['date'])->addDays(1)->format('Y-m-d');
+                            $previousday=\Carbon\Carbon::parse($date['date'])->subDays(1)->format('Y-m-d');
+                            $in=$results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime;
+                            $nextIn=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime)->subHours(3)->format('H:i');
                         @endphp
 
                         @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime == null)
@@ -127,8 +116,8 @@
                             ->where('accessTime','>=',$nextIn)->first())
 
                                 @php
-                                $FINALIN=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])
-                                    ->where('accessTime','>=',$nextIn)->first()->accessTime2);
+                                    $FINALIN=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])
+                                        ->where('accessTime','>=',$nextIn)->first()->accessTime2);
                                 @endphp
 
                                 {{$FINALIN->format('H:i')}}
@@ -139,7 +128,7 @@
 
 
 
-                                @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->where('accessTime','>=',$nextIn)->first())
+                            @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->where('accessTime','>=',$nextIn)->first())
 
                                 @php
                                     $FINALIN=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])
@@ -160,7 +149,7 @@
 
 
 
-                                @endif
+                            @endif
 
                         @endif
 
@@ -255,8 +244,8 @@
 
                                 @php
 
-                                       $FINALOUT=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$nextday)
-                                       ->where('accessTime','>=',$nextOut2)->where('accessTime','<=',$nextOut)->last()->accessTime2);
+                                    $FINALOUT=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$nextday)
+                                    ->where('accessTime','>=',$nextOut2)->where('accessTime','<=',$nextOut)->last()->accessTime2);
                                 @endphp
 
                                 {{$FINALOUT->format('H:i')}}
@@ -290,17 +279,17 @@
                             ->where('accessTime','>=',$nextIn)->first())
 
                                 @php
-                                $access=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])
-                                    ->where('accessTime','>=',$nextIn)->first()->accessTime);
-                                $ins=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])
-                                        ->first()->inTime)
+                                    $access=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])
+                                        ->where('accessTime','>=',$nextIn)->first()->accessTime);
+                                    $ins=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])
+                                            ->first()->inTime)
                                 @endphp
 
-                            @if($access->diffInMinutes($ins) >= 21 )
+                                @if($access->diffInMinutes($ins) >= 21 )
 
-                                {{$access->diff($ins)->format('%H:%i')}}
+                                    {{$access->diff($ins)->format('%H:%i')}}
 
-                            @endif
+                                @endif
 
 
 
@@ -371,12 +360,7 @@
 
 
                     </td>
-                    <td class="cell"  width="15">
 
-                        P
-
-
-                    </td>
                     <td class="cell"  width="15">
 
                         @if($FINALWORKINGHOUR != null)
@@ -392,19 +376,19 @@
                                     $T_roundworkinghour=($T_roundworkinghour+$ROUNDFINALWORKINGHOUR->hour);
                                 @endphp
 
-                             @else
+                            @else
 
-                                    @php
-                                        $ROUNDFINALWORKINGHOUR->minute(0);
-                                        $T_roundworkinghour=($T_roundworkinghour+$ROUNDFINALWORKINGHOUR->hour);
+                                @php
+                                    $ROUNDFINALWORKINGHOUR->minute(0);
+                                    $T_roundworkinghour=($T_roundworkinghour+$ROUNDFINALWORKINGHOUR->hour);
 
-                                    @endphp
+                                @endphp
 
-                             @endif
+                            @endif
 
                             {{$ROUNDFINALWORKINGHOUR->format('H:i')}}
 
-                          @endif
+                        @endif
 
 
 
@@ -416,14 +400,20 @@
 
                     <td class="cell" width="15">
 
-                            @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->adjustmentDate != null)
-                                @php
+                        @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->adjustmentDate != null)
+                            @php
 
-                                    $adjustment++;
-                                    $T_adjustment=($adjustment+$T_adjustment);
-                                @endphp
-                                {{$results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->adjustmentDate}}
-                            @endif
+                                $adjustment++;
+                                $T_adjustment=($adjustment+$T_adjustment);
+                            @endphp
+                            {{$results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->adjustmentDate}}
+                        @endif
+
+                    </td>
+                    <td class="cell"  width="15">
+
+                        P
+
 
                     </td>
 
@@ -476,24 +466,24 @@
 
                     @else
 
-                            @php
-                                $allWeekend=explode(',',strtolower($aE->weekend));
-                            @endphp
-                            @if(in_array(strtolower($date['day']), $allWeekend))
-                                <td class="cell" style="color: #ffffff;background-color: #f7aec2" width="15">
+                        @php
+                            $allWeekend=explode(',',strtolower($aE->weekend));
+                        @endphp
+                        @if(in_array(strtolower($date['day']), $allWeekend))
+                            <td class="cell" style="color: #ffffff;background-color: #f7aec2" width="15">
 
-                                    @php
-                                        $weekendCount++;$T_weekendcount=($T_weekendcount+$weekendCount);
-                                    @endphp
+                                @php
+                                    $weekendCount++;$T_weekendcount=($T_weekendcount+$weekendCount);
+                                @endphp
 
-                                    WeekEnd
-                                </td>
-                            @else
-                                <td class="cell" style="color: #ffffff;background-color: #ff0000" width="15">
+                                WeekEnd
+                            </td>
+                        @else
+                            <td class="cell" style="color: #ffffff;background-color: #ff0000" width="15">
 
-                                    A
-                                </td>
-                            @endif
+                                A
+                            </td>
+                        @endif
                     @endif
                     <td class="cell" width="15">
 
@@ -510,10 +500,10 @@
 
 
 
-                    @php
-                        $FINALIN=null;$FINALOUT=null;$FINALWORKINGHOUR=null;$ROUNDFINALWORKINGHOUR=null;$weekendCount=0;$adjustment=0;$holiDay=0;$next=false;
+                @php
+                    $FINALIN=null;$FINALOUT=null;$FINALWORKINGHOUR=null;$ROUNDFINALWORKINGHOUR=null;$weekendCount=0;$adjustment=0;$holiDay=0;$next=false;
 
-                    @endphp
+                @endphp
 
 
             @endforeach

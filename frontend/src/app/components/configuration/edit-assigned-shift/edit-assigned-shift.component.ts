@@ -12,7 +12,8 @@ declare var $ :any;
 @Component({
   selector: 'app-edit-assigned-shift',
   templateUrl: './edit-assigned-shift.component.html',
-  styleUrls: ['./edit-assigned-shift.component.css']
+  styleUrls: ['./edit-assigned-shift.component.css'],
+
 })
 export class EditAssignedShiftComponent implements OnInit {
   employee:any;
@@ -44,7 +45,9 @@ export class EditAssignedShiftComponent implements OnInit {
   LeaveCheckBox=false;
   modalRef:any;
   constructor(private modalService: NgbModal,private renderer: Renderer,public http: HttpClient, private token:TokenService , public route:ActivatedRoute, private router: Router)
-  { }
+  {
+
+  }
 
   ngOnInit() {
     this.dropdownSettings = {
@@ -213,7 +216,7 @@ export class EditAssignedShiftComponent implements OnInit {
 
     else {
 
-      console.log(this.shiftObj);
+     // console.log(this.shiftObj);
 
       if (this.shiftObj.adjustmentDate =="" || this.shiftObj.adjustmentDate == null ) {
 
@@ -345,9 +348,31 @@ export class EditAssignedShiftComponent implements OnInit {
       }
       console.log(this.assignedLog);
       console.log(shiftlogid);
-      this.modalRef = this.modalService.open(content, {size: 'lg'});
+      this.modalRef = this.modalService.open(content, {size: 'lg',backdrop:'static'});
 
     }
+
+  }
+  editShiftLog(shiftlogid,date,empId,content){
+
+
+      let i = 0;
+      for (i; i < this.assignedLog.length; i++) {
+        if (this.assignedLog[i].shiftLogId == shiftlogid) {
+
+          this.shiftObj.shiftLogId = shiftlogid;
+          this.shiftObj.shiftId = this.assignedLog[i].shiftId;
+          this.shiftObj.empId = this.selectedItems[0]['empid'];
+          this.shiftObj.date = date;
+          this.shiftObj.inTime = this.assignedLog[i].inTime;
+          this.shiftObj.outTime = this.assignedLog[i].outTime;
+          this.shiftObj.deviceUserId = this.assignedLog[i].attDeviceUserId;
+          break;
+        }
+      }
+      console.log(this.assignedLog);
+      console.log(shiftlogid);
+      this.modalRef = this.modalService.open(content, {size: 'lg',backdrop:'static'});
 
   }
   AdjustmentShiftLog(shiftlogid,date,empId,adjustment){
@@ -379,7 +404,7 @@ export class EditAssignedShiftComponent implements OnInit {
 
 
       console.log(this.shiftObj.shiftId);
-      this.modalRef = this.modalService.open(adjustment, {size: 'lg'});
+      this.modalRef = this.modalService.open(adjustment, {size: 'lg',backdrop:'static'})
 
 
     }
@@ -464,6 +489,7 @@ export class EditAssignedShiftComponent implements OnInit {
             }
           });
           this.findAttendence();
+          this.selectedItems2=[];
           this.modalRef.close();
         },
         error => {
@@ -503,6 +529,7 @@ export class EditAssignedShiftComponent implements OnInit {
             }
           });
           this.findAttendence();
+          this.selectedItems2=[];
           this.modalRef.close();
         },
         error => {
@@ -693,6 +720,13 @@ export class EditAssignedShiftComponent implements OnInit {
 
     }
 
+
+  }
+  private modalClose(){
+
+    this.shiftObj={};
+    this.selectedItems2=[];
+    this.modalRef.close();
 
   }
 

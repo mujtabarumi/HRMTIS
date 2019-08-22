@@ -246,6 +246,35 @@ export class AttendanceComponent implements OnInit {
     );
 
   }
+  generateINOUTExcel(){
+    this.spinner.show();
+    const token=this.token.get();
+
+    this.http.post(Constants.API_URL+'report/attendanceHRINOUT'+'?token='+token,{startDate:$('#startDate').val(),endDate:$('#endDate').val()}).subscribe(data => {
+
+        this.spinner.hide();
+        console.log(data);
+
+
+        let fileName=Constants.Image_URL+'exportedExcel/'+data;
+
+        let link = document.createElement("a");
+        link.download = data+".xls";
+        let uri = fileName+".xls";
+        link.href = uri;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+
+      },
+      error => {
+        console.log(error);
+        this.spinner.hide();
+      }
+    );
+
+  }
   total(){
 
   }

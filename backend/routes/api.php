@@ -86,6 +86,7 @@ Route::group([
 
     //Attendance
     Route::post('report/attendanceHR','AttendanceController@getAttendenceDataForHR');
+    Route::post('report/attendanceHRINOUT','AttendanceController@getAttendenceDataForHRINOUT');
 
     //Leave Apply
     Route::get('leave/getLeaveCategory','LeaveController@getLeaveCategory');
