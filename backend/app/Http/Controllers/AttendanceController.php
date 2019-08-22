@@ -52,7 +52,7 @@ class AttendanceController extends Controller
 
         $dates = $this->getDatesFromRange($startDate, $endDate);
 
-        $allEmp=Employee::select('employeeinfo.id','attemployeemap.attDeviceUserId','fkDepartmentId',
+        $allEmp=Employee::select('employeeinfo.id','attemployeemap.attDeviceUserId','employeeinfo.fkDepartmentId',
             DB::raw("CONCAT(COALESCE(firstName,''),' ',COALESCE(middleName,''),' ',COALESCE(lastName,'')) AS empFullname"),
             'actualJoinDate','weekend')
             ->leftJoin('attemployeemap','attemployeemap.employeeId','employeeinfo.id')
@@ -85,9 +85,6 @@ class AttendanceController extends Controller
 
           $results=collect($results);
 
-        $allDepartment=Department::select('id','departmentName')->get();
-
-
 
 
         $excelName="test";
@@ -99,11 +96,11 @@ class AttendanceController extends Controller
             'filePath'=>$fileName,
         );
 
-        $check=Excel::create($fileName,function($excel)use ($allDepartment,$allHoliday,$allLeave,$results,$dates,$allEmp,$fromDate,$toDate, $startDate, $endDate) {
+        $check=Excel::create($fileName,function($excel)use ($allHoliday,$allLeave,$results,$dates,$allEmp,$fromDate,$toDate, $startDate, $endDate) {
 
-            foreach ($allDepartment as $ad) {
 
-            $excel->sheet($ad->departmentName,function ($sheet) use ($allHoliday,$ad,$allLeave,$results,$dates,$allEmp, $fromDate,$toDate,$startDate, $endDate) {
+
+            $excel->sheet('first sheet',function ($sheet) use ($allHoliday,$allLeave,$results,$dates,$allEmp, $fromDate,$toDate,$startDate, $endDate) {
 
                 $sheet->freezePane('C4');
                 $sheet->setStyle(array(
@@ -114,11 +111,11 @@ class AttendanceController extends Controller
                     )
                 ));
 
-                $sheet->loadView('Excel.attendenceTestRumiAnother', compact('ad','allHoliday','allLeave','results','fromDate', 'toDate','dates','allEmp',
+                $sheet->loadView('Excel.attendenceTestRumiAnother', compact('allHoliday','allLeave','results','fromDate', 'toDate','dates','allEmp',
                     'startDate','endDate'));
             });
 
-            }
+
 
         })->store('xls',$filePath);
 

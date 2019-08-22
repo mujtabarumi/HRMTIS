@@ -50,10 +50,15 @@ export class EditAssignedShiftComponent implements OnInit {
   }
 
   ngOnInit() {
+
+
+    this.getAllEployee();
+    this.getShift();
+    this.dates=[];
     this.dropdownSettings = {
       singleSelection: true,
-      idField: 'empid',
-      textField: 'firstName',
+      idField:'empid',
+      textField:'firstName',
       // selectAllText: 'Select All',
       // unSelectAllText: 'UnSelect All',
       // itemsShowLimit: 3,
@@ -70,10 +75,6 @@ export class EditAssignedShiftComponent implements OnInit {
       allowSearchFilter: true,
       closeDropDownOnSelection:true,
     };
-
-    this.getAllEployee();
-    this.getShift();
-    this.dates=[];
   }
   toggleAdjustment(e){
   this.AdjustmentCheckBox = e.target.checked;
@@ -91,7 +92,7 @@ export class EditAssignedShiftComponent implements OnInit {
 
     this.http.get(Constants.API_URL+'employee/getAll'+'?token='+token).subscribe(data => {
         this.employee=data;
-        // console.log(data);
+         console.log(data);
       },
       error => {
         console.log(error);

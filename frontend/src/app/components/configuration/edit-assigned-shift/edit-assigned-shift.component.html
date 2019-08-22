@@ -245,7 +245,8 @@
                     <button *ngIf="!asgL['shiftLogId']" class="btn btn-info" (click)="edit(asgL['shiftLogId'],asgL['date'],asgL['empId'],content)">Add</button> &nbsp;&nbsp;
                     <button *ngIf="asgL['shiftLogId']" class="btn btn-info" (click)="editShiftLog(asgL['shiftLogId'],asgL['date'],asgL['empId'],content)">Edit</button> &nbsp;&nbsp;
                     <button class="btn btn-info" (click)="confirmDelete(asgL['shiftLogId'],asgL['date'],asgL['empId'])"> Delete</button> &nbsp;
-                    <button class="btn btn-info" (click)="AdjustmentShiftLog(asgL['shiftLogId'],asgL['date'],asgL['empId'],adjustment)"> Adjustment</button>
+                    <button class="btn btn-info" (click)="AdjustmentShiftLog(asgL['shiftLogId'],asgL['date'],asgL['empId'],adjustment)"> Adjustment</button>&nbsp;&nbsp;
+
                   </td>
 
                 </tr>

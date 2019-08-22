@@ -92,7 +92,7 @@
     @php
         $T_roundworkinghour=null;$T_weekendcount=0;$T_adjustment=0;$finalholiDay=0;
     @endphp
-    @foreach($allEmp->where('fkDepartmentId',$ad->id) as $aE)
+    @foreach($allEmp as $aE)
 
         <tr>
 
