@@ -84,6 +84,9 @@ Route::group([
     Route::get('shift/getInfo/{id}','shiftController@getShiftInfo');
     Route::post('shift/adjustmentAdd','shiftController@addjustmentShiftLog');
 
+    //weekend
+    Route::post('shiftLogWeekend/setWeekend','shiftController@setshiftLogweekend');
+
     //Attendance
     Route::post('report/attendanceHR','AttendanceController@getAttendenceDataForHR');
     Route::post('report/attendanceHRINOUT','AttendanceController@getAttendenceDataForHRINOUT');

@@ -86,7 +86,8 @@ class shiftController extends Controller
                 'inTime'=>$shiftName['inTime'],
                 'outTime'=>$shiftName['outTime'],
                 'shiftId'=>$shiftName['fkshiftId'],
-                'adjustmentDate'=>$shiftName['adjustmentDate']
+                'adjustmentDate'=>$shiftName['adjustmentDate'],
+                'weekend'=>$shiftName['weekend']
             );
             array_push($array,$newArray);
 //            $array['date'] = $date->format($format);
@@ -276,13 +277,51 @@ class shiftController extends Controller
     {
        return $shift=Shift::findOrFail($shiftId);
     }
+    public function setshiftLogweekend(Request $r){
+
+
+
+        if ($r->direction=='Add'){
+
+            if ($r->shiftLogId=="" || $r->shiftLogId==null){
+                $shiftLog=new ShiftLog();
+
+            }else {
+                $shiftLog = ShiftLog::findOrFail($r->shiftLogId);
+            }
+            $shiftLog->fkemployeeId=$r->empId;
+            $shiftLog->startDate=$r->date;
+            $shiftLog->endDate=$r->date;
+
+            $shiftLog->weekend=$r->date;
+            $shiftLog->save();
+
+        }elseif ($r->direction=='Remove'){
+
+            $shiftLog = ShiftLog::findOrFail($r->shiftLogId);
+
+            if ($shiftLog->inTime==null && $shiftLog->outTime==null){
+
+                $shiftLog->delete();
+
+            }else{
+                $shiftLog->weekend=null;
+                $shiftLog->save();
+            }
+
+        }
+
+
+    }
 
     public function addjustmentShiftLog(Request $r){
 
         $shiftLog=ShiftLog::findOrFail($r->shiftLogId);
+
         if($r->adjustmentDate==""){
             $shiftLog->adjustmentDate=null;
-        }else{
+        }
+        else{
 
             $shiftLog->adjustmentDate=Carbon::parse($r->adjustmentDate);
         }
@@ -302,4 +341,5 @@ class shiftController extends Controller
 
 
     }
+
 }

@@ -59,7 +59,7 @@ export class EditAssignedShiftComponent implements OnInit {
     this.dropdownSettings = {
       singleSelection: true,
       idField:'empid',
-      textField:'firstName',
+      textField:'attDeviceUserId',
       // selectAllText: 'Select All',
       // unSelectAllText: 'UnSelect All',
       // itemsShowLimit: 3,
@@ -101,9 +101,13 @@ export class EditAssignedShiftComponent implements OnInit {
     );
 
   }
-  weekend(date,empId){
+  weekend(shiftLogId,date,empId,text){
 
-  //  that=this;
+    let that=this;
+    let d=date;
+    let e=empId;
+    let l=shiftLogId;
+    let direction=text;
 
     $.confirm({
       title: 'Confirm!',
@@ -111,7 +115,7 @@ export class EditAssignedShiftComponent implements OnInit {
       buttons: {
         confirm: function () {
 
-          //that.setWeekend(d,e);
+          that.setWeekend(l,d,e,direction);
 
         },
         cancel: function () {
@@ -122,9 +126,33 @@ export class EditAssignedShiftComponent implements OnInit {
 
 
   }
-  // setWeekend(date,empId){
-  //
-  // }
+  setWeekend(shiftLogId,date,empId,direction){
+
+    let form={
+      empId:empId,
+      date:date,
+      shiftLogId:shiftLogId,
+      direction:direction,
+
+    };
+    const token=this.token.get();
+
+    this.http.post(Constants.API_URL+'shiftLogWeekend/setWeekend'+'?token='+token,form).subscribe(data1 => {
+
+        $.alert({
+          title: 'Success',
+          content: 'Update Successfull',
+        });
+        this.findAttendence();
+
+      },
+      error => {
+        console.log(error);
+      }
+    );
+
+
+  }
   onItemSelect(value){
 
     this.assignedLog=[];
@@ -160,7 +188,6 @@ export class EditAssignedShiftComponent implements OnInit {
           // console.log(data);
           this.shiftObj.inTime=data['inTime'];
           this.shiftObj.outTime=data['outTime'];
-
 
 
         },
@@ -273,6 +300,7 @@ export class EditAssignedShiftComponent implements OnInit {
             });
             this.findAttendence();
             this.selectedItems2=[];
+            this.shiftObj.adjustment=false;
             this.modalRef.close();
 
 
@@ -313,6 +341,7 @@ export class EditAssignedShiftComponent implements OnInit {
             });
             this.findAttendence();
             this.selectedItems2=[];
+            this.shiftObj.adjustment=false;
             this.modalRef.close();
 
 
@@ -483,7 +512,8 @@ export class EditAssignedShiftComponent implements OnInit {
     if(!this.checkForm()){
       return false;
     }
-    if (this.shiftObj.adjustmentDate ==""){
+   // console.log(this.shiftObj.adjustmentDate);
+    if (this.shiftObj.adjustmentDate =="" || this.shiftObj.adjustmentDate==null){
 
       let form={
         empId:this.selectedItems[0]['empid'],
@@ -516,6 +546,7 @@ export class EditAssignedShiftComponent implements OnInit {
           });
           this.findAttendence();
           this.selectedItems2=[];
+          this.shiftObj.adjustment=false;
           this.modalRef.close();
         },
         error => {
@@ -556,6 +587,7 @@ export class EditAssignedShiftComponent implements OnInit {
           });
           this.findAttendence();
           this.selectedItems2=[];
+          this.shiftObj.adjustment=false;
           this.modalRef.close();
         },
         error => {
@@ -752,6 +784,7 @@ export class EditAssignedShiftComponent implements OnInit {
 
     this.shiftObj={};
     this.selectedItems2=[];
+    this.shiftObj.adjustment=false;
     this.modalRef.close();
 
   }

@@ -224,6 +224,7 @@
                   <th>Day</th>
                   <th>Time</th>
                   <th>Adjustment</th>
+                  <th>Weekend</th>
                   <th>Action</th>
                 </tr>
 
@@ -240,13 +241,18 @@
                   <td>
                     {{asgL['adjustmentDate']}}
                   </td>
+                  <td >
+                    <p *ngIf="asgL['weekend']" style="color: red">{{asgL['weekend']}}</p>
+                  </td>
+
                   <td>
 
                     <button *ngIf="!asgL['shiftLogId']" class="btn btn-info" (click)="edit(asgL['shiftLogId'],asgL['date'],asgL['empId'],content)">Add</button> &nbsp;&nbsp;
                     <button *ngIf="asgL['shiftLogId']" class="btn btn-info" (click)="editShiftLog(asgL['shiftLogId'],asgL['date'],asgL['empId'],content)">Edit</button> &nbsp;&nbsp;
                     <button class="btn btn-info" (click)="confirmDelete(asgL['shiftLogId'],asgL['date'],asgL['empId'])"> Delete</button> &nbsp;
                     <button class="btn btn-info" (click)="AdjustmentShiftLog(asgL['shiftLogId'],asgL['date'],asgL['empId'],adjustment)"> Adjustment</button>&nbsp;&nbsp;
-                    <button class="btn btn-info"  (click)="weekend(asgL['date'],asgL['empId'])">Weekend</button>
+                    <button class="btn btn-info" *ngIf="!asgL['weekend']" (click)="weekend(asgL['shiftLogId'],asgL['date'],asgL['empId'],'Add')">Add Weekend</button>&nbsp;&nbsp;
+                    <button class="btn btn-info" *ngIf="asgL['weekend']" (click)="weekend(asgL['shiftLogId'],asgL['date'],asgL['empId'],'Remove')">remove Weekend</button>&nbsp;&nbsp;
 
                   </td>
 
