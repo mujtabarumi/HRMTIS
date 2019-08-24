@@ -223,6 +223,7 @@ export class EditAssignedShiftComponent implements OnInit {
     this.shiftObj.outTime="";
 
     }
+
   findAttendence(){
 
     if(this.startDate ==null || this.endDate ==null || this.selectedItems.length==0){
@@ -408,6 +409,14 @@ export class EditAssignedShiftComponent implements OnInit {
     }
 
   }
+  viewFutureRosterForm(){
+
+    this.shiftObj.empId = this.selectedItems[0]['empid'];
+
+    this.modalRef = this.modalService.open('futureLog', {size: 'lg',backdrop:'static'});
+
+  }
+
   editShiftLog(shiftlogid,date,empId,content){
 
 

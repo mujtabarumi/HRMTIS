@@ -92,6 +92,8 @@
   </div>
 </ng-template>
 
+
+
 <ng-template #adjustment let-c="close" let-d="dismiss" >
   <div class="modal-header">
     <h4 class="modal-title">Shift</h4>
@@ -164,6 +166,8 @@
   </div>
 </ng-template>
 
+
+
 <!--modal end-->
 
 <div class="container-fluid">
@@ -207,6 +211,9 @@
 
         <div class="form-group col-md-4">
           <button class="btn btn-success btn-sm" style="margin-top: 30px" (click)="findAttendence()">Find</button>
+        </div>
+        <div class="form-group col-md-4">
+          <button class="btn btn-success btn-sm" style="margin-top: 30px" (click)="viewFutureRosterForm()">Set future Roster</button>
         </div>
 
 
@@ -262,12 +269,6 @@
             </div>
           </div>
         </div>
-
-
-
-
-
-
 
 
     </div>

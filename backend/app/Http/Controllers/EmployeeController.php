@@ -122,6 +122,7 @@ class EmployeeController extends Controller
             ->leftjoin('departments','departments.id','=','employeeinfo.fkDepartmentId')
             ->leftjoin('attemployeemap','attemployeemap.employeeId','=','employeeinfo.id')
             ->where('resignDate', null)
+            ->whereNotNull('attemployeemap.attDeviceUserId')
             ->get();
 
     }

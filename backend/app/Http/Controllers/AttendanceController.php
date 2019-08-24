@@ -154,7 +154,7 @@ class AttendanceController extends Controller
         $toDate = Carbon::parse($toDate)->addDays(1);
 
 
-        $results = DB::select( DB::raw("select em.employeeId,ad.id,sl.inTime,sl.outTime,sl.multipleShift,sl.adjustmentDate
+        $results = DB::select( DB::raw("select em.employeeId,ad.id,sl.inTime,sl.outTime,sl.wsl.adjustmentDate
             , date_format(ad.accessTime,'%Y-%m-%d') attendanceDate
             , date_format(ad.accessTime,'%H:%i:%s') accessTime
             , date_format(ad.accessTime,'%Y-%m-%d %H:%i:%s') accessTime2
