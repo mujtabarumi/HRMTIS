@@ -34,6 +34,7 @@
 
         <th style="text-align: center;vertical-align: middle;"width="10">ID</th>
         <th style="text-align: center;vertical-align: middle;"width="25">Name</th>
+        <th style="text-align: center;vertical-align: middle;"width="25">Department</th>
         @foreach($dates as $date)
 
             <th style="text-align: center;vertical-align: middle;background-color: #92D050"width="10">In Time</th>
@@ -57,6 +58,7 @@
     <tr>
 
         <td width="10" ></td>
+        <td width="25" ></td>
         <td width="25" ></td>
         <td width="10" ></td>
         <td width="10" ></td>
@@ -88,6 +90,7 @@
 
             <td class="cell" width="10">{{$aE->attDeviceUserId}}</td>
             <td class="cell" width="25">{{$aE->empFullname}}</td>
+            <td class="cell" width="25">{{$aE->departmentName}}</td>
             @php
                 $FINALIN=null;$FINALOUT=null;$FINALWORKINGHOUR=null;$ROUNDFINALWORKINGHOUR=null;$weekendCount=0;$adjustment=0;$holiDay=0;$next=false;
 
@@ -106,6 +109,9 @@
                         @endphp
 
                         @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime == null)
+
+
+                            {{\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->accessTime2)->format('H:i')}}
 
 
                         @elseif($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime != null &&
@@ -181,6 +187,9 @@
 
 
                         @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime == null)
+
+                            {{\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])
+                                    ->last()->accessTime2)->format('H:i')}}
 
 
 
@@ -269,6 +278,9 @@
                         @endphp
 
                         @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime == null)
+
+
+
 
 
                         @elseif($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime != null &&
@@ -410,12 +422,22 @@
                         @endif
 
                     </td>
-                    <td class="cell"  width="15">
-
-                        P
 
 
-                    </td>
+                        @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime == null)
+                        <td class="cell" style="color: firebrick" width="15">
+                            roster not found
+                        </td>
+                        @else
+                        <td class="cell" style="color: firebrick" width="15">
+                            P
+                        </td>
+                        @endif
+
+
+
+
+
 
                 @else
 
@@ -450,41 +472,7 @@
 
 
                     </td>
-                    @if($allLeave->where('fkEmployeeId',$aE->id)->where('startDate','<=',$date['date'])->where('endDate','>=',$date['date'])->first())
-                        <td class="cell"style="color: #ffffff;background-color: #0070C0" width="15">
-                            {{$allLeave->where('fkEmployeeId',$aE->id)->where('startDate','<=',$date['date'])->where('endDate','>=',$date['date'])->first()->categoryName}}
-                        </td>
-                    @elseif($allHoliday->where('startDate','<=',$date['date'])->where('endDate','>=',$date['date'])->first())
 
-                        @php
-                            $holiDay++;$finalholiDay=($holiDay+$finalholiDay);
-                        @endphp
-
-                        <td class="cell"style="color: #ffffff;background-color: #00ff00" width="15">
-                            Holiday:{{$allHoliday->where('startDate','<=',$date['date'])->where('endDate','>=',$date['date'])->first()->purpose}}
-                        </td>
-
-                    @else
-
-                        @php
-                            $allWeekend=explode(',',strtolower($aE->weekend));
-                        @endphp
-                        @if(in_array(strtolower($date['day']), $allWeekend))
-                            <td class="cell" style="color: #ffffff;background-color: #f7aec2" width="15">
-
-                                @php
-                                    $weekendCount++;$T_weekendcount=($T_weekendcount+$weekendCount);
-                                @endphp
-
-                                WeekEnd
-                            </td>
-                        @else
-                            <td class="cell" style="color: #ffffff;background-color: #ff0000" width="15">
-
-                                A
-                            </td>
-                        @endif
-                    @endif
                     <td class="cell" width="15">
 
 
@@ -495,6 +483,15 @@
 
 
                     </td>
+
+
+
+                    <td class="cell" style="color: #ffa811;" width="15">
+
+                        A
+                    </td>
+
+
 
                 @endif
 
@@ -507,44 +504,6 @@
 
 
             @endforeach
-
-            <td style="text-align: center;vertical-align: middle;"width="5"></td>
-            <td style="text-align: center;vertical-align: middle;"width="15">
-
-
-
-                {{ ( 8*(count($dates)-( $T_weekendcount + $allLeave->where('fkEmployeeId',$aE->id)->sum('noOfDays') + $finalholiDay)))}}
-
-            </td>
-            <td style="text-align: center;vertical-align: middle;"width="15">
-
-                @if( $T_roundworkinghour != null)
-                    {{ $T_roundworkinghour }}
-                @endif
-
-
-            </td>
-            <td style="text-align: center;vertical-align: middle;"width="15">
-
-                {{$allLeave->where('fkEmployeeId',$aE->id)->sum('noOfDays')}}
-
-            </td>
-            <td style="text-align: center;vertical-align: middle;"width="15">
-
-                {{$T_weekendcount}}
-
-            </td>
-            <td style="text-align: center;vertical-align: middle;"width="15">
-
-                {{$finalholiDay}}
-
-            </td>
-            <td style="text-align: center;vertical-align: middle;"width="15">
-
-                {{$T_adjustment}}
-
-            </td>
-
 
 
         </tr>

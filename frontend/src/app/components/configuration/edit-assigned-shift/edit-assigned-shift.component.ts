@@ -7,6 +7,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {DataTableDirective} from "angular-datatables";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
+
 declare var $ :any;
 
 @Component({
@@ -100,6 +101,30 @@ export class EditAssignedShiftComponent implements OnInit {
     );
 
   }
+  weekend(date,empId){
+
+    that=this;
+
+    $.confirm({
+      title: 'Confirm!',
+      content: 'Are you sure?',
+      buttons: {
+        confirm: function () {
+
+          //that.setWeekend(d,e);
+
+        },
+        cancel: function () {
+
+        }
+      }
+    });
+
+
+  }
+  // setWeekend(date,empId){
+  //
+  // }
   onItemSelect(value){
 
     this.assignedLog=[];

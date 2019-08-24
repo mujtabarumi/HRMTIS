@@ -139,9 +139,12 @@ class AttendanceController extends Controller
 
         $dates = $this->getDatesFromRange($startDate, $endDate);
 
-        $allEmp=Employee::select('employeeinfo.id','attemployeemap.attDeviceUserId',
+        $allEmp=Employee::select('employeeinfo.id','attemployeemap.attDeviceUserId','departments.departmentName',
             DB::raw("CONCAT(COALESCE(firstName,''),' ',COALESCE(middleName,''),' ',COALESCE(lastName,'')) AS empFullname"))
             ->leftJoin('attemployeemap','attemployeemap.employeeId','employeeinfo.id')
+            ->leftJoin('departments','departments.id','employeeinfo.fkDepartmentId')
+            ->whereNotNull('employeeinfo.fkDepartmentId')
+            ->orderBy('departments.orderBy')
             ->whereNull('resignDate')
             ->get();
 
@@ -158,8 +161,9 @@ class AttendanceController extends Controller
             from attendancedata ad left join attemployeemap em on ad.attDeviceUserId = em.attDeviceUserId
             and date_format(ad.accessTime,'%Y-%m-%d') between '" . $fromDate . "' and '" . $toDate . "'
             left join shiftlog sl on em.employeeId = sl.fkemployeeId and date_format(ad.accessTime,'%Y-%m-%d') between date_format(sl.startDate,'%Y-%m-%d') and ifnull(date_format(sl.endDate,'%Y-%m-%d'),curdate())
+            left join employeeinfo emInfo on em.employeeId = emInfo.id and emInfo.fkDepartmentId is not null
             where date_format(ad.accessTime,'%Y-%m-%d') between '".$fromDate."' and '".$toDate."'
-            and em.employeeId is not null"));
+            and em.employeeId is not null and emInfo.fkDepartmentId is not null"));
 
           $results=collect($results);
 
