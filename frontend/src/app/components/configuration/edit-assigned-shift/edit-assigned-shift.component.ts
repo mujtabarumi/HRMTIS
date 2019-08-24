@@ -103,7 +103,7 @@ export class EditAssignedShiftComponent implements OnInit {
   }
   weekend(date,empId){
 
-    that=this;
+  //  that=this;
 
     $.confirm({
       title: 'Confirm!',
