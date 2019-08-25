@@ -33,12 +33,17 @@ export class AttendanceComponent implements OnInit {
   remark:string;
   fkLeaveCategory:string;
   leaveCategories:any;
+  dropdownSettings = {};
+  selectedItems = [];
+
 
   constructor(private renderer: Renderer,public http: HttpClient, private token:TokenService ,
               public route:ActivatedRoute, private router: Router,private spinner: NgxSpinnerService) { }
 
 
   ngOnInit() {
+
+    this.getAllEployee();
 
    // this.getData();
     // console.log(new Date.today().clearTime().moveToFirstDayOfMonth());
@@ -50,6 +55,45 @@ export class AttendanceComponent implements OnInit {
     // console.log(monthEndDay);
     // console.log(monthStartDay);
 
+    this.dropdownSettings = {
+      singleSelection: true,
+      idField:'empid',
+      textField:'attDeviceUserId',
+      // selectAllText: 'Select All',
+      // unSelectAllText: 'UnSelect All',
+      // itemsShowLimit: 3,
+      allowSearchFilter: true,
+      closeDropDownOnSelection:true,
+    };
+
+
+
+
+  }
+
+  getAllEployee(){
+
+    const token=this.token.get();
+
+
+    this.http.get(Constants.API_URL+'employee/getAll'+'?token='+token).subscribe(data => {
+        this.employee=data;
+        console.log(data);
+      },
+      error => {
+        console.log(error);
+      }
+    );
+
+  }
+
+  onItemSelect(value){
+
+
+    // console.log(this.selectedItems);
+
+  }
+  onItemDeSelect(value){
 
 
 
@@ -247,32 +291,69 @@ export class AttendanceComponent implements OnInit {
 
   }
   generateINOUTExcel(){
-    this.spinner.show();
-    const token=this.token.get();
 
-    this.http.post(Constants.API_URL+'report/attendanceHRINOUT'+'?token='+token,{startDate:$('#startDate').val(),endDate:$('#endDate').val()}).subscribe(data => {
+    console.log(this.selectedItems);
 
-        this.spinner.hide();
-        console.log(data);
+    if (this.selectedItems.length>0){
 
+      this.spinner.show();
+      const token=this.token.get();
 
-        let fileName=Constants.Image_URL+'exportedExcel/'+data;
+      this.http.post(Constants.API_URL+'report/attendanceHRINOUT'+'?token='+token,{startDate:$('#startDate').val(),endDate:$('#endDate').val(),empId:this.selectedItems[0]['empid']}).subscribe(data => {
 
-        let link = document.createElement("a");
-        link.download = data+".xls";
-        let uri = fileName+".xls";
-        link.href = uri;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+          this.spinner.hide();
+          console.log(data);
 
 
-      },
-      error => {
-        console.log(error);
-        this.spinner.hide();
-      }
-    );
+          // let fileName=Constants.Image_URL+'exportedExcel/'+data;
+          //
+          // let link = document.createElement("a");
+          // link.download = data+".xls";
+          // let uri = fileName+".xls";
+          // link.href = uri;
+          // document.body.appendChild(link);
+          // link.click();
+          // document.body.removeChild(link);
+
+
+        },
+        error => {
+          console.log(error);
+          this.spinner.hide();
+        }
+      );
+
+    }else {
+
+      this.spinner.show();
+      const token=this.token.get();
+
+      this.http.post(Constants.API_URL+'report/attendanceHRINOUT'+'?token='+token,{startDate:$('#startDate').val(),endDate:$('#endDate').val()}).subscribe(data => {
+
+          this.spinner.hide();
+          console.log(data);
+
+
+          let fileName=Constants.Image_URL+'exportedExcel/'+data;
+
+          let link = document.createElement("a");
+          link.download = data+".xls";
+          let uri = fileName+".xls";
+          link.href = uri;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+
+
+        },
+        error => {
+          console.log(error);
+          this.spinner.hide();
+        }
+      );
+
+    }
+
 
   }
   total(){

@@ -17,22 +17,44 @@
                  id="endDate"
           >
         </div>
+        <div class="form-group col-md-4">
+
+
+          <label>Employee</label>
+
+          <ng-multiselect-dropdown
+            [placeholder]="'Select Employee'"
+            [data]="employee"
+            [(ngModel)]="selectedItems"
+            [settings]="dropdownSettings"
+            (onSelect)="onItemSelect($event)"
+            (onDeSelect)="onItemDeSelect($event)"
+
+
+          >
+          </ng-multiselect-dropdown>
+
+
+        </div>
 
 
 
         <div class="form-group col-md-3">
-          <br>
+
 
 <!--          <button class="btn btn-success" (click)="search()">Search</button>-->
         </div>
 
 
         <div class="form-group col-md-3">
-          <br>
 
-          <button class="btn btn-info pull-right" (click)="generateDetailsExcel()" *ngxPermissionsOnly="['admin']">Generate Details Report</button>&nbsp;&nbsp;
+          <button class="btn btn-info pull-right" (click)="generateDetailsExcel()" *ngxPermissionsOnly="['admin']">Generate Details Report</button>
+
+        </div>
+        <div class="form-group col-md-3">
+
           <button class="btn btn-info pull-right" (click)="generateINOUTExcel()" *ngxPermissionsOnly="['admin']">Report (only in/out )</button>
-          &nbsp;
+
         </div>
 
       </div>
