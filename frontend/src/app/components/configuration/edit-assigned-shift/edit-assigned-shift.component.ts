@@ -42,6 +42,14 @@ export class EditAssignedShiftComponent implements OnInit {
     adjustmentDate:"",
     leave:"",
   };
+  futureShift:any={
+
+    empId:"",
+    startDate:"",
+    endDate:"",
+    futureStartDate:"",
+    futureEndDate:"",
+  };
   AdjustmentCheckBox=false;
   LeaveCheckBox=false;
   modalRef:any;
@@ -105,7 +113,7 @@ export class EditAssignedShiftComponent implements OnInit {
 
     let that=this;
     let d=date;
-    let e=empId;
+    let e=this.selectedItems[0]['empid'];
     let l=shiftLogId;
     let direction=text;
 
@@ -150,6 +158,28 @@ export class EditAssignedShiftComponent implements OnInit {
         console.log(error);
       }
     );
+
+
+  }
+  submitFuture(){
+    this.futureShift.empId=this.selectedItems[0]['empid'];
+
+
+
+    const token=this.token.get();
+
+    this.http.post(Constants.API_URL+'shift/AssignFutureShift'+'?token='+token,this.futureShift).subscribe(data1 => {
+
+      this.findAttendence();
+
+
+
+      },
+      error => {
+        console.log(error);
+      }
+    );
+
 
 
   }
@@ -409,11 +439,11 @@ export class EditAssignedShiftComponent implements OnInit {
     }
 
   }
-  viewFutureRosterForm(){
+  viewFutureRosterForm(future){
 
     this.shiftObj.empId = this.selectedItems[0]['empid'];
 
-    this.modalRef = this.modalService.open('futureLog', {size: 'lg',backdrop:'static'});
+    this.modalRef = this.modalService.open(future, {size: 'lg',backdrop:'static'});
 
   }
 

@@ -56,7 +56,7 @@ export class AttendanceComponent implements OnInit {
     // console.log(monthStartDay);
 
     this.dropdownSettings = {
-      singleSelection: true,
+      singleSelection: false,
       idField:'empid',
       textField:'attDeviceUserId',
       // selectAllText: 'Select All',
@@ -292,28 +292,35 @@ export class AttendanceComponent implements OnInit {
   }
   generateINOUTExcel(){
 
-    console.log(this.selectedItems);
+   // console.log(this.selectedItems);
+
 
     if (this.selectedItems.length>0){
+
+      let empList=[];
+      for (let $i=0;$i<this.selectedItems.length;$i++){
+        empList.push(this.selectedItems[$i]['empid']);
+      }
+     // console.log(empList);
 
       this.spinner.show();
       const token=this.token.get();
 
-      this.http.post(Constants.API_URL+'report/attendanceHRINOUT'+'?token='+token,{startDate:$('#startDate').val(),endDate:$('#endDate').val(),empId:this.selectedItems[0]['empid']}).subscribe(data => {
+      this.http.post(Constants.API_URL+'report/attendanceHRINOUT'+'?token='+token,{startDate:$('#startDate').val(),endDate:$('#endDate').val(),empId:empList}).subscribe(data => {
 
           this.spinner.hide();
           console.log(data);
 
 
-          // let fileName=Constants.Image_URL+'exportedExcel/'+data;
-          //
-          // let link = document.createElement("a");
-          // link.download = data+".xls";
-          // let uri = fileName+".xls";
-          // link.href = uri;
-          // document.body.appendChild(link);
-          // link.click();
-          // document.body.removeChild(link);
+          let fileName=Constants.Image_URL+'exportedExcel/'+data;
+
+          let link = document.createElement("a");
+          link.download = data+".xls";
+          let uri = fileName+".xls";
+          link.href = uri;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
 
 
         },

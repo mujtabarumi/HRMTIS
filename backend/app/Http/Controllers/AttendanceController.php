@@ -128,8 +128,6 @@ class AttendanceController extends Controller
     public function getAttendenceDataForHRINOUT(Request $r){
 
 
-
-
         $fromDate=$r->startDate;
         $toDate= $r->endDate;
 
@@ -160,19 +158,18 @@ class AttendanceController extends Controller
                 DB::raw("CONCAT(COALESCE(firstName,''),' ',COALESCE(middleName,''),' ',COALESCE(lastName,'')) AS empFullname"))
                 ->leftJoin('attemployeemap','attemployeemap.employeeId','employeeinfo.id')
                 ->leftJoin('departments','departments.id','employeeinfo.fkDepartmentId')
-                ->where('employeeinfo.id',$r->empId)
+                ->whereIn('employeeinfo.id',$r->empId)
                 ->get();
 
-            $results = DB::select( DB::raw("select em.employeeId,ad.id,sl.inTime,sl.outTime,sl.adjustmentDate
-            , date_format(ad.accessTime,'%Y-%m-%d') attendanceDate
-            , date_format(ad.accessTime,'%H:%i:%s') accessTime
-            , date_format(ad.accessTime,'%Y-%m-%d %H:%i:%s') accessTime2
+            $List = implode(',',$r->empId);
+
+            $results = DB::select( DB::raw("select em.employeeId,ad.id,date_format(ad.accessTime,'%Y-%m-%d') attendanceDate, 
+             date_format(ad.accessTime,'%Y-%m-%d %H:%i:%s') accessTime2
             from attendancedata ad left join attemployeemap em on ad.attDeviceUserId = em.attDeviceUserId
             and date_format(ad.accessTime,'%Y-%m-%d') between '" . $fromDate . "' and '" . $toDate . "'
-            left join shiftlog sl on em.employeeId = sl.fkemployeeId and date_format(ad.accessTime,'%Y-%m-%d') between date_format(sl.startDate,'%Y-%m-%d') and ifnull(date_format(sl.endDate,'%Y-%m-%d'),curdate())
             left join employeeinfo emInfo on em.employeeId = emInfo.id and emInfo.fkDepartmentId is not null
             where date_format(ad.accessTime,'%Y-%m-%d') between '".$fromDate."' and '".$toDate."'
-            and em.employeeId='".$r->empId."'"));
+            and emInfo.id IN (".$List.")"));
 
             $results=collect($results);
 
@@ -182,7 +179,6 @@ class AttendanceController extends Controller
                 foreach ($dates as $ad) {
 
                     $excel->sheet($ad['date'], function ($sheet) use ($results, $ad,$dates, $allEmp, $fromDate, $toDate, $startDate, $endDate) {
-
 
                         $sheet->loadView('Excel.attendenceonlyINOUTForSigle', compact('results', 'ad','fromDate', 'toDate', 'dates', 'allEmp',
                             'startDate', 'endDate'));
@@ -248,8 +244,11 @@ class AttendanceController extends Controller
 
 
 
-//        return response()->json($fileName);
-        return $results;
+
+
+        return response()->json($fileName);
+
+
 
 
 

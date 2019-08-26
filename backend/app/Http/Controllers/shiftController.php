@@ -33,6 +33,24 @@ class shiftController extends Controller
         }
         return $array;
     }
+    function getDatesFromRanges($startDate, $endDate, $format = 'Y-m-d') {
+        $array = array();
+
+        $interval = new \DateInterval('P1D');
+        $realEnd = new DateTime($endDate);
+        $realEnd->add($interval);
+        $anotherFormat='l';
+        $period = new \DatePeriod(new DateTime($startDate), $interval, $realEnd);
+        foreach($period as $date) {
+            $newArray=array(
+                'date'=>  $date->format($format),
+                'day'=>$date->format($anotherFormat),
+            );
+            array_push($array,$newArray);
+
+        }
+        return $array;
+    }
     function getDatesFromRangeAssignedShift(Request $r, $format = 'Y-m-d') {
 
 
@@ -276,6 +294,49 @@ class shiftController extends Controller
     public function getShiftInfo($shiftId)
     {
        return $shift=Shift::findOrFail($shiftId);
+    }
+    public function AssignFutureShift(Request $r)
+    {
+        $start=Carbon::parse($r->startDate);
+        $end=Carbon::parse($r->endDate);
+        $futureStart=Carbon::parse($r->futureStartDate);
+        $futureEnd=Carbon::parse($r->futureEndDate);
+         $dates1 = $this->getDatesFromRanges($start, $end);
+         $dates2 = $this->getDatesFromRanges($futureStart, $futureEnd);
+
+        $dates2 = collect($dates2);
+        $dates1 = collect($dates1);
+
+        $result = $dates2->map(function ($a) use ($dates1,$r) {
+            $day = $a['day'];
+            $date = $a['date'];
+
+            $res = $dates1->first(function ($val) use ($day,$r,$date) {
+               if ($val['day'] == $day){
+
+                   $oldLog=ShiftLog::where('startDate',$val['date'])->where('endDate',$val['date'])->where('fkemployeeId',$r->empId)->first();
+
+                   if ($oldLog){
+
+                       $newLog=new ShiftLog();
+                       $newLog->fkemployeeId=$r->empId;
+                       $newLog->startDate=$date;
+                       $newLog->endDate=$date;
+                       $newLog->inTime=$oldLog->inTime;
+                       $newLog->outTime=$oldLog->outTime;
+                       $newLog->fkshiftId=$oldLog->fkshiftId;
+                       $newLog->adjustmentDate=$oldLog->adjustmentDate;
+
+                       $newLog->save();
+
+                   }
+
+
+               }
+            });
+
+        });
+
     }
     public function setshiftLogweekend(Request $r){
 

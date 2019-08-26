@@ -83,6 +83,7 @@ Route::group([
 
     Route::get('shift/getInfo/{id}','shiftController@getShiftInfo');
     Route::post('shift/adjustmentAdd','shiftController@addjustmentShiftLog');
+    Route::post('shift/AssignFutureShift','shiftController@AssignFutureShift');
 
     //weekend
     Route::post('shiftLogWeekend/setWeekend','shiftController@setshiftLogweekend');

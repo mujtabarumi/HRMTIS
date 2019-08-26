@@ -166,6 +166,57 @@
   </div>
 </ng-template>
 
+<ng-template #future let-c="close" let-d="dismiss" >
+  <div class="modal-header">
+    <h4 class="modal-title">Future</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modalClose()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <div class="row">
+
+      <div class="form-group col-md-4">
+        <label>Start Date</label>
+        <input bsDatepicker
+               [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"  [(ngModel)]="futureShift.startDate" name="startDate"  autocomplete="off" class="form-control">
+      </div>
+      <div class="form-group col-md-4">
+        <label>End Date</label>
+        <input bsDatepicker
+               [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"  [(ngModel)]="futureShift.endDate" name="endDate"  autocomplete="off" class="form-control">
+      </div>
+    </div>
+    <div class="form-group col-md-4">
+      TO
+    </div>
+
+    <div class="row">
+
+        <div class="form-group col-md-4">
+          <label>Start Date</label>
+          <input bsDatepicker
+                 [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"   [(ngModel)]="futureShift.futureStartDate" name="startDate"  autocomplete="off" class="form-control">
+        </div>
+        <div class="form-group col-md-4">
+          <label>End Date</label>
+          <input bsDatepicker
+                 [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"  [(ngModel)]="futureShift.futureEndDate" name="endDate" autocomplete="off" class="form-control">
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="form-group col-md-4">
+          <button class="btn btn-success btn-sm" style="margin-top: 30px" (click)="submitFuture()">Find</button>
+        </div>
+
+    </div>
+
+
+  </div>
+</ng-template>
+
 
 
 <!--modal end-->
@@ -213,7 +264,7 @@
           <button class="btn btn-success btn-sm" style="margin-top: 30px" (click)="findAttendence()">Find</button>
         </div>
         <div class="form-group col-md-4">
-          <button class="btn btn-success btn-sm" style="margin-top: 30px" (click)="viewFutureRosterForm()">Set future Roster</button>
+          <button class="btn btn-success btn-sm" style="margin-top: 30px" (click)="viewFutureRosterForm(future)">Set future Roster</button>
         </div>
 
 

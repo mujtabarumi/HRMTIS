@@ -37,34 +37,37 @@
     </tr>
 
 
-
-
+    @php
+        $T_roundworkinghour=null;$T_weekendcount=0;$T_adjustment=0;$finalholiDay=0;
+    @endphp
+    @foreach($results->where('attendanceDate',$ad['date']) as $res)
 
         <tr>
             @foreach($allEmp as $aE)
-                    <td>
+                <td>
 
 
-                        @foreach($results->where('attendanceDate',$ad['date'])->where('employeeId',$aE->id) as $O)
-                            @php
-                                $FINALIN=\Carbon\Carbon::parse($O->accessTime2);
-                            @endphp
+                    @foreach($results->where('attendanceDate',$ad['date'])->where('employeeId',$aE->id) as $O)
+                        @php
+                            $FINALIN=\Carbon\Carbon::parse($O->accessTime2);
+                        @endphp
 
-                                {{$FINALIN->format('H:i')}}
-                            <br>
+                        {{$FINALIN->format('H:i')}}
 
-                            @endforeach
+                    @endforeach
 
 
-                    </td>
-                @endforeach
+                </td>
+            @endforeach
         </tr>
 
+        @php
+            $T_roundworkinghour=null;$T_weekendcount=0;$T_adjustment=0;$finalholiDay=0;
+        @endphp
 
 
 
-
-
+    @endforeach
 
 
 
