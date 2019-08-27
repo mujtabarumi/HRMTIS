@@ -89,6 +89,7 @@ Route::group([
     Route::post('shiftLogWeekend/setWeekend','shiftController@setshiftLogweekend');
 
     //Attendance
+    Route::post('report/getEmployeeAttendance','AttendanceController@getEmployeeAttendance');
     Route::post('report/attendanceHR','AttendanceController@getAttendenceDataForHR');
     Route::post('report/attendanceHRINOUT','AttendanceController@getAttendenceDataForHRINOUT');
 

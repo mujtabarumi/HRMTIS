@@ -171,6 +171,14 @@ export class EditAssignedShiftComponent implements OnInit {
     this.http.post(Constants.API_URL+'shift/AssignFutureShift'+'?token='+token,this.futureShift).subscribe(data1 => {
 
       this.findAttendence();
+      $.alert({
+          title: 'Success',
+          content: 'Update Successfull',
+        });
+        this.futureShift=[];
+        this.selectedItems2=[];
+        this.shiftObj.adjustment=false;
+        this.modalRef.close();
 
 
 
@@ -823,6 +831,7 @@ export class EditAssignedShiftComponent implements OnInit {
 
     this.shiftObj={};
     this.selectedItems2=[];
+    this.futureShift=[];
     this.shiftObj.adjustment=false;
     this.modalRef.close();
 

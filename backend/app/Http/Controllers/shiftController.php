@@ -316,9 +316,11 @@ class shiftController extends Controller
 
                    $oldLog=ShiftLog::where('startDate',$val['date'])->where('endDate',$val['date'])->where('fkemployeeId',$r->empId)->first();
 
-                   if ($oldLog){
+                   if ($oldLog)
+                   {
 
                        $newLog=new ShiftLog();
+
                        $newLog->fkemployeeId=$r->empId;
                        $newLog->startDate=$date;
                        $newLog->endDate=$date;

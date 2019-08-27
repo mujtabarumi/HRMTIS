@@ -255,4 +255,47 @@ class AttendanceController extends Controller
 
     }
 
+    public function getEmployeeAttendance(Request $r){
+
+
+        $empId=$r->id;
+        $start = Carbon::now()->startOfMonth()->format('Y-m-d');
+        $end = Carbon::now()->endOfMonth()->format('Y-m-d');
+
+
+        if($r->startDate && $r->endDate){
+            $start=$r->startDate;
+            $end= $r->endDate;
+        }
+
+        $dates = $this->getDatesFromRange($start, $end);
+
+        $results = DB::select( DB::raw("select em.employeeId,ad.id,sl.inTime,sl.outTime,sl.multipleShift,sl.adjustmentDate
+            , date_format(ad.accessTime,'%Y-%m-%d') attendanceDate
+            , date_format(ad.accessTime,'%H:%i:%s') accessTime
+            , date_format(ad.accessTime,'%Y-%m-%d %H:%i:%s') accessTime2
+            from attendancedata ad left join attemployeemap em on ad.attDeviceUserId = em.attDeviceUserId
+            and date_format(ad.accessTime,'%Y-%m-%d') between '" . $start . "' and '" . $end . "'
+            left join shiftlog sl on em.employeeId = sl.fkemployeeId and date_format(ad.accessTime,'%Y-%m-%d') between date_format(sl.startDate,'%Y-%m-%d') and ifnull(date_format(sl.endDate,'%Y-%m-%d'),curdate())
+            where date_format(ad.accessTime,'%Y-%m-%d') between '".$start."' and '".$end."'
+            and em.employeeId = '".$empId."'"));
+
+        $newArray=array(
+          'dates'=>$dates,
+          'result'=>$results
+        );
+
+
+
+        return $newArray;
+
+
+
+
+
+
+    }
+
+
+
 }

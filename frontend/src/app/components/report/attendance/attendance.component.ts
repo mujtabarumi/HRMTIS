@@ -35,6 +35,10 @@ export class AttendanceComponent implements OnInit {
   leaveCategories:any;
   dropdownSettings = {};
   selectedItems = [];
+  attendanceData:any;
+  attendanceDate:any;
+  test:any;
+  search:boolean;
 
 
   constructor(private renderer: Renderer,public http: HttpClient, private token:TokenService ,
@@ -42,6 +46,7 @@ export class AttendanceComponent implements OnInit {
 
 
   ngOnInit() {
+    this.search=false;
 
     this.getAllEployee();
 
@@ -89,15 +94,13 @@ export class AttendanceComponent implements OnInit {
 
   onItemSelect(value){
 
-
     // console.log(this.selectedItems);
 
   }
   onItemDeSelect(value){
 
-
-
   }
+
 
 
   dateToYMD(date) {
@@ -118,147 +121,79 @@ export class AttendanceComponent implements OnInit {
   }
 
 
-  // getData(){
-  //   const token=this.token.get();
-  //
-  //
-  //
-  //   this.dtOptions = {
-  //     ajax: {
-  //       url: Constants.API_URL+'report/attendance'+'?token='+token,
-  //       type: 'POST',
-  //       data:function (d:any){
-  //         d.startDate=$('#startDate').val();
-  //         d.endDate=$('#endDate').val();
-  //
-  //       },
-  //
-  //
-  //     },
-  //
-  //
-  //
-  //     // ajax: (form,myfunc) => {
-  //     //     this.http.post(Constants.API_URL+'report/attendance'+'?token='+token,form).subscribe(resp => {
-  //     //          // console.log(resp);
-  //     //
-  //     //         // myfunc({
-  //     //         //          recordsTotal: resp.recordsTotal,
-  //     //         //          recordsFiltered: resp.recordsFiltered,
-  //     //         //          data: [],
-  //     //         //     });
-  //     //         });
-  //     // },
-  //
-  //     columns: [
-  //
-  //       { data: 'empname' ,name:'empname'},
-  //       // { data: 'middleName' ,name:'middleName'},
-  //       // { data: 'lastName' ,name:'lastName'},
-  //       { data: 'departmentName' ,name:'departmentName'},
-  //       { data: 'totAttendance' , name: 'totAttendance' },
-  //       { data: 'totalLate', name: 'totalLate'},
-  //       { data: 'averageWorkingHour', name: 'averageWorkingHour'},
-  //       { data: 'totalLeave', name: 'totalLeave'},
-  //
-  //       // {
-  //       //
-  //       //     "data": function (data: any, type: any, full: any) {
-  //       //         return '<button class="btn btn-sm btn-info" data-leaveemp-id="'+data.employeeId+'">'+data.totalLeave+'</button>';
-  //       //     },
-  //       //     "orderable": false, "searchable":false, "name":"selected_rows"
-  //       // },
-  //
-  //       { data: 'weekends', name: 'weekends'},
-  //       { data: 'totalWeekend', name: 'totalWeekend'},
-  //
-  //       {
-  //
-  //         "data": function (data: any, type: any, full: any) {
-  //           return '<button class="btn btn-sm btn-info edit-user" data-emp-id="'+data.employeeId+'">View</button>';
-  //         },
-  //         "orderable": false, "searchable":false, "name":"selected_rows"
-  //       },
-  //
-  //     ],
-  //     drawCallback: () => {
-  //
-  //       $('.edit-user').on('click', (event) => {
-  //
-  //         let id=event.target.getAttribute("data-emp-id");
-  //         let start =$('#startDate').val();
-  //         let end = $('#endDate').val();
-  //
-  //
-  //
-  //         // this.router.navigate(["report/attendance/" +id+'/'+start+'/'+end]);
-  //         window.open("report/attendance/" +id+'/'+start+'/'+end, "_blank");
-  //         return false;
-  //       });
-  //
-  //
-  //
-  //
-  //     },
-  //
-  //
-  //     processing: true,
-  //     serverSide: false,
-  //     pagingType: 'full_numbers',
-  //     pageLength: 10,
-  //     dom: 'Bfrtip',
-  //     paging: true,
-  //
-  //
-  //
-  //   };
-  //
-  //
-  // }
+  getData(){
+
+    if (this.selectedItems.length ==0 || this.selectedItems.length>1){
+
+        $.alert({
+          title: 'Alert',
+          content: 'Please select 1 employee only',
+        });
+
+    }
+    else if(this.selectedItems.length ==1)
+    {
+
+      const token=this.token.get();
+
+      let id=this.selectedItems[0]['empid'];
+
+      this.http.post(Constants.API_URL+'report/getEmployeeAttendance'+'?token='+token,{id:id,startDate:$('#startDate').val(),endDate:$('#endDate').val()}).subscribe(data => {
+
+          this.spinner.hide();
+          console.log(data);
+          this.attendanceData=data['result'];
+          this.attendanceDate=data['date'];
+          this.search=true;
 
 
 
-  // ngAfterViewInit(): void {
-  //   this.dtTrigger.next();
-  //   // // this.renderer.listenGlobal('document', 'click', (event) => {
-  //   //     if (event.target.hasAttribute("data-emp-id")) {
-  //   //
-  //   //         let id=event.target.getAttribute("data-emp-id");
-  //   //        let start =$('#startDate').val();
-  //   //         let end = $('#endDate').val();
-  //   //
-  //   //         this.router.navigate(["report/attendance/" +id+'/'+start+'/'+end]);
-  //   //
-  //   //     }
-  //   //
-  //   //     if (event.target.hasAttribute("data-leaveemp-id")) {
-  //   //
-  //   //         let id=event.target.getAttribute("data-leaveemp-id");
-  //   //         console.log(id);
-  //   //     }
-  //   //
-  //   // });
-  //
-  //   // this.dtElement.dtInstance.then(dtInstance =>{
-  //   //     dtInstance.on('click', function(event){
-  //   //         let row_dom = $(this).event.attr("data-emp-id");
-  //   //         //let row = dtInstance.row(row_dom.employeeId).data();
-  //   //             // alert(row);
-  //   //         console.log(row_dom);
-  //   //     })
-  //   //
-  //   // });
-  //
-  //
-  // }
-  // ngOnDestroy(): void {
-  //   // Do not forget to unsubscribe the event
-  //   this.dtTrigger.unsubscribe();
-  // }
-  //
-  // search(){
-  //   this.rerender();
-  // }
+
+        },
+        error => {
+          console.log(error);
+          this.spinner.hide();
+        }
+      );
+
+
+
+      // this.dtOptions = {
+      //   ajax: {
+      //     url: Constants.API_URL+'report/getEmployeeAttendance'+'?token='+token,
+      //     type: 'POST',
+      //     data:function (d:any){
+      //       d.id=id;
+      //       d.startDate=$('#startDate').val();
+      //       d.endDate=$('#endDate').val();
+      //
+      //     },
+      //   },
+      //   columns: [
+      //
+      //     { data: 'attDeviceUserId' ,name:'attDeviceUserId'},
+      //     { data: 'firstName' ,name:'firstName'},
+      //     { data: 'attendanceDate' ,name:'attendanceDate'},
+      //     { data: 'checkInFull' , name: 'checkInFull' },
+      //     { data: 'checkoutFull', name: 'checkoutFull'},
+      //     { data: 'late', name: 'late'},
+      //     { data: 'lateTime', name: 'lateTime'},
+      //     { data: 'scheduleIn', name: 'scheduleIn'},
+      //     { data: 'scheduleOut', name: 'scheduleOut'},
+      //     { data: 'workingTime', name: 'workingTime'},
+      //
+      //
+      //   ],
+      //   processing: true,
+      //   serverSide: true,
+      //   pagingType: 'full_numbers',
+      //   pageLength: 10
+      // };
+
+    }
+
+
+  }
 
 
   generateDetailsExcel(){
@@ -375,6 +310,14 @@ export class AttendanceComponent implements OnInit {
   //     this.dtTrigger.next();
   //   });
   // }
+
+  searchAttendance(){
+
+    this.getData();
+
+
+
+  }
 
 
 }

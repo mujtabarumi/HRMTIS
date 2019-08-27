@@ -516,12 +516,6 @@
 
     @endforeach
 
-
-
-
-
-
-
     </tbody>
 </table>
 

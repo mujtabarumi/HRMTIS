@@ -37,20 +37,17 @@
 
         </div>
 
-
-
         <div class="form-group col-md-3">
 
-
-<!--          <button class="btn btn-success" (click)="search()">Search</button>-->
+          <button class="btn btn-success" (click)="searchAttendance()">Search</button>
         </div>
 
 
-        <div class="form-group col-md-3">
+<!--        <div class="form-group col-md-3">-->
 
-          <button class="btn btn-info pull-right" (click)="generateDetailsExcel()" *ngxPermissionsOnly="['admin']">Generate Details Report</button>
+<!--          <button class="btn btn-info pull-right" (click)="generateDetailsExcel()" *ngxPermissionsOnly="['admin']">Generate Details Report</button>-->
 
-        </div>
+<!--        </div>-->
         <div class="form-group col-md-3">
 
           <button class="btn btn-info pull-right" (click)="generateINOUTExcel()" *ngxPermissionsOnly="['admin']">Report (only in/out )</button>
@@ -60,24 +57,26 @@
       </div>
       <hr>
 
-<!--      <table datatable class="table" [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">-->
-<!--        <thead>-->
-<!--        <tr>-->
-<!--          <th>Name</th>-->
-<!--          &lt;!&ndash;<th>Middle Name</th>&ndash;&gt;-->
-<!--          &lt;!&ndash;<th>Last Name</th>&ndash;&gt;-->
-<!--          <th>Department</th>-->
-<!--          <th>Total Attendance</th>-->
-<!--          <th>Total Late</th>-->
-<!--          <th>Average Working hour</th>-->
-<!--          <th>Total Leave</th>-->
-<!--          <th>Weekend Count</th>-->
-<!--          <th>Weekend</th>-->
-<!--          <th>Action</th>-->
-<!--        </tr>-->
+      <table *ngIf="search">
 
-<!--        </thead>-->
-<!--      </table>-->
+        <thead>
+        <tr>
+          <th>attDeviceUserId</th>
+          <th>firstName</th>
+          <th>attendanceDate</th>
+          <th>checkInFull</th>
+          <th>checkoutFull</th>
+          <th>late</th>
+          <th>lateTime</th>
+          <th>scheduleIn</th>
+          <th>scheduleOut</th>
+          <th>workingTime</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+      </table>
 
 
 
