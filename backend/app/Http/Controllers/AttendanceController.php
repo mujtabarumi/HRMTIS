@@ -154,7 +154,7 @@ class AttendanceController extends Controller
 
         if ($r->empId){
 
-            $allEmp=Employee::select('employeeinfo.id','attemployeemap.attDeviceUserId','departments.departmentName',
+            $allEmp=Employee::select('employeeinfo.id','employeeinfo.id','attemployeemap.attDeviceUserId','departments.departmentName',
                 DB::raw("CONCAT(COALESCE(firstName,''),' ',COALESCE(middleName,''),' ',COALESCE(lastName,'')) AS empFullname"))
                 ->leftJoin('attemployeemap','attemployeemap.employeeId','employeeinfo.id')
                 ->leftJoin('departments','departments.id','employeeinfo.fkDepartmentId')
@@ -163,7 +163,7 @@ class AttendanceController extends Controller
 
             $List = implode(',',$r->empId);
 
-            $results = DB::select( DB::raw("select em.employeeId,ad.id,sl.inTime,sl.outTime,sl.adjustmentDate
+            $results = DB::select( DB::raw("select em.employeeId,ad.id,sl.inTime,sl.outTime,sl.adjustmentDate,ad.fkAttDevice
             , date_format(ad.accessTime,'%Y-%m-%d') attendanceDate
             , date_format(ad.accessTime,'%H:%i:%s') accessTime
             , date_format(ad.accessTime,'%Y-%m-%d %H:%i:%s') accessTime2

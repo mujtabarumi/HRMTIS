@@ -19,7 +19,7 @@
 
 
         @foreach($allEmp as $aE)
-            <th class="Border" width="25"style="text-align: center;vertical-align: middle;">{{$aE->empFullname}}({{$aE->attDeviceUserId}})</th>
+            <th class="Border" width="30"style="text-align: center;vertical-align: middle;">{{$aE->empFullname}}({{$aE->attDeviceUserId}})</th>
         @endforeach
 
     </tr>
@@ -28,7 +28,7 @@
     <tr>
 
         @foreach($allEmp as $aE)
-            <th class="Border" width="25"style="text-align: center;vertical-align: middle;">Punch Time</th>
+            <th class="Border" width="15"style="text-align: center;vertical-align: middle;">In Time</th>
         @endforeach
 
 
@@ -53,7 +53,7 @@
                                 {{$FINALIN->format('H:i')}}
                             <br>
 
-                            @endforeach
+                        @endforeach
 
 
                     </td>
