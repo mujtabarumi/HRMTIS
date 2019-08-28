@@ -230,7 +230,7 @@ export class AttendanceComponent implements OnInit {
     this.spinner.show();
     const token=this.token.get();
 
-    this.http.post(Constants.API_URL+'report/attendanceHRINOUT'+'?token='+token,{report:'monthly',startDate:$('#startDate').val(),endDate:$('#endDate').val()}).subscribe(data => {
+    this.http.post(Constants.API_URL+'report/attendanceHRINOUTmonthly'+'?token='+token,{report:'monthly',startDate:$('#startDate').val(),endDate:$('#endDate').val()}).subscribe(data => {
 
         this.spinner.hide();
         console.log(data);
@@ -256,8 +256,6 @@ export class AttendanceComponent implements OnInit {
 
   }
   generateINOUTExcel(){
-
-   // console.log(this.selectedItems);
 
 
     if (this.selectedItems.length>0){
@@ -286,7 +284,7 @@ export class AttendanceComponent implements OnInit {
 
 
 
-          this.http.post(Constants.API_URL+'report/attendanceHRINOUT'+'?token='+token,{startDate:$('#startDate').val(),endDate:$('#endDate').val(),empId:empList,report:'empList'}).subscribe(data => {
+          this.http.post(Constants.API_URL+'report/attendanceHRINOUT'+'?token='+token,{startDate:$('#startDate').val(),endDate:$('#endDate').val(),empId:empList,report:'dailyINOUT'}).subscribe(data => {
 
               this.spinner.hide();
               console.log(data);
@@ -343,6 +341,34 @@ export class AttendanceComponent implements OnInit {
           );
 
 
+        }else if($('#excelType').val()=="3"){
+
+          this.http.post(Constants.API_URL+'report/attendanceHRINOUT'+'?token='+token,{startDate:$('#startDate').val(),endDate:$('#endDate').val(),empId:empList,report:'monthlyINOUT'}).subscribe(data => {
+
+              this.spinner.hide();
+              console.log(data);
+
+
+              let fileName=Constants.Image_URL+'exportedExcel/'+data;
+
+              let link = document.createElement("a");
+              link.download = data+".xls";
+              let uri = fileName+".xls";
+              link.href = uri;
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+              $("#excelType").val("");
+              this.selectedItems=[];
+
+
+            },
+            error => {
+              console.log(error);
+              this.spinner.hide();
+            }
+          );
+
         }
 
 
@@ -350,34 +376,111 @@ export class AttendanceComponent implements OnInit {
 
     }else {
 
-      this.spinner.show();
-      const token=this.token.get();
+      if($('#excelType').val()==""){
 
-      this.http.post(Constants.API_URL+'report/attendanceHRINOUT'+'?token='+token,{startDate:$('#startDate').val(),endDate:$('#endDate').val()}).subscribe(data => {
+        $.alert({
+          title: 'Alert',
+          content: 'Please select Excel Type',
+        });
 
-          this.spinner.hide();
-          console.log(data);
+      }
+      else if($('#excelType').val()=="1"){
 
+        this.spinner.show();
+        const token=this.token.get();
 
-          let fileName=Constants.Image_URL+'exportedExcel/'+data;
+        this.http.post(Constants.API_URL+'report/attendanceHRINOUT'+'?token='+token,{report:'dailyINOUT',startDate:$('#startDate').val(),endDate:$('#endDate').val()}).subscribe(data => {
 
-          let link = document.createElement("a");
-          link.download = data+".xls";
-          let uri = fileName+".xls";
-          link.href = uri;
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-          $("#excelType").val("");
-          this.selectedItems=[];
+            this.spinner.hide();
+            console.log(data);
 
 
-        },
-        error => {
-          console.log(error);
-          this.spinner.hide();
-        }
-      );
+            let fileName=Constants.Image_URL+'exportedExcel/'+data;
+
+            let link = document.createElement("a");
+            link.download = data+".xls";
+            let uri = fileName+".xls";
+            link.href = uri;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            $("#excelType").val("");
+            this.selectedItems=[];
+
+          },
+          error => {
+            console.log(error);
+            this.spinner.hide();
+          }
+        );
+
+      }
+      else if ($('#excelType').val()=="2"){
+
+        this.spinner.show();
+        const token=this.token.get();
+
+        this.http.post(Constants.API_URL+'report/attendanceHRINOUT'+'?token='+token,{report:'dailyINOUT',startDate:$('#startDate').val(),endDate:$('#endDate').val()}).subscribe(data => {
+
+            this.spinner.hide();
+            console.log(data);
+
+
+            let fileName=Constants.Image_URL+'exportedExcel/'+data;
+
+            let link = document.createElement("a");
+            link.download = data+".xls";
+            let uri = fileName+".xls";
+            link.href = uri;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            $("#excelType").val("");
+            this.selectedItems=[];
+
+          },
+          error => {
+            console.log(error);
+            this.spinner.hide();
+          }
+        );
+
+
+      }
+      else if($('#excelType').val()=="3"){
+
+        this.spinner.show();
+        const token=this.token.get();
+
+        this.http.post(Constants.API_URL+'report/attendanceHRINOUT'+'?token='+token,{report:'monthlyINOUT',startDate:$('#startDate').val(),endDate:$('#endDate').val()}).subscribe(data => {
+
+            this.spinner.hide();
+            console.log(data);
+
+
+            let fileName=Constants.Image_URL+'exportedExcel/'+data;
+
+            let link = document.createElement("a");
+            link.download = data+".xls";
+            let uri = fileName+".xls";
+            link.href = uri;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            $("#excelType").val("");
+            this.selectedItems=[];
+
+          },
+          error => {
+            console.log(error);
+            this.spinner.hide();
+          }
+        );
+
+
+      }
+
+
 
     }
 

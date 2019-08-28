@@ -176,11 +176,35 @@ class AttendanceController extends Controller
 
             $results=collect($results);
 
-            if($r->report){
+            if($r->report && $r->report=='dailyINOUT') {
 
-                $check1=Excel::create($fileName,function($excel)use ($results,$dates,$allEmp,$fromDate,$toDate, $startDate, $endDate) {
+                $check1 = Excel::create($fileName, function ($excel) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate, $endDate) {
 
-                    $excel->sheet('test', function ($sheet) use ($results,$dates,$allEmp, $fromDate,$toDate,$startDate, $endDate) {
+                    $excel->sheet('test', function ($sheet) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate, $endDate) {
+
+
+                        $sheet->freezePane('C4');
+                        $sheet->setStyle(array(
+                            'font' => array(
+                                'name' => 'Calibri',
+                                'size' => 10,
+                                'bold' => false
+                            )
+                        ));
+
+                        $sheet->loadView('Excel.attendenceonlyINOUT', compact('results', 'fromDate', 'toDate', 'dates', 'allEmp',
+                            'startDate', 'endDate'));
+                    });
+
+                })->store('xls', $filePath);
+
+
+            }elseif ($r->report && $r->report=='monthlyINOUT'){
+
+
+                $checkMonthly=Excel::create($fileName,function($excel)use ($results,$dates,$allEmp,$fromDate,$toDate, $startDate, $endDate) {
+
+                    $excel->sheet('Monthly', function ($sheet) use ($results,$dates,$allEmp, $fromDate,$toDate,$startDate, $endDate) {
 
 
 
@@ -193,11 +217,13 @@ class AttendanceController extends Controller
                             )
                         ));
 
-                        $sheet->loadView('Excel.attendenceonlyINOUT', compact('results','fromDate', 'toDate','dates','allEmp',
+                        $sheet->loadView('Excel.attendenceonlyINOUTMonthly', compact('results','fromDate', 'toDate','dates','allEmp',
                             'startDate','endDate'));
                     });
 
                 })->store('xls',$filePath);
+
+
 
 
 
@@ -218,8 +244,6 @@ class AttendanceController extends Controller
                 })->store('xls',$filePath);
 
             }
-
-
 
 
 
@@ -250,7 +274,7 @@ class AttendanceController extends Controller
             $results=collect($results);
 
 
-            if ($r->report)
+            if ($r->report && $r->report=='monthlyINOUT')
             {
 
                 $check=Excel::create($fileName,function($excel)use ($results,$dates,$allEmp,$fromDate,$toDate, $startDate, $endDate) {
@@ -275,7 +299,9 @@ class AttendanceController extends Controller
                 })->store('xls',$filePath);
 
 
-            }else{
+            }elseif ($r->report && $r->report=='dailyINOUT'){
+
+
 
                 $check=Excel::create($fileName,function($excel)use ($results,$dates,$allEmp,$fromDate,$toDate, $startDate, $endDate) {
 
@@ -295,6 +321,22 @@ class AttendanceController extends Controller
                         $sheet->loadView('Excel.attendenceonlyINOUT', compact('results','fromDate', 'toDate','dates','allEmp',
                             'startDate','endDate'));
                     });
+
+                })->store('xls',$filePath);
+
+            }else{
+
+                $check=Excel::create($fileName,function($excel)use ($results,$dates,$allEmp,$fromDate,$toDate, $startDate, $endDate) {
+
+                    foreach ($dates as $ad) {
+
+                        $excel->sheet($ad['date'], function ($sheet) use ($results, $ad,$dates, $allEmp, $fromDate, $toDate, $startDate, $endDate) {
+
+                            $sheet->loadView('Excel.attendenceonlyINOUTForSigle', compact('results', 'ad','fromDate', 'toDate', 'dates', 'allEmp',
+                                'startDate', 'endDate'));
+                        });
+
+                    }
 
                 })->store('xls',$filePath);
 

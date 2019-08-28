@@ -129,11 +129,18 @@
 
                                 {{$FINALIN->format('H:i')}}
 
+                            @else
+
+                                @php
+                                    $FINALIN=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])
+                                        ->first()->accessTime2);
+                                @endphp
+
+                                {{$FINALIN->format('H:i')}}
+
                             @endif
 
                         @else
-
-
 
                             @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->where('accessTime','>=',$nextIn)->first())
 
@@ -152,8 +159,6 @@
                                 @endphp
 
                                 {{$FINALIN->format('H:i')}}
-
-
 
 
                             @endif
@@ -211,6 +216,16 @@
 
                                     {{$FINALOUT->format('H:i')}}
 
+                                @else
+
+                                    @php
+
+                                        $FINALOUT=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])
+                                        ->last()->accessTime2);
+                                    @endphp
+
+                                    {{$FINALOUT->format('H:i')}}
+
                                 @endif
                             @else
                                 @if($results->where('employeeId',$aE->id)->where('attendanceDate',$nextday)
@@ -230,6 +245,15 @@
 
                                         $FINALOUT=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])
                                         ->where('accessTime','>=',$nextOut2)->where('accessTime','<=',$nextOut)->last()->accessTime2);
+                                    @endphp
+
+                                    {{$FINALOUT->format('H:i')}}
+                                @else
+
+                                    @php
+
+                                        $FINALOUT=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])
+                                        ->last()->accessTime2);
                                     @endphp
 
                                     {{$FINALOUT->format('H:i')}}
