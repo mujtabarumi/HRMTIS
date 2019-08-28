@@ -425,15 +425,15 @@
                     </td>
 
 
-                        @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime == null)
+                    @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime == null)
                         <td class="cell" style="color: firebrick" width="15">
                             roster not found
                         </td>
-                        @else
+                    @else
                         <td class="cell" style="color: firebrick" width="15">
                             P
                         </td>
-                        @endif
+                    @endif
 
 
 

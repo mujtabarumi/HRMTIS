@@ -163,30 +163,64 @@ class AttendanceController extends Controller
 
             $List = implode(',',$r->empId);
 
-            $results = DB::select( DB::raw("select em.employeeId,ad.id,date_format(ad.accessTime,'%Y-%m-%d') attendanceDate, 
-             date_format(ad.accessTime,'%Y-%m-%d %H:%i:%s') accessTime2
+            $results = DB::select( DB::raw("select em.employeeId,ad.id,sl.inTime,sl.outTime,sl.adjustmentDate
+            , date_format(ad.accessTime,'%Y-%m-%d') attendanceDate
+            , date_format(ad.accessTime,'%H:%i:%s') accessTime
+            , date_format(ad.accessTime,'%Y-%m-%d %H:%i:%s') accessTime2
             from attendancedata ad left join attemployeemap em on ad.attDeviceUserId = em.attDeviceUserId
             and date_format(ad.accessTime,'%Y-%m-%d') between '" . $fromDate . "' and '" . $toDate . "'
+            left join shiftlog sl on em.employeeId = sl.fkemployeeId and date_format(ad.accessTime,'%Y-%m-%d') between date_format(sl.startDate,'%Y-%m-%d') and ifnull(date_format(sl.endDate,'%Y-%m-%d'),curdate())
             left join employeeinfo emInfo on em.employeeId = emInfo.id and emInfo.fkDepartmentId is not null
             where date_format(ad.accessTime,'%Y-%m-%d') between '".$fromDate."' and '".$toDate."'
             and emInfo.id IN (".$List.")"));
 
             $results=collect($results);
 
+            if($r->report){
 
-            $check=Excel::create($fileName,function($excel)use ($results,$dates,$allEmp,$fromDate,$toDate, $startDate, $endDate) {
+                $check1=Excel::create($fileName,function($excel)use ($results,$dates,$allEmp,$fromDate,$toDate, $startDate, $endDate) {
 
-                foreach ($dates as $ad) {
+                    $excel->sheet('test', function ($sheet) use ($results,$dates,$allEmp, $fromDate,$toDate,$startDate, $endDate) {
 
-                    $excel->sheet($ad['date'], function ($sheet) use ($results, $ad,$dates, $allEmp, $fromDate, $toDate, $startDate, $endDate) {
 
-                        $sheet->loadView('Excel.attendenceonlyINOUTForSigle', compact('results', 'ad','fromDate', 'toDate', 'dates', 'allEmp',
-                            'startDate', 'endDate'));
+
+                        $sheet->freezePane('C4');
+                        $sheet->setStyle(array(
+                            'font' => array(
+                                'name' => 'Calibri',
+                                'size' => 10,
+                                'bold' => false
+                            )
+                        ));
+
+                        $sheet->loadView('Excel.attendenceonlyINOUT', compact('results','fromDate', 'toDate','dates','allEmp',
+                            'startDate','endDate'));
                     });
 
-                }
+                })->store('xls',$filePath);
 
-            })->store('xls',$filePath);
+
+
+            }else{
+
+                $check=Excel::create($fileName,function($excel)use ($results,$dates,$allEmp,$fromDate,$toDate, $startDate, $endDate) {
+
+                    foreach ($dates as $ad) {
+
+                        $excel->sheet($ad['date'], function ($sheet) use ($results, $ad,$dates, $allEmp, $fromDate, $toDate, $startDate, $endDate) {
+
+                            $sheet->loadView('Excel.attendenceonlyINOUTForSigle', compact('results', 'ad','fromDate', 'toDate', 'dates', 'allEmp',
+                                'startDate', 'endDate'));
+                        });
+
+                    }
+
+                })->store('xls',$filePath);
+
+            }
+
+
+
 
 
         }else{
@@ -199,6 +233,8 @@ class AttendanceController extends Controller
                 ->orderBy('departments.orderBy')
                 ->whereNull('resignDate')
                 ->get();
+
+
 
             $results = DB::select( DB::raw("select em.employeeId,ad.id,sl.inTime,sl.outTime,sl.adjustmentDate
             , date_format(ad.accessTime,'%Y-%m-%d') attendanceDate
@@ -214,35 +250,59 @@ class AttendanceController extends Controller
             $results=collect($results);
 
 
+            if ($r->report)
+            {
+
+                $check=Excel::create($fileName,function($excel)use ($results,$dates,$allEmp,$fromDate,$toDate, $startDate, $endDate) {
+
+                    $excel->sheet('Monthly', function ($sheet) use ($results,$dates,$allEmp, $fromDate,$toDate,$startDate, $endDate) {
 
 
 
+                        $sheet->freezePane('C4');
+                        $sheet->setStyle(array(
+                            'font' => array(
+                                'name' => 'Calibri',
+                                'size' => 10,
+                                'bold' => false
+                            )
+                        ));
 
-            $check=Excel::create($fileName,function($excel)use ($results,$dates,$allEmp,$fromDate,$toDate, $startDate, $endDate) {
+                        $sheet->loadView('Excel.attendenceonlyINOUTMonthly', compact('results','fromDate', 'toDate','dates','allEmp',
+                            'startDate','endDate'));
+                    });
 
-                $excel->sheet('test', function ($sheet) use ($results,$dates,$allEmp, $fromDate,$toDate,$startDate, $endDate) {
+                })->store('xls',$filePath);
+
+
+            }else{
+
+                $check=Excel::create($fileName,function($excel)use ($results,$dates,$allEmp,$fromDate,$toDate, $startDate, $endDate) {
+
+                    $excel->sheet('test', function ($sheet) use ($results,$dates,$allEmp, $fromDate,$toDate,$startDate, $endDate) {
 
 
 
-                    $sheet->freezePane('C4');
-                    $sheet->setStyle(array(
-                        'font' => array(
-                            'name' => 'Calibri',
-                            'size' => 10,
-                            'bold' => false
-                        )
-                    ));
+                        $sheet->freezePane('C4');
+                        $sheet->setStyle(array(
+                            'font' => array(
+                                'name' => 'Calibri',
+                                'size' => 10,
+                                'bold' => false
+                            )
+                        ));
 
-                    $sheet->loadView('Excel.attendenceonlyINOUT', compact('results','fromDate', 'toDate','dates','allEmp',
-                        'startDate','endDate'));
-                });
+                        $sheet->loadView('Excel.attendenceonlyINOUT', compact('results','fromDate', 'toDate','dates','allEmp',
+                            'startDate','endDate'));
+                    });
 
-            })->store('xls',$filePath);
+                })->store('xls',$filePath);
+
+            }
+
 
 
         }
-
-
 
 
 
@@ -255,46 +315,46 @@ class AttendanceController extends Controller
 
     }
 
-    public function getEmployeeAttendance(Request $r){
-
-
-        $empId=$r->id;
-        $start = Carbon::now()->startOfMonth()->format('Y-m-d');
-        $end = Carbon::now()->endOfMonth()->format('Y-m-d');
-
-
-        if($r->startDate && $r->endDate){
-            $start=$r->startDate;
-            $end= $r->endDate;
-        }
-
-        $dates = $this->getDatesFromRange($start, $end);
-
-        $results = DB::select( DB::raw("select em.employeeId,ad.id,sl.inTime,sl.outTime,sl.multipleShift,sl.adjustmentDate
-            , date_format(ad.accessTime,'%Y-%m-%d') attendanceDate
-            , date_format(ad.accessTime,'%H:%i:%s') accessTime
-            , date_format(ad.accessTime,'%Y-%m-%d %H:%i:%s') accessTime2
-            from attendancedata ad left join attemployeemap em on ad.attDeviceUserId = em.attDeviceUserId
-            and date_format(ad.accessTime,'%Y-%m-%d') between '" . $start . "' and '" . $end . "'
-            left join shiftlog sl on em.employeeId = sl.fkemployeeId and date_format(ad.accessTime,'%Y-%m-%d') between date_format(sl.startDate,'%Y-%m-%d') and ifnull(date_format(sl.endDate,'%Y-%m-%d'),curdate())
-            where date_format(ad.accessTime,'%Y-%m-%d') between '".$start."' and '".$end."'
-            and em.employeeId = '".$empId."'"));
-
-        $newArray=array(
-          'dates'=>$dates,
-          'result'=>$results
-        );
-
-
-
-        return $newArray;
-
-
-
-
-
-
-    }
+//    public function getEmployeeAttendance(Request $r){
+//
+//
+//        $empId=$r->id;
+//        $start = Carbon::now()->startOfMonth()->format('Y-m-d');
+//        $end = Carbon::now()->endOfMonth()->format('Y-m-d');
+//
+//
+//        if($r->startDate && $r->endDate){
+//            $start=$r->startDate;
+//            $end= $r->endDate;
+//        }
+//
+//        $dates = $this->getDatesFromRange($start, $end);
+//
+//        $results = DB::select( DB::raw("select em.employeeId,ad.id,sl.inTime,sl.outTime,sl.multipleShift,sl.adjustmentDate
+//            , date_format(ad.accessTime,'%Y-%m-%d') attendanceDate
+//            , date_format(ad.accessTime,'%H:%i:%s') accessTime
+//            , date_format(ad.accessTime,'%Y-%m-%d %H:%i:%s') accessTime2
+//            from attendancedata ad left join attemployeemap em on ad.attDeviceUserId = em.attDeviceUserId
+//            and date_format(ad.accessTime,'%Y-%m-%d') between '" . $start . "' and '" . $end . "'
+//            left join shiftlog sl on em.employeeId = sl.fkemployeeId and date_format(ad.accessTime,'%Y-%m-%d') between date_format(sl.startDate,'%Y-%m-%d') and ifnull(date_format(sl.endDate,'%Y-%m-%d'),curdate())
+//            where date_format(ad.accessTime,'%Y-%m-%d') between '".$start."' and '".$end."'
+//            and em.employeeId = '".$empId."'"));
+//
+//        $newArray=array(
+//          'dates'=>$dates,
+//          'result'=>$results
+//        );
+//
+//
+//
+//        return $newArray;
+//
+//
+//
+//
+//
+//
+//    }
 
 
 

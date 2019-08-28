@@ -225,6 +225,36 @@ export class AttendanceComponent implements OnInit {
     );
 
   }
+  generateMonthlyINOUTExcel(){
+
+    this.spinner.show();
+    const token=this.token.get();
+
+    this.http.post(Constants.API_URL+'report/attendanceHRINOUT'+'?token='+token,{report:'monthly',startDate:$('#startDate').val(),endDate:$('#endDate').val()}).subscribe(data => {
+
+        this.spinner.hide();
+        console.log(data);
+
+
+        let fileName=Constants.Image_URL+'exportedExcel/'+data;
+
+        let link = document.createElement("a");
+        link.download = data+".xls";
+        let uri = fileName+".xls";
+        link.href = uri;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+
+      },
+      error => {
+        console.log(error);
+        this.spinner.hide();
+      }
+    );
+
+  }
   generateINOUTExcel(){
 
    // console.log(this.selectedItems);
@@ -232,38 +262,91 @@ export class AttendanceComponent implements OnInit {
 
     if (this.selectedItems.length>0){
 
-      let empList=[];
-      for (let $i=0;$i<this.selectedItems.length;$i++){
-        empList.push(this.selectedItems[$i]['empid']);
-      }
-     // console.log(empList);
-
-      this.spinner.show();
-      const token=this.token.get();
-
-      this.http.post(Constants.API_URL+'report/attendanceHRINOUT'+'?token='+token,{startDate:$('#startDate').val(),endDate:$('#endDate').val(),empId:empList}).subscribe(data => {
-
-          this.spinner.hide();
-          console.log(data);
 
 
-          let fileName=Constants.Image_URL+'exportedExcel/'+data;
+      if($('#excelType').val()==""){
 
-          let link = document.createElement("a");
-          link.download = data+".xls";
-          let uri = fileName+".xls";
-          link.href = uri;
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
+        $.alert({
+          title: 'Alert',
+          content: 'Please select Excel Type',
+        });
 
+      }else {
 
-        },
-        error => {
-          console.log(error);
-          this.spinner.hide();
+        let empList=[];
+        for (let $i=0;$i<this.selectedItems.length;$i++){
+          empList.push(this.selectedItems[$i]['empid']);
         }
-      );
+        // console.log(empList);
+
+        this.spinner.show();
+        const token=this.token.get();
+
+        if($('#excelType').val()=="1"){
+
+
+
+          this.http.post(Constants.API_URL+'report/attendanceHRINOUT'+'?token='+token,{startDate:$('#startDate').val(),endDate:$('#endDate').val(),empId:empList,report:'empList'}).subscribe(data => {
+
+              this.spinner.hide();
+              console.log(data);
+
+
+              let fileName=Constants.Image_URL+'exportedExcel/'+data;
+
+              let link = document.createElement("a");
+              link.download = data+".xls";
+              let uri = fileName+".xls";
+              link.href = uri;
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+              $("#excelType").val("");
+              this.selectedItems=[];
+
+
+            },
+            error => {
+              console.log(error);
+              this.spinner.hide();
+            }
+          );
+
+        }else if ($('#excelType').val()=="2"){
+
+
+
+          this.http.post(Constants.API_URL+'report/attendanceHRINOUT'+'?token='+token,{startDate:$('#startDate').val(),endDate:$('#endDate').val(),empId:empList}).subscribe(data => {
+
+              this.spinner.hide();
+              console.log(data);
+
+
+              let fileName=Constants.Image_URL+'exportedExcel/'+data;
+
+              let link = document.createElement("a");
+              link.download = data+".xls";
+              let uri = fileName+".xls";
+              link.href = uri;
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+              $("#excelType").val("");
+              this.selectedItems=[];
+
+
+            },
+            error => {
+              console.log(error);
+              this.spinner.hide();
+            }
+          );
+
+
+        }
+
+
+      }
 
     }else {
 
@@ -285,6 +368,8 @@ export class AttendanceComponent implements OnInit {
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
+          $("#excelType").val("");
+          this.selectedItems=[];
 
 
         },
@@ -314,8 +399,6 @@ export class AttendanceComponent implements OnInit {
   searchAttendance(){
 
     this.getData();
-
-
 
   }
 
