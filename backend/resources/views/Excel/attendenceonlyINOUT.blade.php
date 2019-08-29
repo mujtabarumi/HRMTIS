@@ -45,7 +45,6 @@
 
             <th style="text-align: center;vertical-align: middle;"width="20">Total Hours Worked</th>
 
-
             <th style="text-align: center;vertical-align: middle;"width="15">Round Hour</th>
             <th style="text-align: center;vertical-align: middle;"width="15">Adjustment</th>
             <th style="text-align: center;vertical-align: middle;background-color:#757171"width="15">Attendence</th>
@@ -450,8 +449,32 @@
 
 
                         @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime == null)
-                        <td class="cell" style="color: firebrick" width="15">
+                        <td class="cell" style="color: firebrick"  width="15">
                             roster not found
+                            <br>
+
+                            @php
+
+                                $FINALIN=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])
+                                ->first()->accessTime2);
+                                $FINALOUT=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])
+                                ->last()->accessTime2);
+                            @endphp
+
+                            First: {{$FINALIN->format('H:i')}}<br>
+                            Last: {{$FINALOUT->format('H:i')}}<br>
+                            @if($FINALIN != null && $FINALOUT != null)
+
+                                @php
+                                    $FINALWORKINGHOUR=$FINALOUT->diff($FINALIN);
+
+                                @endphp
+
+                                WorkingHour: {{$FINALWORKINGHOUR->format('%H:%i')}}
+
+                            @endif
+
+
                         </td>
                         @else
                         <td class="cell" style="color: firebrick" width="15">

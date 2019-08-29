@@ -26,6 +26,8 @@ import { JoiningInfoComponent } from './components/user/joining-info/joining-inf
 import { AddLeaveComponent } from './components/leave/add-leave/add-leave.component';
 import { LeaveSummeryComponent } from './components/leave/leave-summery/leave-summery.component';
 import { LeaveComponent } from './components/configuration/leave/leave.component';
+import { NotShiftAssignListComponent } from './components/configuration/not-shift-assign-list/not-shift-assign-list.component';
+
 
 
 
@@ -51,6 +53,8 @@ import { LeaveComponent } from './components/configuration/leave/leave.component
     AddLeaveComponent,
     LeaveSummeryComponent,
     LeaveComponent,
+    NotShiftAssignListComponent,
+
 
 
 

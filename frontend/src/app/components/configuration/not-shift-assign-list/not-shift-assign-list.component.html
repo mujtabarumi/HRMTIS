@@ -1,0 +1,121 @@
+
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-header">Roster Not Assigned List</div>
+
+    <div class="card-body">
+      <div class="row">
+
+        <div class="form-group col-md-4">
+          <label>Start Date</label>
+          <input bsDatepicker
+                 [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"  name="startDate" [(ngModel)]="startDate" autocomplete="off" class="form-control">
+        </div>
+        <div class="form-group col-md-4">
+          <label>End Date</label>
+          <input bsDatepicker
+                 [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"  name="endDate" [(ngModel)]="endDate" autocomplete="off" class="form-control">
+        </div>
+
+
+        <div class="form-group col-md-4">
+          <button class="btn btn-success btn-sm" style="margin-top: 30px" (click)="search()">Search</button>
+        </div>
+
+
+
+
+      </div>
+
+      <div class="row" *ngIf="empList?.length >0">
+
+        <div class="form-group col-md-12">
+          <label style="text-align: center">Not Assigned shift</label>
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Action</th>
+              </tr>
+
+              <tr *ngFor="let asgL of empList; let i = index">
+                <td>
+                  {{asgL['attDeviceUserId']}}
+                </td>
+                <td>
+                  {{asgL['firstName']}}
+                </td>
+
+                <td>
+
+                  <a  class="btn btn-info" [target]="'_blank'" (click)="seeNotAssignedShift(asgL['id'])">see</a>
+
+
+                </td>
+
+              </tr>
+
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="assignedLog?.length >0">
+
+        <div class="form-group col-md-12">
+          <label style="text-align: center">Assigned shift</label>
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <tr>
+                <th>Date</th>
+                <th>Day</th>
+                <th>Time</th>
+                <th>Adjustment</th>
+                <th>Weekend</th>
+                <th>Action</th>
+              </tr>
+
+              <tr *ngFor="let asgL of assignedLog; let i = index">
+                <td>
+                  {{asgL['date']}}
+                </td>
+                <td>
+                  {{asgL['day']}}
+                </td>
+                <td>
+                  {{asgL['shiftName']}}
+                </td>
+                <td>
+                  {{asgL['adjustmentDate']}}
+                </td>
+                <td >
+                  <p *ngIf="asgL['weekend']" style="color: red">{{asgL['weekend']}}</p>
+                </td>
+
+                <td>
+
+                  <button *ngIf="!asgL['shiftLogId']" class="btn btn-info" (click)="edit(asgL['shiftLogId'],asgL['date'],asgL['empId'],content)">Add</button> &nbsp;&nbsp;
+                  <button *ngIf="asgL['shiftLogId']" class="btn btn-info" (click)="editShiftLog(asgL['shiftLogId'],asgL['date'],asgL['empId'],content)">Edit</button> &nbsp;&nbsp;
+                  <button class="btn btn-info" (click)="confirmDelete(asgL['shiftLogId'],asgL['date'],asgL['empId'])"> Delete</button> &nbsp;
+                  <button class="btn btn-info" (click)="AdjustmentShiftLog(asgL['shiftLogId'],asgL['date'],asgL['empId'],adjustment)"> Adjustment</button>&nbsp;&nbsp;
+                  <button class="btn btn-info" *ngIf="!asgL['weekend']" (click)="weekend(asgL['shiftLogId'],asgL['date'],asgL['empId'],'Add')">Add Weekend</button>&nbsp;&nbsp;
+                  <button class="btn btn-info" *ngIf="asgL['weekend']" (click)="weekend(asgL['shiftLogId'],asgL['date'],asgL['empId'],'Remove')">remove Weekend</button>&nbsp;&nbsp;
+
+                </td>
+
+              </tr>
+
+            </table>
+          </div>
+        </div>
+      </div>
+
+
+
+
+    </div>
+  </div>
+
+
+</div>

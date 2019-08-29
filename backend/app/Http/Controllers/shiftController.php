@@ -113,6 +113,109 @@ class shiftController extends Controller
         }
         return $array;
     }
+    function getEmpRangeNotAssignedShift(Request $r, $format = 'Y-m-d') {
+
+
+        $array = array();
+        $start=$r->startDate;
+        $end=$r->endDate;
+
+        $interval = new \DateInterval('P1D');
+        $realEnd = new DateTime($end);
+        $realEnd->add($interval);
+        $anotherFormat='l';
+        $period = new \DatePeriod(new DateTime($start), $interval, $realEnd);
+        foreach($period as $date) {
+
+            $shiftName = \DB::table('employeeinfo')
+                ->select(
+                    'employeeinfo.id',
+                    'employeeinfo.firstName',
+                    'attemployeemap.attDeviceUserId'
+
+                )
+                ->leftJoin('attemployeemap',"attemployeemap.employeeId",'employeeinfo.id')
+
+                ->whereNotExists( function ($query) use ($date,$format,$r) {
+                    $query->select(DB::raw(1))
+                        ->from('shiftlog')
+                        ->whereRaw('attemployeemap.employeeId = shiftlog.fkemployeeId')
+                        ->where('shiftlog.fkemployeeId','=',$r->empId)
+                        ->whereDate('shiftlog.startDate', '=', $date->format($format))
+                        ->where(function ($query) use ($format,$date){
+                            $query->whereDate('shiftlog.endDate', '=', $date->format($format));
+
+                        })
+                        ->orderBy('shiftlog.shiftlogId','ASC');
+                })
+                ->where('employeeinfo.id',$r->empId)
+                ->first();
+
+            if ($shiftName){
+
+                $newArray=array(
+                    'date'=>  $date->format($format),
+                    'day'=>$date->format($anotherFormat),
+                    'empId'=>$r->empId,
+                    'attDeviceUserId'=>$shiftName->attDeviceUserId,
+                    'shiftName'=>null,
+                    'adjustmentDate'=>null,
+                    'weekend'=>null
+
+                );
+                array_push($array,$newArray);
+
+            }
+
+        }
+        return $array;
+    }
+
+    function getEmpNameFromRangeNotAssignedShift(Request $r, $format = 'Y-m-d')
+    {
+
+
+        $array = array();
+        $start=$r->startDate;
+        $end=$r->endDate;
+
+        $interval = new \DateInterval('P1D');
+        $realEnd = new DateTime($end);
+        $realEnd->add($interval);
+        $anotherFormat='l';
+       // $period = new \DatePeriod(new DateTime($start), $interval, $realEnd);
+
+            $emp = \DB::table('employeeinfo')
+                ->select(
+                    'employeeinfo.id',
+                    'employeeinfo.firstName',
+                    'attemployeemap.attDeviceUserId'
+
+                )
+                ->leftJoin('attemployeemap',"attemployeemap.employeeId",'employeeinfo.id')
+                ->whereNotExists( function ($query) use ($start,$end) {
+                    $query->select(DB::raw(1))
+                        ->from('shiftlog')
+                        ->whereRaw('employeeinfo.id = shiftlog.fkemployeeId')
+                        ->groupBy('shiftlog.fkemployeeId')
+                        ->whereDate('shiftlog.startDate', '>=', $start)
+                        ->where(function ($query) use ($end){
+                            $query->whereDate('shiftlog.endDate', '<=', $end);
+
+                        });
+                })
+                ->whereNotNull('employeeinfo.fkDepartmentId')
+                ->get();
+
+
+
+
+
+
+
+
+        return $emp;
+    }
 
     public function getShiftName(){
         $shift = Shift::orderBy('shiftId','desc')->get();

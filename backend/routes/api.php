@@ -78,6 +78,8 @@ Route::group([
     Route::post('/getAllShift','shiftController@getAllShift');
     Route::post('shift/assign','shiftController@assignToShift');
     Route::post('dateRanges/AssignedShift','shiftController@getDatesFromRangeAssignedShift');
+    Route::post('dateRanges/NotAssignedShift','shiftController@getEmpNameFromRangeNotAssignedShift');
+    Route::post('dateRanges/NotAssignedShiftPerEmp','shiftController@getEmpRangeNotAssignedShift');
     Route::post('shift/assigned-shift-update','shiftController@updateShiftAssignedLog');
     Route::post('shift/assigned-shift-delete','shiftController@deleteShiftAssignedLog');
 

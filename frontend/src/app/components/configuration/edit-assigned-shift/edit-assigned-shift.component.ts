@@ -295,6 +295,34 @@ export class EditAssignedShiftComponent implements OnInit {
 
 
   }
+  notAssignedinfo(empId){
+
+    console.log(empId);
+
+
+      // let form={
+      //   empId:empId,
+      //   startDate:new Date(startDate).toLocaleDateString(),
+      //   endDate:new Date(EndDate).toLocaleDateString(),
+      //
+      // };
+      // const token=this.token.get();
+      //
+      // this.http.post(Constants.API_URL+'dateRanges/AssignedShift'+'?token='+token,form).subscribe(data1 => {
+      //     this.assignedLog=data1;
+      //     console.log(data1);
+      //
+      //
+      //
+      //   },
+      //   error => {
+      //     console.log(error);
+      //   }
+      // );
+
+
+
+  }
   changeAssignShift(){
 
     if( this.shiftObj.empId ==null){

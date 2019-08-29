@@ -17,6 +17,7 @@ import {AttendanceComponent} from "./components/report/attendance/attendance.com
 import {AddEmployeeComponent} from "./components/user/add-employee/add-employee.component";
 import {AddLeaveComponent} from "./components/leave/add-leave/add-leave.component";
 import {LeaveComponent} from "./components/configuration/leave/leave.component";
+import { NotShiftAssignListComponent } from './components/configuration/not-shift-assign-list/not-shift-assign-list.component';
 
 
 
@@ -44,6 +45,9 @@ const routes: Routes = [
     { path: 'report/attendance', component: AttendanceComponent,canActivate: [AuthService]  },
     { path: 'configuration/leave', component: LeaveComponent,canActivate: [AuthService]  },
     { path: 'leave/apply', component: AddLeaveComponent ,canActivate: [AuthService] },
+    { path: 'configuration/not-shift-assigned-list', component: NotShiftAssignListComponent ,canActivate: [AuthService] },
+    { path: 'configuration/not-shift-assigned-list/notAssignedinfo', component: NotShiftAssignListComponent ,canActivate: [AuthService] },
+
 
 
 

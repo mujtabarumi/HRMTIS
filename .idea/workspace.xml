@@ -3,9 +3,14 @@
   <component name="ChangeListManager">
     <list default="true" id="79f3b666-98ca-415d-99bb-8f59ccc47ed0" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/AttendanceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/AttendanceController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/shiftController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/shiftController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/resources/views/Excel/attendenceonlyINOUT.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/resources/views/Excel/attendenceonlyINOUT.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/resources/views/Excel/attendenceonlyINOUTForSigle.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/resources/views/Excel/attendenceonlyINOUTForSigle.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/report/attendance/attendance.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/report/attendance/attendance.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/app-routing.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/configuration/edit-assigned-shift/edit-assigned-shift.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/configuration/edit-assigned-shift/edit-assigned-shift.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/navbar/navbar.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/navbar/navbar.component.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -185,7 +190,9 @@
       <workItem from="1566719732061" duration="6698000" />
       <workItem from="1566801707199" duration="16434000" />
       <workItem from="1566891450635" duration="16228000" />
-      <workItem from="1566973897949" duration="20208000" />
+      <workItem from="1566973897949" duration="20342000" />
+      <workItem from="1567060988844" duration="1000000" />
+      <workItem from="1567062146653" duration="10417000" />
     </task>
     <servers />
   </component>

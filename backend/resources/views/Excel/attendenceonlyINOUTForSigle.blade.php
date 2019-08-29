@@ -32,8 +32,6 @@
         @endforeach
 
 
-
-
     </tr>
 
 
