@@ -20,6 +20,8 @@ export class NotShiftAssignListComponent implements OnInit {
   endDate:string;
   empList:any;
   assignedLog:any;
+  newS:any;
+  newE:any;
 
   constructor(private modalService: NgbModal,private renderer: Renderer,public http: HttpClient, private token:TokenService , public route:ActivatedRoute, private router: Router) {
 
@@ -47,8 +49,10 @@ export class NotShiftAssignListComponent implements OnInit {
           this.http.post(Constants.API_URL+'dateRanges/NotAssignedShift'+'?token='+token,form).subscribe(data1 => {
 
               this.empList=data1;
-              console.log(data1);
 
+              this.newS=encodeURI(new Date(this.startDate).toLocaleDateString());
+              this.newE=encodeURI(new Date(this.endDate).toLocaleDateString());
+              console.log(this.newE);
 
 
             },

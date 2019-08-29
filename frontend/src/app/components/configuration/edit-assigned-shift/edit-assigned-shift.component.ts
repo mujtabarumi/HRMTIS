@@ -62,11 +62,13 @@ export class EditAssignedShiftComponent implements OnInit {
 
     this.route.params.subscribe(params => {
       let id = params['id'];
+      let start = params['start'];
+      let end = params['end'];
 
       if (typeof id === 'undefined' || id === null){
 
       }else {
-        this.notAssignedinfo(id);
+        this.notAssignedinfo(id,start,end);
       }
 
     });
@@ -279,7 +281,6 @@ export class EditAssignedShiftComponent implements OnInit {
       alert("Empty");
     }
     else {
-      // new Date(this.employeeJoiningForm.actualJoinDate).toLocaleDateString();
 
       let form={
         empId:this.selectedItems[0]['empid'],
@@ -306,28 +307,34 @@ export class EditAssignedShiftComponent implements OnInit {
 
 
   }
-  notAssignedinfo(empId){
+  notAssignedinfo(id,start,end){
 
+    this.selectedItems=id;
+    let s=new Date(start);
+    let e=new Date(end);
+    let formatted_Startdate = s.getFullYear() + "-" + (s.getMonth() + 1) + "-" + s.getDate();
+    let formatted_Enddate = e.getFullYear() + "-" + (e.getMonth() + 1) + "-" + e.getDate();
 
-      // let form={
-      //   empId:empId,
-      //   startDate:new Date(startDate).toLocaleDateString(),
-      //   endDate:new Date(EndDate).toLocaleDateString(),
-      //
-      // };
-      // const token=this.token.get();
-      //
-      // this.http.post(Constants.API_URL+'dateRanges/NotAssignedShiftPerEmp'+'?token='+token,form).subscribe(data1 => {
-      //     this.assignedLog=data1;
-      //     console.log(data1);
-      //
-      //
-      //
-      //   },
-      //   error => {
-      //     console.log(error);
-      //   }
-      // );
+    this.startDate= formatted_Startdate;
+    this.endDate = formatted_Enddate;
+
+      let form={
+        empId:id,
+        startDate:new Date(this.startDate).toLocaleDateString(),
+        endDate:new Date(this.endDate).toLocaleDateString(),
+
+      };
+      const token=this.token.get();
+
+      this.http.post(Constants.API_URL+'dateRanges/NotAssignedShiftPerEmp'+'?token='+token,form).subscribe(data1 => {
+          this.assignedLog=data1;
+          //console.log(data1);
+
+        },
+        error => {
+          console.log(error);
+        }
+      );
 
 
 

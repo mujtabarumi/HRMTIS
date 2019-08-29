@@ -175,7 +175,7 @@ class AttendanceController extends Controller
             left join employeeinfo emInfo on em.employeeId = emInfo.id and emInfo.fkDepartmentId is not null
             
             where date_format(ad.accessTime,'%Y-%m-%d') between '".$fromDate."' and '".$toDate."'
-            and emInfo.id IN (".$List.") ORDER BY em.employeeId ASC"));
+            and emInfo.id IN (".$List.")"));
 
             $results=collect($results);
 
@@ -274,7 +274,7 @@ class AttendanceController extends Controller
             left join employeeinfo emInfo on em.employeeId = emInfo.id and emInfo.fkDepartmentId is not null
             
             where date_format(ad.accessTime,'%Y-%m-%d') between '".$fromDate."' and '".$toDate."'
-            and em.employeeId is not null and emInfo.fkDepartmentId is not null ORDER BY em.employeeId ASC"));
+            and em.employeeId is not null and emInfo.fkDepartmentId is not null"));
 
             $results=collect($results);
 

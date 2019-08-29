@@ -130,12 +130,16 @@
 
                             @else
 
-                                @php
-                                    $FINALIN=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])
-                                        ->first()->accessTime2);
-                                @endphp
+                                @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])
+                                    ->first())
 
-                                {{$FINALIN->format('H:i')}}
+                                    @php
+                                        $FINALIN=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])
+                                            ->first()->accessTime2);
+                                    @endphp
+
+                                    {{$FINALIN->format('H:i')}}
+                                @endif
 
                             @endif
 
