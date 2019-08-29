@@ -47,7 +47,7 @@ const routes: Routes = [
     { path: 'leave/apply', component: AddLeaveComponent ,canActivate: [AuthService] },
     { path: 'configuration/not-shift-assigned-list', component: NotShiftAssignListComponent ,canActivate: [AuthService] },
     { path: 'configuration/not-shift-assigned-list/notAssignedinfo', component: NotShiftAssignListComponent ,canActivate: [AuthService] },
-
+    { path: 'notAssignedinfoPerEmp/:id', component: EditAssignedShiftComponent ,canActivate: [AuthService] },
 
 
 

@@ -60,6 +60,17 @@ export class EditAssignedShiftComponent implements OnInit {
 
   ngOnInit() {
 
+    this.route.params.subscribe(params => {
+      let id = params['id'];
+
+      if (typeof id === 'undefined' || id === null){
+
+      }else {
+        this.notAssignedinfo(id);
+      }
+
+    });
+
 
     this.getAllEployee();
     this.getShift();
@@ -297,8 +308,6 @@ export class EditAssignedShiftComponent implements OnInit {
   }
   notAssignedinfo(empId){
 
-    console.log(empId);
-
 
       // let form={
       //   empId:empId,
@@ -308,7 +317,7 @@ export class EditAssignedShiftComponent implements OnInit {
       // };
       // const token=this.token.get();
       //
-      // this.http.post(Constants.API_URL+'dateRanges/AssignedShift'+'?token='+token,form).subscribe(data1 => {
+      // this.http.post(Constants.API_URL+'dateRanges/NotAssignedShiftPerEmp'+'?token='+token,form).subscribe(data1 => {
       //     this.assignedLog=data1;
       //     console.log(data1);
       //

@@ -159,6 +159,8 @@ class AttendanceController extends Controller
                 ->leftJoin('attemployeemap','attemployeemap.employeeId','employeeinfo.id')
                 ->leftJoin('departments','departments.id','employeeinfo.fkDepartmentId')
                 ->whereIn('employeeinfo.id',$r->empId)
+                ->orderBy('departments.orderBy','ASC')
+                ->orderBy('employeeinfo.id','ASC')
                 ->get();
 
             $List = implode(',',$r->empId);
@@ -171,8 +173,9 @@ class AttendanceController extends Controller
             and date_format(ad.accessTime,'%Y-%m-%d') between '" . $fromDate . "' and '" . $toDate . "'
             left join shiftlog sl on em.employeeId = sl.fkemployeeId and date_format(ad.accessTime,'%Y-%m-%d') between date_format(sl.startDate,'%Y-%m-%d') and ifnull(date_format(sl.endDate,'%Y-%m-%d'),curdate())
             left join employeeinfo emInfo on em.employeeId = emInfo.id and emInfo.fkDepartmentId is not null
+            
             where date_format(ad.accessTime,'%Y-%m-%d') between '".$fromDate."' and '".$toDate."'
-            and emInfo.id IN (".$List.")"));
+            and emInfo.id IN (".$List.") ORDER BY em.employeeId ASC"));
 
             $results=collect($results);
 
@@ -254,7 +257,8 @@ class AttendanceController extends Controller
                 ->leftJoin('attemployeemap','attemployeemap.employeeId','employeeinfo.id')
                 ->leftJoin('departments','departments.id','employeeinfo.fkDepartmentId')
                 ->whereNotNull('employeeinfo.fkDepartmentId')
-                ->orderBy('departments.orderBy')
+                ->orderBy('departments.orderBy','ASC')
+                ->orderBy('employeeinfo.id','ASC')
                 ->whereNull('resignDate')
                 ->get();
 
@@ -268,8 +272,9 @@ class AttendanceController extends Controller
             and date_format(ad.accessTime,'%Y-%m-%d') between '" . $fromDate . "' and '" . $toDate . "'
             left join shiftlog sl on em.employeeId = sl.fkemployeeId and date_format(ad.accessTime,'%Y-%m-%d') between date_format(sl.startDate,'%Y-%m-%d') and ifnull(date_format(sl.endDate,'%Y-%m-%d'),curdate())
             left join employeeinfo emInfo on em.employeeId = emInfo.id and emInfo.fkDepartmentId is not null
+            
             where date_format(ad.accessTime,'%Y-%m-%d') between '".$fromDate."' and '".$toDate."'
-            and em.employeeId is not null and emInfo.fkDepartmentId is not null"));
+            and em.employeeId is not null and emInfo.fkDepartmentId is not null ORDER BY em.employeeId ASC"));
 
             $results=collect($results);
 
