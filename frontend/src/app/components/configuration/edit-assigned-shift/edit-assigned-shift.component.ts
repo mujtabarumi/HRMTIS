@@ -30,6 +30,7 @@ export class EditAssignedShiftComponent implements OnInit {
   endDate:string;
   dates:any;
   shift:any;
+  notAssignedView:boolean;
   shiftObj:any={
     shiftLogId:"",
     shiftId:"",
@@ -55,6 +56,7 @@ export class EditAssignedShiftComponent implements OnInit {
   modalRef:any;
   constructor(private modalService: NgbModal,private renderer: Renderer,public http: HttpClient, private token:TokenService , public route:ActivatedRoute, private router: Router)
   {
+    this.notAssignedView=false;
 
   }
 
@@ -64,11 +66,13 @@ export class EditAssignedShiftComponent implements OnInit {
       let id = params['id'];
       let start = params['start'];
       let end = params['end'];
+      let userId = params['userId'];
 
       if (typeof id === 'undefined' || id === null){
 
       }else {
-        this.notAssignedinfo(id,start,end);
+        this.notAssignedinfo(id,userId,start,end);
+        this.notAssignedView=true;
       }
 
     });
@@ -164,7 +168,25 @@ export class EditAssignedShiftComponent implements OnInit {
           title: 'Success',
           content: 'Update Successfull',
         });
-        this.findAttendence();
+
+        this.route.params.subscribe(params => {
+          let id = params['id'];
+          let start = params['start'];
+          let end = params['end'];
+          let userId = params['userId'];
+
+          if (typeof id === 'undefined' || id === null){
+
+            this.findAttendence();
+
+
+          }else {
+            this.notAssignedinfo(id,userId,start,end);
+          }
+
+        });
+
+
 
       },
       error => {
@@ -307,9 +329,12 @@ export class EditAssignedShiftComponent implements OnInit {
 
 
   }
-  notAssignedinfo(id,start,end){
+  notAssignedinfo(id,userId,start,end){
 
-    this.selectedItems=id;
+    let r={'empid':id,'attDeviceUserId':userId};
+    this.selectedItems.push(r);
+
+
     let s=new Date(start);
     let e=new Date(end);
     let formatted_Startdate = s.getFullYear() + "-" + (s.getMonth() + 1) + "-" + s.getDate();
@@ -381,10 +406,28 @@ export class EditAssignedShiftComponent implements OnInit {
               title: data,
               content: 'Update Successfull',
             });
-            this.findAttendence();
+
+            this.route.params.subscribe(params => {
+              let id = params['id'];
+              let start = params['start'];
+              let end = params['end'];
+              let userId = params['userId'];
+
+              if (typeof id === 'undefined' || id === null){
+
+                this.findAttendence();
+
+
+              }else {
+                this.notAssignedinfo(id,userId,start,end);
+              }
+
+            });
             this.selectedItems2=[];
             this.shiftObj.adjustment=false;
             this.modalRef.close();
+
+
 
 
 

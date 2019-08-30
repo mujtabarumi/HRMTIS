@@ -100,7 +100,6 @@
                 @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first())
                     <td class="cell" width="10">
 
-
                         @php
                             $nextday=\Carbon\Carbon::parse($date['date'])->addDays(1)->format('Y-m-d');
                             $previousday=\Carbon\Carbon::parse($date['date'])->subDays(1)->format('Y-m-d');
@@ -117,6 +116,8 @@
                         @elseif($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime != null &&
                         $results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime <
                         $results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->outTime )
+
+                            
 
                             @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])
                             ->where('accessTime','>=',$nextIn)->first())
@@ -325,10 +326,13 @@
                                             ->first()->inTime)
                                 @endphp
 
-                                @if($access->diffInMinutes($ins) >= 21 )
+                                @if($access > $ins)
 
-                                    {{$access->diff($ins)->format('%H:%i')}}
+                                        @if($access->diffInMinutes($ins) >= 21 )
 
+                                            {{$access->diff($ins)->format('%H:%i')}}
+
+                                        @endif
                                 @endif
 
 

@@ -257,12 +257,9 @@ export class AttendanceComponent implements OnInit {
   }
   generateINOUTExcel(){
 
+    if($('#notAssignedRoster').is(':checked')){
 
-    if (this.selectedItems.length>0){
-
-
-
-      if($('#excelType').val()==""){
+      if ($('#excelType').val() == "") {
 
         $.alert({
           title: 'Alert',
@@ -271,217 +268,293 @@ export class AttendanceComponent implements OnInit {
 
       }else {
 
-        let empList=[];
-        for (let $i=0;$i<this.selectedItems.length;$i++){
-          empList.push(this.selectedItems[$i]['empid']);
-        }
-        // console.log(empList);
-
-        this.spinner.show();
-        const token=this.token.get();
-
-        if($('#excelType').val()=="1"){
-
-
-
-          this.http.post(Constants.API_URL+'report/attendanceHRINOUT'+'?token='+token,{startDate:$('#startDate').val(),endDate:$('#endDate').val(),empId:empList,report:'dailyINOUT'}).subscribe(data => {
-
-              this.spinner.hide();
-              console.log(data);
-
-
-              let fileName=Constants.Image_URL+'exportedExcel/'+data;
-
-              let link = document.createElement("a");
-              link.download = data+".xls";
-              let uri = fileName+".xls";
-              link.href = uri;
-              document.body.appendChild(link);
-              link.click();
-              document.body.removeChild(link);
-              $("#excelType").val("");
-              this.selectedItems=[];
-
-
-            },
-            error => {
-              console.log(error);
-              this.spinner.hide();
-            }
-          );
-
-        }else if ($('#excelType').val()=="2"){
-
-
-
-          this.http.post(Constants.API_URL+'report/attendanceHRINOUT'+'?token='+token,{startDate:$('#startDate').val(),endDate:$('#endDate').val(),empId:empList}).subscribe(data => {
-
-              this.spinner.hide();
-              console.log(data);
-
-
-              let fileName=Constants.Image_URL+'exportedExcel/'+data;
-
-              let link = document.createElement("a");
-              link.download = data+".xls";
-              let uri = fileName+".xls";
-              link.href = uri;
-              document.body.appendChild(link);
-              link.click();
-              document.body.removeChild(link);
-              $("#excelType").val("");
-              this.selectedItems=[];
-
-
-            },
-            error => {
-              console.log(error);
-              this.spinner.hide();
-            }
-          );
-
-
-        }else if($('#excelType').val()=="3"){
-
-          this.http.post(Constants.API_URL+'report/attendanceHRINOUT'+'?token='+token,{startDate:$('#startDate').val(),endDate:$('#endDate').val(),empId:empList,report:'monthlyINOUT'}).subscribe(data => {
-
-              this.spinner.hide();
-              console.log(data);
-
-
-              let fileName=Constants.Image_URL+'exportedExcel/'+data;
-
-              let link = document.createElement("a");
-              link.download = data+".xls";
-              let uri = fileName+".xls";
-              link.href = uri;
-              document.body.appendChild(link);
-              link.click();
-              document.body.removeChild(link);
-              $("#excelType").val("");
-              this.selectedItems=[];
-
-
-            },
-            error => {
-              console.log(error);
-              this.spinner.hide();
-            }
-          );
-
-        }
-
+        // this.spinner.show();
+        // const token = this.token.get();
+        //
+        // this.http.post(Constants.API_URL + 'report/attendanceHRINOUT' + '?token=' + token, {
+        //   startDate: $('#startDate').val(),
+        //   endDate: $('#endDate').val(),
+        //   report: 'notAssignedRoster'
+        // }).subscribe(data => {
+        //
+        //     this.spinner.hide();
+        //     console.log(data);
+        //
+        //
+        //     let fileName = Constants.Image_URL + 'exportedExcel/' + data;
+        //
+        //     let link = document.createElement("a");
+        //     link.download = data + ".xls";
+        //     let uri = fileName + ".xls";
+        //     link.href = uri;
+        //     document.body.appendChild(link);
+        //     link.click();
+        //     document.body.removeChild(link);
+        //     $("#excelType").val("");
+        //     this.selectedItems = [];
+        //
+        //
+        //   },
+        //   error => {
+        //     console.log(error);
+        //     this.spinner.hide();
+        //   }
+        // );
 
       }
+
+
+
+
+
 
     }else {
 
-      if($('#excelType').val()==""){
 
-        $.alert({
-          title: 'Alert',
-          content: 'Please select Excel Type',
-        });
-
-      }
-      else if($('#excelType').val()=="1"){
-
-        this.spinner.show();
-        const token=this.token.get();
-
-        this.http.post(Constants.API_URL+'report/attendanceHRINOUT'+'?token='+token,{report:'dailyINOUT',startDate:$('#startDate').val(),endDate:$('#endDate').val()}).subscribe(data => {
-
-            this.spinner.hide();
-            console.log(data);
+      if (this.selectedItems.length > 0) {
 
 
-            let fileName=Constants.Image_URL+'exportedExcel/'+data;
+        if ($('#excelType').val() == "") {
 
-            let link = document.createElement("a");
-            link.download = data+".xls";
-            let uri = fileName+".xls";
-            link.href = uri;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            $("#excelType").val("");
-            this.selectedItems=[];
+          $.alert({
+            title: 'Alert',
+            content: 'Please select Excel Type',
+          });
 
-          },
-          error => {
-            console.log(error);
-            this.spinner.hide();
+        } else {
+
+          let empList = [];
+          for (let $i = 0; $i < this.selectedItems.length; $i++) {
+            empList.push(this.selectedItems[$i]['empid']);
           }
-        );
+          // console.log(empList);
 
-      }
-      else if ($('#excelType').val()=="2"){
+          this.spinner.show();
+          const token = this.token.get();
 
-        this.spinner.show();
-        const token=this.token.get();
-
-        this.http.post(Constants.API_URL+'report/attendanceHRINOUT'+'?token='+token,{report:'dailyINOUT',startDate:$('#startDate').val(),endDate:$('#endDate').val()}).subscribe(data => {
-
-            this.spinner.hide();
-            console.log(data);
+          if ($('#excelType').val() == "1") {
 
 
-            let fileName=Constants.Image_URL+'exportedExcel/'+data;
+            this.http.post(Constants.API_URL + 'report/attendanceHRINOUT' + '?token=' + token, {
+              startDate: $('#startDate').val(),
+              endDate: $('#endDate').val(),
+              empId: empList,
+              report: 'dailyINOUT'
+            }).subscribe(data => {
 
-            let link = document.createElement("a");
-            link.download = data+".xls";
-            let uri = fileName+".xls";
-            link.href = uri;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            $("#excelType").val("");
-            this.selectedItems=[];
+                this.spinner.hide();
+                console.log(data);
 
-          },
-          error => {
-            console.log(error);
-            this.spinner.hide();
+
+                let fileName = Constants.Image_URL + 'exportedExcel/' + data;
+
+                let link = document.createElement("a");
+                link.download = data + ".xls";
+                let uri = fileName + ".xls";
+                link.href = uri;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                $("#excelType").val("");
+                this.selectedItems = [];
+
+
+              },
+              error => {
+                console.log(error);
+                this.spinner.hide();
+              }
+            );
+
+          } else if ($('#excelType').val() == "2") {
+
+
+            this.http.post(Constants.API_URL + 'report/attendanceHRINOUT' + '?token=' + token, {
+              startDate: $('#startDate').val(),
+              endDate: $('#endDate').val(),
+              empId: empList
+            }).subscribe(data => {
+
+                this.spinner.hide();
+                console.log(data);
+
+
+                let fileName = Constants.Image_URL + 'exportedExcel/' + data;
+
+                let link = document.createElement("a");
+                link.download = data + ".xls";
+                let uri = fileName + ".xls";
+                link.href = uri;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                $("#excelType").val("");
+                this.selectedItems = [];
+
+
+              },
+              error => {
+                console.log(error);
+                this.spinner.hide();
+              }
+            );
+
+
+          } else if ($('#excelType').val() == "3") {
+
+            this.http.post(Constants.API_URL + 'report/attendanceHRINOUT' + '?token=' + token, {
+              startDate: $('#startDate').val(),
+              endDate: $('#endDate').val(),
+              empId: empList,
+              report: 'monthlyINOUT'
+            }).subscribe(data => {
+
+                this.spinner.hide();
+                console.log(data);
+
+
+                let fileName = Constants.Image_URL + 'exportedExcel/' + data;
+
+                let link = document.createElement("a");
+                link.download = data + ".xls";
+                let uri = fileName + ".xls";
+                link.href = uri;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                $("#excelType").val("");
+                this.selectedItems = [];
+
+
+              },
+              error => {
+                console.log(error);
+                this.spinner.hide();
+              }
+            );
+
           }
-        );
+
+
+        }
+
+      } else {
+
+        if ($('#excelType').val() == "") {
+
+          $.alert({
+            title: 'Alert',
+            content: 'Please select Excel Type',
+          });
+
+        } else if ($('#excelType').val() == "1") {
+
+          this.spinner.show();
+          const token = this.token.get();
+
+          this.http.post(Constants.API_URL + 'report/attendanceHRINOUT' + '?token=' + token, {
+            report: 'dailyINOUT',
+            startDate: $('#startDate').val(),
+            endDate: $('#endDate').val()
+          }).subscribe(data => {
+
+              this.spinner.hide();
+              console.log(data);
+
+
+              let fileName = Constants.Image_URL + 'exportedExcel/' + data;
+
+              let link = document.createElement("a");
+              link.download = data + ".xls";
+              let uri = fileName + ".xls";
+              link.href = uri;
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+              $("#excelType").val("");
+              this.selectedItems = [];
+
+            },
+            error => {
+              console.log(error);
+              this.spinner.hide();
+            }
+          );
+
+        } else if ($('#excelType').val() == "2") {
+
+          this.spinner.show();
+          const token = this.token.get();
+
+          this.http.post(Constants.API_URL + 'report/attendanceHRINOUT' + '?token=' + token, {
+            report: 'dailyINOUT',
+            startDate: $('#startDate').val(),
+            endDate: $('#endDate').val()
+          }).subscribe(data => {
+
+              this.spinner.hide();
+              console.log(data);
+
+
+              let fileName = Constants.Image_URL + 'exportedExcel/' + data;
+
+              let link = document.createElement("a");
+              link.download = data + ".xls";
+              let uri = fileName + ".xls";
+              link.href = uri;
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+              $("#excelType").val("");
+              this.selectedItems = [];
+
+            },
+            error => {
+              console.log(error);
+              this.spinner.hide();
+            }
+          );
+
+
+        } else if ($('#excelType').val() == "3") {
+
+          this.spinner.show();
+          const token = this.token.get();
+
+          this.http.post(Constants.API_URL + 'report/attendanceHRINOUT' + '?token=' + token, {
+            report: 'monthlyINOUT',
+            startDate: $('#startDate').val(),
+            endDate: $('#endDate').val()
+          }).subscribe(data => {
+
+              this.spinner.hide();
+              console.log(data);
+
+
+              let fileName = Constants.Image_URL + 'exportedExcel/' + data;
+
+              let link = document.createElement("a");
+              link.download = data + ".xls";
+              let uri = fileName + ".xls";
+              link.href = uri;
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+              $("#excelType").val("");
+              this.selectedItems = [];
+
+            },
+            error => {
+              console.log(error);
+              this.spinner.hide();
+            }
+          );
+
+
+        }
 
 
       }
-      else if($('#excelType').val()=="3"){
-
-        this.spinner.show();
-        const token=this.token.get();
-
-        this.http.post(Constants.API_URL+'report/attendanceHRINOUT'+'?token='+token,{report:'monthlyINOUT',startDate:$('#startDate').val(),endDate:$('#endDate').val()}).subscribe(data => {
-
-            this.spinner.hide();
-            console.log(data);
-
-
-            let fileName=Constants.Image_URL+'exportedExcel/'+data;
-
-            let link = document.createElement("a");
-            link.download = data+".xls";
-            let uri = fileName+".xls";
-            link.href = uri;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            $("#excelType").val("");
-            this.selectedItems=[];
-
-          },
-          error => {
-            console.log(error);
-            this.spinner.hide();
-          }
-        );
-
-
-      }
-
-
-
     }
 
 

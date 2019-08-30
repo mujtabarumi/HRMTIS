@@ -18,6 +18,8 @@ use Yajra\DataTables\DataTables;
 class AttendanceController extends Controller
 {
 
+
+
     function getDatesFromRange($start, $end, $format = 'Y-m-d') {
         $array = array();
         $interval = new \DateInterval('P1D');
@@ -252,19 +254,27 @@ class AttendanceController extends Controller
 
         }else{
 
-            $allEmp=Employee::select('employeeinfo.id','attemployeemap.attDeviceUserId','departments.departmentName',
-                DB::raw("CONCAT(COALESCE(firstName,''),' ',COALESCE(middleName,''),' ',COALESCE(lastName,'')) AS empFullname"))
-                ->leftJoin('attemployeemap','attemployeemap.employeeId','employeeinfo.id')
-                ->leftJoin('departments','departments.id','employeeinfo.fkDepartmentId')
-                ->whereNotNull('employeeinfo.fkDepartmentId')
-                ->orderBy('departments.orderBy','ASC')
-                ->orderBy('employeeinfo.id','ASC')
-                ->whereNull('resignDate')
-                ->get();
+            if (($r->report && $r->report=='notAssignedRoster')){
 
 
 
-            $results = DB::select( DB::raw("select em.employeeId,ad.id,sl.inTime,sl.outTime,sl.adjustmentDate
+
+
+            }else {
+
+
+                $allEmp = Employee::select('employeeinfo.id', 'attemployeemap.attDeviceUserId', 'departments.departmentName',
+                    DB::raw("CONCAT(COALESCE(firstName,''),' ',COALESCE(middleName,''),' ',COALESCE(lastName,'')) AS empFullname"))
+                    ->leftJoin('attemployeemap', 'attemployeemap.employeeId', 'employeeinfo.id')
+                    ->leftJoin('departments', 'departments.id', 'employeeinfo.fkDepartmentId')
+                    ->whereNotNull('employeeinfo.fkDepartmentId')
+                    ->orderBy('departments.orderBy', 'ASC')
+                    ->orderBy('employeeinfo.id', 'ASC')
+                    ->whereNull('resignDate')
+                    ->get();
+
+
+                $results = DB::select(DB::raw("select em.employeeId,ad.id,sl.inTime,sl.outTime,sl.adjustmentDate
             , date_format(ad.accessTime,'%Y-%m-%d') attendanceDate
             , date_format(ad.accessTime,'%H:%i:%s') accessTime
             , date_format(ad.accessTime,'%Y-%m-%d %H:%i:%s') accessTime2
@@ -273,78 +283,75 @@ class AttendanceController extends Controller
             left join shiftlog sl on em.employeeId = sl.fkemployeeId and date_format(ad.accessTime,'%Y-%m-%d') between date_format(sl.startDate,'%Y-%m-%d') and ifnull(date_format(sl.endDate,'%Y-%m-%d'),curdate())
             left join employeeinfo emInfo on em.employeeId = emInfo.id and emInfo.fkDepartmentId is not null
             
-            where date_format(ad.accessTime,'%Y-%m-%d') between '".$fromDate."' and '".$toDate."'
+            where date_format(ad.accessTime,'%Y-%m-%d') between '" . $fromDate . "' and '" . $toDate . "'
             and em.employeeId is not null and emInfo.fkDepartmentId is not null"));
 
-            $results=collect($results);
+                $results = collect($results);
 
 
-            if ($r->report && $r->report=='monthlyINOUT')
-            {
+                if ($r->report && $r->report == 'monthlyINOUT') {
 
-                $check=Excel::create($fileName,function($excel)use ($results,$dates,$allEmp,$fromDate,$toDate, $startDate, $endDate) {
+                    $check = Excel::create($fileName, function ($excel) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate, $endDate) {
 
-                    $excel->sheet('Monthly', function ($sheet) use ($results,$dates,$allEmp, $fromDate,$toDate,$startDate, $endDate) {
-
+                        $excel->sheet('Monthly', function ($sheet) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate, $endDate) {
 
 
-                        $sheet->freezePane('C4');
-                        $sheet->setStyle(array(
-                            'font' => array(
-                                'name' => 'Calibri',
-                                'size' => 10,
-                                'bold' => false
-                            )
-                        ));
+                            $sheet->freezePane('C4');
+                            $sheet->setStyle(array(
+                                'font' => array(
+                                    'name' => 'Calibri',
+                                    'size' => 10,
+                                    'bold' => false
+                                )
+                            ));
 
-                        $sheet->loadView('Excel.attendenceonlyINOUTMonthly', compact('results','fromDate', 'toDate','dates','allEmp',
-                            'startDate','endDate'));
-                    });
-
-                })->store('xls',$filePath);
-
-
-            }elseif ($r->report && $r->report=='dailyINOUT'){
-
-
-
-                $check=Excel::create($fileName,function($excel)use ($results,$dates,$allEmp,$fromDate,$toDate, $startDate, $endDate) {
-
-                    $excel->sheet('test', function ($sheet) use ($results,$dates,$allEmp, $fromDate,$toDate,$startDate, $endDate) {
-
-
-
-                        $sheet->freezePane('C4');
-                        $sheet->setStyle(array(
-                            'font' => array(
-                                'name' => 'Calibri',
-                                'size' => 10,
-                                'bold' => false
-                            )
-                        ));
-
-                        $sheet->loadView('Excel.attendenceonlyINOUT', compact('results','fromDate', 'toDate','dates','allEmp',
-                            'startDate','endDate'));
-                    });
-
-                })->store('xls',$filePath);
-
-            }else{
-
-                $check=Excel::create($fileName,function($excel)use ($results,$dates,$allEmp,$fromDate,$toDate, $startDate, $endDate) {
-
-                    foreach ($dates as $ad) {
-
-                        $excel->sheet($ad['date'], function ($sheet) use ($results, $ad,$dates, $allEmp, $fromDate, $toDate, $startDate, $endDate) {
-
-                            $sheet->loadView('Excel.attendenceonlyINOUTForSigle', compact('results', 'ad','fromDate', 'toDate', 'dates', 'allEmp',
+                            $sheet->loadView('Excel.attendenceonlyINOUTMonthly', compact('results', 'fromDate', 'toDate', 'dates', 'allEmp',
                                 'startDate', 'endDate'));
                         });
 
-                    }
+                    })->store('xls', $filePath);
 
-                })->store('xls',$filePath);
 
+                } elseif ($r->report && $r->report == 'dailyINOUT') {
+
+
+                    $check = Excel::create($fileName, function ($excel) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate, $endDate) {
+
+                        $excel->sheet('test', function ($sheet) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate, $endDate) {
+
+
+                            $sheet->freezePane('C4');
+                            $sheet->setStyle(array(
+                                'font' => array(
+                                    'name' => 'Calibri',
+                                    'size' => 10,
+                                    'bold' => false
+                                )
+                            ));
+
+                            $sheet->loadView('Excel.attendenceonlyINOUT', compact('results', 'fromDate', 'toDate', 'dates', 'allEmp',
+                                'startDate', 'endDate'));
+                        });
+
+                    })->store('xls', $filePath);
+
+                } else {
+
+                    $check = Excel::create($fileName, function ($excel) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate, $endDate) {
+
+                        foreach ($dates as $ad) {
+
+                            $excel->sheet($ad['date'], function ($sheet) use ($results, $ad, $dates, $allEmp, $fromDate, $toDate, $startDate, $endDate) {
+
+                                $sheet->loadView('Excel.attendenceonlyINOUTForSigle', compact('results', 'ad', 'fromDate', 'toDate', 'dates', 'allEmp',
+                                    'startDate', 'endDate'));
+                            });
+
+                        }
+
+                    })->store('xls', $filePath);
+
+                }
             }
 
 
