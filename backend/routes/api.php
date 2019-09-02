@@ -47,6 +47,7 @@ Route::group([
     /*Employee Info*/
     Route::post('employee/get','EmployeeController@getAllEmployee');
     Route::get('employee/getAll','EmployeeController@getAllEmployeeInfo');
+    Route::post('employee/getAllEmpForDepartment','EmployeeController@getAllEmployeeInfoForDepartment');
 
     //Employee basicinfo
     Route::post('employee/basicinfo','EmployeeController@getBasicinfo');
@@ -60,6 +61,7 @@ Route::group([
 
     //department Info
     Route::get('department/get','DepartmentController@get');
+    Route::get('departments/get-AllLevels','DepartmentController@getAllLevels');
     Route::post('department/post','DepartmentController@postDepartment');
 
     //Designation Info
@@ -99,6 +101,20 @@ Route::group([
     Route::get('leave/getLeaveCategory','LeaveController@getLeaveCategory');
     Route::post('leave/assignLeave','LeaveController@assignLeave');
     Route::post('leave/assignLeavePersonal','LeaveController@assignLeavePersonal');
+
+    //Show Leave Requests
+    Route::post('leave/getLeaveRequests','LeaveController@getLeaveRequests');
+    Route::post('leave/summery','LeaveController@getLeaveSummery');
+    Route::post('leave/getLeaveRequests/{id}','LeaveController@getLeaveRequestsIndividual');
+
+    Route::post('leave/get/individual','LeaveController@getIndividual');
+    Route::post('leave/get/myleave','LeaveController@getMyLeave');
+    Route::post('leave/summery/details','LeaveController@getLeaveSummeryDetails');
+    Route::post('leave/change/status','LeaveController@changeStatus');
+
+
+    Route::post('leave/individual/update','LeaveController@updateIndividual');
+
 
 
 

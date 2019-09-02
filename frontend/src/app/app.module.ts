@@ -27,6 +27,8 @@ import { AddLeaveComponent } from './components/leave/add-leave/add-leave.compon
 import { LeaveSummeryComponent } from './components/leave/leave-summery/leave-summery.component';
 import { LeaveComponent } from './components/configuration/leave/leave.component';
 import { NotShiftAssignListComponent } from './components/configuration/not-shift-assign-list/not-shift-assign-list.component';
+import { LeaveSummeryShowComponent } from './components/leave/leave-summery-show/leave-summery-show.component';
+import { ShowLeaveComponent } from './components/configuration/show-leave/show-leave.component';
 
 
 
@@ -54,6 +56,8 @@ import { NotShiftAssignListComponent } from './components/configuration/not-shif
     LeaveSummeryComponent,
     LeaveComponent,
     NotShiftAssignListComponent,
+    LeaveSummeryShowComponent,
+    ShowLeaveComponent,
 
 
 

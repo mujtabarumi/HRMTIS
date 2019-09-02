@@ -7,6 +7,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {DataTableDirective} from "angular-datatables";
 import {NgxSpinnerService} from "ngx-spinner";
 import {st} from "@angular/core/src/render3";
+import {log} from "util";
 
 
 declare var $ :any;
@@ -34,11 +35,15 @@ export class AttendanceComponent implements OnInit {
   fkLeaveCategory:string;
   leaveCategories:any;
   dropdownSettings = {};
+  dropdownSettings2 = {};
   selectedItems = [];
+  selectedDropDown = [];
   attendanceData:any;
   attendanceDate:any;
   test:any;
   search:boolean;
+  departments:any;
+  emp:any;
 
 
   constructor(private renderer: Renderer,public http: HttpClient, private token:TokenService ,
@@ -49,6 +54,7 @@ export class AttendanceComponent implements OnInit {
     this.search=false;
 
     this.getAllEployee();
+    this.getAllDepartment();
 
    // this.getData();
     // console.log(new Date.today().clearTime().moveToFirstDayOfMonth());
@@ -70,6 +76,16 @@ export class AttendanceComponent implements OnInit {
       allowSearchFilter: true,
       closeDropDownOnSelection:true,
     };
+    this.dropdownSettings2 = {
+      singleSelection: false,
+      idField:'id',
+      textField:'departmentName',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      // itemsShowLimit: 3,
+      allowSearchFilter: true,
+      closeDropDownOnSelection:true,
+    };
 
 
 
@@ -83,7 +99,7 @@ export class AttendanceComponent implements OnInit {
 
     this.http.get(Constants.API_URL+'employee/getAll'+'?token='+token).subscribe(data => {
         this.employee=data;
-        console.log(data);
+       // console.log(data);
       },
       error => {
         console.log(error);
@@ -94,10 +110,139 @@ export class AttendanceComponent implements OnInit {
 
   onItemSelect(value){
 
-    // console.log(this.selectedItems);
+
 
   }
   onItemDeSelect(value){
+
+
+
+  }
+  onItemSelectDepartment(value){
+
+
+    if (this.selectedDropDown.length >0){
+
+      let deptId=[];
+
+      for (var i=0;i<this.selectedDropDown.length;i++){
+
+        deptId.push(this.selectedDropDown[i]['id']);
+      }
+
+      let form={
+        departments:deptId,
+
+      };
+
+      const token=this.token.get();
+
+
+      this.http.post(Constants.API_URL+'employee/getAllEmpForDepartment'+'?token='+token,form).subscribe(data => {
+
+        this.emp=data;
+        if (this.emp.length>0){
+
+          for (var i=0;i<this.emp.length;i++){
+
+            let r= {
+              empid: this.emp[i]['empid'],
+              attDeviceUserId: this.emp[i]['attDeviceUserId']
+
+            };
+
+
+            this.selectedItems.push(r);
+
+          }
+
+
+
+        }
+
+          console.log(this.selectedItems);
+
+        },
+        error => {
+          console.log(error);
+        }
+      );
+
+
+    }
+
+
+
+  }
+  onItemDeSelectDepartment(value){
+
+    if (this.selectedDropDown.length >0){
+      // this.selectedItems=[];
+
+      let deptId=[];
+
+      for (var i=0;i<this.selectedDropDown.length;i++){
+
+        deptId.push(this.selectedDropDown[i]['id']);
+      }
+
+      let form={
+        departments:deptId,
+
+      };
+
+      const token=this.token.get();
+
+
+      this.http.post(Constants.API_URL+'employee/getAllEmpForDepartment'+'?token='+token,form).subscribe(data => {
+
+          this.emp=data;
+          if (this.emp.length>0){
+
+            for (var i=0;i<this.emp.length;i++){
+
+              let r= {
+
+                empid: this.emp[i]['empid'],
+                attDeviceUserId: this.emp[i]['attDeviceUserId']
+
+              };
+
+
+              this.selectedItems.push(r);
+
+            }
+
+          }
+
+
+
+        },
+        error => {
+          console.log(error);
+        }
+      );
+
+
+    }else {
+      this.selectedItems=[];
+    }
+
+  }
+  getAllDepartment(){
+
+    const token=this.token.get();
+
+
+    this.http.get(Constants.API_URL+'department/get'+'?token='+token).subscribe(data => {
+
+        this.departments=data;
+
+      },
+      error => {
+        console.log(error);
+      }
+    );
 
   }
 
@@ -121,79 +266,7 @@ export class AttendanceComponent implements OnInit {
   }
 
 
-  getData(){
 
-    if (this.selectedItems.length ==0 || this.selectedItems.length>1){
-
-        $.alert({
-          title: 'Alert',
-          content: 'Please select 1 employee only',
-        });
-
-    }
-    else if(this.selectedItems.length ==1)
-    {
-
-      const token=this.token.get();
-
-      let id=this.selectedItems[0]['empid'];
-
-      this.http.post(Constants.API_URL+'report/getEmployeeAttendance'+'?token='+token,{id:id,startDate:$('#startDate').val(),endDate:$('#endDate').val()}).subscribe(data => {
-
-          this.spinner.hide();
-          console.log(data);
-          this.attendanceData=data['result'];
-          this.attendanceDate=data['date'];
-          this.search=true;
-
-
-
-
-        },
-        error => {
-          console.log(error);
-          this.spinner.hide();
-        }
-      );
-
-
-
-      // this.dtOptions = {
-      //   ajax: {
-      //     url: Constants.API_URL+'report/getEmployeeAttendance'+'?token='+token,
-      //     type: 'POST',
-      //     data:function (d:any){
-      //       d.id=id;
-      //       d.startDate=$('#startDate').val();
-      //       d.endDate=$('#endDate').val();
-      //
-      //     },
-      //   },
-      //   columns: [
-      //
-      //     { data: 'attDeviceUserId' ,name:'attDeviceUserId'},
-      //     { data: 'firstName' ,name:'firstName'},
-      //     { data: 'attendanceDate' ,name:'attendanceDate'},
-      //     { data: 'checkInFull' , name: 'checkInFull' },
-      //     { data: 'checkoutFull', name: 'checkoutFull'},
-      //     { data: 'late', name: 'late'},
-      //     { data: 'lateTime', name: 'lateTime'},
-      //     { data: 'scheduleIn', name: 'scheduleIn'},
-      //     { data: 'scheduleOut', name: 'scheduleOut'},
-      //     { data: 'workingTime', name: 'workingTime'},
-      //
-      //
-      //   ],
-      //   processing: true,
-      //   serverSide: true,
-      //   pagingType: 'full_numbers',
-      //   pageLength: 10
-      // };
-
-    }
-
-
-  }
 
 
   generateDetailsExcel(){
@@ -574,7 +647,7 @@ export class AttendanceComponent implements OnInit {
 
   searchAttendance(){
 
-    this.getData();
+
 
   }
 

@@ -14,13 +14,15 @@ export class AddDepartmentComponent implements OnInit {
 
   departments:any[];
   company:any;
+  Levels:any;
   departmentField={} as Department;
 
   constructor(public http: HttpClient,private token:TokenService) { }
 
   ngOnInit() {
     this.getDepartments();
-    this.getCompany();
+   // this.getDepartmentLevels();
+    //this.getCompany();
   }
 
   getDepartments(){
@@ -33,21 +35,57 @@ export class AddDepartmentComponent implements OnInit {
       }
     );
   }
-  getCompany(){
-    const token=this.token.get();
-    this.http.get(Constants.API_URL+'company/get'+'?token='+token).subscribe(data => {
+  // getCompany(){
+  //   const token=this.token.get();
+  //   this.http.get(Constants.API_URL+'company/get'+'?token='+token).subscribe(data => {
+  //
+  //       this.company=data;
+  //     },
+  //     error => {
+  //       console.log(error);
+  //     }
+  //   );
+  // }
+  // getDepartmentLevels(){
+  //   const token=this.token.get();
+  //   this.http.get(Constants.API_URL+'departments/get-AllLevels'+'?token='+token).subscribe(data => {
+  //
+  //       this.Levels=data;
+  //       console.log(data);
+  //     },
+  //     error => {
+  //       console.log(error);
+  //     }
+  //   );
+  // }
+  // onChangeEvent(ev) {
+  //   console.log(ev.target.value); // should print option1
+  //
+  //   if (ev.target.value!=0){
+  //
+  //     const token=this.token.get();
+  //     this.http.get(Constants.API_URL+'departments/get-parentDepartments'+'?token='+token).subscribe(data => {
+  //
+  //         this.Levels=data;
+  //         console.log(data);
+  //       },
+  //       error => {
+  //         console.log(error);
+  //       }
+  //     );
+  //
+  //
+  //   }
+  //
+  //
+  //
+  //
+  // }
 
-        this.company=data;
-      },
-      error => {
-        console.log(error);
-      }
-    );
-  }
 
 
   editDept(dept){
-    // console.log(dept);
+
     this.departmentField=dept;
   }
 
@@ -64,10 +102,10 @@ export class AddDepartmentComponent implements OnInit {
 
   }
   onSubmit(){
-   // console.log(this.departmentField);
+
     const token=this.token.get();
     this.http.post(Constants.API_URL+'department/post'+'?token='+token,this.departmentField).subscribe(data => {
-      //  console.log(data);
+
         this.getDepartments();
 
         this.departmentField={} as Department;
@@ -81,7 +119,6 @@ export class AddDepartmentComponent implements OnInit {
               text: 'Ok',
               btnClass: 'btn-red',
               action: function () {
-
 
 
               }

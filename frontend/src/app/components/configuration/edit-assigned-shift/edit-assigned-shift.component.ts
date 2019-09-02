@@ -60,7 +60,8 @@ export class EditAssignedShiftComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnInit()
+  {
 
     this.route.params.subscribe(params => {
       let id = params['id'];
@@ -102,16 +103,19 @@ export class EditAssignedShiftComponent implements OnInit {
       closeDropDownOnSelection:true,
     };
   }
-  toggleAdjustment(e){
+  toggleAdjustment(e)
+  {
   this.AdjustmentCheckBox = e.target.checked;
     if (this.AdjustmentCheckBox==false){
         this.shiftObj.adjustmentDate="";
     }
   }
-  toggleLeave(e){
+  toggleLeave(e)
+  {
   this.LeaveCheckBox = e.target.checked;
   }
-  getAllEployee(){
+  getAllEployee()
+  {
 
     const token=this.token.get();
 
@@ -126,7 +130,8 @@ export class EditAssignedShiftComponent implements OnInit {
     );
 
   }
-  weekend(shiftLogId,date,empId,text){
+  weekend(shiftLogId,date,empId,text)
+  {
 
     let that=this;
     let d=date;
@@ -151,7 +156,9 @@ export class EditAssignedShiftComponent implements OnInit {
 
 
   }
-  setWeekend(shiftLogId,date,empId,direction){
+  setWeekend(shiftLogId,date,empId,direction) // set weekend for selected date
+
+  {
 
     let form={
       empId:empId,
@@ -196,7 +203,8 @@ export class EditAssignedShiftComponent implements OnInit {
 
 
   }
-  submitFuture(){
+  submitFuture() // Assign roster for future date
+  {
     this.futureShift.empId=this.selectedItems[0]['empid'];
 
 
@@ -226,18 +234,21 @@ export class EditAssignedShiftComponent implements OnInit {
 
 
   }
-  onItemSelect(value){
+  onItemSelect(value)
+  {
 
     this.assignedLog=[];
-    // console.log(this.selectedItems);
+     console.log(this.selectedItems);
 
   }
-  onItemDeSelect(value){
+  onItemDeSelect(value)
+  {
 
     this.assignedLog=[];
 
   }
-  onItemSelect2(value){
+  onItemSelect2(value) // get the roster inTime and outTime for the selected Roster
+  {
 
    // console.log(value.shiftId);
     this.shiftObj.inTime="";
@@ -258,7 +269,7 @@ export class EditAssignedShiftComponent implements OnInit {
       const token=this.token.get();
 
       this.http.get(Constants.API_URL+'shift/getInfo/'+value.shiftId+'?token='+token).subscribe(data => {
-          // console.log(data);
+
           this.shiftObj.inTime=data['inTime'];
           this.shiftObj.outTime=data['outTime'];
 
@@ -275,10 +286,11 @@ export class EditAssignedShiftComponent implements OnInit {
     }
 
 
-    console.log(this.selectedItems2);
+    //console.log(this.selectedItems2);
 
   }
-  onSelectAll2(value){
+  onSelectAll2(value)
+  {
     this.selectedItems2=[];
     this.shiftObj.inTime="";
     this.shiftObj.outTime="";
@@ -287,7 +299,7 @@ export class EditAssignedShiftComponent implements OnInit {
       this.selectedItems2.push(value[i].shiftId);
 
     }
-    console.log(this.selectedItems2);
+   // console.log(this.selectedItems2);
 
   }
   onDeSelectAll2(value){
@@ -297,7 +309,8 @@ export class EditAssignedShiftComponent implements OnInit {
 
     }
 
-  findAttendence(){
+  findAttendence() // get the attendance data for an employee between two dates
+  {
 
     if(this.startDate ==null || this.endDate ==null || this.selectedItems.length==0){
       alert("Empty");
@@ -329,7 +342,8 @@ export class EditAssignedShiftComponent implements OnInit {
 
 
   }
-  notAssignedinfo(id,userId,start,end){
+  notAssignedinfo(id,userId,start,end) //get the not assigned attendance data for an employee
+  {
 
     let r={'empid':id,'attDeviceUserId':userId};
     this.selectedItems.push(r);
@@ -364,7 +378,8 @@ export class EditAssignedShiftComponent implements OnInit {
 
 
   }
-  changeAssignShift(){
+  changeAssignShift() //save the attendance data
+  {
 
     if( this.shiftObj.empId ==null){
       alert("Empty");
@@ -377,7 +392,7 @@ export class EditAssignedShiftComponent implements OnInit {
 
     else {
 
-     // console.log(this.shiftObj);
+
 
       if (this.shiftObj.adjustmentDate =="" || this.shiftObj.adjustmentDate == null ) {
 
@@ -396,7 +411,7 @@ export class EditAssignedShiftComponent implements OnInit {
 
         };
 
-        console.log(form);
+
         const token=this.token.get();
 
         this.http.post(Constants.API_URL+'shift/assigned-shift-update'+'?token='+token,form).subscribe(data => {
@@ -488,12 +503,13 @@ export class EditAssignedShiftComponent implements OnInit {
 
 
   }
-  getShift(){
+  getShift() // get all the Roster info
+  {
     const token=this.token.get();
 
     this.http.get(Constants.API_URL+'shift/get'+'?token='+token).subscribe(data => {
         this.shift=data;
-        // console.log(data);
+
       },
       error => {
         console.log(error);
@@ -502,7 +518,8 @@ export class EditAssignedShiftComponent implements OnInit {
 
   }
 
-  edit(shiftlogid,date,empId,content){
+  edit(shiftlogid,date,empId,content) //open Roster info edit modal with related info
+  {
 
     if (shiftlogid != null){
 
@@ -534,7 +551,8 @@ export class EditAssignedShiftComponent implements OnInit {
     }
 
   }
-  viewFutureRosterForm(future){
+  viewFutureRosterForm(future) // open future Roster modal
+  {
 
     this.shiftObj.empId = this.selectedItems[0]['empid'];
 
@@ -542,7 +560,8 @@ export class EditAssignedShiftComponent implements OnInit {
 
   }
 
-  editShiftLog(shiftlogid,date,empId,content){
+  editShiftLog(shiftlogid,date,empId,content) //open Roster info edit modal with related info
+  {
 
 
       let i = 0;
@@ -564,7 +583,8 @@ export class EditAssignedShiftComponent implements OnInit {
       this.modalRef = this.modalService.open(content, {size: 'lg',backdrop:'static'});
 
   }
-  AdjustmentShiftLog(shiftlogid,date,empId,adjustment){
+  AdjustmentShiftLog(shiftlogid,date,empId,adjustment) //open Roster info Adjustment modal with related info
+  {
 
 
     if (shiftlogid == null){
@@ -626,7 +646,7 @@ export class EditAssignedShiftComponent implements OnInit {
     const token=this.token.get();
 
     this.http.get(Constants.API_URL+'shift/getInfo/'+value.shiftId+'?token='+token).subscribe(data => {
-        // console.log(data);
+
       this.shiftObj.inTime=data['inTime'];
       this.shiftObj.outTime=data['outTime'];
 
@@ -641,12 +661,13 @@ export class EditAssignedShiftComponent implements OnInit {
 
   }
 
-  submitAdjustment(){
+  submitAdjustment() //save the Adjustment Info For Roster
+  {
 
     if(!this.checkForm()){
       return false;
     }
-   // console.log(this.shiftObj.adjustmentDate);
+
     if (this.shiftObj.adjustmentDate =="" || this.shiftObj.adjustmentDate==null){
 
       let form={
@@ -662,7 +683,7 @@ export class EditAssignedShiftComponent implements OnInit {
       const token=this.token.get();
 
       this.http.post(Constants.API_URL+'shift/adjustmentAdd'+'?token='+token,form).subscribe(data => {
-          // console.log(data);
+
 
           $.alert({
             title: 'Success!',
@@ -731,13 +752,14 @@ export class EditAssignedShiftComponent implements OnInit {
 
     }
 
-   // console.log(form);
+
 
 
 
   }
 
-  checkForm(){
+  checkForm() //validation
+  {
     let message="";
     let condition=true;
 
@@ -783,7 +805,8 @@ export class EditAssignedShiftComponent implements OnInit {
     return true;
 
   }
-  checkForm2(){
+  checkForm2() //validation
+  {
     let message="";
     let condition=true;
 
@@ -834,7 +857,8 @@ export class EditAssignedShiftComponent implements OnInit {
     return true;
 
   }
-  confirmDelete(shiftlogid,date,empId){
+  confirmDelete(shiftlogid,date,empId) //Alert Confirm delete Roster
+  {
 
 
     let that = this;
@@ -858,7 +882,8 @@ export class EditAssignedShiftComponent implements OnInit {
         }
       });
   }
-  delete(shiftlogid,date,empId){
+  delete(shiftlogid,date,empId) //Delete Roster Form Log
+  {
 
     let i=0;
     for(i;i<this.assignedLog.length;i++){
@@ -914,7 +939,8 @@ export class EditAssignedShiftComponent implements OnInit {
 
 
   }
-  private modalClose(){
+  private modalClose() // Close modal and set related data to null/empty
+  {
 
     this.shiftObj={};
     this.selectedItems2=[];

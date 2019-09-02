@@ -156,13 +156,14 @@ class AttendanceController extends Controller
 
         if ($r->empId){
 
-            $allEmp=Employee::select('employeeinfo.id','employeeinfo.id','attemployeemap.attDeviceUserId','departments.departmentName',
+            $allEmp=Employee::select('employeeinfo.id','attemployeemap.attDeviceUserId','departments.departmentName',
                 DB::raw("CONCAT(COALESCE(firstName,''),' ',COALESCE(middleName,''),' ',COALESCE(lastName,'')) AS empFullname"))
                 ->leftJoin('attemployeemap','attemployeemap.employeeId','employeeinfo.id')
                 ->leftJoin('departments','departments.id','employeeinfo.fkDepartmentId')
                 ->whereIn('employeeinfo.id',$r->empId)
                 ->orderBy('departments.orderBy','ASC')
                 ->orderBy('employeeinfo.id','ASC')
+//                ->whereNotNull('employeeinfo.fkDepartmentId')
                 ->get();
 
             $List = implode(',',$r->empId);
@@ -271,6 +272,7 @@ class AttendanceController extends Controller
                     ->orderBy('departments.orderBy', 'ASC')
                     ->orderBy('employeeinfo.id', 'ASC')
                     ->whereNull('resignDate')
+                    ->whereNotNull('employeeinfo.fkDepartmentId')
                     ->get();
 
 
@@ -361,6 +363,7 @@ class AttendanceController extends Controller
 
 
         return response()->json($fileName);
+      //  return $results;
 
 
 

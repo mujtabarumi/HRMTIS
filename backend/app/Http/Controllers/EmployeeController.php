@@ -126,6 +126,19 @@ class EmployeeController extends Controller
             ->get();
 
     }
+    public function getAllEmployeeInfoForDepartment(Request $r)
+    {
+        return $employee = Employee::select('employeeinfo.firstName','employeeinfo.lastName','employeeinfo.middleName','employeeinfo.EmployeeId','designations.title','departments.departmentName',
+            'employeeinfo.id as empid','attemployeemap.attDeviceUserId')
+            ->leftjoin('designations','designations.id','=','employeeinfo.fkDesignation')
+            ->leftjoin('departments','departments.id','=','employeeinfo.fkDepartmentId')
+            ->leftjoin('attemployeemap','attemployeemap.employeeId','=','employeeinfo.id')
+            ->where('resignDate', null)
+            ->whereNotNull('attemployeemap.attDeviceUserId')
+            ->whereIn('departments.id',$r->departments)
+            ->get();
+
+    }
 
     public function getAllEmployeeForAttendance(Request $r){
 

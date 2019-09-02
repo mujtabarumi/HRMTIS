@@ -73,7 +73,7 @@ constructor(private renderer: Renderer,public http: HttpClient, private token:To
     };
     this.getData();
     this.getShift();
-    // this.getTeam();
+
     this.dates=[];
     this.showAssign=false;
 
@@ -101,21 +101,9 @@ constructor(private renderer: Renderer,public http: HttpClient, private token:To
     );
 
   }
-  // getTeam(){
-  //   const token=this.token.get();
-  //
-  //   this.http.get(Constants.API_URL+'team/get'+'?token='+token).subscribe(data => {
-  //       // console.log(data);
-  //       this.team=data;
-  //
-  //
-  //     },
-  //     error => {
-  //       console.log(error);
-  //     }
-  //   );
-  // }
-  getData(){
+
+  getData()
+  {
     const token=this.token.get();
     this.dtOptions = {
       ajax: {
@@ -137,9 +125,7 @@ constructor(private renderer: Renderer,public http: HttpClient, private token:To
         { data: 'middleName' ,name:'employeeinfo.middleName'},
         { data: 'lastName' ,name:'employeeinfo.lastName'},
         { data: 'EmployeeId' , name: 'employeeinfo.EmployeeId' },
-        // { data: 'shiftName', name: 'shift.shiftName'},
-        // { data: 'weekend', name: 'shiftlog.weekend'},
-        // { data: 'startDate', name: 'shiftlog.startDate'},
+
 
       ],
 
@@ -177,8 +163,7 @@ constructor(private renderer: Renderer,public http: HttpClient, private token:To
   }
 
   selectShift(value,value2){
-  //  console.log(value);
-    // this.getData();
+
     this.shiftId=value.shiftId;
 
 

@@ -116,6 +116,14 @@ export class LeaveComponent implements OnInit {
 
         { data: 'weekend', name: 'employeeinfo.weekend'},
 
+        {
+          "data": function (data: any, type: any, full: any) {
+            return ' <button class="btn btn-info" data-emp-id="'+data.empid+'"> View</button>';
+          },
+          "orderable": false, "searchable":false, "name":"selected_rows"
+        }
+
+
 
       ],
       processing: true,
@@ -127,6 +135,18 @@ export class LeaveComponent implements OnInit {
 
   ngAfterViewInit(): void {
     this.dtTrigger.next();
+
+    this.renderer.listenGlobal('document', 'click', (event) => {
+
+      if (event.target.hasAttribute("data-emp-id")) {
+
+        let id=event.target.getAttribute("data-emp-id");
+        this.showLeaveOfEmp(id);
+      }
+
+
+    });
+
 
   }
   ngOnDestroy(): void {
@@ -153,6 +173,12 @@ export class LeaveComponent implements OnInit {
       $(':checkbox:checked').prop('checked',false);
     }
 
+
+  }
+  showLeaveOfEmp(id){
+
+    this.router.navigate(["leave/summery/" + id]);
+    return false;
 
   }
 

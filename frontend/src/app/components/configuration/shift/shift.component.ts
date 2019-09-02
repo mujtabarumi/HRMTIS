@@ -58,7 +58,7 @@ export class ShiftComponent implements OnInit {
 
   onSubmit(){
 
-    // shift/post
+
     const token=this.token.get();
 
     this.http.post(Constants.API_URL+'shift/post'+'?token='+token,this.shiftObj).subscribe(data => {

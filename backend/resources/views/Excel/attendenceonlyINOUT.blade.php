@@ -252,6 +252,7 @@
 
                                         @endif
                                 @endif
+
                             @else
                                 @if($results->where('employeeId',$aE->id)->where('attendanceDate',$nextday)
                                 ->where('accessTime','>=','00:00')->where('accessTime','<=',"04:00")->first())
@@ -356,8 +357,7 @@
                                     @php
                                         $access=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$nextday)
                                             ->where('accessTime','>=','00:00:00')->where('accessTime','<=','3:59:59')->first()->accessTime);
-                                         $ins=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])
-                                             ->first()->inTime);
+                                         $ins=\Carbon\Carbon::createFromFormat('H:i:s','00:00:00');
 
                                     @endphp
 

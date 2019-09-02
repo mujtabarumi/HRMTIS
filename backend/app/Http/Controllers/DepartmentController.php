@@ -9,16 +9,17 @@ use App\Http\Controllers\Controller;
 class DepartmentController extends Controller
 {
     public function get(){
-        $departments=Department::orderBy('id','desc')->get();
+        $departments=Department::select('id','departmentName','deptHead','fkDeptParent','deptLevel')->orderBy('id','desc')->get();
         return $departments;
     }
+    public function getAllLevels()
+    {
+        $departmentsLevels=Department::select('deptLevel')->orderBy('id','ASC')->distinct()->get();
+        return $departmentsLevels;
+    }
 
-    /*
-    * Error In Created_by field
-    * it send the null value
-    * not get anything from the api function call
-    * auth()->user()->id non object property
-    */
+
+
 
 
     public function postDepartment(Request $r){
@@ -36,10 +37,27 @@ class DepartmentController extends Controller
         }
 
         $department->fkCompany = auth()->user()->fkCompany;
+
         $department->departmentName = $r->departmentName;
-        $department->deptLevel = $r->deptLevel;
+        $department->fkDeptParent = $r->fkDeptParent;
+
+        if ($r->fkDeptParent==""){
+            $department->deptLevel = 0;
+        }else{
+
+            $depParent=Department::findOrFail($r->fkDeptParent);
+            $department->deptLevel = (($depParent->deptLevel)+1);
+        }
+
+        $department->deptHead = $r->deptHead;
+
 
         $department->save();
+
+
+
+
+
         return response()->json(["message" =>'Department Updated']);
     }
 }

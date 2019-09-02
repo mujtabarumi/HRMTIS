@@ -18,6 +18,9 @@ import {AddEmployeeComponent} from "./components/user/add-employee/add-employee.
 import {AddLeaveComponent} from "./components/leave/add-leave/add-leave.component";
 import {LeaveComponent} from "./components/configuration/leave/leave.component";
 import { NotShiftAssignListComponent } from './components/configuration/not-shift-assign-list/not-shift-assign-list.component';
+import { LeaveSummeryShowComponent } from './components/leave/leave-summery-show/leave-summery-show.component';
+import {LeaveSummeryComponent} from "./components/leave/leave-summery/leave-summery.component";
+import {ShowLeaveComponent} from "./components/configuration/show-leave/show-leave.component";
 
 
 
@@ -48,6 +51,9 @@ const routes: Routes = [
     { path: 'configuration/not-shift-assigned-list', component: NotShiftAssignListComponent ,canActivate: [AuthService] },
     { path: 'configuration/not-shift-assigned-list/notAssignedinfo', component: NotShiftAssignListComponent ,canActivate: [AuthService] },
     { path: 'notAssignedinfoPerEmp/:id/:userId/:start/:end', component: EditAssignedShiftComponent ,canActivate: [AuthService]},
+    { path: 'notAssignedinfoPerEmp/:id/:userId/:start/:end', component: EditAssignedShiftComponent ,canActivate: [AuthService]},
+    { path: 'leave/summery/:id', component: LeaveSummeryShowComponent,canActivate: [AuthService] },
+    { path: 'configuration/leave/show', component: ShowLeaveComponent,canActivate: [AuthService]  },
 
 
 
