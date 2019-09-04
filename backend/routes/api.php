@@ -51,6 +51,14 @@ Route::group([
 
     //Employee basicinfo
     Route::post('employee/basicinfo','EmployeeController@getBasicinfo');
+    Route::post('employee/storeBasicInfo','EmployeeController@storeBasicInfo');
+
+    //===============================Leave Limit==================================
+    Route::post('leave/limit/get','LeaveLimitController@get');
+    Route::post('leave/limit/post','LeaveLimitController@post');
+
+
+
     //EmployeeType Info
     Route::get('employee_type/get','EmployeeTypeController@get');
     //employee Join Info

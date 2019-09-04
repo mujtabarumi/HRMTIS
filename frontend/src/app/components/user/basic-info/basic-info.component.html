@@ -4,6 +4,9 @@
   </div>
 
   <div class="card-body">
+    <div *ngFor="let p of error" class="alert alert-secondary" role="alert">
+      {{p}}
+    </div>
     <div class="row">
 
 
@@ -45,17 +48,11 @@
 
       <!--<div class="col-md-12"><hr></div>-->
 
-      <div class="form-group col-md-4">
-        <label>Company <span style="color: red">*</span></label>
-        <select class="form-control"  [(ngModel)]="employeeBasicForm.company" required>
-          <option value="">Select Company</option>
 
-        </select>
-      </div>
 
       <div class="form-group col-md-4">
         <label>Department <span style="color: red">*</span></label>
-        <select class="form-control"  [(ngModel)]="employeeBasicForm.department" required>
+        <select class="form-control" (change)="selectDepartment($event.target.value)"  [(ngModel)]="employeeBasicForm.department" required>
           <option value="">Select Department</option>
           <option *ngFor="let dept of department" [value]="dept.id">
             {{dept.departmentName}}
@@ -65,7 +62,7 @@
 
       <div class="form-group col-md-4">
         <label>Designation <span style="color: red">*</span></label>
-        <select class="form-control"  [(ngModel)]="employeeBasicForm.designation" required>
+        <select class="form-control" (change)="selectDesignation($event.target.value)" [(ngModel)]="employeeBasicForm.designation" required>
           <option value="">Select Designation</option>
           <option *ngFor="let desg of designation" [value]="desg.id">
             {{desg.title}}
@@ -127,7 +124,7 @@
 
       <div class="form-group col-md-8">
         <label>Image</label>
-        <input type="file" class="form-control" name="photo" placeholder="image">
+        <input type="file" class="form-control" name="photo" (change)="onFileSelected($event)" placeholder="image">
       </div>
       <div class="form-group col-md-4">
 
@@ -141,7 +138,7 @@
 
 
       <div class="form-group col-md-12" align="right" style="margin-top: 20px" >
-        <button  class="btn btn-lg btn-success ">Save Data</button>
+        <button  class="btn btn-lg btn-success " (click)="onSubmit()">Save Data</button>
       </div>
 
 

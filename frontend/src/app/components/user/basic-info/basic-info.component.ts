@@ -57,7 +57,7 @@ export class BasicInfoComponent implements OnInit {
 
     //Getting Designations
     this.http.get(Constants.API_URL+'designation/get').subscribe(data => {
-        // console.log(data);
+
         this.designation=data;
       },
       error => {
@@ -67,7 +67,7 @@ export class BasicInfoComponent implements OnInit {
 
     //Getting Employee Types
     this.http.get(Constants.API_URL+'employee_type/get').subscribe(data => {
-        // console.log(data);
+
         this.empType=data;
       },
       error => {
@@ -81,6 +81,7 @@ export class BasicInfoComponent implements OnInit {
         // console.log(data);
         this.basicinfo  = data;
         if(data !=null){
+
           this.employeeBasicForm.id = this.empid;
           this.employeeBasicForm.EmployeeId = this.basicinfo.EmployeeId;
           this.employeeBasicForm.firstName = this.basicinfo.firstName;
@@ -99,10 +100,126 @@ export class BasicInfoComponent implements OnInit {
         }
 
 
-        //this.empType=data;
       },
       error => {
         console.log(error);
+      }
+    );
+  }
+
+  selectDepartment(value){
+
+    this.employeeBasicForm.department=value;
+  }
+
+  selectDesignation(value){
+
+    this.employeeBasicForm.designation=value;
+  }
+
+
+  onFileSelected(event) {
+
+    this.selectedFile =event.target.files[0];
+
+  }
+  checkRequiredFields(){
+    if(this.employeeBasicForm.EmployeeId == ''){
+      return false;
+    }
+    if(this.employeeBasicForm.firstName== ''){
+      return false;
+    }
+    if(  this.employeeBasicForm.lastName == ''){
+      return false;
+    }
+    if(this.employeeBasicForm.gender == '' || this.employeeBasicForm.gender == null){
+      return false;
+    }
+    if(this.employeeBasicForm.birthdate == '' || this.employeeBasicForm.birthdate == null ){
+      return false;
+    }
+    if(this.employeeBasicForm.department == ''){
+      return false;
+    }
+    if(this.employeeBasicForm.empType == ''){
+      return false;
+    }
+    if(this.employeeBasicForm.designation == ''){
+      return false;
+    }
+    if(this.employeeBasicForm.contactNo == ''){
+      return false;
+    }
+
+    return true;
+  }
+
+  onSubmit(){
+    if(!this.checkRequiredFields()){
+      $.alert({
+        title: 'Alert!',
+        type: 'Red',
+        content: 'Please Insert Mandatory Fields',
+        buttons: {
+          tryAgain: {
+            text: 'Ok',
+            btnClass: 'btn-red',
+            action: function () {
+            }
+          }
+        }
+      });
+      return false;
+    }
+
+    //console.log(this.employeeBasicForm.gender);
+
+
+    let fd = new FormData();
+    let value=this.employeeBasicForm;
+    for ( let key in value ) {
+      fd.append(key, value[key]);
+    }
+
+    if (this.selectedFile) {
+
+      fd.append('photo', this.selectedFile, this.selectedFile.name);
+    }
+
+
+    const token=this.token.get();
+
+    this.http.post(Constants.API_URL+'employee/storeBasicInfo'+'?token='+token,fd).subscribe(data => {
+
+
+        this.result=data;
+        $.alert({
+          title: 'Success!',
+          type: 'Green',
+          content: "Employee Updated Successfully",
+          buttons: {
+            tryAgain: {
+              text: 'Ok',
+              btnClass: 'btn-red',
+              action: function () {
+              }
+            }
+          }
+        });
+        this.router.navigate(['employee', 'edit', this.result.id]);
+
+      },
+      error => {
+        const data=error.error.errors;
+
+        for (var p in data) {
+
+          for (var k in data[p]) {
+            this.error.push(data[p][k]);
+          }
+        }
+
       }
     );
   }

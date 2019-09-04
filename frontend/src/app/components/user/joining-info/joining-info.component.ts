@@ -145,8 +145,7 @@ export class JoiningInfoComponent implements OnInit {
 
 
     this.http.post(Constants.API_URL+'joinInfo/post'+'?token='+token,this.employeeJoiningForm).subscribe(data => {
-        // console.log(data);
-        // this.result=data;
+
         this.getData();
         $.alert({
           title: 'Success!',
@@ -159,6 +158,35 @@ export class JoiningInfoComponent implements OnInit {
       }
     );
 
+  }
+
+  submitLeaveLimit(){
+
+    const token=this.token.get();
+    this.http.post(Constants.API_URL+'leave/limit/post'+'?token='+token,{id:this.empid,totalLeave:this.totalLeaveAssigned,leaveTaken:this.leaveTaken}).subscribe(data => {
+
+        this.getLeaveLimit();
+
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+
+  getLeaveLimit(){
+    const token=this.token.get();
+    this.http.post(Constants.API_URL+'leave/limit/get'+'?token='+token,{id:this.empid}).subscribe(data => {
+
+        this.temp=data;
+        this.totalLeaveAssigned=this.temp['leaveLimit'].totalLeave;
+        this.leaveTaken=this.temp['leaveTaken'];
+
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 
 }

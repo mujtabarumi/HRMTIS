@@ -6,7 +6,9 @@ use App\AttEmployeeMap;
 use App\Employee;
 
 
+
 use App\ShiftLog;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -94,6 +96,7 @@ class EmployeeController extends Controller
     }
 
     public function getBasicinfo(Request $r){
+
         $basicinfo = Employee::select('EmployeeId','photo','firstName', 'middleName', 'lastName', 'fkEmployeeType','email' ,'gender', 'birthdate','contactNo','fkDesignation','fkDepartmentId','departmentName', 'title','alterContactNo')
             ->leftjoin('designations','designations.id','=','employeeinfo.fkDesignation')
             ->leftjoin('departments','departments.id','=','employeeinfo.fkDepartmentId')
@@ -154,5 +157,70 @@ class EmployeeController extends Controller
 
         $datatables = Datatables::of($employee);
         return $datatables->make(true);
+    }
+
+    public function storeBasicInfo(Request $r){
+
+//        return auth()->user()->fkComapny;
+//        return $r;
+        $this->validate($r, [
+            'EmployeeId' => 'required|max:20',
+            'firstName'   => 'required|max:50',
+            'middleName'   => 'nullable|max:50',
+            'lastName'   => 'nullable|max:50',
+            'nickName'   => 'nullable|max:100',
+            'fkDepartmentId'   => 'max:11',
+            'fkDesignation'   => 'max:11',
+            'fkEmployeeType'   => 'max:11',
+            'email'   => 'nullable|max:30',
+            'contactNo'   => 'nullable|max:15',
+            'alterContactNo'   => 'nullable|max:15',
+            'birthdate'   => 'nullable|date',
+            'gender'   => 'max:1',
+            'photo'   => 'max:256',
+        ]);
+
+        if($r->id){
+            $employeeInfo = Employee::findOrFail($r->id);
+        }
+        else {
+
+            $employeeInfo = new Employee();
+            $user=new User();
+            $user->email=$r->email;
+            $user->userName=$r->firstName;
+            $user->fkUserType="emp";
+            $user->fkCompany=auth()->user()->fkComapny;
+            $user->fkActivationStatus=1;
+            $user->password=Hash::make('123456');
+            $user->save();
+            $employeeInfo->fkUserId=$user->id;
+            $employeeInfo->createdBy=auth()->user()->id;
+            $employeeInfo->fkCompany=auth()->user()->fkCompany;
+            //  $employeeInfo->createdBy=1;
+        }
+        $employeeInfo->EmployeeId =$r->EmployeeId;
+        $employeeInfo->firstName = $r->firstName;
+        $employeeInfo->middleName =$r->middleName;
+        $employeeInfo->lastName = $r->lastName;
+        $employeeInfo->nickName =$r->nickName;
+        $employeeInfo->fkDepartmentId=$r->department;
+        $employeeInfo->fkDesignation=$r->designation;
+        $employeeInfo->fkEmployeeType=$r->empType;
+        $employeeInfo->email=$r->email;
+        $employeeInfo->contactNo=$r->contactNo;
+        $employeeInfo->alterContactNo=$r->alterContactNo;
+        $employeeInfo->birthdate=$r->birthdate;
+        $employeeInfo->gender =$r->gender;
+        if($r->hasFile('photo')){
+            $images = $r->file('photo');
+            $name = time().'.'.$images->getClientOriginalName();
+            $destinationPath = public_path('/images');
+            $images->move($destinationPath, $name);
+            $employeeInfo->photo=$name;
+        }
+        $employeeInfo->save();
+
+        return $employeeInfo;
     }
 }
