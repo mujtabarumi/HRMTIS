@@ -44,6 +44,6 @@ class LeaveLimitController extends Controller
         LeaveLimit::where('fkemployeeId',$r->id)
             ->where('year',date('Y'))
             ->update(['totalLeave'=>$r->totalLeave,'leaveTaken'=>$r->leaveTaken]);
-        
+
     }
 }

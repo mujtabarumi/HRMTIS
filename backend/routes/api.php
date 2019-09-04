@@ -74,6 +74,7 @@ Route::group([
 
     //Designation Info
     Route::get('designation/get','DesignationController@get');
+    Route::post('designationinfo/post','DesignationController@postDesignationInfo');
 
     //Company Info
     Route::get('company/get','CompanyController@get');

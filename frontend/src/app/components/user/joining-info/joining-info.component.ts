@@ -69,6 +69,7 @@ export class JoiningInfoComponent implements OnInit {
     this.employeeJoiningForm.id=this.empid;
 
     this.getData();
+    this.getLeaveLimit();
 
 
   }
