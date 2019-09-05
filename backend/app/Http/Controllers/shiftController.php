@@ -105,7 +105,8 @@ class shiftController extends Controller
                 'outTime'=>$shiftName['outTime'],
                 'shiftId'=>$shiftName['fkshiftId'],
                 'adjustmentDate'=>$shiftName['adjustmentDate'],
-                'weekend'=>$shiftName['weekend']
+                'weekend'=>$shiftName['weekend'],
+                'holiday'=>$shiftName['holiday']
             );
             array_push($array,$newArray);
 //            $array['date'] = $date->format($format);
@@ -417,17 +418,29 @@ class shiftController extends Controller
                    if ($oldLog)
                    {
 
-                       $newLog=new ShiftLog();
+                       if (!$oldLog->holiday){
 
-                       $newLog->fkemployeeId=$r->empId;
-                       $newLog->startDate=$date;
-                       $newLog->endDate=$date;
-                       $newLog->inTime=$oldLog->inTime;
-                       $newLog->outTime=$oldLog->outTime;
-                       $newLog->fkshiftId=$oldLog->fkshiftId;
-                       $newLog->adjustmentDate=$oldLog->adjustmentDate;
+                           $newLog=new ShiftLog();
 
-                       $newLog->save();
+                           $newLog->fkemployeeId=$r->empId;
+                           $newLog->startDate=$date;
+                           $newLog->endDate=$date;
+                           $newLog->inTime=$oldLog->inTime;
+                           $newLog->outTime=$oldLog->outTime;
+                           $newLog->fkshiftId=$oldLog->fkshiftId;
+                           $newLog->adjustmentDate=$oldLog->adjustmentDate;
+                           $newLog->weekend=$oldLog->weekend;
+
+                           $newLog->save();
+
+                       }
+
+
+
+
+
+
+
 
                    }
 
@@ -467,6 +480,43 @@ class shiftController extends Controller
 
             }else{
                 $shiftLog->weekend=null;
+                $shiftLog->save();
+            }
+
+        }
+
+
+    }
+
+    public function setshiftLogholiday(Request $r){
+
+
+
+        if ($r->direction=='Add'){
+
+            if ($r->shiftLogId=="" || $r->shiftLogId==null){
+                $shiftLog=new ShiftLog();
+
+            }else {
+                $shiftLog = ShiftLog::findOrFail($r->shiftLogId);
+            }
+            $shiftLog->fkemployeeId=$r->empId;
+            $shiftLog->startDate=$r->date;
+            $shiftLog->endDate=$r->date;
+
+            $shiftLog->holiday=$r->date;
+            $shiftLog->save();
+
+        }elseif ($r->direction=='Remove'){
+
+            $shiftLog = ShiftLog::findOrFail($r->shiftLogId);
+
+            if ($shiftLog->inTime==null && $shiftLog->outTime==null){
+
+                $shiftLog->delete();
+
+            }else{
+                $shiftLog->holiday=null;
                 $shiftLog->save();
             }
 

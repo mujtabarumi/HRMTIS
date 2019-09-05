@@ -283,6 +283,7 @@
                   <th>Time</th>
                   <th>Adjustment</th>
                   <th>Weekend</th>
+                  <th>Holiday</th>
                   <th>Action</th>
                 </tr>
 
@@ -302,6 +303,9 @@
                   <td >
                     <p *ngIf="asgL['weekend']" style="color: red">{{asgL['weekend']}}</p>
                   </td>
+                  <td >
+                    <p *ngIf="asgL['holiday']" style="color: blue">{{asgL['holiday']}}</p>
+                  </td>
 
                   <td>
 
@@ -311,6 +315,8 @@
                     <button class="btn btn-info" *ngIf="!notAssignedView" (click)="AdjustmentShiftLog(asgL['shiftLogId'],asgL['date'],asgL['empId'],adjustment)"> Adjustment</button>&nbsp;&nbsp;
                     <button class="btn btn-info" *ngIf="!asgL['weekend']" (click)="weekend(asgL['shiftLogId'],asgL['date'],asgL['empId'],'Add')">Add Weekend</button>&nbsp;&nbsp;
                     <button class="btn btn-info" *ngIf="asgL['weekend']" (click)="weekend(asgL['shiftLogId'],asgL['date'],asgL['empId'],'Remove')">remove Weekend</button>&nbsp;&nbsp;
+                    <button class="btn btn-info" *ngIf="!asgL['holiday']" (click)="holiday(asgL['shiftLogId'],asgL['date'],asgL['empId'],'Add')">Add Holiday</button>&nbsp;&nbsp;
+                    <button class="btn btn-info" *ngIf="asgL['holiday']" (click)="holiday(asgL['shiftLogId'],asgL['date'],asgL['empId'],'Remove')">remove Holiday</button>&nbsp;&nbsp;
 
                   </td>
 

@@ -7,4 +7,5 @@ export interface  Designation {
   created_by:string;
   created_at:string;
   desigLevel:string;
+
 }

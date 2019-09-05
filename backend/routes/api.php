@@ -100,6 +100,8 @@ Route::group([
 
     //weekend
     Route::post('shiftLogWeekend/setWeekend','shiftController@setshiftLogweekend');
+    //Holiday
+    Route::post('shiftLogHoliday/setHoliday','shiftController@setshiftLogholiday');
 
     //Attendance
     Route::post('report/getEmployeeAttendance','AttendanceController@getEmployeeAttendance');

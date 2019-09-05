@@ -27,11 +27,70 @@
         <th style="text-align: center;vertical-align: middle;" width="25" ></th>
 
         @php
-           $s=\Carbon\Carbon::parse($startDate);
+
+            $s=\Carbon\Carbon::parse($startDate);
             $e=\Carbon\Carbon::parse($endDate);
-        if ($s->diffInDays($e) >=7){
-        }
+            $count1=1;
+            $newS=0;
+            $newE=0;
+
+
+
         @endphp
+
+        @foreach($dates as $date)
+
+            @if($count1==1)
+                @php
+                    $newS=$date['date'];
+                    $newE=$date['date'];
+                @endphp
+
+            @endif
+
+            @if($count1 ==7)
+
+                @php
+
+                    $count1=1;
+                    $newE=$date['date'];
+
+                @endphp
+
+                <th class="Border" colspan="7" style="text-align: center;vertical-align: middle;">{{$newS}} To {{$newE}}</th>
+            @else
+                @if($date['date']==\Carbon\Carbon::parse($endDate)->format('Y-m-d'))
+
+                        @php
+
+                            $newS=\Carbon\Carbon::parse($newE)->addDay()->format('Y-m-d');
+                            $newE=$date['date'];
+
+                        @endphp
+
+                    <th class="Border" colspan="7" style="text-align: center;vertical-align: middle;">{{$newS}} To {{$newE}}</th>
+
+                @endif
+
+
+
+            @endif
+
+                @php
+
+                    $count1++;
+
+                @endphp
+
+
+
+
+
+
+        @endforeach
+
+
+
 
 
     </tr>

@@ -168,7 +168,7 @@ class AttendanceController extends Controller
 
             $List = implode(',',$r->empId);
 
-            $results = DB::select( DB::raw("select em.employeeId,ad.id,sl.inTime,sl.outTime,sl.adjustmentDate,ad.fkAttDevice
+            $results = DB::select( DB::raw("select em.employeeId,ad.id,sl.inTime,sl.outTime,sl.adjustmentDate,ad.fkAttDevice,sl.holiday,sl.weekend
             , date_format(ad.accessTime,'%Y-%m-%d') attendanceDate
             , date_format(ad.accessTime,'%H:%i:%s') accessTime
             , date_format(ad.accessTime,'%Y-%m-%d %H:%i:%s') accessTime2
@@ -276,7 +276,7 @@ class AttendanceController extends Controller
                     ->get();
 
 
-                $results = DB::select(DB::raw("select em.employeeId,ad.id,sl.inTime,sl.outTime,sl.adjustmentDate
+                $results = DB::select(DB::raw("select em.employeeId,ad.id,sl.inTime,sl.outTime,sl.adjustmentDate,sl.holiday,sl.weekend
             , date_format(ad.accessTime,'%Y-%m-%d') attendanceDate
             , date_format(ad.accessTime,'%H:%i:%s') accessTime
             , date_format(ad.accessTime,'%Y-%m-%d %H:%i:%s') accessTime2
@@ -363,7 +363,7 @@ class AttendanceController extends Controller
 
 
         return response()->json($fileName);
-      //  return $results;
+       // return $dates;
 
 
 

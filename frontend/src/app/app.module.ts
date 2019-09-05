@@ -38,6 +38,7 @@ import { AddDesignationComponent } from './components/configuration/designation/
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -60,6 +61,7 @@ import { AddDesignationComponent } from './components/configuration/designation/
     LeaveSummeryShowComponent,
     ShowLeaveComponent,
     AddDesignationComponent,
+
 
 
 

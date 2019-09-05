@@ -156,6 +156,79 @@ export class EditAssignedShiftComponent implements OnInit {
 
 
   }
+  holiday(shiftLogId,date,empId,text)
+  {
+
+    let that=this;
+    let d=date;
+    let e=this.selectedItems[0]['empid'];
+    let l=shiftLogId;
+    let direction=text;
+
+    $.confirm({
+      title: 'Confirm!',
+      content: 'Are you sure?',
+      buttons: {
+        confirm: function () {
+
+          that.setHoliday(l,d,e,direction);
+
+        },
+        cancel: function () {
+
+        }
+      }
+    });
+
+
+  }
+  setHoliday(shiftLogId,date,empId,direction) // set Holiday for selected date
+
+  {
+
+    let form={
+      empId:empId,
+      date:date,
+      shiftLogId:shiftLogId,
+      direction:direction,
+
+    };
+    const token=this.token.get();
+
+    this.http.post(Constants.API_URL+'shiftLogHoliday/setHoliday'+'?token='+token,form).subscribe(data1 => {
+
+        $.alert({
+          title: 'Success',
+          content: 'Update Successfull',
+        });
+
+        this.route.params.subscribe(params => {
+          let id = params['id'];
+          let start = params['start'];
+          let end = params['end'];
+          let userId = params['userId'];
+
+          if (typeof id === 'undefined' || id === null){
+
+            this.findAttendence();
+
+
+          }else {
+            this.notAssignedinfo(id,userId,start,end);
+          }
+
+        });
+
+
+
+      },
+      error => {
+        console.log(error);
+      }
+    );
+
+
+  }
   setWeekend(shiftLogId,date,empId,direction) // set weekend for selected date
 
   {
