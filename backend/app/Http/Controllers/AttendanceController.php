@@ -157,7 +157,8 @@ class AttendanceController extends Controller
         if ($r->empId){
 
             $allEmp=Employee::select('employeeinfo.id','attemployeemap.attDeviceUserId','departments.departmentName',
-                DB::raw("CONCAT(COALESCE(firstName,''),' ',COALESCE(middleName,''),' ',COALESCE(lastName,'')) AS empFullname"))
+                DB::raw("CONCAT(COALESCE(firstName,''),' ',COALESCE(middleName,''),' ',COALESCE(lastName,'')) AS empFullname"),
+                'employeeinfo.inDeviceNo','employeeinfo.outDeviceNo')
                 ->leftJoin('attemployeemap','attemployeemap.employeeId','employeeinfo.id')
                 ->leftJoin('departments','departments.id','employeeinfo.fkDepartmentId')
                 ->whereIn('employeeinfo.id',$r->empId)
@@ -168,7 +169,7 @@ class AttendanceController extends Controller
 
             $List = implode(',',$r->empId);
 
-            $results = DB::select( DB::raw("select em.employeeId,ad.id,sl.inTime,sl.outTime,sl.adjustmentDate,ad.fkAttDevice,sl.holiday,sl.weekend
+            $results = DB::select( DB::raw("select em.employeeId,ad.id,sl.inTime,sl.outTime,sl.adjustmentDate,ad.fkAttDevice,sl.holiday,sl.weekend,ad.fkAttDevice
             , date_format(ad.accessTime,'%Y-%m-%d') attendanceDate
             , date_format(ad.accessTime,'%H:%i:%s') accessTime
             , date_format(ad.accessTime,'%Y-%m-%d %H:%i:%s') accessTime2
@@ -265,7 +266,8 @@ class AttendanceController extends Controller
 
 
                 $allEmp = Employee::select('employeeinfo.id', 'attemployeemap.attDeviceUserId', 'departments.departmentName',
-                    DB::raw("CONCAT(COALESCE(firstName,''),' ',COALESCE(middleName,''),' ',COALESCE(lastName,'')) AS empFullname"))
+                    DB::raw("CONCAT(COALESCE(firstName,''),' ',COALESCE(middleName,''),' ',COALESCE(lastName,'')) AS empFullname"),
+                    'employeeinfo.inDeviceNo','employeeinfo.outDeviceNo')
                     ->leftJoin('attemployeemap', 'attemployeemap.employeeId', 'employeeinfo.id')
                     ->leftJoin('departments', 'departments.id', 'employeeinfo.fkDepartmentId')
                     ->whereNotNull('employeeinfo.fkDepartmentId')
@@ -276,7 +278,7 @@ class AttendanceController extends Controller
                     ->get();
 
 
-                $results = DB::select(DB::raw("select em.employeeId,ad.id,sl.inTime,sl.outTime,sl.adjustmentDate,sl.holiday,sl.weekend
+                $results = DB::select(DB::raw("select em.employeeId,ad.id,sl.inTime,sl.outTime,sl.adjustmentDate,sl.holiday,sl.weekend,ad.fkAttDevice
             , date_format(ad.accessTime,'%Y-%m-%d') attendanceDate
             , date_format(ad.accessTime,'%H:%i:%s') accessTime
             , date_format(ad.accessTime,'%Y-%m-%d %H:%i:%s') accessTime2
@@ -363,7 +365,7 @@ class AttendanceController extends Controller
 
 
         return response()->json($fileName);
-       // return $dates;
+
 
 
 
