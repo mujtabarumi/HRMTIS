@@ -216,11 +216,11 @@
                                 ->where('accessTime','<=','18:00:00')->where('fkAttDevice',$aE->outDeviceNo)->first())
 
                                     @php
-                                        $FINALIN=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])
+                                        $FINALOUT=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])
                                             ->where('accessTime','<=','18:00:00')->where('fkAttDevice',$aE->outDeviceNo)->last()->accessTime2);
                                     @endphp
 
-                                    {{$FINALIN->format('H:i')}}
+                                    {{$FINALOUT->format('H:i')}}
 
 
                                 @endif
@@ -236,12 +236,12 @@
                                         ->first())
 
                                         @php
-                                            $FINALIN=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])
+                                            $FINALOUT=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])
                                             ->where('accessTime','<=','23:59:59')->where('fkAttDevice',$aE->outDeviceNo)
                                                 ->last()->accessTime2);
                                         @endphp
 
-                                        {{$FINALIN->format('H:i')}}
+                                        {{$FINALOUT->format('H:i')}}
                                     @endif
 
                                 @else
@@ -251,23 +251,23 @@
                                         ->first())
 
                                         @php
-                                            $FINALIN=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$nextday)
+                                            $FINALOUT=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$nextday)
                                             ->where('accessTime','<=','04:00:00')->where('fkAttDevice',$aE->outDeviceNo)
                                                 ->last()->accessTime2);
                                         @endphp
 
-                                        {{$FINALIN->format('H:i')}}
+                                        {{$FINALOUT->format('H:i')}}
                                     @elseif($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])
                                     ->where('accessTime','<=','23:59:59')->where('fkAttDevice',$aE->outDeviceNo)
                                         ->first())
 
                                         @php
-                                            $FINALIN=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])
+                                            $FINALOUT=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])
                                             ->where('accessTime','<=','23:59:59')->where('fkAttDevice',$aE->outDeviceNo)
                                                 ->last()->accessTime2);
                                         @endphp
 
-                                        {{$FINALIN->format('H:i')}}
+                                        {{$FINALOUT->format('H:i')}}
 
                                     @endif
 
@@ -285,11 +285,11 @@
                                 ->where('accessTime','<=','18:00:00')->where('fkAttDevice',$aE->outDeviceNo)->first())
 
                                 @php
-                                    $FINALIN=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$nextday)
+                                    $FINALOUT=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$nextday)
                                         ->where('accessTime','<=','18:00:00')->where('fkAttDevice',$aE->outDeviceNo)->last()->accessTime2);
                                 @endphp
 
-                                {{$FINALIN->format('H:i')}}
+                                {{$FINALOUT->format('H:i')}}
 
 
                             @endif
@@ -308,6 +308,17 @@
 
                     </td>
                     <td class="cell" style="color: #ff0505"  width="20">
+
+                        @if($FINALIN != null && $FINALOUT != null)
+
+                            @php
+                                $FINALWORKINGHOUR=$FINALOUT->diff($FINALIN);
+
+                            @endphp
+
+                            {{$FINALWORKINGHOUR->format('%H:%i')}}
+
+                        @endif
 
 
 

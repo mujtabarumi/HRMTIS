@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="79f3b666-98ca-415d-99bb-8f59ccc47ed0" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/resources/views/Excel/testAttendence.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/AttendanceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/AttendanceController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/resources/views/Excel/testAttendence.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/resources/views/Excel/testAttendence.blade.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -197,7 +196,7 @@
       <workItem from="1567673671047" duration="8106000" />
       <workItem from="1567682263357" duration="2020000" />
       <workItem from="1567685872297" duration="6335000" />
-      <workItem from="1567850850166" duration="11320000" />
+      <workItem from="1567850850166" duration="11647000" />
     </task>
     <servers />
   </component>

@@ -199,7 +199,7 @@ class AttendanceController extends Controller
                             )
                         ));
 
-                        $sheet->loadView('Excel.attendenceonlyINOUT', compact('results', 'fromDate', 'toDate', 'dates', 'allEmp',
+                        $sheet->loadView('Excel.testAttendence', compact('results', 'fromDate', 'toDate', 'dates', 'allEmp',
                             'startDate', 'endDate'));
                     });
 
