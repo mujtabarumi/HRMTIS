@@ -2,8 +2,52 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="79f3b666-98ca-415d-99bb-8f59ccc47ed0" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/AttendanceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/AttendanceController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/EmployeeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/EmployeeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/shiftController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/shiftController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-05_19-54-45.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-05_19-56-18.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-05_20-00-04.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-05_20-02-48.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-05_20-06-26.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-05_20-11-27.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-05_20-12-37.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-05_20-13-09.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-05_20-13-37.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-05_20-18-39.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-05_20-34-17.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-05_20-49-32.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-05_20-56-54.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-05_21-00-51.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-05_21-01-34.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-05_21-02-27.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-05_21-06-20.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-05_21-07-23.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-05_21-11-03.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-05_21-13-47.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-05_21-14-03.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-05_21-14-41.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-05_21-18-16.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-05_21-21-16.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-05_21-22-30.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-05_21-26-06.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-07_18-00-18.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-07_18-39-51.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-07_19-06-45.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-07_19-11-37.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-07_19-14-20.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-07_19-54-04.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-07_20-01-35.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-07_20-01-53.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-07_20-07-04.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-07_20-09-48.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/resources/views/Excel/attendenceonlyINOUT.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/resources/views/Excel/attendenceonlyINOUT.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/resources/views/Excel/testAttendence.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/resources/views/Excel/testAttendence.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/app-routing.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/user/employee/employee.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/user/employee/employee.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/user/joining-info/joining-info.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/user/joining-info/joining-info.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/user/joining-info/joining-info.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/user/joining-info/joining-info.component.ts" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -112,7 +156,7 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../hrsolution" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="ts.external.directory.path" value="C:\xampp\htdocs\HRMTIS\frontend\node_modules\typescript\lib" />
   </component>
@@ -196,7 +240,9 @@
       <workItem from="1567673671047" duration="8106000" />
       <workItem from="1567682263357" duration="2020000" />
       <workItem from="1567685872297" duration="6335000" />
-      <workItem from="1567850850166" duration="11647000" />
+      <workItem from="1567850850166" duration="11916000" />
+      <workItem from="1567925758882" duration="4904000" />
+      <workItem from="1567932985743" duration="7589000" />
     </task>
     <servers />
   </component>

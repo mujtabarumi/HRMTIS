@@ -81,7 +81,7 @@
 
 
     @php
-        $T_roundworkinghour=null;$T_weekendcount=0;$T_adjustment=0;$finalholiDay=0;
+        $T_roundworkinghour=null;$T_weekendcount=0;$T_adjustment=0;$finalholiDay=0;$T_weekend=0;
     @endphp
     @foreach($allEmp as $aE)
 
@@ -93,6 +93,7 @@
             <td class="cell" width="25">{{$aE->departmentName}}</td>
             @php
                 $FINALIN=null;$FINALOUT=null;$FINALWORKINGHOUR=null;$ROUNDFINALWORKINGHOUR=null;$weekendCount=0;$adjustment=0;$holiDay=0;$next=false;
+                $weekend=0;
 
             @endphp
             @foreach($dates as $date)
@@ -326,11 +327,47 @@
 
                     <td class="cell" width="15">
 
+                        @if($FINALWORKINGHOUR != null)
+                            @php
+                                $ROUNDFINALWORKINGHOUR=\Carbon\Carbon::createFromTime($FINALWORKINGHOUR->format('%H'),$FINALWORKINGHOUR->format('%i'),0);
+                            @endphp
+
+                            @if($ROUNDFINALWORKINGHOUR->minute >=30)
+
+                                @php
+                                    $ROUNDFINALWORKINGHOUR->minute(0);
+                                    $ROUNDFINALWORKINGHOUR->addHour();
+                                    $T_roundworkinghour=($T_roundworkinghour+$ROUNDFINALWORKINGHOUR->hour);
+                                @endphp
+
+                            @else
+
+                                @php
+                                    $ROUNDFINALWORKINGHOUR->minute(0);
+                                    $T_roundworkinghour=($T_roundworkinghour+$ROUNDFINALWORKINGHOUR->hour);
+
+                                @endphp
+
+                            @endif
+
+                            {{$ROUNDFINALWORKINGHOUR->format('H:i')}}
+
+                        @endif
+
 
 
                     </td>
 
                     <td class="cell" width="15">
+
+                        @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->adjustmentDate != null)
+                            @php
+
+                                $adjustment++;
+                                $T_adjustment=($adjustment+$T_adjustment);
+                            @endphp
+                            {{$results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->adjustmentDate}}
+                        @endif
 
 
 
@@ -366,9 +403,12 @@
 
                         </td>
                     @else
+
                         <td class="cell" style="color: firebrick" width="15">
-                            P
+                                P
                         </td>
+
+
                     @endif
 
 
@@ -422,11 +462,36 @@
                     </td>
 
 
+                    @if($allLeave->where('fkEmployeeId',$aE->id)->where('startDate','<=',$date['date'])->where('endDate','>=',$date['date'])->first())
+                        <td class="cell"style="color: #ffffff;background-color: #0070C0" width="15">
+                            {{$allLeave->where('fkEmployeeId',$aE->id)->where('startDate','<=',$date['date'])->where('endDate','>=',$date['date'])->first()->categoryName}}
+                        </td>
 
-                    <td class="cell" style="color: #ffa811;" width="15">
 
-                        A
-                    </td>
+                    @elseif($allWeekend->where('fkemployeeId',$aE->id)->where('startDate','<=',$date['date'])->where('endDate','>=',$date['date'])->first())
+
+                        <td class="cell" style="color: #ffa811;" width="15">
+
+                            weekend
+
+                        </td>
+                    @elseif($allHoliday->where('fkemployeeId',$aE->id)->where('startDate','<=',$date['date'])->where('endDate','>=',$date['date'])->first())
+
+                        <td class="cell" style="color: #ffa811;" width="15">
+
+                            holiday
+
+                        </td>
+
+                    @else
+
+
+                        <td class="cell" style="color: #ffa811;" width="15">
+
+                            A
+
+                        </td>
+                    @endif
 
 
 

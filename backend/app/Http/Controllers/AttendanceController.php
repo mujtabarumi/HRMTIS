@@ -8,6 +8,7 @@ use App\Employee;
 
 use App\Leave;
 use App\OrganizationCalander;
+use App\ShiftLog;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
@@ -156,6 +157,28 @@ class AttendanceController extends Controller
 
         if ($r->empId){
 
+            $allLeave=Leave::leftJoin('leavecategories', 'leavecategories.id', '=', 'leaves.fkLeaveCategory')
+                ->where('applicationStatus',"Approved")
+                ->whereIn('leaves.fkEmployeeId',$r->empId)
+                ->whereBetween('startDate',array($fromDate, $toDate))
+                ->get();
+
+            $allLeave=collect($allLeave);
+
+            $allWeekend=ShiftLog::whereNotNull('weekend')
+                ->whereIn('shiftlog.fkEmployeeId',$r->empId)
+                ->whereBetween('startDate',array($fromDate, $toDate))
+                ->get();
+
+             $allWeekend=collect($allWeekend);
+
+             $allHoliday=ShiftLog::whereNotNull('holiday')
+                ->whereIn('shiftlog.fkEmployeeId',$r->empId)
+                ->whereBetween('startDate',array($fromDate, $toDate))
+                ->get();
+
+             $allHoliday=collect($allHoliday);
+
             $allEmp=Employee::select('employeeinfo.id','attemployeemap.attDeviceUserId','departments.departmentName',
                 DB::raw("CONCAT(COALESCE(firstName,''),' ',COALESCE(middleName,''),' ',COALESCE(lastName,'')) AS empFullname"),
                 'employeeinfo.inDeviceNo','employeeinfo.outDeviceNo')
@@ -185,9 +208,11 @@ class AttendanceController extends Controller
 
             if($r->report && $r->report=='dailyINOUT') {
 
-                $check1 = Excel::create($fileName, function ($excel) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate, $endDate) {
+                $check1 = Excel::create($fileName, function ($excel) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate, $endDate,
+                    $allLeave,$allWeekend,$allHoliday) {
 
-                    $excel->sheet('test', function ($sheet) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate, $endDate) {
+                    $excel->sheet('test', function ($sheet) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate, $endDate,$allLeave,
+                        $allWeekend,$allHoliday) {
 
 
                         $sheet->freezePane('C4');
@@ -200,7 +225,7 @@ class AttendanceController extends Controller
                         ));
 
                         $sheet->loadView('Excel.testAttendence', compact('results', 'fromDate', 'toDate', 'dates', 'allEmp',
-                            'startDate', 'endDate'));
+                            'startDate', 'endDate','allLeave','allWeekend','allHoliday'));
                     });
 
                 })->store('xls', $filePath);
@@ -209,9 +234,11 @@ class AttendanceController extends Controller
             }elseif ($r->report && $r->report=='monthlyINOUT'){
 
 
-                $checkMonthly=Excel::create($fileName,function($excel)use ($results,$dates,$allEmp,$fromDate,$toDate, $startDate, $endDate) {
+                $checkMonthly=Excel::create($fileName,function($excel)use ($results,$dates,$allEmp,$fromDate,$toDate, $startDate, $endDate,$allLeave,
+                    $allWeekend,$allHoliday) {
 
-                    $excel->sheet('Monthly', function ($sheet) use ($results,$dates,$allEmp, $fromDate,$toDate,$startDate, $endDate) {
+                    $excel->sheet('Monthly', function ($sheet) use ($results,$dates,$allEmp, $fromDate,$toDate,$startDate, $endDate,$allLeave,
+                        $allWeekend,$allHoliday) {
 
 
 
@@ -225,7 +252,7 @@ class AttendanceController extends Controller
                         ));
 
                         $sheet->loadView('Excel.attendenceonlyINOUTMonthly', compact('results','fromDate', 'toDate','dates','allEmp',
-                            'startDate','endDate'));
+                            'startDate','endDate','allLeave','allWeekend','allHoliday'));
                     });
 
                 })->store('xls',$filePath);
@@ -264,6 +291,25 @@ class AttendanceController extends Controller
 
             }else {
 
+                $allLeave=Leave::leftJoin('leavecategories', 'leavecategories.id', '=', 'leaves.fkLeaveCategory')
+                    ->where('applicationStatus',"Approved")
+
+                    ->whereBetween('startDate',array($fromDate, $toDate))
+                    ->get();
+
+                $allLeave=collect($allLeave);
+
+                $allWeekend=ShiftLog::whereNotNull('weekend')->whereBetween('startDate',array($fromDate, $toDate))->get();
+
+                $allWeekend=collect($allWeekend);
+
+                $allHoliday=ShiftLog::whereNotNull('holiday')
+
+                    ->whereBetween('startDate',array($fromDate, $toDate))
+                    ->get();
+
+                $allHoliday=collect($allHoliday);
+
 
                 $allEmp = Employee::select('employeeinfo.id', 'attemployeemap.attDeviceUserId', 'departments.departmentName',
                     DB::raw("CONCAT(COALESCE(firstName,''),' ',COALESCE(middleName,''),' ',COALESCE(lastName,'')) AS empFullname"),
@@ -295,9 +341,11 @@ class AttendanceController extends Controller
 
                 if ($r->report && $r->report == 'monthlyINOUT') {
 
-                    $check = Excel::create($fileName, function ($excel) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate, $endDate) {
+                    $check = Excel::create($fileName, function ($excel) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate, $endDate,
+                        $allLeave,$allWeekend,$allHoliday) {
 
-                        $excel->sheet('Monthly', function ($sheet) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate, $endDate) {
+                        $excel->sheet('Monthly', function ($sheet) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate, $endDate,
+                            $allLeave,$allWeekend,$allHoliday) {
 
 
                             $sheet->freezePane('C4');
@@ -310,7 +358,7 @@ class AttendanceController extends Controller
                             ));
 
                             $sheet->loadView('Excel.attendenceonlyINOUTMonthly', compact('results', 'fromDate', 'toDate', 'dates', 'allEmp',
-                                'startDate', 'endDate'));
+                                'startDate', 'endDate','allLeave','allWeekend','allHoliday'));
                         });
 
                     })->store('xls', $filePath);
@@ -319,9 +367,11 @@ class AttendanceController extends Controller
                 } elseif ($r->report && $r->report == 'dailyINOUT') {
 
 
-                    $check = Excel::create($fileName, function ($excel) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate, $endDate) {
+                    $check = Excel::create($fileName, function ($excel) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate, $endDate,
+                        $allLeave,$allWeekend,$allHoliday) {
 
-                        $excel->sheet('test', function ($sheet) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate, $endDate) {
+                        $excel->sheet('test', function ($sheet) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate, $endDate,$allLeave,
+                            $allWeekend,$allHoliday) {
 
 
                             $sheet->freezePane('C4');
@@ -334,7 +384,7 @@ class AttendanceController extends Controller
                             ));
 
                             $sheet->loadView('Excel.attendenceonlyINOUT', compact('results', 'fromDate', 'toDate', 'dates', 'allEmp',
-                                'startDate', 'endDate'));
+                                'startDate', 'endDate','allLeave','allWeekend','allHoliday'));
                         });
 
                     })->store('xls', $filePath);

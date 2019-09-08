@@ -428,8 +428,13 @@ class shiftController extends Controller
                            $newLog->inTime=$oldLog->inTime;
                            $newLog->outTime=$oldLog->outTime;
                            $newLog->fkshiftId=$oldLog->fkshiftId;
-                           $newLog->adjustmentDate=$oldLog->adjustmentDate;
-                           $newLog->weekend=$oldLog->weekend;
+                           //$newLog->adjustmentDate=$oldLog->adjustmentDate;
+                           if($oldLog->weekend){
+
+                               $newLog->weekend=$date;
+
+                           }
+
 
                            $newLog->save();
 

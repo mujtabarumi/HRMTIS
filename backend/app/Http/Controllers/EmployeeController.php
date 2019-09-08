@@ -58,6 +58,8 @@ class EmployeeController extends Controller
 
         $joinInfo->weekend = $tags;
         $joinInfo->accessPin = $r->accessPin;
+        $joinInfo->inDeviceNo = $r->inDeviceNo;
+        $joinInfo->outDeviceNo = $r->outDeviceNo;
 
         $joinInfo->supervisor = $r->supervisor;
         $joinInfo->probationPeriod = $r->probationPeriod;
@@ -87,7 +89,7 @@ class EmployeeController extends Controller
 
     public function getJoinInfo(Request $r){
         $joinInfo = Employee::select('attemployeemap.attDeviceUserId','actualJoinDate','resignDate','weekend','accessPin',
-            'supervisor','probationPeriod','employeeinfo.fkActivationStatus')
+            'supervisor','probationPeriod','employeeinfo.fkActivationStatus','employeeinfo.inDeviceNo','employeeinfo.outDeviceNo')
             ->leftJoin('attemployeemap','attemployeemap.employeeId','employeeinfo.id')
             ->where('employeeinfo.id','=',$r->id)
             ->first();

@@ -33,7 +33,9 @@ export class JoiningInfoComponent implements OnInit {
     supervisor:'',
     probationPeriod:'',
     practice:'',
-    fkActivationStatus:''
+    fkActivationStatus:'',
+    outDeviceNo:'',
+    inDeviceNo:'',
   };
 
   // DROPDOWN
@@ -84,6 +86,8 @@ export class JoiningInfoComponent implements OnInit {
         this.employeeJoiningForm.resignDate=this.JoiningForm.resignDate;
         this.employeeJoiningForm.weekend=this.JoiningForm.weekend;
         this.employeeJoiningForm.accessPin=this.JoiningForm.accessPin;
+        this.employeeJoiningForm.inDeviceNo=this.JoiningForm.inDeviceNo;
+        this.employeeJoiningForm.outDeviceNo=this.JoiningForm.outDeviceNo;
 
         this.employeeJoiningForm.fkActivationStatus=this.JoiningForm.fkActivationStatus;
 

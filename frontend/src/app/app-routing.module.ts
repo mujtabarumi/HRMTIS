@@ -41,6 +41,7 @@ const routes: Routes = [
     { path: 'login', component: LoginComponent, canActivate: [GuestService] },
     { path: 'home', component: HomeComponent,canActivate: [AuthService] },
     { path: 'employee', component: EmployeeComponent,canActivate: [AuthService] },
+    { path: 'employee/add', component: AddEmployeeComponent,canActivate: [AuthService] },
     { path: 'employee/edit/:id', component: AddEmployeeComponent,canActivate: [AuthService] },
     { path: 'configuration/department/add', component: AddDepartmentComponent,canActivate: [AuthService]  },
     { path: 'configuration/shift', component: ShiftComponent,canActivate: [AuthService] },
