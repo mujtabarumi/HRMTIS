@@ -424,46 +424,72 @@ class AttendanceController extends Controller
 
     }
 
-//    public function getEmployeeAttendance(Request $r){
-//
-//
-//        $empId=$r->id;
-//        $start = Carbon::now()->startOfMonth()->format('Y-m-d');
-//        $end = Carbon::now()->endOfMonth()->format('Y-m-d');
-//
-//
-//        if($r->startDate && $r->endDate){
-//            $start=$r->startDate;
-//            $end= $r->endDate;
-//        }
-//
-//        $dates = $this->getDatesFromRange($start, $end);
-//
-//        $results = DB::select( DB::raw("select em.employeeId,ad.id,sl.inTime,sl.outTime,sl.multipleShift,sl.adjustmentDate
-//            , date_format(ad.accessTime,'%Y-%m-%d') attendanceDate
-//            , date_format(ad.accessTime,'%H:%i:%s') accessTime
-//            , date_format(ad.accessTime,'%Y-%m-%d %H:%i:%s') accessTime2
-//            from attendancedata ad left join attemployeemap em on ad.attDeviceUserId = em.attDeviceUserId
-//            and date_format(ad.accessTime,'%Y-%m-%d') between '" . $start . "' and '" . $end . "'
-//            left join shiftlog sl on em.employeeId = sl.fkemployeeId and date_format(ad.accessTime,'%Y-%m-%d') between date_format(sl.startDate,'%Y-%m-%d') and ifnull(date_format(sl.endDate,'%Y-%m-%d'),curdate())
-//            where date_format(ad.accessTime,'%Y-%m-%d') between '".$start."' and '".$end."'
-//            and em.employeeId = '".$empId."'"));
-//
-//        $newArray=array(
-//          'dates'=>$dates,
-//          'result'=>$results
-//        );
-//
-//
-//
-//        return $newArray;
-//
-//
-//
-//
-//
-//
-//    }
+    public function getEmployeeAttendance(Request $r){
+
+
+        $empId=$r->empId;
+        $start = Carbon::now()->startOfMonth()->format('Y-m-d');
+        $end = Carbon::now()->endOfMonth()->format('Y-m-d');
+
+
+
+
+        if($r->startDate && $r->endDate){
+            $start=$r->startDate;
+            $end= $r->endDate;
+
+
+        }
+
+        $dates = $this->getDatesFromRange($start, $end);
+
+        $fromDate = Carbon::parse($start)->subDays(1);
+        $toDate = Carbon::parse($end)->addDays(1);
+
+        $List = implode(',',$r->empId);
+
+        $allEmp=Employee::select('employeeinfo.id','attemployeemap.attDeviceUserId','departments.departmentName',
+            DB::raw("CONCAT(COALESCE(firstName,''),' ',COALESCE(middleName,''),' ',COALESCE(lastName,'')) AS empFullname"),
+            'employeeinfo.inDeviceNo','employeeinfo.outDeviceNo')
+            ->leftJoin('attemployeemap','attemployeemap.employeeId','employeeinfo.id')
+            ->leftJoin('departments','departments.id','employeeinfo.fkDepartmentId')
+            ->where('employeeinfo.id',$r->empId)
+//            ->whereIn('employeeinfo.id',$r->empId)
+            ->orderBy('departments.orderBy','ASC')
+            ->orderBy('employeeinfo.id','ASC')
+
+            ->first();
+
+//            ->get();
+
+        $results = DB::select( DB::raw("select em.employeeId,ad.id,sl.inTime,sl.outTime,sl.adjustmentDate,ad.fkAttDevice,sl.holiday,sl.weekend,ad.fkAttDevice
+            , date_format(ad.accessTime,'%Y-%m-%d') attendanceDate
+            , date_format(ad.accessTime,'%H:%i:%s') accessTime
+            , date_format(ad.accessTime,'%Y-%m-%d %H:%i:%s') accessTime2
+            from attendancedata ad left join attemployeemap em on ad.attDeviceUserId = em.attDeviceUserId
+            and date_format(ad.accessTime,'%Y-%m-%d') between '" . $fromDate . "' and '" . $toDate . "'
+            left join shiftlog sl on em.employeeId = sl.fkemployeeId and date_format(ad.accessTime,'%Y-%m-%d') between date_format(sl.startDate,'%Y-%m-%d') and ifnull(date_format(sl.endDate,'%Y-%m-%d'),curdate())
+            left join employeeinfo emInfo on em.employeeId = emInfo.id and emInfo.fkDepartmentId is not null
+            
+            where date_format(ad.accessTime,'%Y-%m-%d') between '".$fromDate."' and '".$toDate."'
+            and emInfo.id IN (".$List.")"));
+
+        $newArray=array(
+          'dates'=>$dates,
+          'result'=>$results,
+          'allEmp'=>$allEmp,
+        );
+
+
+
+        return $newArray;
+
+
+
+
+
+
+    }
 
 
 

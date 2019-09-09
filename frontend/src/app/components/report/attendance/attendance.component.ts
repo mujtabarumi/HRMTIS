@@ -44,6 +44,9 @@ export class AttendanceComponent implements OnInit {
   search:boolean;
   departments:any;
   emp:any;
+  attendenceDataDates:any;
+  attendenceDataResults:any;
+  attendenceDataAllEmp:any;
 
 
   constructor(private renderer: Renderer,public http: HttpClient, private token:TokenService ,
@@ -55,6 +58,10 @@ export class AttendanceComponent implements OnInit {
 
     this.getAllEployee();
     this.getAllDepartment();
+
+    this.attendenceDataDates='';
+    this.attendenceDataResults='';
+    this.attendenceDataAllEmp='';
 
    // this.getData();
     // console.log(new Date.today().clearTime().moveToFirstDayOfMonth());
@@ -648,6 +655,64 @@ export class AttendanceComponent implements OnInit {
   searchAttendance(){
 
 
+
+    if(this.selectedItems.length<=0){
+        $.alert({
+          title: 'Alert',
+          content: 'Please select an Employee',
+        });
+    }else if(this.selectedItems.length>1){
+
+        $.alert({
+          title: 'Alert',
+          content: 'Please select only 1 Employee',
+        });
+
+    }else {
+          const token=this.token.get();
+
+          let empList = [];
+          for (let $i = 0; $i < this.selectedItems.length; $i++) {
+            empList.push(this.selectedItems[$i]['empid']);
+          }
+
+          this.http.post(Constants.API_URL + 'report/getEmployeeAttendance' + '?token=' + token, {
+            startDate: $('#startDate').val(),
+            endDate: $('#endDate').val(),
+            empId: empList,
+
+          }).subscribe(data => {
+
+              this.spinner.hide();
+
+              this.attendenceDataDates=data['dates'];
+              this.attendenceDataResults=data['result'];
+              this.attendenceDataAllEmp=data['allEmp'];
+              console.log(this.attendenceDataResults);
+
+
+
+
+            },
+            error => {
+              console.log(error);
+              this.spinner.hide();
+            }
+          );
+
+    }
+
+
+
+
+
+
+
+  }
+
+  getPreAndNextDate(){
+
+    console.log('test');
 
   }
 
