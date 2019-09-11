@@ -135,7 +135,7 @@
                                 ->where('accessTime','>=','04:00:00')->where('fkAttDevice',$aE->inDeviceNo)->first())
 
                                     @php
-                                        $FINALIN=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$previousday)
+                                        $FINALIN=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])
                                             ->where('accessTime','>=','22:00:00')->where('fkAttDevice',$aE->inDeviceNo)->first()->accessTime2);
                                     @endphp
 
@@ -276,8 +276,7 @@
                                 @endif
 
 
-
-
+                                
 
                             @endif
                         @else

@@ -712,7 +712,36 @@ export class AttendanceComponent implements OnInit {
 
   getPreAndNextDate(){
 
-    console.log('test');
+   // console.log('test');
+
+  }
+  previusDay(date){
+
+
+
+
+     let d = new Date(date);
+     let previousdate=d.getDate()-1;
+     let dd='';
+     let mm='';
+
+
+
+   var month = d.getMonth() + 1;
+
+    if (previousdate < 10) {
+       dd = '0' + previousdate;
+    }else {
+      dd=''+previousdate;
+    }
+    if (month < 10) {
+       mm = '0' + month;
+    }else {
+        mm=''+month;
+    }
+    let yesterdayString = d.getFullYear() + '-' + mm + '-' + dd;
+
+    return yesterdayString;
 
   }
 

@@ -154,16 +154,35 @@
             </th>
 
             <th >
-                    <span (loadeddata)="getPreAndNextDate()" *ngFor="let attendance of attendenceDataResults; index as i" >
+                    <span  *ngFor="let attendance of attendenceDataResults; index as i" >
 
                       <span *ngIf="attendance.attendanceDate==adD.date">
+
+
 
                         <span *ngIf="i==0 && attendance.inTime==null">
                           {{attendance.accessTime2 | date : "shortTime" }}
                         </span>
                         <span *ngIf="i==0 && attendance.inTime !=null && attendance.outTime != null && attendance.inTime < attendance.outTime">
                           {{attendance.accessTime2 | date : "shortTime" }}
-                          <span *ngIf="attendance.inTime=='00:00:00'">
+                          <span *ngIf="attendance.inTime=='00:00:00' else another">
+
+
+                            <span *ngIf="attendance.accessTime >='21:00:00' && attendance.attendanceDate == previusDay(adD.date)
+                                  && attendance.fkAttDevice == attendenceDataAllEmp.inDeviceNo else other">
+
+                                {{attendance.accessTime2 | date : "shortTime" }}
+
+                            </span>
+                            <span id="other" *ngIf="attendance.accessTime <='4:00:00' && attendance.attendanceDate == adD.date
+                                  && attendance.fkAttDevice == attendenceDataAllEmp.inDeviceNo">
+
+                              {{attendance.accessTime2 | date : "shortTime" }}
+
+                            </span>
+                            <span id="another" *ngIf="attendance.attendanceDate == adD.date && attendance.fkAttDevice == attendenceDataAllEmp.inDeviceNo">
+                                      {{attendance.accessTime2 | date : "shortTime" }}
+                            </span>
 
 
 
