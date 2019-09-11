@@ -4,8 +4,6 @@
     <list default="true" id="79f3b666-98ca-415d-99bb-8f59ccc47ed0" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/resources/views/Excel/testAttendence.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/resources/views/Excel/testAttendence.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/report/attendance/attendance.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/report/attendance/attendance.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/report/attendance/attendance.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/report/attendance/attendance.component.ts" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -203,7 +201,7 @@
       <workItem from="1567932985743" duration="8189000" />
       <workItem from="1568012515728" duration="2617000" />
       <workItem from="1568021752585" duration="15716000" />
-      <workItem from="1568184992717" duration="9631000" />
+      <workItem from="1568184992717" duration="11380000" />
     </task>
     <servers />
   </component>

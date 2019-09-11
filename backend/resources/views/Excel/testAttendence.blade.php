@@ -276,7 +276,7 @@
                                 @endif
 
 
-                                
+
 
                             @endif
                         @else
@@ -331,7 +331,7 @@
                                 $ROUNDFINALWORKINGHOUR=\Carbon\Carbon::createFromTime($FINALWORKINGHOUR->format('%H'),$FINALWORKINGHOUR->format('%i'),0);
                             @endphp
 
-                            @if($ROUNDFINALWORKINGHOUR->minute >=30)
+                            @if($ROUNDFINALWORKINGHOUR->minute >=25)
 
                                 @php
                                     $ROUNDFINALWORKINGHOUR->minute(0);
