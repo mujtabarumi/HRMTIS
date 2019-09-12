@@ -61,7 +61,7 @@
                                 $FINALIN=\Carbon\Carbon::parse($O->accessTime2);
                             @endphp
 
-                                {{$FINALIN->format('H:i')}}
+                                {{$FINALIN->format('H:i')}}-{{$O->fkAttDevice}}
                             <br>
 
                         @endforeach

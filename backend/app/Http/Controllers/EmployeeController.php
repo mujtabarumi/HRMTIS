@@ -103,6 +103,7 @@ class EmployeeController extends Controller
             ->leftjoin('designations','designations.id','=','employeeinfo.fkDesignation')
             ->leftjoin('departments','departments.id','=','employeeinfo.fkDepartmentId')
             ->leftjoin('employeetypes','employeetypes.id','=','employeeinfo.fkEmployeeType')
+
             ->where('employeeinfo.id', $r->empid)
             ->first();
 
@@ -110,10 +111,11 @@ class EmployeeController extends Controller
     }
 
     public function getAllEmployee(Request $r){
-        $employee = Employee::select('employeeinfo.firstName','employeeinfo.lastName','employeeinfo.middleName','employeeinfo.EmployeeId','designations.title','departments.departmentName','employeeinfo.id as empid'
+        $employee = Employee::select('attemployeemap.attDeviceUserId','employeeinfo.firstName','employeeinfo.lastName','employeeinfo.middleName','employeeinfo.EmployeeId','designations.title','departments.departmentName','employeeinfo.id as empid'
         ,'employeeinfo.weekend')
             ->leftjoin('designations','designations.id','=','employeeinfo.fkDesignation')
             ->leftjoin('departments','departments.id','=','employeeinfo.fkDepartmentId')
+            ->leftJoin('attemployeemap','attemployeemap.employeeId','employeeinfo.id')
             ->where('resignDate', null);
 //            ->where('employeeinfo.fkCompany' , auth()->user()->fkCompany);
 

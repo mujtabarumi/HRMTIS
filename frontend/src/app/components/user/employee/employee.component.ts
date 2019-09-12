@@ -28,6 +28,7 @@ export class EmployeeComponent implements AfterViewInit, OnInit {
         type: 'POST'
       },
       columns: [
+        { data: 'attDeviceUserId' ,name:'attemployeemap.attDeviceUserId'},
         { data: 'firstName' ,name:'employeeinfo.firstName'},
         { data: 'middleName' ,name:'employeeinfo.middleName'},
         { data: 'lastName' ,name:'employeeinfo.lastName'},
@@ -41,7 +42,10 @@ export class EmployeeComponent implements AfterViewInit, OnInit {
           },
           "orderable": false, "searchable":false, "name":"selected_rows"
         }
+
       ],
+
+
       processing: true,
       serverSide: true,
       pagingType: 'full_numbers',
