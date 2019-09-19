@@ -17,6 +17,7 @@ Route::get('/', function () {
 
 /*rumi test */
 Route::get('test/rumi/{from}/{start}','TestController@testRumi');
+Route::get('rumi','TestController@Rumi');
 
 Route::get('/clear-cache', function() {
 

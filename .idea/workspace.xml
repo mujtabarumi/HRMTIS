@@ -3,24 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="79f3b666-98ca-415d-99bb-8f59ccc47ed0" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-08_13-41-51.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-08_14-25-32.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-08_15-20-47.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-08_15-41-48.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-08_15-47-08.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-08_15-51-02.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-08_16-52-37.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-11_18-13-41.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-11_18-15-06.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-12_15-46-53.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-12_15-48-27.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-12_15-52-11.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-12_16-02-31.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-12_16-03-46.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-12_16-04-16.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-12_16-50-01.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/resources/views/Excel/attendenceonlyINOUTForSigle.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/resources/views/Excel/attendenceonlyINOUTForSigle.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/TestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/TestController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-13_16-22-55.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-13_16-45-46.xls" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/resources/views/Excel/attendenceonlyINOUTMonthly.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/resources/views/Excel/attendenceonlyINOUTMonthly.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/web.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -222,6 +209,10 @@
       <workItem from="1568271149977" duration="8628000" />
       <workItem from="1568363368190" duration="6029000" />
       <workItem from="1568445627338" duration="5399000" />
+      <workItem from="1568621566854" duration="6131000" />
+      <workItem from="1568703003549" duration="5024000" />
+      <workItem from="1568795409793" duration="1510000" />
+      <workItem from="1568876021652" duration="1213000" />
     </task>
     <servers />
   </component>

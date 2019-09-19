@@ -97,6 +97,18 @@
     <tr>
 
     </tr>
+    </thead>
+    <tbody>
+        @foreach($allEmp as $aE)
+                <tr>
+
+                    <td class="cell" width="10">{{$aE->attDeviceUserId}}</td>
+                    <td class="cell" width="25">{{$aE->empFullname}}</td>
+                    <td class="cell" width="25">{{$aE->departmentName}}</td>
+
+                </tr>
+            @endforeach
+
 
 
 
