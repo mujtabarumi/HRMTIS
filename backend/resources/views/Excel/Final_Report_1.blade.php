@@ -22,7 +22,7 @@
         <th style="text-align: center;vertical-align: middle;" width="15">OUT Time</th>
         <th style="text-align: center;vertical-align: middle;" width="15">Late</th>
         <th style="text-align: center;vertical-align: middle;" width="15">Working Hour</th>
-        <th style="text-align: center;vertical-align: middle;" width="25">Round Working Hour</th>
+        <th style="text-align: center;vertical-align: middle;" width="35">Round Working Hour</th>
         <th style="text-align: center;vertical-align: middle;" width="15">Adjustment</th>
         <th style="text-align: center;vertical-align: middle;" width="15">Attendance</th>
 
@@ -33,7 +33,7 @@
         <th style="text-align: center;vertical-align: middle;" width="15"></th>
         <th style="text-align: center;vertical-align: middle;" width="15"></th>
         <th style="text-align: center;vertical-align: middle;" width="15"></th>
-        <th style="text-align: center;vertical-align: middle;" width="25"></th>
+        <th style="text-align: center;vertical-align: middle;" width="35"></th>
         <th style="text-align: center;vertical-align: middle;" width="15"></th>
         <th style="text-align: center;vertical-align: middle;" width="15"></th>
 
@@ -313,11 +313,11 @@
                    @else
 
                             @if($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
-                                ->where('fkAttDevice',$allE->inDeviceNo)->first())
+                                ->where('fkAttDevice',$allE->inDeviceNo)->where('accessTime','<=','23:59:59')->first())
 
                                     @php
                                         $access=\Carbon\Carbon::parse($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
-                                            ->where('fkAttDevice',$allE->inDeviceNo)->first()->accessTime);
+                                            ->where('fkAttDevice',$allE->inDeviceNo)->where('accessTime','<=','23:59:59')->first()->accessTime);
                                         $ins=\Carbon\Carbon::parse($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
                                                 ->first()->inTime)
                                     @endphp
@@ -372,7 +372,7 @@
 
                 </td>
 
-                <td style="text-align: center;vertical-align: middle;" width="25">
+                <td style="text-align: center;vertical-align: middle;" width="35">
 
                     @if($FINALWORKINGHOUR != null)
                         @php
@@ -455,8 +455,47 @@
 
 
                 @endif
+            @else
+                <td style="text-align: center;vertical-align: middle;" width="15"></td>
+                <td style="text-align: center;vertical-align: middle;" width="15"></td>
+                <td style="text-align: center;vertical-align: middle;" width="15"></td>
+                <td style="text-align: center;vertical-align: middle;" width="15"></td>
+                <td style="text-align: center;vertical-align: middle;" width="35"></td>
+                <td style="text-align: center;vertical-align: middle;" width="15"></td>
 
-             @endif
+
+                    @if($allLeave->where('fkEmployeeId',$allE->id)->where('startDate','<=',$date['date'])->where('endDate','>=',$date['date'])->first())
+                        <td class="cell"style="color: #ffffff;background-color: #0070C0" width="15">
+                            {{$allLeave->where('fkEmployeeId',$allE->id)->where('startDate','<=',$date['date'])->where('endDate','>=',$date['date'])->first()->categoryName}}
+                        </td>
+
+
+                    @elseif($allWeekend->where('fkemployeeId',$allE->id)->where('startDate','<=',$date['date'])->where('endDate','>=',$date['date'])->first())
+
+                        <td class="cell" style="color: #ffa811;" width="15">
+
+                            weekend
+
+                        </td>
+                    @elseif($allHoliday->where('fkemployeeId',$allE->id)->where('startDate','<=',$date['date'])->where('endDate','>=',$date['date'])->first())
+
+                        <td class="cell" style="color: #ffa811;" width="15">
+
+                            holiday
+
+                        </td>
+
+                    @else
+
+
+                        <td class="cell" style="color: #ffa811;" width="15">
+
+                            A
+
+                        </td>
+                    @endif
+
+            @endif
 
         </tr>
     @endforeach

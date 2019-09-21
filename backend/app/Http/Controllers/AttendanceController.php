@@ -621,14 +621,16 @@ class AttendanceController extends Controller
 
         }
 
-        $check = Excel::create($fileName, function ($excel) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate, $endDate) {
+        $check = Excel::create($fileName, function ($excel) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate, $endDate,$allLeave,$allHoliday,$allWeekend) {
 
             foreach ($allEmp as $allE) {
 
-                $excel->sheet($allE->empFullname, function ($sheet) use ($results, $allE, $dates, $allEmp, $fromDate, $toDate, $startDate, $endDate) {
+                $excel->sheet($allE->empFullname, function ($sheet) use ($results, $allE, $dates, $allEmp, $fromDate, $toDate, $startDate,
+                    $endDate,$allLeave,$allHoliday,$allWeekend)
+                {
 
                     $sheet->loadView('Excel.Final_Report_1', compact('results', 'allE', 'fromDate', 'toDate', 'dates', 'allEmp',
-                        'startDate', 'endDate'));
+                        'startDate', 'endDate','allLeave','allWeekend','allHoliday'));
                 });
 
             }
