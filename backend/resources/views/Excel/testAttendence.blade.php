@@ -284,11 +284,11 @@
                         @else
 
                             @if($results->where('employeeId',$aE->id)->where('attendanceDate',$nextday)
-                                ->where('accessTime','<=','18:00:00')->where('fkAttDevice',$aE->outDeviceNo)->first())
+                                ->where('accessTime','<=','13:00:00')->where('fkAttDevice',$aE->outDeviceNo)->first())
 
                                 @php
                                     $FINALOUT=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$nextday)
-                                        ->where('accessTime','<=','18:00:00')->where('fkAttDevice',$aE->outDeviceNo)->last()->accessTime2);
+                                        ->where('accessTime','<=','13:00:00')->where('fkAttDevice',$aE->outDeviceNo)->last()->accessTime2);
                                 @endphp
 
                                 {{$FINALOUT->format('H:i')}}
