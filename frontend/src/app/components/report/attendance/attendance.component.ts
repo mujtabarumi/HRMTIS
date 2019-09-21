@@ -393,6 +393,8 @@ export class AttendanceComponent implements OnInit {
 
       if (this.selectedItems.length > 0) {
 
+      //  console.log(this.selectedItems);
+
 
         if ($('#excelType').val() == "") {
 
@@ -487,6 +489,41 @@ export class AttendanceComponent implements OnInit {
               endDate: $('#endDate').val(),
               empId: empList,
               report: 'monthlyINOUT'
+            }).subscribe(data => {
+
+                this.spinner.hide();
+                console.log(data);
+
+
+                let fileName = Constants.Image_URL + 'exportedExcel/' + data;
+
+                let link = document.createElement("a");
+                link.download = data + ".xls";
+                let uri = fileName + ".xls";
+                link.href = uri;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                $("#excelType").val("");
+                this.selectedItems = [];
+
+
+              },
+              error => {
+                console.log(error);
+                this.spinner.hide();
+              }
+            );
+
+          }
+          else if ($('#excelType').val() == "4") {
+
+            this.http.post(Constants.API_URL + 'report/finalReport-1' + '?token=' + token, {
+
+              startDate: $('#startDate').val(),
+              endDate: $('#endDate').val(),
+              empId: empList,
+              report: 'final_Report_1'
             }).subscribe(data => {
 
                 this.spinner.hide();

@@ -107,10 +107,12 @@
 
                         @endphp
 
-                        @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime == null)
+                        @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])
+                        ->first()->inTime == null)
 
 
-                            {{\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->accessTime2)->format('H:i')}}
+                            {{\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])
+                            ->first()->accessTime2)->format('H:i')}}
 
 
                         @elseif($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime != null  &&
@@ -132,11 +134,11 @@
                                     {{$FINALIN->format('H:i')}}
 
                                 @elseif($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])
-                                ->where('accessTime','>=','04:00:00')->where('fkAttDevice',$aE->inDeviceNo)->first())
+                                ->where('accessTime','<=','04:00:00')->where('fkAttDevice',$aE->inDeviceNo)->first())
 
                                     @php
                                         $FINALIN=\Carbon\Carbon::parse($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])
-                                            ->where('accessTime','>=','22:00:00')->where('fkAttDevice',$aE->inDeviceNo)->first()->accessTime2);
+                                            ->where('accessTime','<=','04:00:00')->where('fkAttDevice',$aE->inDeviceNo)->first()->accessTime2);
                                     @endphp
 
                                     {{$FINALIN->format('H:i')}}
