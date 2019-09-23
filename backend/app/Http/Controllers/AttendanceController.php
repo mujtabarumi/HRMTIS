@@ -199,7 +199,7 @@ class AttendanceController extends Controller
             from attendancedata ad left join attemployeemap em on ad.attDeviceUserId = em.attDeviceUserId
             and date_format(ad.accessTime,'%Y-%m-%d') between '" . $fromDate . "' and '" . $toDate . "'
             left join shiftlog sl on em.employeeId = sl.fkemployeeId and date_format(ad.accessTime,'%Y-%m-%d') between date_format(sl.startDate,'%Y-%m-%d') and ifnull(date_format(sl.endDate,'%Y-%m-%d'),curdate())
-            left join employeeinfo emInfo on em.employeeId = emInfo.id and emInfo.fkDepartmentId is not null
+            left join employeeinfo emInfo on em.employeeId = emInfo.id
             
             where date_format(ad.accessTime,'%Y-%m-%d') between '".$fromDate."' and '".$toDate."'
             and emInfo.id IN (".$List.")"));
@@ -625,9 +625,18 @@ class AttendanceController extends Controller
 
             foreach ($allEmp as $allE) {
 
-                $excel->sheet($allE->empFullname, function ($sheet) use ($results, $allE, $dates, $allEmp, $fromDate, $toDate, $startDate,
+                $excel->sheet('('.$allE->attDeviceUserId.')-'.$allE->empFullname, function ($sheet) use ($results, $allE, $dates, $allEmp, $fromDate, $toDate, $startDate,
                     $endDate,$allLeave,$allHoliday,$allWeekend)
                 {
+
+                    $sheet->freezePane('B5');
+                    $sheet->setStyle(array(
+                        'font' => array(
+                            'name' => 'Calibri',
+                            'size' => 10,
+                            'bold' => false
+                        )
+                    ));
 
                     $sheet->loadView('Excel.Final_Report_1', compact('results', 'allE', 'fromDate', 'toDate', 'dates', 'allEmp',
                         'startDate', 'endDate','allLeave','allWeekend','allHoliday'));

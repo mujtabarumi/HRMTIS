@@ -27,7 +27,7 @@
         <th style="text-align: center;vertical-align: middle;" width="25" ></th>
 
         @foreach($dates as $date)
-            <th class="Border" colspan="7" style="text-align: center;vertical-align: middle;">{{$date['date']}}({{$date['day']}})</th>
+            <th class="Border" colspan="10" style="text-align: center;vertical-align: middle;">{{$date['date']}}({{$date['day']}})</th>
         @endforeach
 
     </tr>
@@ -47,6 +47,10 @@
 
             <th style="text-align: center;vertical-align: middle;"width="15">Round Hour</th>
             <th style="text-align: center;vertical-align: middle;"width="15">Adjustment</th>
+
+            <th style="text-align: center;vertical-align: middle;"width="10">Leave</th>
+            <th style="text-align: center;vertical-align: middle;"width="10">Weekend</th>
+            <th style="text-align: center;vertical-align: middle;"width="10">Holiday</th>
             <th style="text-align: center;vertical-align: middle;background-color:#757171"width="15">Attendence</th>
         @endforeach
 
@@ -70,6 +74,9 @@
 
         <td width="15" ></td>
         <td width="15" ></td>
+        <td width="10" ></td>
+        <td width="10" ></td>
+        <td width="10" ></td>
         <td width="15" ></td>
 
 
@@ -374,6 +381,29 @@
 
                     </td>
 
+                        <td class="cell" width="10">
+                            @if($allLeave->where('fkEmployeeId',$aE->id)->where('startDate','<=',$date['date'])->where('endDate','>=',$date['date'])->first())
+                                {{$allLeave->where('fkEmployeeId',$aE->id)->where('startDate','<=',$date['date'])->where('endDate','>=',$date['date'])->first()->categoryName}}
+                            @endif
+                        </td>
+                    <td class="cell" width="10">
+                        @if($allWeekend->where('fkemployeeId',$aE->id)->where('startDate','<=',$date['date'])->where('endDate','>=',$date['date'])->first())
+                                Weekend
+                        @endif
+                    </td>
+
+
+
+                        <td class="cell" width="10">
+
+                            @if($allHoliday->where('fkemployeeId',$aE->id)->where('startDate','<=',$date['date'])->where('endDate','>=',$date['date'])->first())
+
+                                holiday
+                            @endif
+
+                        </td>
+
+
 
                     @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime == null)
                         <td class="cell" style="color: firebrick"  width="15">
@@ -463,28 +493,16 @@
                     </td>
 
 
-                    @if($allLeave->where('fkEmployeeId',$aE->id)->where('startDate','<=',$date['date'])->where('endDate','>=',$date['date'])->first())
-                        <td class="cell"style="color: #ffffff;background-color: #0070C0" width="15">
-                            {{$allLeave->where('fkEmployeeId',$aE->id)->where('startDate','<=',$date['date'])->where('endDate','>=',$date['date'])->first()->categoryName}}
-                        </td>
 
 
-                    @elseif($allWeekend->where('fkemployeeId',$aE->id)->where('startDate','<=',$date['date'])->where('endDate','>=',$date['date'])->first())
 
-                        <td class="cell" style="color: #ffa811;" width="15">
 
-                            weekend
 
-                        </td>
-                    @elseif($allHoliday->where('fkemployeeId',$aE->id)->where('startDate','<=',$date['date'])->where('endDate','>=',$date['date'])->first())
 
-                        <td class="cell" style="color: #ffa811;" width="15">
+                    <td class="cell" width="10" ></td>
+                    <td class="cell" width="10" ></td>
+                    <td class="cell" width="10" ></td>
 
-                            holiday
-
-                        </td>
-
-                    @else
 
 
                         <td class="cell" style="color: #ffa811;" width="15">
@@ -492,7 +510,7 @@
                             A
 
                         </td>
-                    @endif
+
 
 
 

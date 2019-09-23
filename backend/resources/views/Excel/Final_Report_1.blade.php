@@ -10,32 +10,39 @@
 <table class="blueTable">
     <thead>
     <tr>
+        <td style="vertical-align: middle;text-align: center;"></td>
         <th style="vertical-align: middle;text-align: center;" colspan="7">Final Report 1</th>
     </tr>
     <tr>
+        <td style="vertical-align: middle;text-align: center;"></td>
         <th style="text-align: center;vertical-align: middle;" colspan="4">Name: {{$allE->empFullname}}</th>
-        <th style="text-align: center;vertical-align: middle;" colspan="3">Name: {{$allE->attDeviceUserId}}</th>
+        <th style="text-align: center;vertical-align: middle;" colspan="3">ID: {{$allE->attDeviceUserId}}</th>
     </tr>
     <tr>
-        <th style="text-align: center;vertical-align: middle;" width="25">Date</th>
-        <th style="text-align: center;vertical-align: middle;" width="15">IN Time</th>
-        <th style="text-align: center;vertical-align: middle;" width="15">OUT Time</th>
-        <th style="text-align: center;vertical-align: middle;" width="15">Late</th>
-        <th style="text-align: center;vertical-align: middle;" width="15">Working Hour</th>
-        <th style="text-align: center;vertical-align: middle;" width="35">Round Working Hour</th>
-        <th style="text-align: center;vertical-align: middle;" width="15">Adjustment</th>
-        <th style="text-align: center;vertical-align: middle;" width="15">Attendance</th>
+        <td style="vertical-align: middle;text-align: center;"></td>
+        <th style="text-align: center;vertical-align: middle;" colspan="4">Department: {{$allE->departmentName}}</th>
+        <th style="text-align: center;vertical-align: middle;" colspan="3">Designation: </th>
+    </tr>
+    <tr>
+        <th class="Border"style="text-align: center;vertical-align: middle;" width="25">Date</th>
+        <th class="Border"style="text-align: center;vertical-align: middle;" width="15">IN Time</th>
+        <th class="Border"style="text-align: center;vertical-align: middle;" width="15">OUT Time</th>
+        <th class="Border"style="text-align: center;vertical-align: middle;" width="15">Late</th>
+        <th class="Border"style="text-align: center;vertical-align: middle;" width="15">Working Hour</th>
+        <th class="Border"style="text-align: center;vertical-align: middle;" width="35">Round Working Hour</th>
+        <th class="Border"style="text-align: center;vertical-align: middle;" width="15">Adjustment</th>
+        <th class="Border"style="text-align: center;vertical-align: middle;" width="15">Attendance</th>
 
     </tr>
     <tr>
-        <th style="text-align: center;vertical-align: middle;" width="25"></th>
-        <th style="text-align: center;vertical-align: middle;" width="15"></th>
-        <th style="text-align: center;vertical-align: middle;" width="15"></th>
-        <th style="text-align: center;vertical-align: middle;" width="15"></th>
-        <th style="text-align: center;vertical-align: middle;" width="15"></th>
-        <th style="text-align: center;vertical-align: middle;" width="35"></th>
-        <th style="text-align: center;vertical-align: middle;" width="15"></th>
-        <th style="text-align: center;vertical-align: middle;" width="15"></th>
+        <th class="Border"style="text-align: center;vertical-align: middle;" width="25"></th>
+        <th class="Border"style="text-align: center;vertical-align: middle;" width="15"></th>
+        <th class="Border"style="text-align: center;vertical-align: middle;" width="15"></th>
+        <th class="Border"style="text-align: center;vertical-align: middle;" width="15"></th>
+        <th class="Border"style="text-align: center;vertical-align: middle;" width="15"></th>
+        <th class="Border"style="text-align: center;vertical-align: middle;" width="35"></th>
+        <th class="Border"style="text-align: center;vertical-align: middle;" width="15"></th>
+        <th class="Border"style="text-align: center;vertical-align: middle;" width="15"></th>
 
     </tr>
 
@@ -67,7 +74,7 @@
 
                 @endphp
 
-                <td style="text-align: center;vertical-align: middle;" width="15">
+                <td class="Border"style="text-align: center;vertical-align: middle;" width="15">
 
                     @if($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])->first()->inTime == null)
 
@@ -141,7 +148,7 @@
                     @endif
 
                 </td>
-                <td style="text-align: center;vertical-align: middle;" width="15">
+                <td class="Border"style="text-align: center;vertical-align: middle;" width="15">
 
                     @if($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])->first()->outTime == null)
 
@@ -237,7 +244,7 @@
                             @endif
                     @endif
                 </td>
-                <td style="text-align: center;vertical-align: middle;" width="15">
+                <td class="Border"style="text-align: center;vertical-align: middle;" width="15">
 
 
                     @if($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])->first()->inTime == null)
@@ -357,7 +364,7 @@
 
                 </td>
 
-                <td style="text-align: center;vertical-align: middle;" width="15">
+                <td class="Border"style="text-align: center;vertical-align: middle;" width="15">
 
                     @if($FINALIN != null && $FINALOUT != null)
 
@@ -372,7 +379,7 @@
 
                 </td>
 
-                <td style="text-align: center;vertical-align: middle;" width="35">
+                <td class="Border"style="text-align: center;vertical-align: middle;" width="35">
 
                     @if($FINALWORKINGHOUR != null)
                         @php
@@ -404,7 +411,7 @@
 
 
                 </td>
-                <td style="text-align: center;vertical-align: middle;" width="15">
+                <td class="Border"style="text-align: center;vertical-align: middle;" width="15">
 
                     @if($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])->first()->adjustmentDate != null)
                         @php
@@ -420,7 +427,7 @@
                 </td>
 
                 @if($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])->first()->inTime == null)
-                    <td class="cell" style="color: firebrick"  width="15">
+                    <td class="Border"class="cell" style="color: firebrick"  width="15">
                         roster not found
                         <br>
 
@@ -449,37 +456,37 @@
                     </td>
                 @else
 
-                    <td class="cell" style="color: firebrick" width="15">
+                    <td class="Border"class="cell" style="color: firebrick" width="15">
                         P
                     </td>
 
 
                 @endif
             @else
-                <td style="text-align: center;vertical-align: middle;" width="15"></td>
-                <td style="text-align: center;vertical-align: middle;" width="15"></td>
-                <td style="text-align: center;vertical-align: middle;" width="15"></td>
-                <td style="text-align: center;vertical-align: middle;" width="15"></td>
-                <td style="text-align: center;vertical-align: middle;" width="35"></td>
-                <td style="text-align: center;vertical-align: middle;" width="15"></td>
+                <td class="Border"style="text-align: center;vertical-align: middle;" width="15"></td>
+                <td class="Border"style="text-align: center;vertical-align: middle;" width="15"></td>
+                <td class="Border"style="text-align: center;vertical-align: middle;" width="15"></td>
+                <td class="Border"style="text-align: center;vertical-align: middle;" width="15"></td>
+                <td class="Border"style="text-align: center;vertical-align: middle;" width="35"></td>
+                <td class="Border"style="text-align: center;vertical-align: middle;" width="15"></td>
 
 
                     @if($allLeave->where('fkEmployeeId',$allE->id)->where('startDate','<=',$date['date'])->where('endDate','>=',$date['date'])->first())
-                        <td class="cell"style="color: #ffffff;background-color: #0070C0" width="15">
+                        <td class="cell Border"style="color: #ffffff;background-color: #0070C0" width="15">
                             {{$allLeave->where('fkEmployeeId',$allE->id)->where('startDate','<=',$date['date'])->where('endDate','>=',$date['date'])->first()->categoryName}}
                         </td>
 
 
                     @elseif($allWeekend->where('fkemployeeId',$allE->id)->where('startDate','<=',$date['date'])->where('endDate','>=',$date['date'])->first())
 
-                        <td class="cell" style="color: #ffa811;" width="15">
+                        <td class="cell Border" style="color: #ffa811;" width="15">
 
                             weekend
 
                         </td>
                     @elseif($allHoliday->where('fkemployeeId',$allE->id)->where('startDate','<=',$date['date'])->where('endDate','>=',$date['date'])->first())
 
-                        <td class="cell" style="color: #ffa811;" width="15">
+                        <td class="cell Border" style="color: #ffa811;" width="15">
 
                             holiday
 
@@ -488,7 +495,7 @@
                     @else
 
 
-                        <td class="cell" style="color: #ffa811;" width="15">
+                        <td class="cell Border" style="color: #ffa811;" width="15">
 
                             A
 
