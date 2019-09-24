@@ -552,6 +552,42 @@ export class AttendanceComponent implements OnInit {
 
           }
 
+          else if ($('#excelType').val() == "6") {
+
+            this.http.post(Constants.API_URL + 'report/finalReport-3' + '?token=' + token, {
+
+              startDate: $('#startDate').val(),
+              endDate: $('#endDate').val(),
+              empId: empList,
+              report: 'final_Report_3'
+            }).subscribe(data => {
+
+                this.spinner.hide();
+                console.log(data);
+
+
+                let fileName = Constants.Image_URL + 'exportedExcel/' + data;
+
+                let link = document.createElement("a");
+                link.download = data + ".xls";
+                let uri = fileName + ".xls";
+                link.href = uri;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                $("#excelType").val("");
+                this.selectedItems = [];
+
+
+              },
+              error => {
+                console.log(error);
+                this.spinner.hide();
+              }
+            );
+
+          }
+
 
         }
 
@@ -667,6 +703,44 @@ export class AttendanceComponent implements OnInit {
             }
           );
 
+
+        }
+        else if ($('#excelType').val() == "4") {
+
+          this.spinner.show();
+          const token = this.token.get();
+
+          this.http.post(Constants.API_URL + 'report/finalReport-1' + '?token=' + token, {
+
+            startDate: $('#startDate').val(),
+            endDate: $('#endDate').val(),
+
+            report: 'final_Report_1'
+          }).subscribe(data => {
+
+              this.spinner.hide();
+              console.log(data);
+
+
+              let fileName = Constants.Image_URL + 'exportedExcel/' + data;
+
+              let link = document.createElement("a");
+              link.download = data + ".xls";
+              let uri = fileName + ".xls";
+              link.href = uri;
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+              $("#excelType").val("");
+              this.selectedItems = [];
+
+
+            },
+            error => {
+              console.log(error);
+              this.spinner.hide();
+            }
+          );
 
         }
 

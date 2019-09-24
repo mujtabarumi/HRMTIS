@@ -103,7 +103,6 @@ class EmployeeController extends Controller
             ->leftjoin('designations','designations.id','=','employeeinfo.fkDesignation')
             ->leftjoin('departments','departments.id','=','employeeinfo.fkDepartmentId')
             ->leftjoin('employeetypes','employeetypes.id','=','employeeinfo.fkEmployeeType')
-
             ->where('employeeinfo.id', $r->empid)
             ->first();
 
