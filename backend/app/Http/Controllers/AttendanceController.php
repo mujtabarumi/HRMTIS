@@ -645,6 +645,32 @@ class AttendanceController extends Controller {
             and emInfo.id IN (" . $List . ")"));
 
             $results = collect($results);
+
+            $check = Excel::create($fileName, function ($excel) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate, $endDate,$allLeave,$allHoliday,$allWeekend) {
+
+                foreach ($allEmp as $allE) {
+
+                    $excel->sheet($allE->attDeviceUserId, function ($sheet) use ($results, $allE, $dates, $allEmp, $fromDate, $toDate, $startDate,
+                        $endDate,$allLeave,$allHoliday,$allWeekend)
+                    {
+
+                        $sheet->freezePane('C3');
+                        $sheet->setStyle(array(
+                            'font' => array(
+                                'name' => 'Calibri',
+                                'size' => 10,
+                                'bold' => false
+                            )
+                        ));
+
+                        $sheet->loadView('Excel.Final_Report_3', compact('results', 'allE', 'fromDate', 'toDate', 'dates', 'allEmp',
+                            'startDate', 'endDate','allLeave','allWeekend','allHoliday'));
+                    });
+
+                }
+
+            })->store('xls', $filePath);
+
         }
         else{
 
@@ -697,6 +723,32 @@ class AttendanceController extends Controller {
             $results = collect($results);
 
 
+            $check = Excel::create($fileName, function ($excel) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate, $endDate,$allLeave,$allHoliday,$allWeekend) {
+
+
+
+                    $excel->sheet('All Emp', function ($sheet) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate,
+                        $endDate,$allLeave,$allHoliday,$allWeekend)
+                    {
+
+                        $sheet->freezePane('C3');
+                        $sheet->setStyle(array(
+                            'font' => array(
+                                'name' => 'Calibri',
+                                'size' => 10,
+                                'bold' => false
+                            )
+                        ));
+
+                        $sheet->loadView('Excel.Final_Report_3', compact('results',  'fromDate', 'toDate', 'dates', 'allEmp',
+                            'startDate', 'endDate','allLeave','allWeekend','allHoliday'));
+                    });
+
+
+
+            })->store('xls', $filePath);
+
+
 
 
 
@@ -704,30 +756,7 @@ class AttendanceController extends Controller {
 
        // return $allEmp;
 
-        $check = Excel::create($fileName, function ($excel) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate, $endDate,$allLeave,$allHoliday,$allWeekend) {
 
-            foreach ($allEmp as $allE) {
-
-                $excel->sheet('('.$allE->attDeviceUserId.')-'.$allE->empFullname, function ($sheet) use ($results, $allE, $dates, $allEmp, $fromDate, $toDate, $startDate,
-                    $endDate,$allLeave,$allHoliday,$allWeekend)
-                {
-
-                    $sheet->freezePane('C3');
-                    $sheet->setStyle(array(
-                        'font' => array(
-                            'name' => 'Calibri',
-                            'size' => 10,
-                            'bold' => false
-                        )
-                    ));
-
-                    $sheet->loadView('Excel.Final_Report_3', compact('results', 'allE', 'fromDate', 'toDate', 'dates', 'allEmp',
-                        'startDate', 'endDate','allLeave','allWeekend','allHoliday'));
-                });
-
-            }
-
-        })->store('xls', $filePath);
 
         return response()->json($fileName);
 
