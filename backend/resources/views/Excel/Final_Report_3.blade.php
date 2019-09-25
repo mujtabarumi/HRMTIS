@@ -58,7 +58,7 @@
 
           @endphp
 
-          @if($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])->first())
+          @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first())
 
               @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime != null  &&
                                         $results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->outTime !=null &&
@@ -130,7 +130,7 @@
               @endif
           @endif
 
-          @if($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])->first())
+          @if($results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first())
 
               @if(    $results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->inTime != null  &&
                                         $results->where('employeeId',$aE->id)->where('attendanceDate',$date['date'])->first()->outTime !=null &&
