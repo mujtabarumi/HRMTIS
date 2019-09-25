@@ -1,98 +1,95 @@
 <div class="container-fluid">
-  <div class="card">
-    <div class="card-header"></div>
-    <div class="card-body">
-      <div class="row">
-        <div class="form-group col-md-3">
-          <label>From</label>
-          <input class="form-control"
-                 bsDatepicker
-                 [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD'}" id="startDate">
-        </div>
-        <div class="form-group col-md-3">
-          <label>To</label>
-          <input class="form-control"
-                 bsDatepicker
-                 [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD'}"
-                 id="endDate"
-          >
-        </div>
-
-
-        <div class="form-group col-md-4">
-
-
-          <label>Department</label>
-
-          <ng-multiselect-dropdown
-            [placeholder]="'Select Department'"
-            [data]="departments"
-            [(ngModel)]="selectedDropDown"
-            [settings]="dropdownSettings2"
-            (onSelect)="onItemSelectDepartment($event)"
-            (onDeSelect)="onItemDeSelectDepartment($event)"
-
-
-          >
-          </ng-multiselect-dropdown>
-
-
-        </div>
-
-        <div class="form-group col-md-4">
-
-
-          <label>Employee</label>
-
-          <ng-multiselect-dropdown
-            [placeholder]="'Select Employee'"
-            [data]="employee"
-            [(ngModel)]="selectedItems"
-            [settings]="dropdownSettings"
-            (onSelect)="onItemSelect($event)"
-            (onDeSelect)="onItemDeSelect($event)"
-
-
-          >
-          </ng-multiselect-dropdown>
-
-
-        </div>
-
-        <div class="form-group col-md-4">
-          <label>Excel type</label>
-          <select class="form-control" id="excelType"  name="excelType">
-            <option value="">Select Type</option>
-            <option value="1">Daily IN/OUT</option>
-            <option value="2">Daily All Punch</option>
-            <option value="3">Monthly Report</option>
-            <option value="4">Final Report-1</option>
-          </select>
-        </div>
-<!--        <div class="form-group col-md-8">-->
-
-<!--          <label>-->
-
-<!--          <input style="margin-top: 40px" type="checkbox" id="notAssignedRoster"/> Employee With out Roster-->
-<!--          </label>-->
-
-
-
-<!--        </div>-->
-
-
-
-
-
-
-
-      </div>
-      <div class="row">
-
+    <div class="card">
+        <div class="card-header"></div>
+        <div class="card-body">
+            <div class="row">
                 <div class="form-group col-md-3">
-
-                    <button class="btn btn-success" (click)="searchAttendance()">Search</button>
+                    <label>From</label>
+                    <input class="form-control"
+                           bsDatepicker
+                           [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD'}" id="startDate">
                 </div>
+                <div class="form-group col-md-3">
+                    <label>To</label>
+                    <input class="form-control"
+                           bsDatepicker
+                           [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD'}"
+                           id="endDate"
+                           >
+                </div>
+
+
+                <div class="form-group col-md-4">
+
+
+                    <label>Department</label>
+
+                    <ng-multiselect-dropdown
+                        [placeholder]="'Select Department'"
+                        [data]="departments"
+                        [(ngModel)]="selectedDropDown"
+                        [settings]="dropdownSettings2"
+                        (onSelect)="onItemSelectDepartment($event)"
+                        (onDeSelect)="onItemDeSelectDepartment($event)"
+
+
+                        >
+                </ng-multiselect-dropdown>
+
+
+            </div>
+
+            <div class="form-group col-md-4">
+
+
+                <label>Employee</label>
+
+                <ng-multiselect-dropdown
+                    [placeholder]="'Select Employee'"
+                    [data]="employee"
+                    [(ngModel)]="selectedItems"
+                    [settings]="dropdownSettings"
+                    (onSelect)="onItemSelect($event)"
+                    (onDeSelect)="onItemDeSelect($event)"
+                    >
+            </ng-multiselect-dropdown>
+        </div>
+
+        <div class="form-group col-md-4">
+            <label>Excel type</label>
+            <select class="form-control" id="excelType"  name="excelType">
+                <option value="">Select Type</option>
+                <option value="1">Daily IN/OUT</option>
+                <option value="2">Daily All Punch</option>
+                <option value="3">Monthly Report</option>
+                <option value="4">Final Report-1</option>
+                <option value="5">Final Report-2</option>
+            </select>
+        </div>
+        <!--        <div class="form-group col-md-8">-->
+
+        <!--          <label>-->
+
+        <!--          <input style="margin-top: 40px" type="checkbox" id="notAssignedRoster"/> Employee With out Roster-->
+        <!--          </label>-->
+
+
+
+        <!--        </div>-->
+
+
+
+
+
+
+
+    </div>
+    <div class="row">
+
+        <div class="form-group col-md-3">
+
+            <button class="btn btn-success" (click)="searchAttendance()">Search</button>
+        </div>
 
 
         <!--        <div class="form-group col-md-3">-->
@@ -102,7 +99,7 @@
         <!--        </div>-->
         <div class="form-group col-md-3">
 
-          <button class="btn btn-info pull-right" (click)="generateINOUTExcel()" *ngxPermissionsOnly="['admin']">Report (only in/out )</button>
+            <button class="btn btn-info pull-right" (click)="generateINOUTExcel()" *ngxPermissionsOnly="['admin']">Report (only in/out )</button>
 
         </div>
         <!--        <div class="form-group col-md-3">-->
@@ -112,101 +109,76 @@
         <!--        </div>-->
 
 
-      </div>
-      <hr>
+    </div>
+    <hr>
 
-      <div class="row">
+    <div class="row">
 
         <table class="table table-striped table-hover" >
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>FullName</th>
+                    <th>Department</th>
+                    <th>Date</th>
+                    <th>In Time</th>
+                    <th>Out Time</th>
+                </tr>
+            </thead>
 
-          <thead>
+            <tbody>
+                <tr *ngFor="let adD of attendenceDataDates">
+                    <th>
+                        {{attendenceDataAllEmp.attDeviceUserId}}
 
-          <tr>
+                    </th>
+                    <th>
+                        {{attendenceDataAllEmp.empFullname}}
 
-            <th>Id</th>
-            <th>FullName</th>
-            <th>Department</th>
-            <th>Date</th>
-            <th>In Time</th>
-            <th>Out Time</th>
+                    </th>
+                    <th>
+                        {{attendenceDataAllEmp.departmentName}}
 
+                    </th>
+                    <th>
+                        {{adD.date}}
 
-          </tr>
+                    </th>
 
-          </thead>
+                    <th >
+                        <span  *ngFor="let attendance of attendenceDataResults; index as i" >
+                            <span *ngIf="attendance.attendanceDate==adD.date">
+                                <span *ngIf="i==0 && attendance.inTime==null">
+                                    {{attendance.accessTime2 | date : "shortTime" }}
+                                </span>
+                                <span *ngIf="i==0 && attendance.inTime !=null && attendance.outTime != null && attendance.inTime < attendance.outTime">
+                                    {{attendance.accessTime2 | date : "shortTime" }}
+                                    <span *ngIf="attendance.inTime=='00:00:00' else another">
 
-          <tbody>
-          <tr *ngFor="let adD of attendenceDataDates">
-            <th>
-              {{attendenceDataAllEmp.attDeviceUserId}}
+                                        <span *ngIf="attendance.accessTime >='21:00:00' && attendance.attendanceDate == previusDay(adD.date)
+                                            && attendance.fkAttDevice == attendenceDataAllEmp.inDeviceNo else other">
 
-            </th>
-            <th>
-              {{attendenceDataAllEmp.empFullname}}
+                                            {{attendance.accessTime2 | date : "shortTime" }}
 
-            </th>
-            <th>
-              {{attendenceDataAllEmp.departmentName}}
+                                        </span>
+                                        <span id="other" *ngIf="attendance.accessTime <='4:00:00' && attendance.attendanceDate == adD.date
+                                              && attendance.fkAttDevice == attendenceDataAllEmp.inDeviceNo">
 
-            </th>
-            <th>
-              {{adD.date}}
+                                              {{attendance.accessTime2 | date : "shortTime" }}
 
-            </th>
-
-            <th >
-                    <span  *ngFor="let attendance of attendenceDataResults; index as i" >
-
-                      <span *ngIf="attendance.attendanceDate==adD.date">
-
-
-
-                        <span *ngIf="i==0 && attendance.inTime==null">
-                          {{attendance.accessTime2 | date : "shortTime" }}
+                                    </span>
+                                    <span id="another" *ngIf="attendance.attendanceDate == adD.date && attendance.fkAttDevice == attendenceDataAllEmp.inDeviceNo">
+                                          {{attendance.accessTime2 | date : "shortTime" }}
+                                </span>
+                            </span>
                         </span>
-                        <span *ngIf="i==0 && attendance.inTime !=null && attendance.outTime != null && attendance.inTime < attendance.outTime">
-                          {{attendance.accessTime2 | date : "shortTime" }}
-                          <span *ngIf="attendance.inTime=='00:00:00' else another">
-
-
-                            <span *ngIf="attendance.accessTime >='21:00:00' && attendance.attendanceDate == previusDay(adD.date)
-                                  && attendance.fkAttDevice == attendenceDataAllEmp.inDeviceNo else other">
-
-                                {{attendance.accessTime2 | date : "shortTime" }}
-
-                            </span>
-                            <span id="other" *ngIf="attendance.accessTime <='4:00:00' && attendance.attendanceDate == adD.date
-                                  && attendance.fkAttDevice == attendenceDataAllEmp.inDeviceNo">
-
-                              {{attendance.accessTime2 | date : "shortTime" }}
-
-                            </span>
-                            <span id="another" *ngIf="attendance.attendanceDate == adD.date && attendance.fkAttDevice == attendenceDataAllEmp.inDeviceNo">
-                                      {{attendance.accessTime2 | date : "shortTime" }}
-                            </span>
-
-
-
-                          </span>
-                        </span>
-                      </span>
-
-
-
                     </span>
+                </span>
             </th>
-
-          </tr>
-
-          </tbody>
-        </table>
-
-      </div>
-
-
-
-
-
-    </div>
-  </div>
+        </tr>
+    </tbody>
+</table>
+</div>
+</div>
+</div>
 </div>
