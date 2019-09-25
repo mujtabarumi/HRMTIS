@@ -576,7 +576,7 @@ class AttendanceController extends Controller
             $allLeave = collect($allLeave);
 
             $allWeekend = ShiftLog::whereNotNull('weekend')
-                ->whereIn('shiftlog.fkEmployeeId', $r->empId)
+
                 ->whereBetween('startDate', array($fromDate, $toDate))
                 ->get();
 
@@ -678,6 +678,7 @@ class AttendanceController extends Controller
 
 
 
+
         if ($r->empId) {
 
             $allLeave = Leave::leftJoin('leavecategories', 'leavecategories.id', '=', 'leaves.fkLeaveCategory')
@@ -728,7 +729,8 @@ class AttendanceController extends Controller
             and emInfo.id IN (" . $List . ")"));
 
             $results = collect($results);
-        }else{
+        }
+        else{
 
             $allLeave = Leave::leftJoin('leavecategories', 'leavecategories.id', '=', 'leaves.fkLeaveCategory')
                 ->where('applicationStatus', "Approved")
@@ -739,7 +741,7 @@ class AttendanceController extends Controller
             $allLeave = collect($allLeave);
 
             $allWeekend = ShiftLog::whereNotNull('weekend')
-                ->whereIn('shiftlog.fkEmployeeId', $r->empId)
+
                 ->whereBetween('startDate', array($fromDate, $toDate))
                 ->get();
 
@@ -784,6 +786,8 @@ class AttendanceController extends Controller
 
         }
 
+       // return $allEmp;
+
         $check = Excel::create($fileName, function ($excel) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate, $endDate,$allLeave,$allHoliday,$allWeekend) {
 
             foreach ($allEmp as $allE) {
@@ -792,7 +796,7 @@ class AttendanceController extends Controller
                     $endDate,$allLeave,$allHoliday,$allWeekend)
                 {
 
-                    $sheet->freezePane('B5');
+                    $sheet->freezePane('C3');
                     $sheet->setStyle(array(
                         'font' => array(
                             'name' => 'Calibri',
