@@ -78,7 +78,7 @@ export class BasicInfoComponent implements OnInit {
     const token=this.token.get();
     this.http.post(Constants.API_URL+'employee/basicinfo'+'?token='+token,{ empid:this.empid}).subscribe(data => {
 
-        // console.log(data);
+       console.log(data);
         this.basicinfo  = data;
         if(data !=null){
 

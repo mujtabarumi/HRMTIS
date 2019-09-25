@@ -56,15 +56,18 @@
         </div>
 
         <div class="form-group col-md-4">
-            <label>Excel type</label>
-            <select class="form-control" id="excelType"  name="excelType">
-                <option value="">Select Type</option>
-                <option value="1">Daily IN/OUT</option>
-                <option value="2">Daily All Punch</option>
-                <option value="3">Monthly Report</option>
-                <option value="4">Final Report-1</option>
-                <option value="5">Final Report-2</option>
-            </select>
+
+          <label>Excel type</label>
+          <select class="form-control" id="excelType"  name="excelType">
+            <option value="">Select Type</option>
+            <option value="1">Daily IN/OUT</option>
+            <option value="2">Daily All Punch</option>
+            <option value="3">Monthly Report</option>
+            <option value="4">Final Report-1</option>
+            <option value="5">Final Report-2</option>
+            <option value="6">Final Report-3</option>
+          </select>
+
         </div>
         <!--        <div class="form-group col-md-8">-->
 
@@ -99,7 +102,7 @@
         <!--        </div>-->
         <div class="form-group col-md-3">
 
-            <button class="btn btn-info pull-right" (click)="generateINOUTExcel()" *ngxPermissionsOnly="['admin']">Report (only in/out )</button>
+            <button class="btn btn-info pull-right" (click)="generateINOUTExcel()" *ngxPermissionsOnly="['admin']">Report Download</button>
 
         </div>
         <!--        <div class="form-group col-md-3">-->
