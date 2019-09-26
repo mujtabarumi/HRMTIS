@@ -64,7 +64,7 @@
 
         <tr >
 
-            <td style="text-align: center;vertical-align: middle;" width="25" class="Border">
+            <td style="text-align: left;vertical-align: middle;" width="25" class="Border">
                 {{$date['date']}}({{$date['day']}})
             </td>
             @if($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])->first())

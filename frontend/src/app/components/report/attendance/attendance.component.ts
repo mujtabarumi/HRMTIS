@@ -515,8 +515,7 @@ export class AttendanceComponent implements OnInit {
               }
             );
 
-          }
-          else if ($('#excelType').val() == "4") {
+          } else if ($('#excelType').val() == "4") {
 
             this.http.post(Constants.API_URL + 'report/finalReport-1' + '?token=' + token, {
 
@@ -529,6 +528,39 @@ export class AttendanceComponent implements OnInit {
                 this.spinner.hide();
                 console.log(data);
 
+
+                let fileName = Constants.Image_URL + 'exportedExcel/' + data;
+
+                let link = document.createElement("a");
+                link.download = data + ".xls";
+                let uri = fileName + ".xls";
+                link.href = uri;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                $("#excelType").val("");
+                this.selectedItems = [];
+
+
+              },
+              error => {
+                console.log(error);
+                this.spinner.hide();
+              }
+            );
+
+          }else if ($('#excelType').val() == "5") {
+
+            this.http.post(Constants.API_URL + 'report/finalReport-2' + '?token=' + token, {
+
+              startDate: $('#startDate').val(),
+              endDate: $('#endDate').val(),
+              empId: empList,
+              report: 'final_Report_2'
+            }).subscribe(data => {
+
+                this.spinner.hide();
+                console.log(data);
 
                 let fileName = Constants.Image_URL + 'exportedExcel/' + data;
 
@@ -788,6 +820,7 @@ export class AttendanceComponent implements OnInit {
 
 
   }
+
   total(){
 
   }
