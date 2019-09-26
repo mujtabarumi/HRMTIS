@@ -502,10 +502,8 @@ class AttendanceController extends Controller {
             $allLeave = collect($allLeave);
 
             $allWeekend = ShiftLog::whereNotNull('weekend')
-
-
-                ->whereBetween('startDate', array($fromDate, $toDate))
-                ->get();
+                    ->whereBetween('startDate', array($fromDate, $toDate))
+                    ->get();
 
 
             $allWeekend = collect($allWeekend);
@@ -564,19 +562,16 @@ class AttendanceController extends Controller {
         return response()->json($fileName);
     }
 
-    
-    
-    
-    public function finalReport_3(Request $r){
+    public function finalReport_2(Request $r) {
 
-        $fromDate=$r->startDate;
-        $toDate= $r->endDate;
+        $fromDate = $r->startDate;
+        $toDate = $r->endDate;
 
 
         ini_set('max_execution_time', 0);
 
-        $startDate=Carbon::parse($fromDate);
-        $endDate=Carbon::parse($toDate);
+        $startDate = Carbon::parse($fromDate);
+        $endDate = Carbon::parse($toDate);
 
         $dates = $this->getDatesFromRange($startDate, $endDate);
 
@@ -584,12 +579,12 @@ class AttendanceController extends Controller {
         $toDate = Carbon::parse($toDate)->addDays(1);
 
 
-        $filePath=public_path ()."/exportedExcel";
+        $filePath = public_path() . "/exportedExcel";
 
-        $fileName="Final_Report_1".date("Y-m-d_H-i-s");
-        $fileInfo=array(
-            'fileName'=>$fileName,
-            'filePath'=>$fileName,
+        $fileName = "Final_Report_1" . date("Y-m-d_H-i-s");
+        $fileInfo = array(
+            'fileName' => $fileName,
+            'filePath' => $fileName,
         );
 
 
@@ -619,9 +614,7 @@ class AttendanceController extends Controller {
 
             $allHoliday = collect($allHoliday);
 
-            $allEmp = Employee::select('employeeinfo.id', 'attemployeemap.attDeviceUserId', 'departments.departmentName',
-                DB::raw("CONCAT(COALESCE(firstName,''),' ',COALESCE(middleName,''),' ',COALESCE(lastName,'')) AS empFullname"),
-                'employeeinfo.inDeviceNo', 'employeeinfo.outDeviceNo')
+            $allEmp = Employee::select('employeeinfo.id', 'attemployeemap.attDeviceUserId', 'departments.departmentName', DB::raw("CONCAT(COALESCE(firstName,''),' ',COALESCE(middleName,''),' ',COALESCE(lastName,'')) AS empFullname"), 'employeeinfo.inDeviceNo', 'employeeinfo.outDeviceNo')
                 ->leftJoin('attemployeemap', 'attemployeemap.employeeId', 'employeeinfo.id')
                 ->leftJoin('departments', 'departments.id', 'employeeinfo.fkDepartmentId')
                 ->whereIn('employeeinfo.id', $r->empId)
@@ -646,62 +639,46 @@ class AttendanceController extends Controller {
 
             $results = collect($results);
 
-            $check = Excel::create($fileName, function ($excel) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate, $endDate,$allLeave,$allHoliday,$allWeekend) {
+            $check = Excel::create($fileName, function ($excel)  {
 
-                foreach ($allEmp as $allE) {
+                $excel->sheet('emp', function ($sheet) {
 
-                    $excel->sheet($allE->attDeviceUserId, function ($sheet) use ($results, $allE, $dates, $allEmp, $fromDate, $toDate, $startDate,
-                        $endDate,$allLeave,$allHoliday,$allWeekend)
-                    {
+                    $sheet->freezePane('C3');
+                    $sheet->setStyle(array(
+                        'font' => array(
+                            'name' => 'Calibri',
+                            'size' => 10,
+                            'bold' => false
+                        )
+                    ));
 
-                        $sheet->freezePane('C3');
-                        $sheet->setStyle(array(
-                            'font' => array(
-                                'name' => 'Calibri',
-                                'size' => 10,
-                                'bold' => false
-                            )
-                        ));
-
-                        $sheet->loadView('Excel.Final_Report_3', compact('results', 'allE', 'fromDate', 'toDate', 'dates', 'allEmp',
-                            'startDate', 'endDate','allLeave','allWeekend','allHoliday'));
-                    });
-
-                }
-
+                    $sheet->loadView('Excel.finalReport02');
+                });
             })->store('xls', $filePath);
-
-        }
-        else{
+        } else {
 
             $allLeave = Leave::leftJoin('leavecategories', 'leavecategories.id', '=', 'leaves.fkLeaveCategory')
                 ->where('applicationStatus', "Approved")
-
                 ->whereBetween('startDate', array($fromDate, $toDate))
                 ->get();
 
             $allLeave = collect($allLeave);
 
             $allWeekend = ShiftLog::whereNotNull('weekend')
-
                 ->whereBetween('startDate', array($fromDate, $toDate))
                 ->get();
 
             $allWeekend = collect($allWeekend);
 
             $allHoliday = ShiftLog::whereNotNull('holiday')
-
                 ->whereBetween('startDate', array($fromDate, $toDate))
                 ->get();
 
             $allHoliday = collect($allHoliday);
 
-            $allEmp = Employee::select('employeeinfo.id', 'attemployeemap.attDeviceUserId', 'departments.departmentName',
-                DB::raw("CONCAT(COALESCE(firstName,''),' ',COALESCE(middleName,''),' ',COALESCE(lastName,'')) AS empFullname"),
-                'employeeinfo.inDeviceNo', 'employeeinfo.outDeviceNo')
+            $allEmp = Employee::select('employeeinfo.id', 'attemployeemap.attDeviceUserId', 'departments.departmentName', DB::raw("CONCAT(COALESCE(firstName,''),' ',COALESCE(middleName,''),' ',COALESCE(lastName,'')) AS empFullname"), 'employeeinfo.inDeviceNo', 'employeeinfo.outDeviceNo')
                 ->leftJoin('attemployeemap', 'attemployeemap.employeeId', 'employeeinfo.id')
                 ->leftJoin('departments', 'departments.id', 'employeeinfo.fkDepartmentId')
-
                 ->orderBy('departments.orderBy', 'ASC')
                 ->orderBy('employeeinfo.id', 'ASC')
 //                ->whereNotNull('employeeinfo.fkDepartmentId')
@@ -723,47 +700,201 @@ class AttendanceController extends Controller {
             $results = collect($results);
 
 
-            $check = Excel::create($fileName, function ($excel) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate, $endDate,$allLeave,$allHoliday,$allWeekend) {
+            $check = Excel::create($fileName, function ($excel) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate, $endDate, $allLeave, $allHoliday, $allWeekend) {
 
 
 
-                    $excel->sheet('All Emp', function ($sheet) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate,
-                        $endDate,$allLeave,$allHoliday,$allWeekend)
-                    {
+                $excel->sheet('All Emp', function ($sheet) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate,
+                    $endDate, $allLeave, $allHoliday, $allWeekend) {
 
-                        $sheet->freezePane('C3');
-                        $sheet->setStyle(array(
-                            'font' => array(
-                                'name' => 'Calibri',
-                                'size' => 10,
-                                'bold' => false
-                            )
-                        ));
+                    $sheet->freezePane('C3');
+                    $sheet->setStyle(array(
+                        'font' => array(
+                            'name' => 'Calibri',
+                            'size' => 10,
+                            'bold' => false
+                        )
+                    ));
 
-                        $sheet->loadView('Excel.Final_Report_3', compact('results',  'fromDate', 'toDate', 'dates', 'allEmp',
-                            'startDate', 'endDate','allLeave','allWeekend','allHoliday'));
-                    });
-
-
-
+                    $sheet->loadView('Excel.Final_Report_2', compact('results', 'fromDate', 'toDate', 'dates', 'allEmp', 'startDate', 'endDate', 'allLeave', 'allWeekend', 'allHoliday'));
+                });
             })->store('xls', $filePath);
-
-
-
-
-
         }
 
-       // return $allEmp;
+        // return $allEmp;
 
 
 
         return response()->json($fileName);
-
-
-
     }
-        
-}  
+
+    public function finalReport_3(Request $r) {
+
+        $fromDate = $r->startDate;
+        $toDate = $r->endDate;
 
 
+        ini_set('max_execution_time', 0);
+
+        $startDate = Carbon::parse($fromDate);
+        $endDate = Carbon::parse($toDate);
+
+        $dates = $this->getDatesFromRange($startDate, $endDate);
+
+        $fromDate = Carbon::parse($fromDate)->subDays(1);
+        $toDate = Carbon::parse($toDate)->addDays(1);
+
+
+        $filePath = public_path() . "/exportedExcel";
+
+        $fileName = "Final_Report_1" . date("Y-m-d_H-i-s");
+        $fileInfo = array(
+            'fileName' => $fileName,
+            'filePath' => $fileName,
+        );
+
+
+
+
+        if ($r->empId) {
+
+            $allLeave = Leave::leftJoin('leavecategories', 'leavecategories.id', '=', 'leaves.fkLeaveCategory')
+                    ->where('applicationStatus', "Approved")
+                    ->whereIn('leaves.fkEmployeeId', $r->empId)
+                    ->whereBetween('startDate', array($fromDate, $toDate))
+                    ->get();
+
+            $allLeave = collect($allLeave);
+
+            $allWeekend = ShiftLog::whereNotNull('weekend')
+                    ->whereIn('shiftlog.fkEmployeeId', $r->empId)
+                    ->whereBetween('startDate', array($fromDate, $toDate))
+                    ->get();
+
+            $allWeekend = collect($allWeekend);
+
+            $allHoliday = ShiftLog::whereNotNull('holiday')
+                    ->whereIn('shiftlog.fkEmployeeId', $r->empId)
+                    ->whereBetween('startDate', array($fromDate, $toDate))
+                    ->get();
+
+            $allHoliday = collect($allHoliday);
+
+            $allEmp = Employee::select('employeeinfo.id', 'attemployeemap.attDeviceUserId', 'departments.departmentName', DB::raw("CONCAT(COALESCE(firstName,''),' ',COALESCE(middleName,''),' ',COALESCE(lastName,'')) AS empFullname"), 'employeeinfo.inDeviceNo', 'employeeinfo.outDeviceNo')
+                    ->leftJoin('attemployeemap', 'attemployeemap.employeeId', 'employeeinfo.id')
+                    ->leftJoin('departments', 'departments.id', 'employeeinfo.fkDepartmentId')
+                    ->whereIn('employeeinfo.id', $r->empId)
+                    ->orderBy('departments.orderBy', 'ASC')
+                    ->orderBy('employeeinfo.id', 'ASC')
+//                ->whereNotNull('employeeinfo.fkDepartmentId')
+                    ->get();
+
+            $List = implode(',', $r->empId);
+
+            $results = DB::select(DB::raw("select em.employeeId,ad.id,sl.inTime,sl.outTime,sl.adjustmentDate,ad.fkAttDevice,sl.holiday,sl.weekend,ad.fkAttDevice
+            , date_format(ad.accessTime,'%Y-%m-%d') attendanceDate
+            , date_format(ad.accessTime,'%H:%i:%s') accessTime
+            , date_format(ad.accessTime,'%Y-%m-%d %H:%i:%s') accessTime2
+            from attendancedata ad left join attemployeemap em on ad.attDeviceUserId = em.attDeviceUserId
+            and date_format(ad.accessTime,'%Y-%m-%d') between '" . $fromDate . "' and '" . $toDate . "'
+            left join shiftlog sl on em.employeeId = sl.fkemployeeId and date_format(ad.accessTime,'%Y-%m-%d') between date_format(sl.startDate,'%Y-%m-%d') and ifnull(date_format(sl.endDate,'%Y-%m-%d'),curdate())
+            left join employeeinfo emInfo on em.employeeId = emInfo.id and emInfo.fkDepartmentId is not null
+            
+            where date_format(ad.accessTime,'%Y-%m-%d') between '" . $fromDate . "' and '" . $toDate . "'
+            and emInfo.id IN (" . $List . ")"));
+
+            $results = collect($results);
+
+            $check = Excel::create($fileName, function ($excel) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate, $endDate, $allLeave, $allHoliday, $allWeekend) {
+
+
+
+                        $excel->sheet('emp', function ($sheet) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate,
+                                $endDate, $allLeave, $allHoliday, $allWeekend) {
+
+                            $sheet->freezePane('C3');
+                            $sheet->setStyle(array(
+                                'font' => array(
+                                    'name' => 'Calibri',
+                                    'size' => 10,
+                                    'bold' => false
+                                )
+                            ));
+
+                            $sheet->loadView('Excel.Final_Report_3', compact('results', 'fromDate', 'toDate', 'dates', 'allEmp', 'startDate', 'endDate', 'allLeave', 'allWeekend', 'allHoliday'));
+                        });
+                    })->store('xls', $filePath);
+        } else {
+
+            $allLeave = Leave::leftJoin('leavecategories', 'leavecategories.id', '=', 'leaves.fkLeaveCategory')
+                    ->where('applicationStatus', "Approved")
+                    ->whereBetween('startDate', array($fromDate, $toDate))
+                    ->get();
+
+            $allLeave = collect($allLeave);
+
+            $allWeekend = ShiftLog::whereNotNull('weekend')
+                    ->whereBetween('startDate', array($fromDate, $toDate))
+                    ->get();
+
+            $allWeekend = collect($allWeekend);
+
+            $allHoliday = ShiftLog::whereNotNull('holiday')
+                    ->whereBetween('startDate', array($fromDate, $toDate))
+                    ->get();
+
+            $allHoliday = collect($allHoliday);
+
+            $allEmp = Employee::select('employeeinfo.id', 'attemployeemap.attDeviceUserId', 'departments.departmentName', DB::raw("CONCAT(COALESCE(firstName,''),' ',COALESCE(middleName,''),' ',COALESCE(lastName,'')) AS empFullname"), 'employeeinfo.inDeviceNo', 'employeeinfo.outDeviceNo')
+                    ->leftJoin('attemployeemap', 'attemployeemap.employeeId', 'employeeinfo.id')
+                    ->leftJoin('departments', 'departments.id', 'employeeinfo.fkDepartmentId')
+                    ->orderBy('departments.orderBy', 'ASC')
+                    ->orderBy('employeeinfo.id', 'ASC')
+//                ->whereNotNull('employeeinfo.fkDepartmentId')
+                    ->get();
+
+
+
+            $results = DB::select(DB::raw("select em.employeeId,ad.id,sl.inTime,sl.outTime,sl.adjustmentDate,ad.fkAttDevice,sl.holiday,sl.weekend,ad.fkAttDevice
+            , date_format(ad.accessTime,'%Y-%m-%d') attendanceDate
+            , date_format(ad.accessTime,'%H:%i:%s') accessTime
+            , date_format(ad.accessTime,'%Y-%m-%d %H:%i:%s') accessTime2
+            from attendancedata ad left join attemployeemap em on ad.attDeviceUserId = em.attDeviceUserId
+            and date_format(ad.accessTime,'%Y-%m-%d') between '" . $fromDate . "' and '" . $toDate . "'
+            left join shiftlog sl on em.employeeId = sl.fkemployeeId and date_format(ad.accessTime,'%Y-%m-%d') between date_format(sl.startDate,'%Y-%m-%d') and ifnull(date_format(sl.endDate,'%Y-%m-%d'),curdate())
+            left join employeeinfo emInfo on em.employeeId = emInfo.id and emInfo.fkDepartmentId is not null
+            
+            where date_format(ad.accessTime,'%Y-%m-%d') between '" . $fromDate . "' and '" . $toDate . "'"));
+
+            $results = collect($results);
+
+
+            $check = Excel::create($fileName, function ($excel) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate, $endDate, $allLeave, $allHoliday, $allWeekend) {
+
+
+
+                        $excel->sheet('All Emp', function ($sheet) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate,
+                                $endDate, $allLeave, $allHoliday, $allWeekend) {
+
+                            $sheet->freezePane('C3');
+                            $sheet->setStyle(array(
+                                'font' => array(
+                                    'name' => 'Calibri',
+                                    'size' => 10,
+                                    'bold' => false
+                                )
+                            ));
+
+                            $sheet->loadView('Excel.Final_Report_3', compact('results', 'fromDate', 'toDate', 'dates', 'allEmp', 'startDate', 'endDate', 'allLeave', 'allWeekend', 'allHoliday'));
+                        });
+                    })->store('xls', $filePath);
+        }
+
+        // return $allEmp;
+
+
+
+        return response()->json($fileName);
+    }
+
+}

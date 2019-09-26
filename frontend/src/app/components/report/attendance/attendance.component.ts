@@ -562,17 +562,17 @@ export class AttendanceComponent implements OnInit {
                 this.spinner.hide();
                 console.log(data);
 
-              /*  let fileName = Constants.Image_URL + 'exportedExcel/' + data;
-
-                let link = document.createElement("a");
-                link.download = data + ".xls";
-                let uri = fileName + ".xls";
-                link.href = uri;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                $("#excelType").val("");
-                this.selectedItems = [];*/
+                // let fileName = Constants.Image_URL + 'exportedExcel/' + data;
+                //
+                // let link = document.createElement("a");
+                // link.download = data + ".xls";
+                // let uri = fileName + ".xls";
+                // link.href = uri;
+                // document.body.appendChild(link);
+                // link.click();
+                // document.body.removeChild(link);
+                // $("#excelType").val("");
+                // this.selectedItems = [];
 
 
               },
