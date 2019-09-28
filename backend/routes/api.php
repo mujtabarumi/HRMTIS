@@ -132,6 +132,13 @@ Route::group([
 
     Route::post('leave/individual/update','LeaveController@updateIndividual');
 
+    /* govt Holiday */
+
+    Route::post('govtHoliday/getAllGovtHoliday','GovtHolidayController@getAllGovtHoliday');
+    Route::post('govtHoliday/insertNewGovtHoliday','GovtHolidayController@insertNewGovtHoliday');
+    Route::post('govtHoliday/getGovtHolidayInfo','GovtHolidayController@getGovtHolidayInfo');
+    Route::post('govtHoliday/updateGovtHoliday','GovtHolidayController@updateGovtHolidayInfo');
+
 
 
 

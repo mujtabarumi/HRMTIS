@@ -22,6 +22,7 @@ import { LeaveSummeryShowComponent } from './components/leave/leave-summery-show
 import {LeaveSummeryComponent} from "./components/leave/leave-summery/leave-summery.component";
 import {ShowLeaveComponent} from "./components/configuration/show-leave/show-leave.component";
 import { AddDesignationComponent } from './components/configuration/designation/add-designation/add-designation.component';
+import { GovmentHolidayComponent } from './components/configuration/govment-holiday/govment-holiday.component';
 
 
 
@@ -57,6 +58,7 @@ const routes: Routes = [
     { path: 'leave/summery/:id', component: LeaveSummeryShowComponent,canActivate: [AuthService] },
     { path: 'configuration/leave/show', component: ShowLeaveComponent,canActivate: [AuthService]  },
     { path: 'configuration/designation/add', component: AddDesignationComponent,canActivate: [AuthService]  },
+    { path: 'configuration/govtHoliday/show', component: GovmentHolidayComponent,canActivate: [AuthService]  },
 
 
 

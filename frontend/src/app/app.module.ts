@@ -30,6 +30,7 @@ import { NotShiftAssignListComponent } from './components/configuration/not-shif
 import { LeaveSummeryShowComponent } from './components/leave/leave-summery-show/leave-summery-show.component';
 import { ShowLeaveComponent } from './components/configuration/show-leave/show-leave.component';
 import { AddDesignationComponent } from './components/configuration/designation/add-designation/add-designation.component';
+import { GovmentHolidayComponent } from './components/configuration/govment-holiday/govment-holiday.component';
 
 
 
@@ -61,6 +62,7 @@ import { AddDesignationComponent } from './components/configuration/designation/
     LeaveSummeryShowComponent,
     ShowLeaveComponent,
     AddDesignationComponent,
+    GovmentHolidayComponent,
 
 
 

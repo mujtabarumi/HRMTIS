@@ -456,7 +456,7 @@
                     </td>
                 @else
 
-                    <td class="Border"class="cell" style="color: firebrick" width="15">
+                    <td class="Border"class="cell" width="15">
                         P
                     </td>
 
@@ -472,32 +472,32 @@
 
 
                     @if($allLeave->where('fkEmployeeId',$allE->id)->where('startDate','<=',$date['date'])->where('endDate','>=',$date['date'])->first())
-                        <td class="cell Border"style="color: #ffffff;background-color: #0070C0" width="15">
+                        <td class="cell Border"style="color: #ffffff;background-color: #003300" width="15">
                             {{$allLeave->where('fkEmployeeId',$allE->id)->where('startDate','<=',$date['date'])->where('endDate','>=',$date['date'])->first()->categoryName}}
                         </td>
 
 
                     @elseif($allWeekend->where('fkemployeeId',$allE->id)->where('startDate','<=',$date['date'])->where('endDate','>=',$date['date'])->first())
 
-                        <td class="cell Border" style="color: #ffa811;" width="15">
+                        <td class="cell Border" style="background-color:#000000;color: #ffffff;" width="15">
 
-                            weekend
+                            Day Off
 
                         </td>
                     @elseif($allHoliday->where('fkemployeeId',$allE->id)->where('startDate','<=',$date['date'])->where('endDate','>=',$date['date'])->first())
 
-                        <td class="cell Border" style="color: #ffa811;" width="15">
+                        <td class="cell Border" style="background-color:#000000;color: #ffffff;" width="15">
 
-                            holiday
+                            Holiday
 
                         </td>
 
                     @else
 
 
-                        <td class="cell Border" style="color: #ffa811;" width="15">
+                        <td class="cell Border" style="background-color:#ff0000;color: #ffffff;" width="15">
 
-                            A
+                            Absent
 
                         </td>
                     @endif
