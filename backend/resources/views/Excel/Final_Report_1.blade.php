@@ -484,11 +484,13 @@
                             Day Off
 
                         </td>
-                    @elseif($allHoliday->where('fkemployeeId',$allE->id)->where('startDate','<=',$date['date'])->where('endDate','>=',$date['date'])->first())
 
-                        <td class="cell Border" style="background-color:#000000;color: #ffffff;" width="15">
 
-                            Holiday
+                    @elseif($govtHoliday->where('startDate','<=',$date['date'])->where('endDate','>=',$date['date'])->first())
+
+                        <td class="cell Border" style="background-color:#FF5733;color: #ffffff;" width="15">
+
+                            Govt Holiday
 
                         </td>
 

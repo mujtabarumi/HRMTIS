@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\AttendanceData;
 use App\Department;
 use App\Employee;
+use App\GovtHoliday;
 use App\Leave;
 use App\OrganizationCalander;
 use App\ShiftLog;
@@ -468,6 +469,10 @@ class AttendanceController extends Controller {
 
             $allHoliday = collect($allHoliday);
 
+            $govtHoliday=GovtHoliday::where('startDate','>=',$fromDate)->where('endDate','<=',$toDate)->where('status','Approved')->get();
+
+            $govtHoliday=collect($govtHoliday);
+
             $allEmp = Employee::select('employeeinfo.id', 'attemployeemap.attDeviceUserId', 'departments.departmentName', DB::raw("CONCAT(COALESCE(firstName,''),' ',COALESCE(middleName,''),' ',COALESCE(lastName,'')) AS empFullname"), 'employeeinfo.inDeviceNo', 'employeeinfo.outDeviceNo')
                     ->leftJoin('attemployeemap', 'attemployeemap.employeeId', 'employeeinfo.id')
                     ->leftJoin('departments', 'departments.id', 'employeeinfo.fkDepartmentId')
@@ -514,6 +519,10 @@ class AttendanceController extends Controller {
 
             $allHoliday = collect($allHoliday);
 
+            $govtHoliday=GovtHoliday::where('startDate','>=',$fromDate)->where('endDate','<=',$toDate)->where('status','Approved')->get();
+
+            $govtHoliday=collect($govtHoliday);
+
             $allEmp = Employee::select('employeeinfo.id', 'attemployeemap.attDeviceUserId', 'departments.departmentName', DB::raw("CONCAT(COALESCE(firstName,''),' ',COALESCE(middleName,''),' ',COALESCE(lastName,'')) AS empFullname"), 'employeeinfo.inDeviceNo', 'employeeinfo.outDeviceNo')
                     ->leftJoin('attemployeemap', 'attemployeemap.employeeId', 'employeeinfo.id')
                     ->leftJoin('departments', 'departments.id', 'employeeinfo.fkDepartmentId')
@@ -521,8 +530,6 @@ class AttendanceController extends Controller {
                     ->orderBy('employeeinfo.id', 'ASC')
 //                ->whereNotNull('employeeinfo.fkDepartmentId')
                     ->get();
-
-
 
             $results = DB::select(DB::raw("select em.employeeId,ad.id,sl.inTime,sl.outTime,sl.adjustmentDate,ad.fkAttDevice,sl.holiday,sl.weekend,ad.fkAttDevice
             , date_format(ad.accessTime,'%Y-%m-%d') attendanceDate
@@ -538,12 +545,13 @@ class AttendanceController extends Controller {
             $results = collect($results);
         }
 
-        $check = Excel::create($fileName, function ($excel) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate, $endDate, $allLeave, $allHoliday, $allWeekend) {
+        $check = Excel::create($fileName, function ($excel) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate, $endDate, $allLeave, $allHoliday,
+            $allWeekend,$govtHoliday) {
 
                     foreach ($allEmp as $allE) {
 
                         $excel->sheet($allE->attDeviceUserId, function ($sheet) use ($results, $allE, $dates, $allEmp, $fromDate, $toDate, $startDate,
-                                $endDate, $allLeave, $allHoliday, $allWeekend) {
+                                $endDate, $allLeave, $allHoliday, $allWeekend,$govtHoliday) {
 
                             $sheet->freezePane('B5');
                             $sheet->setStyle(array(
@@ -554,7 +562,8 @@ class AttendanceController extends Controller {
                                 )
                             ));
 
-                            $sheet->loadView('Excel.Final_Report_1', compact('results', 'allE', 'fromDate', 'toDate', 'dates', 'allEmp', 'startDate', 'endDate', 'allLeave', 'allWeekend', 'allHoliday'));
+                            $sheet->loadView('Excel.Final_Report_1', compact('results', 'allE', 'fromDate', 'toDate', 'dates', 'allEmp',
+                                'startDate', 'endDate', 'allLeave', 'allWeekend', 'allHoliday','govtHoliday'));
                         });
                     }
                 })->store('xls', $filePath);
