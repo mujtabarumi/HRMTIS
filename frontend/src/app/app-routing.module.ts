@@ -23,6 +23,7 @@ import {LeaveSummeryComponent} from "./components/leave/leave-summery/leave-summ
 import {ShowLeaveComponent} from "./components/configuration/show-leave/show-leave.component";
 import { AddDesignationComponent } from './components/configuration/designation/add-designation/add-designation.component';
 import { GovmentHolidayComponent } from './components/configuration/govment-holiday/govment-holiday.component';
+import { ExtraWorkHistoryComponent } from './components/report/extra-work-history/extra-work-history.component';
 
 
 
@@ -59,6 +60,7 @@ const routes: Routes = [
     { path: 'configuration/leave/show', component: ShowLeaveComponent,canActivate: [AuthService]  },
     { path: 'configuration/designation/add', component: AddDesignationComponent,canActivate: [AuthService]  },
     { path: 'configuration/govtHoliday/show', component: GovmentHolidayComponent,canActivate: [AuthService]  },
+    { path: 'adjustment/showAdjustment', component: ExtraWorkHistoryComponent,canActivate: [AuthService]  },
 
 
 

@@ -31,6 +31,7 @@ import { LeaveSummeryShowComponent } from './components/leave/leave-summery-show
 import { ShowLeaveComponent } from './components/configuration/show-leave/show-leave.component';
 import { AddDesignationComponent } from './components/configuration/designation/add-designation/add-designation.component';
 import { GovmentHolidayComponent } from './components/configuration/govment-holiday/govment-holiday.component';
+import { ExtraWorkHistoryComponent } from './components/report/extra-work-history/extra-work-history.component';
 
 
 
@@ -63,6 +64,7 @@ import { GovmentHolidayComponent } from './components/configuration/govment-holi
     ShowLeaveComponent,
     AddDesignationComponent,
     GovmentHolidayComponent,
+    ExtraWorkHistoryComponent,
 
 
 
