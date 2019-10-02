@@ -151,11 +151,12 @@ export class JoiningInfoComponent implements OnInit {
 
     this.http.post(Constants.API_URL+'joinInfo/post'+'?token='+token,this.employeeJoiningForm).subscribe(data => {
 
-        this.getData();
-        $.alert({
-          title: 'Success!',
-          content: 'Updated',
-        });
+        // this.getData();
+        // $.alert({
+        //   title: 'Success!',
+        //   content: 'Updated',
+        // });
+      console.log(data);
 
       },
       error => {
