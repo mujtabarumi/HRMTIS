@@ -473,9 +473,11 @@ class AttendanceController extends Controller {
 
             $govtHoliday=collect($govtHoliday);
 
-            $allEmp = Employee::select('employeeinfo.id', 'attemployeemap.attDeviceUserId', 'departments.departmentName', DB::raw("CONCAT(COALESCE(firstName,''),' ',COALESCE(middleName,''),' ',COALESCE(lastName,'')) AS empFullname"), 'employeeinfo.inDeviceNo', 'employeeinfo.outDeviceNo')
+            $allEmp = Employee::select('employeeinfo.id', 'attemployeemap.attDeviceUserId', 'departments.departmentName','designations.title as designationTitle',
+                DB::raw("CONCAT(COALESCE(firstName,''),' ',COALESCE(middleName,''),' ',COALESCE(lastName,'')) AS empFullname"), 'employeeinfo.inDeviceNo', 'employeeinfo.outDeviceNo')
                     ->leftJoin('attemployeemap', 'attemployeemap.employeeId', 'employeeinfo.id')
                     ->leftJoin('departments', 'departments.id', 'employeeinfo.fkDepartmentId')
+                    ->leftJoin('designations', 'designations.id', 'employeeinfo.fkDesignation')
                     ->whereIn('employeeinfo.id', $r->empId)
                     ->orderBy('departments.orderBy', 'ASC')
                     ->orderBy('employeeinfo.id', 'ASC')
@@ -554,6 +556,9 @@ class AttendanceController extends Controller {
                                 $endDate, $allLeave, $allHoliday, $allWeekend,$govtHoliday) {
 
                             $sheet->freezePane('B5');
+                            $sheet->setpaperSize(5);
+                            $sheet->setOrientation('landscape');
+
                             $sheet->setStyle(array(
                                 'font' => array(
                                     'name' => 'Calibri',

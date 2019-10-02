@@ -13,6 +13,8 @@ use App\Http\Controllers\Controller;
 use DB;
 use Excel;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Route;
+
 
 class TestController extends Controller
 {
@@ -132,6 +134,22 @@ class TestController extends Controller
         })->setFilename('shetName')->store('xls', $filePath);
 
         
+
+    }
+    public function Rumi1(Request $r){
+
+
+//        return $r->route()->getActionName();
+        return $r->route()->getActionMethod();
+
+        preg_match('/([a-z]*)@/i', $r->route()->getActionName(), $matches);
+
+        $controllerName = $matches[1];
+       return $controllerName;
+
+
+
+
 
     }
 

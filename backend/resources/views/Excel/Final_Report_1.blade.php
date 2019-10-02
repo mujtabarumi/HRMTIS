@@ -21,13 +21,13 @@
     <tr>
         <td style="vertical-align: middle;text-align: center;"></td>
         <th style="text-align: center;vertical-align: middle;" colspan="4">Department: {{$allE->departmentName}}</th>
-        <th style="text-align: center;vertical-align: middle;" colspan="3">Designation: </th>
+        <th style="text-align: center;vertical-align: middle;" colspan="3">Designation: {{$allE->designationTitle}}</th>
     </tr>
     <tr>
         <th class="Border"style="text-align: center;vertical-align: middle;" width="25">Date</th>
         <th class="Border"style="text-align: center;vertical-align: middle;" width="15">IN Time</th>
         <th class="Border"style="text-align: center;vertical-align: middle;" width="15">OUT Time</th>
-        <th class="Border"style="text-align: center;vertical-align: middle;" width="15">Late</th>
+        <th class="Border"style="text-align: center;vertical-align: middle;" width="20">Late Day / Hours</th>
         <th class="Border"style="text-align: center;vertical-align: middle;" width="15">Working Hour</th>
         <th class="Border"style="text-align: center;vertical-align: middle;" width="35">Round Working Hour</th>
         <th class="Border"style="text-align: center;vertical-align: middle;" width="15">Adjustment</th>
@@ -38,7 +38,7 @@
         <th class="Border"style="text-align: center;vertical-align: middle;" width="25"></th>
         <th class="Border"style="text-align: center;vertical-align: middle;" width="15"></th>
         <th class="Border"style="text-align: center;vertical-align: middle;" width="15"></th>
-        <th class="Border"style="text-align: center;vertical-align: middle;" width="15"></th>
+        <th class="Border"style="text-align: center;vertical-align: middle;" width="20"></th>
         <th class="Border"style="text-align: center;vertical-align: middle;" width="15"></th>
         <th class="Border"style="text-align: center;vertical-align: middle;" width="35"></th>
         <th class="Border"style="text-align: center;vertical-align: middle;" width="15"></th>
@@ -51,14 +51,15 @@
     <tbody>
 
     @php
-        $T_roundworkinghour=null;$T_weekendcount=0;$T_adjustment=0;$finalholiDay=0;$T_weekend=0;
+        $T_roundworkinghour=null;$T_weekendcount=0;$T_adjustment=0;$finalholiDay=0;$T_weekend=0;$T_late=0;$T_LateHour=0;$T_FinalWorkHour=0;
+    $T_offDay=0;$T_govHoliday=0;$T_leave=0;$T_absent=0;$T_present=0;
     @endphp
 
     @foreach($dates as $date)
 
         @php
             $FINALIN=null;$FINALOUT=null;$FINALWORKINGHOUR=null;$ROUNDFINALWORKINGHOUR=null;$weekendCount=0;$adjustment=0;$holiDay=0;$next=false;
-            $weekend=0;
+            $weekend=0;$late=0;$LateHour=0;$FINALWORKINGHOUR2=0;$offDay=0;$govHoliday=0;$leave=0;$absent=0;$present=0;
 
         @endphp
 
@@ -244,7 +245,7 @@
                             @endif
                     @endif
                 </td>
-                <td class="Border"style="text-align: center;vertical-align: middle;" width="15">
+                <td class="Border"style="text-align: center;vertical-align: middle;" width="20">
 
 
                     @if($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])->first()->inTime == null)
@@ -279,6 +280,13 @@
 
                                         @if($access->diffInMinutes($ins) >= 21 )
 
+                                            @php
+                                            $late++;
+                                            $T_late=($T_late+$late);
+                                            $LateHour=$access->diffInMinutes($ins);
+                                            $T_LateHour=($LateHour+$T_LateHour);
+                                            @endphp
+
                                             {{$access->diff($ins)->format('%H:%i')}}
 
                                         @endif
@@ -301,6 +309,13 @@
                                 @if($access > $ins)
 
                                     @if($access->diffInMinutes($ins) >= 21 )
+
+                                        @php
+                                            $late++;
+                                            $T_late=($T_late+$late);
+                                            $LateHour=$access->diffInMinutes($ins);
+                                            $T_LateHour=($LateHour+$T_LateHour);
+                                        @endphp
 
                                         {{$access->diff($ins)->format('%H:%i')}}
 
@@ -331,6 +346,13 @@
 
                                     @if($access->diffInMinutes($ins) >= 21 )
 
+                                        @php
+                                            $late++;
+                                            $T_late=($T_late+$late);
+                                        $LateHour=$access->diffInMinutes($ins);
+                                            $T_LateHour=($LateHour+$T_LateHour);
+                                        @endphp
+
                                         {{$access->diff($ins)->format('%H:%i')}}
 
                                     @endif
@@ -347,6 +369,13 @@
                                 @endphp
 
                                 @if($access->diffInMinutes($ins) >= 21 )
+
+                                @php
+                                    $late++;
+                                    $T_late=($T_late+$late);
+                                    $LateHour=$access->diffInMinutes($ins);
+                                    $T_LateHour=($LateHour+$T_LateHour);
+                                @endphp
 
                                     {{$access->diff($ins)->format('%H:%i')}}
 
@@ -370,6 +399,8 @@
 
                         @php
                             $FINALWORKINGHOUR=$FINALOUT->diff($FINALIN);
+                            $FINALWORKINGHOUR2=$FINALOUT->diffInMinutes($FINALIN);
+                            $T_FinalWorkHour=($FINALWORKINGHOUR2+$T_FinalWorkHour);
 
                         @endphp
 
@@ -457,6 +488,12 @@
                 @else
 
                     <td class="Border"class="cell" width="15">
+
+                        @php
+
+                            $present++;
+                        $T_present=($T_present+$present);
+                        @endphp
                         P
                     </td>
 
@@ -465,7 +502,7 @@
             @else
                 <td class="Border"style="text-align: center;vertical-align: middle;" width="15"></td>
                 <td class="Border"style="text-align: center;vertical-align: middle;" width="15"></td>
-                <td class="Border"style="text-align: center;vertical-align: middle;" width="15"></td>
+                <td class="Border"style="text-align: center;vertical-align: middle;" width="20"></td>
                 <td class="Border"style="text-align: center;vertical-align: middle;" width="15"></td>
                 <td class="Border"style="text-align: center;vertical-align: middle;" width="35"></td>
                 <td class="Border"style="text-align: center;vertical-align: middle;" width="15"></td>
@@ -473,6 +510,12 @@
 
                     @if($allLeave->where('fkEmployeeId',$allE->id)->where('startDate','<=',$date['date'])->where('endDate','>=',$date['date'])->first())
                         <td class="cell Border"style="color: #ffffff;background-color: #003300" width="15">
+                            @php
+
+                                $leave++;
+                            $T_leave=($T_leave+$leave);
+                            @endphp
+
                             {{$allLeave->where('fkEmployeeId',$allE->id)->where('startDate','<=',$date['date'])->where('endDate','>=',$date['date'])->first()->categoryName}}
                         </td>
 
@@ -480,6 +523,12 @@
                     @elseif($allWeekend->where('fkemployeeId',$allE->id)->where('startDate','<=',$date['date'])->where('endDate','>=',$date['date'])->first())
 
                         <td class="cell Border" style="background-color:#000000;color: #ffffff;" width="15">
+
+                            @php
+
+                                $offDay++;
+                            $T_offDay=($T_offDay+$offDay);
+                            @endphp
 
                             Day Off
 
@@ -490,6 +539,12 @@
 
                         <td class="cell Border" style="background-color:#FF5733;color: #ffffff;" width="15">
 
+                            @php
+
+                                $govHoliday++;
+                            $T_govHoliday=($T_offDay+$govHoliday);
+                            @endphp
+
                             Govt Holiday
 
                         </td>
@@ -499,6 +554,11 @@
 
                         <td class="cell Border" style="background-color:#ff0000;color: #ffffff;" width="15">
 
+                            @php
+                                $absent++;
+                                $T_absent=($absent+$T_absent)
+                            @endphp
+
                             Absent
 
                         </td>
@@ -507,7 +567,67 @@
             @endif
 
         </tr>
+
+        @php
+            $late=0;$LateHour=0;
+        $ROUNDFINALWORKINGHOUR=null;$adjustment=0;
+        $FINALWORKINGHOUR2=0;
+
+        $offDay=0;$govHoliday=0;
+        $leave=0;
+$present=0;$absent=0;
+
+
+
+
+        @endphp
+
     @endforeach
+
+        <tr>
+            <td class="Border"style="text-align: center;vertical-align: middle;" width="25"></td>
+            <td class="Border"style="text-align: center;vertical-align: middle;" width="15"></td>
+            <td class="Border"style="text-align: center;vertical-align: middle;" width="15"></td>
+            <td class="Border"style="text-align: center;vertical-align: middle;" width="20">
+
+                {{$T_late}} /
+                {{\Carbon\Carbon::createFromFormat('H:i:s','00:00:00')->diff(\Carbon\Carbon::createFromFormat('H:i:s','00:00:00')->addMinutes($T_LateHour))->format('%H:%i')}}
+            </td>
+            <td class="Border"style="text-align: center;vertical-align: middle;" width="15">
+
+
+                @php
+                    $hours = intval($T_FinalWorkHour/60);
+                    $minutes = $T_FinalWorkHour - ($hours * 60);
+                @endphp
+
+                {{$hours}}:{{$minutes}}
+
+
+            </td>
+            <td class="Border"style="text-align: center;vertical-align: middle;" width="35">
+                {{$T_roundworkinghour}}
+            </td>
+            <td class="Border"style="text-align: center;vertical-align: middle;" width="15">
+                {{$T_adjustment}}
+            </td>
+            <td class="Border"style="text-align: center;vertical-align: middle;wrap-text:true;" height="100">
+
+                Total Off Day={{$T_offDay}}<br>
+                Total Leave={{$T_leave}}<br>
+                Total Govt Holiday={{$T_govHoliday}}<br>
+
+                Total Absent ={{$T_absent}}<br>
+                Total Present ={{$T_present}}<br>
+
+
+
+
+            </td>
+
+        </tr>
+
+
 
 
     </tbody>

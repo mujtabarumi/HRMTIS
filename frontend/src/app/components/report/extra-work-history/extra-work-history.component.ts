@@ -124,4 +124,93 @@ export class ExtraWorkHistoryComponent implements   AfterViewInit,OnDestroy,OnIn
     this.dtTrigger.unsubscribe();
   }
 
+  calculateAdjustment(){
+
+    if(!this.checkForm()){
+      return false;
+    }else {
+
+      let form={
+
+        startDate:$('#startDate').val(),
+       endDate:$('#endDate').val(),
+
+
+      };
+
+      const token=this.token.get();
+
+      this.http.post(Constants.API_URL+'ExtraWork/calculateextraWork'+'?token='+token,form).subscribe(data => {
+
+        console.log(data);
+
+
+          // $.alert({
+          //   title: 'Success!',
+          //   type: 'Green',
+          //   content: 'Adjustment updated',
+          //   buttons: {
+          //     tryAgain: {
+          //       text: 'Ok',
+          //       btnClass: 'btn-red',
+          //       action: function () {
+          //
+          //       }
+          //     }
+          //   }
+          // });
+          // this.rerender();
+
+        },
+        error => {
+          console.log(error);
+        }
+      );
+
+    }
+
+  }
+  checkForm()
+  {
+
+    let message="";
+    let condition=true;
+
+    let startDate=$('#startDate').val();
+    let endDate=$('#endDate').val();
+    if (startDate === 'undefined' || startDate =='')
+    {
+
+        condition=false;
+        message="Please Select Start Date";
+    }
+    if (endDate === 'undefined' || endDate =='')
+    {
+
+        condition=false;
+        message="Please Select End Date";
+    }
+
+    if (condition==false){
+      $.alert({
+        title: 'Alert!',
+        type: 'Red',
+        content: message,
+        buttons: {
+          tryAgain: {
+            text: 'Ok',
+            btnClass: 'btn-red',
+            action: function () {
+            }
+          }
+        }
+      });
+      return false;
+
+    }
+
+    return true;
+
+  }
+
 }

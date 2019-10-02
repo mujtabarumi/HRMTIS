@@ -140,6 +140,12 @@ Route::group([
     Route::post('govtHoliday/updateGovtHoliday','GovtHolidayController@updateGovtHolidayInfo');
 
 
+    /* extra work History */
+
+    Route::post('extraWorkHistory/getAll','ExtraWorkHistoryController@getAllExtraWorkHistory');
+    Route::post('ExtraWork/calculateextraWork','ExtraWorkHistoryController@calculateExtraWork');
+
+
 
 
 });
