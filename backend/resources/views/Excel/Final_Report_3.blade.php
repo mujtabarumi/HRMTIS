@@ -22,25 +22,18 @@
 
     </tr>
     <tr>
-        <td style="text-align: center;vertical-align: middle;"colspan="3"></td>
 
-        <th style="vertical-align: middle;text-align: center;" colspan="8">Final Report</th>
+        <th colspan="12"style="vertical-align: middle;text-align: center;" >Final Report</th>
     </tr>
     <tr>
-        <td style="text-align: center;vertical-align: middle;"colspan="3"></td>
-        <th style="text-align: center;vertical-align: middle;" width="15"> Date</th>
-        <th style="text-align: center;vertical-align: middle;" width="15"> <span style="color: #0b2e13">{{\Carbon\Carbon::parse($startDate)->format('Y-m-d')}}</span></th>
-        <th style="text-align: center;vertical-align: middle;" width="10"> To </th>
-        <th style="text-align: center;vertical-align: middle;"width="15"><span style="color: #0b2e13">{{\Carbon\Carbon::parse($endDate)->format('Y-m-d')}}</span></th>
-        <th style="text-align: center;vertical-align: middle;" colspan="4"> </th>
-
+        <th colspan="12" style="text-align: center;vertical-align: middle;">Date : {{\Carbon\Carbon::parse($startDate)->format('Y-m-d')}} - {{\Carbon\Carbon::parse($endDate)->format('Y-m-d')}}</th>
     </tr>
     <tr >
 
         <th style="text-align: center;vertical-align: middle;"width="10">ID</th>
         <th style="text-align: center;vertical-align: middle;"width="25">Name</th>
 
-        <th style="text-align: center;vertical-align: middle;"width="5"></th>
+        <th style="text-align: center;vertical-align: middle;"width="15"></th>
         <th style="text-align: center;vertical-align: middle;"width="15">Hour Expected</th>
         <th style="text-align: center;vertical-align: middle;"width="15">Total Hour</th>
         <th style="text-align: center;vertical-align: middle;"width="15">Total Leave</th>
@@ -49,30 +42,35 @@
         <th style="text-align: center;vertical-align: middle;"width="25">Total Addjustment</th>
         <th style="text-align: center;vertical-align: middle;"width="15">Total Present</th>
         <th style="text-align: center;vertical-align: middle;"width="15">Total Absent</th>
-        <th style="text-align: center;vertical-align: middle;"width="25">S / E </th>
+        <th style="text-align: center;vertical-align: middle;"width="25">S / E (Hour)</th>
 
     </tr>
     </thead>
     <tbody>
 
     @php
-        $T_roundworkinghour=null;$T_weekendcount=0;$T_adjustment=0;$finalholiDay=0;$T_FINALWORKINGHOUR=null;
+        $T_roundworkinghour=null;$T_weekendcount=0;$T_adjustment=0;$finalholiDay=0;$T_FINALWORKINGHOUR=null;$T_govHoliday=0;$T_dateCount=0;
     @endphp
 
     @foreach($allEmp as $aE)
 
         @php
             $FINALIN=null;$FINALOUT=null;$FINALWORKINGHOUR=null;$ROUNDFINALWORKINGHOUR=null;$adjustment=0;$holiDay=0;$next=false;
-            $weekend=0;$T_present=0;
+            $weekend=0;$T_present=0;$govHoliday=0;$dateCount=0;
 
         @endphp
 
       @foreach($dates as $date)
 
+          @if($date['date'] <= \Carbon\Carbon::now()->format('Y-m-d'))
+
           @php
               $nextday=\Carbon\Carbon::parse($date['date'])->addDays(1)->format('Y-m-d');
               $previousday=\Carbon\Carbon::parse($date['date'])->subDays(1)->format('Y-m-d');
               $present=0;
+
+            $dateCount++;
+            $T_dateCount=($T_dateCount+$dateCount);
 
           @endphp
 
@@ -312,32 +310,34 @@
               @endphp
           @endif
 
-          @if($allHoliday->where('fkemployeeId',$aE->id)->where('startDate','<=',$date['date'])->where('endDate','>=',$date['date'])->first())
+          @if($govtHoliday->where('startDate','<=',$date['date'])->where('endDate','>=',$date['date'])->first())
 
               @php
 
-                  $holiDay++;
-                  $finalholiDay=($holiDay+$finalholiDay);
+                  $govHoliday++;
+                $T_govHoliday=($T_govHoliday+$govHoliday);
               @endphp
 
 
           @endif
 
           @php
-              $FINALIN=null;$FINALOUT=null;$FINALWORKINGHOUR=null;$ROUNDFINALWORKINGHOUR=null;$weekend=0;$adjustment=0;$holiDay=0;$next=false;$present=0;
+              $FINALIN=null;$FINALOUT=null;$FINALWORKINGHOUR=null;$ROUNDFINALWORKINGHOUR=null;$weekend=0;$adjustment=0;$holiDay=0;$next=false;$present=0;$govHoliday=0;$dateCount=0;
 
           @endphp
+
+          @endif
 
       @endforeach
         <tr>
 
             <td class="cell" width="10">{{$aE->attDeviceUserId}}</td>
             <td class="cell" width="25">{{$aE->empFullname}}</td>
-            <td style="text-align: center;vertical-align: middle;"width="5">
+            <td style="text-align: center;vertical-align: middle;"width="15">
 
             </td>
             <td style="text-align: center;vertical-align: middle;"width="15">
-                {{ ( 8*(count($dates)-( $T_weekendcount + $allLeave->where('fkEmployeeId',$aE->id)->where('startDate','>=',$startDate)->where('endDate','<=',$endDate)->sum('noOfDays') + $finalholiDay + $T_adjustment)))}}
+                {{ ( 8*($T_dateCount-( $T_weekendcount + $allLeave->where('fkEmployeeId',$aE->id)->where('startDate','>=',$startDate)->where('endDate','<=',$endDate)->sum('noOfDays') + $T_govHoliday + $T_adjustment)))}}
             </td>
             <td style="text-align: center;vertical-align: middle;"width="15">
 
@@ -353,7 +353,7 @@
 
             </td>
             <td style="text-align: center;vertical-align: middle;"width="15">{{$T_weekendcount}}</td>
-            <td style="text-align: center;vertical-align: middle;"width="15">{{$finalholiDay}}</td>
+            <td style="text-align: center;vertical-align: middle;"width="15">{{$T_govHoliday}}</td>
             <td style="text-align: center;vertical-align: middle;"width="25">
                 {{$T_adjustment}}
             </td>
@@ -364,13 +364,14 @@
             </td>
             <td style="text-align: center;vertical-align: middle;"width="15">
 
-                {{($T_present-($allLeave->where('fkEmployeeId',$aE->id)->where('startDate','>=',$startDate)->where('endDate','<=',$endDate)->sum('noOfDays')+$T_adjustment+$T_weekendcount+$finalholiDay))}}
+                {{$T_dateCount-$T_present}}
+
 
             </td>
             <td style="text-align: center;vertical-align: middle;"width="25">
-                @if(( 8*(count($dates)-( $T_weekendcount + $allLeave->where('fkEmployeeId',$aE->id)->where('startDate','>=',$startDate)->where('endDate','<=',$endDate)->sum('noOfDays') + $finalholiDay + $T_adjustment))) > $T_roundworkinghour)
+                @if(( 8*($T_dateCount-( $T_weekendcount + $allLeave->where('fkEmployeeId',$aE->id)->where('startDate','>=',$startDate)->where('endDate','<=',$endDate)->sum('noOfDays') + $T_govHoliday + $T_adjustment))) > $T_roundworkinghour)
 
-                    {{(( 8*(count($dates)-( $T_weekendcount + $allLeave->where('fkEmployeeId',$aE->id)->where('startDate','>=',$startDate)->where('endDate','<=',$endDate)->sum('noOfDays') + $finalholiDay + $T_adjustment))) - $T_roundworkinghour) }}
+                    {{(( 8*($T_dateCount-( $T_weekendcount + $allLeave->where('fkEmployeeId',$aE->id)->where('startDate','>=',$startDate)->where('endDate','<=',$endDate)->sum('noOfDays') + $T_govHoliday + $T_adjustment))) - $T_roundworkinghour) }}
 
                 @else
 
@@ -379,12 +380,11 @@
 
                 @endif
                 /
-                @if(( 8*(count($dates)-( $T_weekendcount + $allLeave->where('fkEmployeeId',$aE->id)->where('startDate','>=',$startDate)->where('endDate','<=',$endDate)->sum('noOfDays') + $finalholiDay + $T_adjustment))) < $T_roundworkinghour)
+                @if(( 8*($T_dateCount-( $T_weekendcount + $allLeave->where('fkEmployeeId',$aE->id)->where('startDate','>=',$startDate)->where('endDate','<=',$endDate)->sum('noOfDays') + $T_govHoliday + $T_adjustment))) < $T_roundworkinghour)
 
-                        {{($T_roundworkinghour-( 8*(count($dates)-( $T_weekendcount + $allLeave->where('fkEmployeeId',$aE->id)->where('startDate','>=',$startDate)->where('endDate','<=',$endDate)->sum('noOfDays') + $finalholiDay + $T_adjustment))))}}
+                        {{($T_roundworkinghour-( 8*($T_dateCount-( $T_weekendcount + $allLeave->where('fkEmployeeId',$aE->id)->where('startDate','>=',$startDate)->where('endDate','<=',$endDate)->sum('noOfDays') + $T_govHoliday + $T_adjustment))))}}
 
                 @else
-
                     0
                 @endif
             </td>
@@ -392,7 +392,7 @@
         </tr>
 
         @php
-            $T_roundworkinghour=null;$T_weekendcount=0;$T_adjustment=0;$finalholiDay=0;$T_FINALWORKINGHOUR=null;$T_present=0;
+            $T_roundworkinghour=null;$T_weekendcount=0;$T_adjustment=0;$finalholiDay=0;$T_FINALWORKINGHOUR=null;$T_present=0;$T_govHoliday=0;$T_dateCount=0;
         @endphp
     @endforeach
 

@@ -4,27 +4,11 @@
     <list default="true" id="79f3b666-98ca-415d-99bb-8f59ccc47ed0" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/AttendanceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/AttendanceController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/TestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/TestController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/Final_Report_12019-09-26_17-34-46.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/Final_Report_12019-09-26_17-39-06.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/Final_Report_12019-09-26_17-39-23.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/Final_Report_12019-09-26_17-59-41.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/Final_Report_12019-09-26_18-02-49.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/Final_Report_12019-09-26_18-18-13.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/Final_Report_12019-09-26_18-18-47.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/Final_Report_12019-09-26_18-24-15.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/Final_Report_12019-09-26_19-40-44.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/Final_Report_12019-09-26_19-45-10.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/Final_Report_12019-09-27_17-44-53.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/Final_Report_12019-09-30_14-23-13.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-26_18-26-55.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/exportedExcel/HRTest2019-09-26_18-27-34.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/EmployeeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/EmployeeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/images/1567510081.148353.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/resources/views/Excel/Final_Report_1.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/resources/views/Excel/Final_Report_1.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/resources/views/Excel/Final_Report_3.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/resources/views/Excel/Final_Report_3.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/web.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/report/extra-work-history/extra-work-history.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/report/extra-work-history/extra-work-history.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/report/extra-work-history/extra-work-history.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/report/extra-work-history/extra-work-history.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/user/basic-info/basic-info.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/user/basic-info/basic-info.component.ts" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -162,7 +146,8 @@
       <workItem from="1569656475687" duration="16575000" />
       <workItem from="1569829562798" duration="9647000" />
       <workItem from="1569914955598" duration="15728000" />
-      <workItem from="1570000705140" duration="13271000" />
+      <workItem from="1570000705140" duration="13968000" />
+      <workItem from="1570084234375" duration="7757000" />
     </task>
     <servers />
   </component>
