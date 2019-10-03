@@ -192,6 +192,8 @@ export class BasicInfoComponent implements OnInit {
 
     this.http.post(Constants.API_URL+'employee/storeBasicInfo'+'?token='+token,fd).subscribe(data => {
 
+     // console.log(data);
+
 
         this.result=data;
         $.alert({

@@ -9,6 +9,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Artisan;
 use Yajra\DataTables\DataTables;
 use Route;
 
@@ -164,7 +165,7 @@ class EmployeeController extends Controller {
     public function storeBasicInfo(Request $r) {
 
 //        return auth()->user()->fkComapny;
-//        return $r;
+        //return $r;
         $this->validate($r, [
             'EmployeeId' => 'required|max:20',
             'firstName' => 'required|max:50',
@@ -204,16 +205,27 @@ class EmployeeController extends Controller {
         $employeeInfo->firstName = $r->firstName;
         $employeeInfo->middleName = $r->middleName;
         $employeeInfo->lastName = $r->lastName;
-        $employeeInfo->nickName = $r->nickName;
-        $employeeInfo->fkDepartmentId = $r->department;
-        $employeeInfo->fkDesignation = $r->designation;
-        $employeeInfo->fkEmployeeType = $r->empType;
-        $employeeInfo->email = $r->email;
-        $employeeInfo->contactNo = $r->contactNo;
-        $employeeInfo->alterContactNo = $r->alterContactNo;
-        $employeeInfo->birthdate = $r->birthdate;
-        $employeeInfo->gender = $r->gender;
-        if ($r->hasFile('photo')) {
+
+        $employeeInfo->nickName =$r->nickName;
+        $employeeInfo->fkDepartmentId=$r->department;
+        $employeeInfo->fkDesignation=$r->designation;
+        $employeeInfo->fkEmployeeType=$r->empType;
+        $employeeInfo->email=$r->email;
+        $employeeInfo->contactNo=$r->contactNo;
+        $employeeInfo->alterContactNo=$r->alterContactNo;
+        $employeeInfo->birthdate=$r->birthdate;
+        $employeeInfo->gender =$r->gender;
+        $employeeInfo->save();
+
+        if($r->hasFile('photo')){
+
+            if ($employeeInfo->photo != null){
+
+                $file_path = public_path('/images').'/'.$employeeInfo->photo;
+                unlink($file_path);
+
+            }
+
             $images = $r->file('photo');
             $name = time() . '.' . $images->getClientOriginalName();
             $destinationPath = public_path('/images');
@@ -221,6 +233,8 @@ class EmployeeController extends Controller {
             $employeeInfo->photo = $name;
         }
         $employeeInfo->save();
+
+        Artisan::call('cache:clear');
 
         return $employeeInfo;
     }

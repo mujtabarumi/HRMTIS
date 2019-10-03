@@ -761,6 +761,10 @@ class AttendanceController extends Controller {
 
         if ($r->empId) {
 
+            $govtHoliday=GovtHoliday::where('startDate','>=',$fromDate)->where('endDate','<=',$toDate)->where('status','Approved')->get();
+
+            $govtHoliday=collect($govtHoliday);
+
             $allLeave = Leave::leftJoin('leavecategories', 'leavecategories.id', '=', 'leaves.fkLeaveCategory')
                     ->where('applicationStatus', "Approved")
                     ->whereIn('leaves.fkEmployeeId', $r->empId)
@@ -808,14 +812,17 @@ class AttendanceController extends Controller {
 
             $results = collect($results);
 
-            $check = Excel::create($fileName, function ($excel) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate, $endDate, $allLeave, $allHoliday, $allWeekend) {
+            $check = Excel::create($fileName, function ($excel) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate, $endDate,
+                $allLeave, $allHoliday, $allWeekend,$govtHoliday) {
 
 
 
                         $excel->sheet('emp', function ($sheet) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate,
-                                $endDate, $allLeave, $allHoliday, $allWeekend) {
+                                $endDate, $allLeave, $allHoliday, $allWeekend,$govtHoliday) {
 
-                            $sheet->freezePane('C3');
+                            $sheet->freezePane('C4');
+                            $sheet->setpaperSize(5);
+                            $sheet->setOrientation('landscape');
                             $sheet->setStyle(array(
                                 'font' => array(
                                     'name' => 'Calibri',
@@ -824,10 +831,15 @@ class AttendanceController extends Controller {
                                 )
                             ));
 
-                            $sheet->loadView('Excel.Final_Report_3', compact('results', 'fromDate', 'toDate', 'dates', 'allEmp', 'startDate', 'endDate', 'allLeave', 'allWeekend', 'allHoliday'));
+                            $sheet->loadView('Excel.Final_Report_3', compact('results', 'fromDate', 'toDate', 'dates', 'allEmp',
+                                'startDate', 'endDate', 'allLeave', 'allWeekend', 'allHoliday','govtHoliday'));
                         });
                     })->store('xls', $filePath);
         } else {
+
+            $govtHoliday=GovtHoliday::where('startDate','>=',$fromDate)->where('endDate','<=',$toDate)->where('status','Approved')->get();
+
+            $govtHoliday=collect($govtHoliday);
 
             $allLeave = Leave::leftJoin('leavecategories', 'leavecategories.id', '=', 'leaves.fkLeaveCategory')
                     ->where('applicationStatus', "Approved")
@@ -872,14 +884,17 @@ class AttendanceController extends Controller {
             $results = collect($results);
 
 
-            $check = Excel::create($fileName, function ($excel) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate, $endDate, $allLeave, $allHoliday, $allWeekend) {
+            $check = Excel::create($fileName, function ($excel) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate, $endDate,
+                $allLeave, $allHoliday, $allWeekend,$govtHoliday) {
 
 
 
                         $excel->sheet('All Emp', function ($sheet) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate,
-                                $endDate, $allLeave, $allHoliday, $allWeekend) {
+                                $endDate, $allLeave, $allHoliday, $allWeekend,$govtHoliday) {
 
-                            $sheet->freezePane('C3');
+                            $sheet->freezePane('C4');
+                            $sheet->setpaperSize(5);
+                            $sheet->setOrientation('landscape');
                             $sheet->setStyle(array(
                                 'font' => array(
                                     'name' => 'Calibri',
@@ -888,7 +903,8 @@ class AttendanceController extends Controller {
                                 )
                             ));
 
-                            $sheet->loadView('Excel.Final_Report_3', compact('results', 'fromDate', 'toDate', 'dates', 'allEmp', 'startDate', 'endDate', 'allLeave', 'allWeekend', 'allHoliday'));
+                            $sheet->loadView('Excel.Final_Report_3', compact('results', 'fromDate', 'toDate', 'dates', 'allEmp',
+                                'startDate', 'endDate', 'allLeave', 'allWeekend', 'allHoliday','govtHoliday'));
                         });
                     })->store('xls', $filePath);
         }
