@@ -47,6 +47,7 @@ export class AttendanceComponent implements OnInit {
   attendenceDataDates:any;
   attendenceDataResults:any;
   attendenceDataAllEmp:any;
+  RosterInfo:any;
 
 
   constructor(private renderer: Renderer,public http: HttpClient, private token:TokenService ,
@@ -54,6 +55,7 @@ export class AttendanceComponent implements OnInit {
 
 
   ngOnInit() {
+    this.RosterInfo='';
     this.search=false;
 
     this.getAllEployee();
@@ -168,6 +170,17 @@ export class AttendanceComponent implements OnInit {
         }
 
           console.log(this.selectedItems);
+
+        },
+        error => {
+          console.log(error);
+        }
+      );
+
+      this.http.post(Constants.API_URL+'department/getRosterInfo'+'?token='+token,form).subscribe(data => {
+
+        this.RosterInfo=data;
+
 
         },
         error => {
@@ -619,6 +632,55 @@ export class AttendanceComponent implements OnInit {
             );
 
           }
+          else if ($('#excelType').val() == "7") {
+
+            if ($('#RosterInfo').val()==''|| $('#RosterInfo').val()==null){
+
+              $.alert({
+                title: 'Alert',
+                content: 'Please select a Roster',
+              });
+
+            }else {
+
+              this.http.post(Constants.API_URL + 'report/RoserWise' + '?token=' + token, {
+
+                startDate: $('#startDate').val(),
+                endDate: $('#endDate').val(),
+                empId: empList,
+                report: 'final_Report_3'
+
+              }).subscribe(data => {
+
+                  this.spinner.hide();
+                  console.log(data);
+
+
+                  // let fileName = Constants.Image_URL + 'exportedExcel/' + data;
+                  //
+                  // let link = document.createElement("a");
+                  // link.download = data + ".xls";
+                  // let uri = fileName + ".xls";
+                  // link.href = uri;
+                  // document.body.appendChild(link);
+                  // link.click();
+                  // document.body.removeChild(link);
+                  // $("#excelType").val("");
+                  // this.selectedItems = [];
+
+
+                },
+                error => {
+                  console.log(error);
+                  this.spinner.hide();
+                }
+              );
+
+            }
+
+
+
+          }
 
 
         }
@@ -813,6 +875,56 @@ export class AttendanceComponent implements OnInit {
           );
 
         }
+        else if ($('#excelType').val() == "7") {
+
+          if ($('#RosterInfo').val()==''|| $('#RosterInfo').val()==null){
+
+            $.alert({
+              title: 'Alert',
+              content: 'Please select a Roster',
+            });
+
+          }else {
+
+            this.spinner.show();
+            const token = this.token.get();
+
+            this.http.post(Constants.API_URL + 'report/RoserWise' + '?token=' + token, {
+
+              startDate: $('#startDate').val(),
+              endDate: $('#endDate').val(),
+
+              report: 'final_Report_3'
+            }).subscribe(data => {
+
+                this.spinner.hide();
+                console.log(data);
+
+
+                let fileName = Constants.Image_URL + 'exportedExcel/' + data;
+
+                let link = document.createElement("a");
+                link.download = data + ".xls";
+                let uri = fileName + ".xls";
+                link.href = uri;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                $("#excelType").val("");
+                this.selectedItems = [];
+
+
+              },
+              error => {
+                console.log(error);
+                this.spinner.hide();
+              }
+            );
+          }
+
+        }
+
+
 
 
       }

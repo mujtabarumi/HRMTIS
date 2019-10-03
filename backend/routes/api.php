@@ -145,6 +145,9 @@ Route::group([
     Route::post('extraWorkHistory/getAll','ExtraWorkHistoryController@getAllExtraWorkHistory');
     Route::post('ExtraWork/calculateextraWork','ExtraWorkHistoryController@calculateExtraWork');
 
+    /* get RosterInfo by dept */
+    Route::post('department/getRosterInfo','shiftController@getRosterInfo');
+
 
 
 

@@ -3,12 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="79f3b666-98ca-415d-99bb-8f59ccc47ed0" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/AttendanceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/AttendanceController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/EmployeeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/EmployeeController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/public/images/1567510081.148353.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/resources/views/Excel/Final_Report_1.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/resources/views/Excel/Final_Report_1.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/resources/views/Excel/Final_Report_3.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/resources/views/Excel/Final_Report_3.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/user/basic-info/basic-info.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/user/basic-info/basic-info.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/shiftController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/shiftController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/configuration/shift/shift.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/configuration/shift/shift.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/configuration/shift/shift.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/configuration/shift/shift.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/report/attendance/attendance.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/report/attendance/attendance.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/report/attendance/attendance.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/report/attendance/attendance.component.ts" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -147,7 +147,7 @@
       <workItem from="1569829562798" duration="9647000" />
       <workItem from="1569914955598" duration="15728000" />
       <workItem from="1570000705140" duration="13968000" />
-      <workItem from="1570084234375" duration="7757000" />
+      <workItem from="1570084234375" duration="18275000" />
     </task>
     <servers />
   </component>
