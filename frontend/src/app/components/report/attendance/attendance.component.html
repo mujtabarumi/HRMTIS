@@ -39,13 +39,12 @@
 
                 </div>
 
-              <div class="form-group col-md-4">
+              <div *ngIf="rosterDiv" class="form-group col-md-4">
 
                 <label>Roster Info</label>
                 <select class="form-control" id="RosterInfo"  name="RosterInfo">
                   <option value="">Select Roster</option>
-                  <option *ngFor="let RI of RosterInfo" value="{{RI.shifId}}">{{RI.shiftName}}</option>
-
+                  <option *ngFor="let RI of RosterInfo" value="{{RI.shiftId}}">{{RI.shiftName}}</option>
 
                 </select>
 
@@ -53,7 +52,7 @@
 
 
 
-            <div class="form-group col-md-4">
+            <div *ngIf="empDiv" class="form-group col-md-4">
 
 
                 <label>Employee</label>

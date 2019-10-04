@@ -474,7 +474,7 @@ export class EditAssignedShiftComponent implements OnInit {
           empId: this.shiftObj.empId,
           date: this.shiftObj.date,
           shiftLogId: this.shiftObj.shiftLogId,
-          shiftId: this.selectedItems2,
+          shiftId: this.selectedItems2[0],
           inTime: this.shiftObj.inTime,
           outTime: this.shiftObj.outTime,
           adjustment: this.shiftObj.adjustment,
@@ -483,6 +483,8 @@ export class EditAssignedShiftComponent implements OnInit {
 
 
         };
+
+        console.log(form);
 
 
         const token=this.token.get();
@@ -533,7 +535,7 @@ export class EditAssignedShiftComponent implements OnInit {
           empId: this.shiftObj.empId,
           date: this.shiftObj.date,
           shiftLogId: this.shiftObj.shiftLogId,
-          shiftId: this.selectedItems2,
+          shiftId: this.selectedItems2[0],
           inTime: this.shiftObj.inTime,
           outTime: this.shiftObj.outTime,
           adjustment: this.shiftObj.adjustment,

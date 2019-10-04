@@ -148,6 +148,14 @@ Route::group([
     /* get RosterInfo by dept */
     Route::post('department/getRosterInfo','shiftController@getRosterInfo');
 
+    /* report Roster Wise */
+
+    Route::post('report/RoserWise','AttendanceController@getRosterWiseReport');
+
+    /*delete File */
+
+    Route::post('deleteFile','FileControllerController@deleteFile');
+
 
 
 

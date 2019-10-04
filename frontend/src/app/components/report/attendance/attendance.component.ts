@@ -8,6 +8,7 @@ import {DataTableDirective} from "angular-datatables";
 import {NgxSpinnerService} from "ngx-spinner";
 import {st} from "@angular/core/src/render3";
 import {log} from "util";
+import {isEmpty} from "rxjs/operators";
 
 
 declare var $ :any;
@@ -48,6 +49,8 @@ export class AttendanceComponent implements OnInit {
   attendenceDataResults:any;
   attendenceDataAllEmp:any;
   RosterInfo:any;
+  empDiv:boolean;
+  rosterDiv:boolean;
 
 
   constructor(private renderer: Renderer,public http: HttpClient, private token:TokenService ,
@@ -57,6 +60,8 @@ export class AttendanceComponent implements OnInit {
   ngOnInit() {
     this.RosterInfo='';
     this.search=false;
+    this.empDiv=true;
+    this.rosterDiv=false;
 
     this.getAllEployee();
     this.getAllDepartment();
@@ -129,8 +134,15 @@ export class AttendanceComponent implements OnInit {
   }
   onItemSelectDepartment(value){
 
+    this.selectedItems=[];
+    this.empDiv=false;
+
+
+
 
     if (this.selectedDropDown.length >0){
+
+      this.rosterDiv=true;
 
       let deptId=[];
 
@@ -169,7 +181,7 @@ export class AttendanceComponent implements OnInit {
 
         }
 
-          console.log(this.selectedItems);
+         // console.log(this.selectedItems);
 
         },
         error => {
@@ -180,6 +192,7 @@ export class AttendanceComponent implements OnInit {
       this.http.post(Constants.API_URL+'department/getRosterInfo'+'?token='+token,form).subscribe(data => {
 
         this.RosterInfo=data;
+
 
 
         },
@@ -231,9 +244,13 @@ export class AttendanceComponent implements OnInit {
 
               this.selectedItems.push(r);
 
+
+
             }
 
           }
+
+
 
 
 
@@ -246,6 +263,11 @@ export class AttendanceComponent implements OnInit {
 
     }else {
       this.selectedItems=[];
+
+      this.empDiv=true;
+      this.rosterDiv=false;
+
+
     }
 
   }
@@ -634,21 +656,27 @@ export class AttendanceComponent implements OnInit {
           }
           else if ($('#excelType').val() == "7") {
 
-            if ($('#RosterInfo').val()==''|| $('#RosterInfo').val()==null){
+
+
+
+            if ($('#RosterInfo').find(":selected").val() ==''|| $('#RosterInfo').find(":selected").val() == null)
+            {
 
               $.alert({
                 title: 'Alert',
                 content: 'Please select a Roster',
               });
+              this.spinner.hide();
 
-            }else {
+            } else {
 
               this.http.post(Constants.API_URL + 'report/RoserWise' + '?token=' + token, {
 
                 startDate: $('#startDate').val(),
                 endDate: $('#endDate').val(),
                 empId: empList,
-                report: 'final_Report_3'
+                rosterId:$('#RosterInfo').find(":selected").val(),
+                report: 'Roster_wise_Report'
 
               }).subscribe(data => {
 
@@ -656,17 +684,41 @@ export class AttendanceComponent implements OnInit {
                   console.log(data);
 
 
-                  // let fileName = Constants.Image_URL + 'exportedExcel/' + data;
-                  //
-                  // let link = document.createElement("a");
-                  // link.download = data + ".xls";
-                  // let uri = fileName + ".xls";
-                  // link.href = uri;
-                  // document.body.appendChild(link);
-                  // link.click();
-                  // document.body.removeChild(link);
-                  // $("#excelType").val("");
-                  // this.selectedItems = [];
+                  let fileName = Constants.Image_URL + 'exportedExcel/' + data;
+
+                  let link = document.createElement("a");
+                  link.download = data + ".xls";
+                  let uri = fileName + ".xls";
+                  link.href = uri;
+                  document.body.appendChild(link);
+                  link.click();
+                  document.body.removeChild(link);
+                  $("#excelType").val("");
+                  this.selectedItems = [];
+                  this.selectedDropDown = [];
+                  $("#RosterInfo").val("");
+                  this.rosterDiv=false;
+                  this.empDiv=true;
+
+                  /* delete the server file */
+
+                let fileinfo={
+                  'filePath':'exportedExcel/',
+                  'fileName':data + ".xls",
+                }
+
+                  this.http.post(Constants.API_URL+'deleteFile'+'?token='+token,fileinfo).subscribe(data => {
+
+                  //  console.log(data);
+
+
+                    },
+                    error => {
+                      console.log(error);
+                    }
+                  );
+
+
 
 
                 },
@@ -675,6 +727,7 @@ export class AttendanceComponent implements OnInit {
                   this.spinner.hide();
                 }
               );
+
 
             }
 
@@ -877,50 +930,61 @@ export class AttendanceComponent implements OnInit {
         }
         else if ($('#excelType').val() == "7") {
 
-          if ($('#RosterInfo').val()==''|| $('#RosterInfo').val()==null){
-
-            $.alert({
-              title: 'Alert',
-              content: 'Please select a Roster',
-            });
-
-          }else {
-
-            this.spinner.show();
-            const token = this.token.get();
-
-            this.http.post(Constants.API_URL + 'report/RoserWise' + '?token=' + token, {
-
-              startDate: $('#startDate').val(),
-              endDate: $('#endDate').val(),
-
-              report: 'final_Report_3'
-            }).subscribe(data => {
-
-                this.spinner.hide();
-                console.log(data);
+              $.alert({
+                title: 'Alert',
+                content: 'There is no Employee in this Department! , Please Select anther Department',
+              });
 
 
-                let fileName = Constants.Image_URL + 'exportedExcel/' + data;
 
-                let link = document.createElement("a");
-                link.download = data + ".xls";
-                let uri = fileName + ".xls";
-                link.href = uri;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                $("#excelType").val("");
-                this.selectedItems = [];
-
-
-              },
-              error => {
-                console.log(error);
-                this.spinner.hide();
-              }
-            );
-          }
+          // if ($('#RosterInfo').find(":selected").val() ==''|| $('#RosterInfo').find(":selected").val() ==null)
+          // {
+          //
+          //   $.alert({
+          //     title: 'Alert',
+          //     content: 'Please select a Roster',
+          //   });
+          //
+          // } else {
+          //
+          //   this.spinner.show();
+          //   const token = this.token.get();
+          //
+          //   this.http.post(Constants.API_URL + 'report/RoserWise' + '?token=' + token, {
+          //
+          //     startDate: $('#startDate').val(),
+          //     endDate: $('#endDate').val(),
+          //     rosterId:$('#RosterInfo').find(":selected").val(),
+          //
+          //     report: 'Roster_wise_Report'
+          //
+          //   }).subscribe(data => {
+          //
+          //       this.spinner.hide();
+          //       console.log(data);
+          //
+          //
+          //       // let fileName = Constants.Image_URL + 'exportedExcel/' + data;
+          //       //
+          //       // let link = document.createElement("a");
+          //       // link.download = data + ".xls";
+          //       // let uri = fileName + ".xls";
+          //       // link.href = uri;
+          //       // document.body.appendChild(link);
+          //       // link.click();
+          //       // document.body.removeChild(link);
+          //       // $("#excelType").val("");
+          //       // this.selectedItems = [];
+          //
+          //
+          //     },
+          //     error => {
+          //       console.log(error);
+          //       this.spinner.hide();
+          //     }
+          //   );
+          //
+          // }
 
         }
 
