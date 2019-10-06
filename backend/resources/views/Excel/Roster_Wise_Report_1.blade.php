@@ -11,7 +11,7 @@
     <thead>
     <tr>
 
-        <th colspan="8" style="text-align: center;">Roster wise Report 1 -( {{\Carbon\Carbon::parse($startDate)->format('Y-m-d')}} - {{\Carbon\Carbon::parse($endDate)->format('Y-m-d')}} ) || {{$RosterInfo->shiftName}}->({{\Carbon\Carbon::parse($RosterInfo->inTime)->format('H:mm A')}}-{{\Carbon\Carbon::parse($RosterInfo->outTime)->format('H:mm A')}})</th>
+        <th colspan="8" style="text-align: center;">Roster wise Report 1 -( {{\Carbon\Carbon::parse($startDate)->format('Y-m-d')}} - {{\Carbon\Carbon::parse($endDate)->format('Y-m-d')}} ) || {{$RosterInfo->shiftName}}->({{\Carbon\Carbon::parse($RosterInfo->inTime)->format('H:m A')}}-{{\Carbon\Carbon::parse($RosterInfo->outTime)->format('H:m A')}})</th>
 
     </tr>
     <tr>
@@ -53,14 +53,14 @@
 
     @php
         $T_roundworkinghour=null;$T_weekendcount=0;$T_adjustment=0;$finalholiDay=0;$T_weekend=0;$T_late=0;$T_LateHour=0;$T_FinalWorkHour=0;
-    $T_offDay=0;$T_govHoliday=0;$T_leave=0;$T_absent=0;$T_present=0;
+    $T_offDay=0;$T_govHoliday=0;$T_leave=0;$T_present=0;
     @endphp
 
     @foreach($dates as $date)
 
         @php
             $FINALIN=null;$FINALOUT=null;$FINALWORKINGHOUR=null;$ROUNDFINALWORKINGHOUR=null;$weekendCount=0;$adjustment=0;$holiDay=0;$next=false;
-            $weekend=0;$late=0;$LateHour=0;$FINALWORKINGHOUR2=0;$offDay=0;$govHoliday=0;$leave=0;$absent=0;$present=0;
+            $weekend=0;$late=0;$LateHour=0;$FINALWORKINGHOUR2=0;$offDay=0;$govHoliday=0;$leave=0;$present=0;
 
         @endphp
 
@@ -555,17 +555,13 @@
 
                     @else
 
+                        <td class="cell Border" width="15">
 
-                        <td class="cell Border" style="background-color:#ff0000;color: #ffffff;" width="15">
 
-                            @php
-                                $absent++;
-                                $T_absent=($absent+$T_absent)
-                            @endphp
-
-                            Absent
 
                         </td>
+
+
                     @endif
 
                 @endif
@@ -592,7 +588,7 @@
 
         $offDay=0;$govHoliday=0;
         $leave=0;
-$present=0;$absent=0;
+$present=0;
 
 
 
@@ -633,8 +629,6 @@ $present=0;$absent=0;
             Total Off Day={{$T_offDay}}<br>
             Total Leave={{$T_leave}}<br>
             Total Govt Holiday={{$T_govHoliday}}<br>
-
-            Total Absent ={{$T_absent}}<br>
             Total Present ={{$T_present}}<br>
 
 

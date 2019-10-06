@@ -364,7 +364,7 @@
             </td>
             <td style="text-align: center;vertical-align: middle;"width="15">
 
-                {{$T_dateCount-$T_present}}
+                {{$T_dateCount-($T_present + $T_weekendcount + $allLeave->where('fkEmployeeId',$aE->id)->where('startDate','>=',$startDate)->where('endDate','<=',$endDate)->sum('noOfDays') + $T_govHoliday + $T_adjustment)}}
 
 
             </td>

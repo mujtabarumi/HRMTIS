@@ -24,6 +24,7 @@ import {ShowLeaveComponent} from "./components/configuration/show-leave/show-lea
 import { AddDesignationComponent } from './components/configuration/designation/add-designation/add-designation.component';
 import { GovmentHolidayComponent } from './components/configuration/govment-holiday/govment-holiday.component';
 import { ExtraWorkHistoryComponent } from './components/report/extra-work-history/extra-work-history.component';
+import { ShowSwapComponent } from './components/configuration/swap/show-swap/show-swap.component';
 
 
 
@@ -61,6 +62,7 @@ const routes: Routes = [
     { path: 'configuration/designation/add', component: AddDesignationComponent,canActivate: [AuthService]  },
     { path: 'configuration/govtHoliday/show', component: GovmentHolidayComponent,canActivate: [AuthService]  },
     { path: 'adjustment/showAdjustment', component: ExtraWorkHistoryComponent,canActivate: [AuthService]  },
+    { path: 'swap/showSwap', component: ShowSwapComponent,canActivate: [AuthService]  },
 
 
 

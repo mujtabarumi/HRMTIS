@@ -150,11 +150,17 @@ Route::group([
 
     /* report Roster Wise */
 
-    Route::post('report/RoserWise','AttendanceController@getRosterWiseReport');
+    Route::post('report/RoserWiseReport-1','AttendanceController@getRosterWiseReport_1');
+    Route::post('report/RoserWiseReport-2','AttendanceController@getRosterWiseReport_2');
+    Route::post('report/RoserWiseReport-3','AttendanceController@getRosterWiseReport_3');
 
     /*delete File */
 
     Route::post('deleteFile','FileControllerController@deleteFile');
+
+    /*swap */
+
+    Route::post('swap/getAllSwapReq','swapController@getAllswapRequest');
 
 
 
