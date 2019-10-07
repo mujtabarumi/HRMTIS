@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\DataTables;
 use Route;
 use Auth;
@@ -174,20 +175,22 @@ class EmployeeController extends Controller {
 //        return auth()->user()->fkComapny;
         //return $r;
         $this->validate($r, [
-            'EmployeeId' => 'required|max:20',
-            'firstName' => 'required|max:50',
-            'middleName' => 'nullable|max:50',
-            'lastName' => 'nullable|max:50',
-            'nickName' => 'nullable|max:100',
-            'fkDepartmentId' => 'max:11',
-            'fkDesignation' => 'max:11',
-            'fkEmployeeType' => 'max:11',
-            'email' => 'nullable|max:30',
-            'contactNo' => 'nullable|max:15',
-            'alterContactNo' => 'nullable|max:15',
-            'birthdate' => 'nullable|date',
-            'gender' => 'max:1',
-            'photo' => 'max:256',
+
+            'EmployeeId' => 'nullable|max:20',
+            'firstName'   => 'required|max:50',
+            'middleName'   => 'nullable|max:50',
+            'lastName'   => 'nullable|max:50',
+            'nickName'   => 'nullable|max:100',
+            'fkDepartmentId'   => 'max:11',
+            'fkDesignation'   => 'max:11',
+            'fkEmployeeType'   => 'max:11',
+            'email'   => 'required|max:255',
+            'contactNo'   => 'nullable|max:15',
+            'alterContactNo'   => 'nullable|max:15',
+            'birthdate'   => 'nullable|date',
+            'gender'   => 'max:1',
+            'photo'   => 'max:256',
+
         ]);
 
         if ($r->id) {

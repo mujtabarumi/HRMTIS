@@ -214,7 +214,7 @@ class shiftController extends Controller
     }
 
     public function getShiftName(){
-        $shift = Shift::orderBy('shiftId','desc')->get();
+        $shift = Shift::select('shift.*','departments.departmentName','departments.id as deptId')->leftJoin('departments','departments.id','shift.fkDepartmentId')->orderBy('shiftId','desc')->get();
 
         return response()->json($shift);
     }
@@ -238,6 +238,7 @@ class shiftController extends Controller
         $shift->outTime = $r->outTime;
         $shift->crateBy= auth()->user()->id;
         $shift->fkcompanyId= auth()->user()->fkCompany;
+        $shift->fkDepartmentId= $r->fkDepartmentId;
         $shift->save();
 
         return Response()->json("Success");
@@ -371,6 +372,8 @@ class shiftController extends Controller
         $shiftLog->endDate=$r->date;
         $shiftLog->inTime=$r->inTime;
         $shiftLog->outTime=$r->outTime;
+
+        $shiftLog->fkshiftId=$r->shiftId;
 
         if ($r->adjustment=='true'){
             $shiftLog->adjustmentDate=Carbon::parse($r->adjustmentDate);
@@ -554,6 +557,13 @@ class shiftController extends Controller
         $shiftLog->save();
 
         return Response()->json("Success");
+
+
+    }
+    public function getRosterInfo(Request $r){
+
+        return $Roster=Shift::where('fkDepartmentId',$r->departments)->get();
+
 
 
     }

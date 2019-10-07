@@ -34,12 +34,25 @@
 
 
                         >
-                </ng-multiselect-dropdown>
+                    </ng-multiselect-dropdown>
 
 
-            </div>
+                </div>
 
-            <div class="form-group col-md-4">
+              <div *ngIf="rosterDiv" class="form-group col-md-4">
+
+                <label>Roster Info</label>
+                <select class="form-control" id="RosterInfo"  name="RosterInfo">
+                  <option value="">Select Roster</option>
+                  <option *ngFor="let RI of RosterInfo" value="{{RI.shiftId}}">{{RI.shiftName}}</option>
+
+                </select>
+
+              </div>
+
+
+
+            <div *ngIf="empDiv" class="form-group col-md-4">
 
 
                 <label>Employee</label>
@@ -62,10 +75,16 @@
             <option value="">Select Type</option>
             <option value="1">Daily IN/OUT</option>
             <option value="2">Daily All Punch</option>
+
             <option value="3">Monthly Report test</option>
             <option value="4">Monthly Report</option>
             <option value="5">Punch Report</option>
             <option value="6">Final Report</option>
+
+            <option value="7">Roster Wise Report-1</option>
+            <option value="8">Roster Wise Report-2</option>
+            <option value="9">Roster Wise Report-3</option>
+
           </select>
 
         </div>

@@ -9,4 +9,7 @@ class AttEmployeeMap extends Model
     public $timestamps = false;
     protected $primaryKey = 'id';
     protected $table = 'attemployeemap';
+    protected $fillable = [
+        'attDeviceUserId', 'employeeId'
+    ];
 }

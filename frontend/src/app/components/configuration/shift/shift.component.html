@@ -11,6 +11,25 @@
 
     <div class="row">
       <div class="form-group col-md-6">
+
+        <label>Department</label>
+
+        <ng-multiselect-dropdown
+          [placeholder]="'Select Department'"
+          [data]="departments"
+          [(ngModel)]="selectedDropDown"
+          [settings]="dropdownSettings2"
+          (onSelect)="onItemSelectDepartment($event)"
+          (onDeSelect)="onItemDeSelectDepartment($event)"
+
+
+        >
+        </ng-multiselect-dropdown>
+
+
+      </div>
+
+      <div class="form-group col-md-6">
         <label>Shift Name</label>
         <input type="text" [(ngModel)]="shiftObj.shiftName" placeholder="shift" class="form-control">
       </div>
@@ -43,6 +62,7 @@
       <table datatable  id="example" class="table" [dtOptions]="dtOptions" [dtTrigger]="dtTeigger">
         <thead>
         <tr>
+          <th>Department Name</th>
           <th>Shift Name</th>
           <th>In Time</th>
           <th>Out Time</th>
@@ -53,6 +73,7 @@
         <tbody >
 
         <tr  *ngFor="let shift of shifts" >
+          <td>{{shift.departmentName}}</td>
           <td>{{shift.shiftName}}</td>
           <td>{{shift.inTime}}</td>
           <td>{{shift.outTime}}</td>

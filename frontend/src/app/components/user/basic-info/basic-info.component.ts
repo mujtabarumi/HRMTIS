@@ -124,9 +124,9 @@ export class BasicInfoComponent implements OnInit {
 
   }
   checkRequiredFields(){
-    if(this.employeeBasicForm.EmployeeId == ''){
-      return false;
-    }
+    // if(this.employeeBasicForm.EmployeeId == ''){
+    //   return false;
+    // }
     if(this.employeeBasicForm.firstName== ''){
       return false;
     }
@@ -149,6 +149,9 @@ export class BasicInfoComponent implements OnInit {
       return false;
     }
     if(this.employeeBasicForm.contactNo == ''){
+      return false;
+    }
+    if(this.employeeBasicForm.email == ''){
       return false;
     }
 
