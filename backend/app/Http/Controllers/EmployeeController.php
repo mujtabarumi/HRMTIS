@@ -12,8 +12,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Artisan;
 use Yajra\DataTables\DataTables;
 use Route;
-
 use Auth;
+
 //$user_id = Auth::user()->id;
 
 class EmployeeController extends Controller {
@@ -26,8 +26,7 @@ class EmployeeController extends Controller {
 
         //$aa =Route::getCurrentRoute()->getActionName();
         //return $r->route()->getAction()['prefix']; // return 'api'
-
-
+        $log = new Log();
         $aa = $r->route()->getActionMethod();
         preg_match('/([a-z]*)@/i', $r->route()->getActionName(), $matches);
 
@@ -37,10 +36,9 @@ class EmployeeController extends Controller {
 
         $date_time = date("Y-m-d H:i:s");
 
-         return Auth::user();
-        
-        //$u_name1 = $u_name->userName;
-        return $controllerName . ' ' . $aa . ' ' . $localIp . ' ' . $date_time;
+        //return Auth::user();
+        //$u_id = auth()->user()->id;
+//        return $controllerName . ' ' . $aa . ' ' . $localIp . ' ' . $date_time . ' ' . $u_id;
         //return $aa; 
 
         $this->validate($r, [
@@ -67,7 +65,6 @@ class EmployeeController extends Controller {
             $joinInfo->resignDate = Carbon::parse($r->resignDate)->format('Y-m-d');
         }
 
-
         $joinInfo->weekend = $tags;
         $joinInfo->accessPin = $r->accessPin;
         $joinInfo->inDeviceNo = $r->inDeviceNo;
@@ -88,6 +85,16 @@ class EmployeeController extends Controller {
                 'employeeId' => $r->id,
             ]);
         }
+
+        //Log table data insert start
+
+       // $log->module_name = $controllerName;
+       // $log->method_name = $aa;
+       // $log->information = $localIp . ' ' . $date_time;
+        //return $logInfo;
+        //$log->save();
+
+        //Log table data insert end
 
         $joinInfo->save();
 
@@ -206,24 +213,23 @@ class EmployeeController extends Controller {
         $employeeInfo->middleName = $r->middleName;
         $employeeInfo->lastName = $r->lastName;
 
-        $employeeInfo->nickName =$r->nickName;
-        $employeeInfo->fkDepartmentId=$r->department;
-        $employeeInfo->fkDesignation=$r->designation;
-        $employeeInfo->fkEmployeeType=$r->empType;
-        $employeeInfo->email=$r->email;
-        $employeeInfo->contactNo=$r->contactNo;
-        $employeeInfo->alterContactNo=$r->alterContactNo;
-        $employeeInfo->birthdate=$r->birthdate;
-        $employeeInfo->gender =$r->gender;
+        $employeeInfo->nickName = $r->nickName;
+        $employeeInfo->fkDepartmentId = $r->department;
+        $employeeInfo->fkDesignation = $r->designation;
+        $employeeInfo->fkEmployeeType = $r->empType;
+        $employeeInfo->email = $r->email;
+        $employeeInfo->contactNo = $r->contactNo;
+        $employeeInfo->alterContactNo = $r->alterContactNo;
+        $employeeInfo->birthdate = $r->birthdate;
+        $employeeInfo->gender = $r->gender;
         $employeeInfo->save();
 
-        if($r->hasFile('photo')){
+        if ($r->hasFile('photo')) {
 
-            if ($employeeInfo->photo != null){
+            if ($employeeInfo->photo != null) {
 
-                $file_path = public_path('/images').'/'.$employeeInfo->photo;
+                $file_path = public_path('/images') . '/' . $employeeInfo->photo;
                 unlink($file_path);
-
             }
 
             $images = $r->file('photo');
