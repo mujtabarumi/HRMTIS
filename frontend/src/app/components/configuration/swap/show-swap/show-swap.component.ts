@@ -96,8 +96,8 @@ export class ShowSwapComponent implements AfterViewInit,OnDestroy,OnInit {
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
 
       dtInstance.destroy();
-
       this.dtTrigger.next();
+
     });
   }
   ngOnDestroy(): void {

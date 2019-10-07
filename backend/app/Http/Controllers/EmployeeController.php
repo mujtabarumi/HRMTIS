@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\DataTables;
 
 class EmployeeController extends Controller
@@ -168,7 +169,7 @@ class EmployeeController extends Controller
 //        return auth()->user()->fkComapny;
         //return $r;
         $this->validate($r, [
-            'EmployeeId' => 'required|max:20',
+            'EmployeeId' => 'nullable|max:20',
             'firstName'   => 'required|max:50',
             'middleName'   => 'nullable|max:50',
             'lastName'   => 'nullable|max:50',
@@ -176,7 +177,7 @@ class EmployeeController extends Controller
             'fkDepartmentId'   => 'max:11',
             'fkDesignation'   => 'max:11',
             'fkEmployeeType'   => 'max:11',
-            'email'   => 'nullable|max:30',
+            'email'   => 'required|max:255',
             'contactNo'   => 'nullable|max:15',
             'alterContactNo'   => 'nullable|max:15',
             'birthdate'   => 'nullable|date',

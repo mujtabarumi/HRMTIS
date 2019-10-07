@@ -246,7 +246,8 @@
           <li class="has-submenu">
             <a >Swap</a>
             <ul class="submenu">
-              <li><a routerLink="swap/showSwap">Show Swap</a></li>
+              <li><a *ngxPermissionsOnly="['admin']" routerLink="swap/showSwap">Show Swap</a></li>
+              <li><a routerLink="swap/RequestSwap">Request Swap</a></li>
 
             </ul>
           </li>

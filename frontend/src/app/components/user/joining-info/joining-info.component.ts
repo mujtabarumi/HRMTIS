@@ -18,6 +18,7 @@ export class JoiningInfoComponent implements OnInit {
   totalLeaveAssigned:number;
   leaveTaken:number;
   temp:any;
+  error=[];
 
   employeeJoiningForm:any={
     id:'',
@@ -129,43 +130,73 @@ export class JoiningInfoComponent implements OnInit {
 
 
   submit(){
-    // console.log(this.employeeJoiningForm);
-    this.employeeJoiningForm.weekend=this.selectedItems;
+
+
+
+    if(!this.checkRequiredFields()){
+      $.alert({
+        title: 'Alert!',
+        type: 'Red',
+        content: 'Please Insert Mandatory Fields',
+        buttons: {
+          tryAgain: {
+            text: 'Ok',
+            btnClass: 'btn-red',
+            action: function () {
+            }
+          }
+        }
+      });
+      return false;
+    }else {
+
+      // console.log(this.employeeJoiningForm);
+      this.employeeJoiningForm.weekend=this.selectedItems;
 
 
 
 
-    const token=this.token.get();
+      const token=this.token.get();
 
 
-    if(this.employeeJoiningForm.actualJoinDate !=null){
-      this.employeeJoiningForm.actualJoinDate=new Date(this.employeeJoiningForm.actualJoinDate).toLocaleDateString();
+      if(this.employeeJoiningForm.actualJoinDate !=null){
+        this.employeeJoiningForm.actualJoinDate=new Date(this.employeeJoiningForm.actualJoinDate).toLocaleDateString();
 
-    }
-
-    if(this.employeeJoiningForm.resignDate !=null) {
-      this.employeeJoiningForm.resignDate=new Date(this.employeeJoiningForm.resignDate).toLocaleDateString();
-    }
-
-
-
-    this.http.post(Constants.API_URL+'joinInfo/post'+'?token='+token,this.employeeJoiningForm).subscribe(data => {
-
-        this.getData();
-        $.alert({
-          title: 'Success!',
-          content: 'Updated',
-        });
-
-      },
-      error => {
-        console.log(error);
       }
-    );
+
+      if(this.employeeJoiningForm.resignDate !=null) {
+        this.employeeJoiningForm.resignDate=new Date(this.employeeJoiningForm.resignDate).toLocaleDateString();
+      }
+
+
+
+      this.http.post(Constants.API_URL+'joinInfo/post'+'?token='+token,this.employeeJoiningForm).subscribe(data => {
+
+          this.getData();
+          $.alert({
+            title: 'Success!',
+            content: 'Updated',
+          });
+
+        },
+        error => {
+          const data=error.error.errors;
+
+          for (var p in data) {
+
+            for (var k in data[p]) {
+              this.error.push(data[p][k]);
+            }
+          }
+        }
+      );
+
+    }
 
   }
 
   submitLeaveLimit(){
+
 
     const token=this.token.get();
     this.http.post(Constants.API_URL+'leave/limit/post'+'?token='+token,{id:this.empid,totalLeave:this.totalLeaveAssigned,leaveTaken:this.leaveTaken}).subscribe(data => {
@@ -177,6 +208,23 @@ export class JoiningInfoComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  checkRequiredFields(){
+
+    if(this.employeeJoiningForm.attDeviceUserId== ''||this.employeeJoiningForm.attDeviceUserId==null){
+      return false;
+    }
+    if(this.employeeJoiningForm.inDeviceNo== ''||this.employeeJoiningForm.inDeviceNo==null){
+      return false;
+    }
+    if(this.employeeJoiningForm.outDeviceNo== ''||this.employeeJoiningForm.outDeviceNo== null){
+      return false;
+    }
+
+
+    return true;
+
   }
 
   getLeaveLimit(){
