@@ -242,4 +242,14 @@ class EmployeeController extends Controller
 
         return $employeeInfo;
     }
+    public function getempDesignation(Request $r)
+    {
+
+        return $emp=Employee::select('employeeinfo.fkDepartmentId','employeeinfo.id','employeeinfo.fkDesignation',
+            'designations.title as designationTitle','departments.departmentName')
+            ->leftJoin('departments','departments.id','employeeinfo.fkDepartmentId')
+            ->leftJoin('designations','designations.id','employeeinfo.fkDesignation')
+            ->where('fkUserId',$r->id)->first();
+
+    }
 }

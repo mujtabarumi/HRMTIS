@@ -66,11 +66,14 @@ export class ShowSwapComponent implements AfterViewInit,OnDestroy,OnInit {
         {
 
           "data": function (data: any, type: any, full: any) {
+
+
             return '<div class="dropdown">\n' +
               '  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">\n' +
               '  </button>\n' +
               '  <div class="dropdown-menu">\n' +
               '    <button class="dropdown-item" data-edit-id="'+data.id+'" >Edit</button>\n' +
+              '    <button ngxPermissionsOnly="['+"admin"+','+"Manager"+']" class="dropdown-item" data-Accept-id="'+data.id+'" >Accept</button>\n' +
               '  </div>\n' +
               '</div>';
           },
@@ -90,6 +93,28 @@ export class ShowSwapComponent implements AfterViewInit,OnDestroy,OnInit {
   ngAfterViewInit(): void {
     this.dtTrigger.next();
 
+    this.renderer.listenGlobal('document', 'click', (event) => {
+
+      if (event.target.hasAttribute("data-edit-id")) {
+
+        let id=event.target.getAttribute("data-edit-id");
+
+       // this.editRequestSwap(id);
+
+
+      }else if (event.target.hasAttribute("data-Accept-id")){
+
+        let id=event.target.getAttribute("data-Accept-id");
+
+
+
+        this.acceptSwapReq(id);
+
+      }
+
+
+    });
+
 
   }
   rerender(){
@@ -103,6 +128,38 @@ export class ShowSwapComponent implements AfterViewInit,OnDestroy,OnInit {
   ngOnDestroy(): void {
     // Do not forget to unsubscribe the event
     this.dtTrigger.unsubscribe();
+  }
+
+  acceptSwapReq(id)
+  {
+
+    const token=this.token.get();
+
+    this.http.post(Constants.API_URL+'swap/acceptSwapReq'+'?token='+token,{'id':id}).subscribe(data1 => {
+
+        console.log(data1);
+
+        $.alert({
+          title: 'Success',
+          content: 'Update Successfull',
+        });
+
+
+
+        this.rerender();
+
+
+
+
+
+      },
+      error => {
+        console.log(error);
+      }
+    );
+
+
+
   }
 
 
