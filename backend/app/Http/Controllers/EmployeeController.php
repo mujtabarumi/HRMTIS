@@ -33,6 +33,7 @@ class EmployeeController extends Controller
             'supervisor'   =>'max:255',
 
         ]);
+
         $days=array();
         for ($i=0;$i<count($r->weekend);$i++){
             array_push($days,$r->weekend[$i]['item_id']);

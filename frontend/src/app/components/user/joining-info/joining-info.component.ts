@@ -150,7 +150,7 @@ export class JoiningInfoComponent implements OnInit {
       return false;
     }else {
 
-      // console.log(this.employeeJoiningForm);
+       //console.log(new Date(this.employeeJoiningForm.actualJoinDate).toLocaleDateString());
       this.employeeJoiningForm.weekend=this.selectedItems;
 
 

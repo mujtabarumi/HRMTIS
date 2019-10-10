@@ -75,6 +75,7 @@ export class LoginComponent implements OnInit {
   get f() { return this.form.controls; }
 
   handleResponse(data) {
+
     this.token.handle(data.access_token);
     this.token.getUser().subscribe(data => {
               this.userModel=data as User;
@@ -82,6 +83,7 @@ export class LoginComponent implements OnInit {
               perm.push(this.userModel.fkUserType);
               console.log(perm);
               this.permissionsService.loadPermissions(perm);
+
           },
           error => {
               console.log(error);
@@ -89,6 +91,8 @@ export class LoginComponent implements OnInit {
 
 
     });
+
+
 
     this.router.navigateByUrl('home');
   }

@@ -30,7 +30,7 @@ export class NavbarComponent implements OnInit {
 
     };
     tokenUser:any={};
-  permission: string[];
+  permission: string;
 
   constructor(private permissionsService: NgxPermissionsService,public http: HttpClient,private token:TokenService,
               public nav: NavbarService)
@@ -40,51 +40,8 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
 
-
     const token=this.token.get();
-    this.http.post(Constants.API_URL+'me?token='+token,null).subscribe(data => {
 
-
-
-
-        if (data['fkUserType']=='emp')
-        {
-
-          const token=this.token.get();
-          this.http.post(Constants.API_URL+'getEmpDesignation?token='+token,{'id':data['id']}).subscribe(data => {
-
-
-
-              if (data['designationTitle']==Constants.manager){
-
-                this.permission = ['Manager'];
-                this.permissionsService.addPermission(this.permission);
-
-
-              }else {
-
-               // this.permission=[data['fkUserType']]
-              }
-
-
-            },
-            error => {
-              console.log(error);
-
-
-            }
-          );
-
-        }
-
-
-      },
-      error => {
-        console.log(error);
-        // this.handleError(error);
-
-      }
-    );
 
     //console.log(this.user);
 
@@ -106,7 +63,62 @@ export class NavbarComponent implements OnInit {
       //     });
 
 
+          this.http.post(Constants.API_URL+'me?token='+token,null).subscribe(data1 => {
 
+
+
+              if (data1['fkUserType']=='emp')
+              {
+
+                const token=this.token.get();
+                this.http.post(Constants.API_URL+'getEmpDesignation?token='+token,{'id':data1['id']}).subscribe(data => {
+
+
+
+                    if (data['designationTitle']==Constants.manager){
+
+                      this.permissionsService.removePermission('emp');
+                     // console.log(this.permissionsService.getPermissions());
+
+
+                      let perm = [];
+                      perm.push(data['designationTitle']);
+                      this.permissionsService.loadPermissions(perm);
+
+                       console.log(this.permissionsService.getPermissions());
+
+
+                    }if (data['designationTitle']==Constants.HR){
+
+                      let perm = [];
+                      perm.push(data['designationTitle']);
+                      this.permissionsService.loadPermissions(perm);
+
+
+                    }else {
+
+                     // this.permission=[data['fkUserType']]
+                    }
+
+
+                  },
+                  error => {
+                    console.log(error);
+
+
+                  }
+                );
+
+              }
+
+
+            },
+            error => {
+              console.log(error);
+              // this.handleError(error);
+
+            }
+          );
 
   }
 

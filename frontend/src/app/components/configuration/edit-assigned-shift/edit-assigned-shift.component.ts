@@ -279,7 +279,12 @@ export class EditAssignedShiftComponent implements OnInit {
   submitFuture() // Assign roster for future date
   {
     this.futureShift.empId=this.selectedItems[0]['empid'];
+    this.futureShift.startDate=new Date(this.futureShift.startDate).toLocaleDateString();
+    this.futureShift.endDate=new Date(this.futureShift.endDate).toLocaleDateString();
+    this.futureShift.futureStartDate=new Date(this.futureShift.futureStartDate).toLocaleDateString();
+    this.futureShift.futureEndDate=new Date(this.futureShift.futureEndDate).toLocaleDateString();
 
+   // console.log(this.futureShift);
 
 
     const token=this.token.get();
@@ -287,10 +292,13 @@ export class EditAssignedShiftComponent implements OnInit {
     this.http.post(Constants.API_URL+'shift/AssignFutureShift'+'?token='+token,this.futureShift).subscribe(data1 => {
 
       this.findAttendence();
+      console.log(data1);
+
       $.alert({
           title: 'Success',
           content: 'Update Successfull',
         });
+
         this.futureShift=[];
         this.selectedItems2=[];
         this.shiftObj.adjustment=false;

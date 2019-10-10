@@ -399,10 +399,15 @@ class shiftController extends Controller
     }
     public function AssignFutureShift(Request $r)
     {
+
+        return $r;
+
         $start=Carbon::parse($r->startDate);
         $end=Carbon::parse($r->endDate);
+
         $futureStart=Carbon::parse($r->futureStartDate);
         $futureEnd=Carbon::parse($r->futureEndDate);
+
          $dates1 = $this->getDatesFromRanges($start, $end);
          $dates2 = $this->getDatesFromRanges($futureStart, $futureEnd);
 
@@ -415,7 +420,7 @@ class shiftController extends Controller
 
             $res = $dates1->first(function ($val) use ($day,$r,$date) {
                if ($val['day'] == $day){
-
+                   
                    $oldLog=ShiftLog::where('startDate',$val['date'])->where('endDate',$val['date'])->where('fkemployeeId',$r->empId)->first();
 
                    if ($oldLog)
@@ -441,14 +446,8 @@ class shiftController extends Controller
 
                            $newLog->save();
 
+
                        }
-
-
-
-
-
-
-
 
                    }
 
