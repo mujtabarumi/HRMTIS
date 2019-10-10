@@ -14,6 +14,7 @@ import { NavbarService } from '../../services/navbar.service';
 export class NavbarComponent implements OnInit {
 
   data:any;
+
   userModel={} as User;
     user:any={
         contactNo: "",
@@ -29,6 +30,7 @@ export class NavbarComponent implements OnInit {
 
     };
     tokenUser:any={};
+  permission: string[];
 
   constructor(private permissionsService: NgxPermissionsService,public http: HttpClient,private token:TokenService,
               public nav: NavbarService)
@@ -37,6 +39,56 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit() {
+
+
+    const token=this.token.get();
+    this.http.post(Constants.API_URL+'me?token='+token,null).subscribe(data => {
+
+
+
+
+        if (data['fkUserType']=='emp')
+        {
+
+          const token=this.token.get();
+          this.http.post(Constants.API_URL+'getEmpDesignation?token='+token,{'id':data['id']}).subscribe(data => {
+
+
+
+              if (data['designationTitle']==Constants.manager){
+
+                this.permission = ['Manager'];
+                this.permissionsService.addPermission(this.permission);
+
+
+              }else {
+
+               // this.permission=[data['fkUserType']]
+              }
+
+
+            },
+            error => {
+              console.log(error);
+
+
+            }
+          );
+
+        }
+
+
+      },
+      error => {
+        console.log(error);
+        // this.handleError(error);
+
+      }
+    );
+
+    //console.log(this.user);
+
+
 
       // this.token.getUser().subscribe(data => {
       //         this.userModel=data as User;
@@ -57,6 +109,7 @@ export class NavbarComponent implements OnInit {
 
 
   }
+
 
     isAdmin(){
       if(this.user.fkUserType=='admin'){

@@ -15,8 +15,9 @@ declare var $ :any;
 })
 export class GovmentHolidayComponent implements  AfterViewInit,OnDestroy,OnInit {
 
-  @ViewChild('editGovtHoliday') editModal: any;
+
   @ViewChild(DataTableDirective)
+  @ViewChild('editGovtHoliday') editModal: any;
 
 
   dtElement: DataTableDirective;

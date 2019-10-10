@@ -72,12 +72,22 @@ class swapController extends Controller
     }
     public function submitNewSwapRequestByEmp(Request $r){
 
+
+
+
         $emp=Employee::select('fkDepartmentId','id')->where('fkUserId',Auth::user()->id)->first();
 
          $swapByShift=Shift::findOrFail($r->swap_by_shift);
          $swapForShift=Shift::findOrFail($r->swap_for_shift);
 
-        $swap=new Swap();
+         if ($r->id!="")
+         {
+             $swap=Swap::findOrFail($r->id);
+         }else{
+             $swap=new Swap();
+         }
+
+
 
         $swap->swap_by=$emp['id'];
         $swap->swap_by_date=Carbon::parse($r->swap_by_Date)->format('Y-m-d');
@@ -93,8 +103,8 @@ class swapController extends Controller
         $swap->swap_for_inTime=$swapForShift[0]['inTime'];
         $swap->swap_for_outTime=$swapForShift[0]['outTime'];
 
-        $swap->departmentHeadApproval=0;
-        $swap->HR_adminApproval=0;
+//        $swap->departmentHeadApproval=null;
+//        $swap->HR_adminApproval=0;
 
         $swap->created_by=$emp['id'];
 
@@ -103,6 +113,25 @@ class swapController extends Controller
         return 0;
 
 
+
+    }
+    public function editSwapRequest(Request $r){
+
+        return $getSwapRequest=Swap::select('swap_details.*','shift_by.shiftName as shift_byName','shift_for.shiftName as shift_forName',DB::raw("CONCAT(COALESCE(empi.firstName,''),' ',COALESCE(empi.middleName,''),' ',COALESCE(empi.lastName,'')) AS empFullnameBy"),
+            DB::raw("CONCAT(COALESCE(empinfo.firstName,''),' ',COALESCE(empinfo.middleName,''),' ',COALESCE(empinfo.lastName,'')) AS empFullnameFor"))
+            ->leftJoin('shift as shift_by','shift_by.shiftId','swap_details.swap_by_shift')
+            ->leftJoin('shift as shift_for','shift_for.shiftId','swap_details.swap_for_shift')
+            ->leftJoin('employeeinfo as empi','empi.id','swap_details.swap_by')
+            ->leftJoin('employeeinfo as empinfo','empinfo.id','swap_details.swap_for')
+            ->where('swap_details.id',$r->id)
+            ->first();
+
+
+
+    }
+    public function acceptSwapReq(Request $r){
+
+        
 
     }
 }

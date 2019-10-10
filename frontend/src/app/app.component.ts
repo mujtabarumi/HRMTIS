@@ -23,12 +23,15 @@ export class AppComponent {
 
 
 
+
     constructor(private permissionsService: NgxPermissionsService,
                 private ngxPermissionsConfigurationService: NgxPermissionsConfigurationService,
                 private token:TokenService, public http: HttpClient,private renderer2: Renderer2,
                 private router: Router,
                 public nav: NavbarService
     ) {
+
+
 
         this.nav.show();
 
@@ -45,13 +48,16 @@ export class AppComponent {
 
         // const token=this.token.get();
         this.http.post(Constants.API_URL+'me?token='+token.get(),null).subscribe(data => {
-                 console.log(token.get());
+                // console.log(data);
 
                 localStorage.setItem('user',JSON.stringify(data));
 
                 let perm = [];
                 perm.push(token.getUserLocal().fkUserType);
                 permissionsService.loadPermissions(perm);
+
+
+
 
             },
             error => {
@@ -64,6 +70,7 @@ export class AppComponent {
     }
 
     ngOnInit(): void {
+
 
 
     }

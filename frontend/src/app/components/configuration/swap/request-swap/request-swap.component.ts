@@ -13,13 +13,18 @@ declare var $ :any;
   templateUrl: './request-swap.component.html',
   styleUrls: ['./request-swap.component.css']
 })
-export class RequestSwapComponent implements OnInit {
+export class RequestSwapComponent implements  AfterViewInit,OnDestroy,OnInit {
+
+  @ViewChild('editrequestSwap') editModal: any;
+
+  modalRef:any;
 
   dropdownSettingsShift = {};
   dropdownSettingsEmp = {};
   shiftByRequesterDepartment:any;
   empByRequesterDepartment:any;
 
+  @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
   dtOptions:DataTables.Settings={};
   dtTrigger:Subject<any>=new Subject();
@@ -30,13 +35,13 @@ export class RequestSwapComponent implements OnInit {
 
     id:"",
     swap_by:"",
-    swap_by_shift:"",
-    swap_by_date:"",
+    swap_by_shift:[],
+    swap_by_Date:"",
     swap_by_inTime:"",
     swap_by_outTime:"",
-    swap_for:"",
+    swap_for:[],
     swap_for_date:"",
-    swap_for_shift:"",
+    swap_for_shift:[],
     swap_for_inTime:"",
     swap_for_outTime:"",
     departmentHeadApproval:"",
@@ -51,10 +56,10 @@ export class RequestSwapComponent implements OnInit {
   ngOnInit() {
 
 
-
+    this.getEmpSwapReq();
     this.getShiftByRequesterDepartment();
     this.getEmpByRequesterDepartment();
-    this.getEmpSwapReq();
+
 
     this.dropdownSettingsShift = {
       singleSelection: true,
@@ -112,18 +117,73 @@ export class RequestSwapComponent implements OnInit {
 
   submitSwapRequest(){
 
-    //console.log(this.swap);
+   // console.log(this.swap);
+
+    this.swap.swap_by_Date=new Date(this.swap.swap_by_Date).toLocaleDateString();
+    this.swap.swap_for_date=new Date(this.swap.swap_for_date).toLocaleDateString();
 
     const token=this.token.get();
 
     this.http.post(Constants.API_URL+'swap/submitNewSwapRequestByEmp'+'?token='+token,this.swap).subscribe(data1 => {
+
+      //console.log(data1);
 
         $.alert({
           title: 'Success',
           content: 'Update Successfull',
         });
 
+        this.swap={};
+
         this.rerender();
+
+
+
+
+      },
+      error => {
+        console.log(error);
+      }
+    );
+
+  }
+  submitEditSwapRequest(){
+
+    console.log(this.swap);
+    this.swap.swap_by_Date=new Date(this.swap.swap_by_Date).toLocaleDateString();
+    this.swap.swap_for_date=new Date(this.swap.swap_for_date).toLocaleDateString();
+
+    const token=this.token.get();
+
+    this.http.post(Constants.API_URL+'swap/submitNewSwapRequestByEmp'+'?token='+token,this.swap).subscribe(data1 => {
+
+        console.log(data1);
+
+        $.alert({
+          title: 'Success',
+          content: 'Update Successfull',
+        });
+
+        this.swap={
+          id:"",
+          swap_by:"",
+          swap_by_shift:[],
+          swap_by_Date:"",
+          swap_by_inTime:"",
+          swap_by_outTime:"",
+          swap_for:[],
+          swap_for_date:"",
+          swap_for_shift:[],
+          swap_for_inTime:"",
+          swap_for_outTime:"",
+          departmentHeadApproval:"",
+          HR_adminApproval:"",
+
+
+        };
+
+        this.rerender();
+        this.modalRef.close();
 
 
 
@@ -147,13 +207,7 @@ export class RequestSwapComponent implements OnInit {
 
 
       },
-      "rowCallback": function( row, data, index ) {
-        if ( data[6] == null ||  data[6]==0 ) {
-          $('td', row).css('background-color', 'red');
-        }else if ( data[6] == 1) {
-          $('td', row).css('background-color', 'green');
-        }
-      },
+
       ajax: {
         url: Constants.API_URL+'swap/getEmpSwapReq'+'?token='+token,
         type: 'POST',
@@ -175,14 +229,14 @@ export class RequestSwapComponent implements OnInit {
 
           "data": function (data: any, type: any, full: any)
           {
-            if (data.departmentHeadApproval==0){
+            if (data.departmentHeadApproval==null){
               return 'Department Head Approval Pending';
-            }else if(data.departmentHeadApproval==1) {
-              if (data.HR_adminApproval==0){
+            }else if(data.departmentHeadApproval!=null) {
+              if (data.HR_adminApproval==null){
 
                 return 'HR Approval Pending';
 
-              }else if (data.HR_adminApproval==1){
+              }else if (data.HR_adminApproval!=null){
                 return 'Approved';
               }
             }
@@ -228,6 +282,21 @@ export class RequestSwapComponent implements OnInit {
   ngAfterViewInit(): void {
     this.dtTrigger.next();
 
+    this.renderer.listenGlobal('document', 'click', (event) => {
+
+      if (event.target.hasAttribute("data-edit-id")) {
+
+        let id=event.target.getAttribute("data-edit-id");
+
+        this.editRequestSwap(id);
+
+
+      }
+
+
+
+    });
+
 
   }
   rerender(){
@@ -241,6 +310,58 @@ export class RequestSwapComponent implements OnInit {
   ngOnDestroy(): void {
     // Do not forget to unsubscribe the event
     this.dtTrigger.unsubscribe();
+  }
+  editRequestSwap(id){
+
+    this.swap.swap_by_shift=[];
+    this.swap.swap_for=[];
+    this.swap.swap_for_shift=[];
+
+    const token=this.token.get();
+
+    this.http.post(Constants.API_URL+'swap/editSwapRequest'+'?token='+token,{id:id}).subscribe(data => {
+
+        this.swap.id=data['id'];
+        this.swap.swap_by=data['swap_by'];
+
+
+        let B={
+          'shiftId':data['swap_by_shift'],
+          'shiftName':data['shift_byName'],
+        };
+        let F={
+          'shiftId':data['swap_for_shift'],
+          'shiftName':data['shift_forName'],
+        };
+        let E={
+          'id':data['swap_for'],
+          'empFullname':data['empFullnameFor'],
+        };
+
+        this.swap.swap_by_shift.push(B);
+        this.swap.swap_for_shift.push(B);
+        this.swap.swap_for.push(E);
+
+
+        this.swap.swap_by_Date=data['swap_by_date'];
+        this.swap.swap_by_inTime=data['swap_by_inTime'];
+        this.swap.swap_by_outTime=data['swap_by_outTime'];
+
+        this.swap.swap_for_date=data['swap_for_date'];
+
+        this.swap.swap_for_inTime=data['swap_for_inTime'];
+        this.swap.swap_for_outTime=data['swap_for_outTime'];
+
+       // console.log(this.swap);
+
+        this.modalRef = this.modalService.open(this.editModal, {size: 'lg',backdrop:'static'});
+
+      },
+      error => {
+        console.log(error);
+      }
+    );
+
   }
 
 }

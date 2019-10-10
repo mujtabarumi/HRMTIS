@@ -4,23 +4,32 @@
     <list default="true" id="79f3b666-98ca-415d-99bb-8f59ccc47ed0" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
 <<<<<<< HEAD
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/EmployeeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/EmployeeController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/resources/views/Excel/Final_Report_3.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/resources/views/Excel/Final_Report_3.blade.php" afterDir="false" />
 =======
       <change beforePath="$PROJECT_DIR$/backend/app/AttEmployeeMap.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/AttEmployeeMap.php" afterDir="false" />
+=======
+>>>>>>> 061d9fc8a647a257d3f8ce019822156fd36ab868
       <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/EmployeeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/EmployeeController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/swapController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/swapController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/app-routing.module.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/app.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/configuration/govment-holiday/govment-holiday.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/configuration/govment-holiday/govment-holiday.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/configuration/swap/request-swap/request-swap.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/configuration/swap/request-swap/request-swap.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/configuration/swap/request-swap/request-swap.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/configuration/swap/request-swap/request-swap.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/app/components/configuration/swap/show-swap/show-swap.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/configuration/swap/show-swap/show-swap.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/app/components/navbar/navbar.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/navbar/navbar.component.html" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/frontend/src/app/components/user/basic-info/basic-info.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/user/basic-info/basic-info.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/app/components/user/basic-info/basic-info.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/user/basic-info/basic-info.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/app/components/user/joining-info/joining-info.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/user/joining-info/joining-info.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/app/components/user/joining-info/joining-info.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/user/joining-info/joining-info.component.ts" afterDir="false" />
 >>>>>>> 6a911af96e575466636c2cfe3c23d5f0ce4cf474
+=======
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/navbar/navbar.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/navbar/navbar.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/constants.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/constants.ts" afterDir="false" />
+>>>>>>> 061d9fc8a647a257d3f8ce019822156fd36ab868
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -165,8 +174,13 @@
       <workItem from="1570084234375" duration="18768000" />
       <workItem from="1570168226877" duration="14944000" />
       <workItem from="1570346250354" duration="17996000" />
+<<<<<<< HEAD
       <workItem from="1570430175246" duration="16888000" />
 >>>>>>> 6a911af96e575466636c2cfe3c23d5f0ce4cf474
+=======
+      <workItem from="1570430175246" duration="18113000" />
+      <workItem from="1570603387325" duration="18997000" />
+>>>>>>> 061d9fc8a647a257d3f8ce019822156fd36ab868
     </task>
     <servers />
   </component>

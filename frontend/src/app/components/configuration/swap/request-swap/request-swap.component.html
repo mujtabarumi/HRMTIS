@@ -1,3 +1,94 @@
+<!--modal-->
+<ng-template #editrequestSwap let-c="close" let-d="dismiss" >
+  <div class="modal-header">
+    <h4 class="modal-title">Govt Holiday</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+
+      <div class="row">
+        <div class="form-group col-md-3">
+          <label>Swap_with_Date</label>
+          <input bsDatepicker
+                 [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }" name="swap_by_Date" [(ngModel)]="swap.swap_by_Date" class="form-control input">
+        </div>
+
+        <div class="form-group col-md-3">
+          <label>Shift</label>
+          <ng-multiselect-dropdown
+            [placeholder]="'Select Shift'"
+            [data]="shiftByRequesterDepartment"
+            [(ngModel)]="swap.swap_by_shift"
+            [settings]="dropdownSettingsShift"
+
+
+          >
+          </ng-multiselect-dropdown>
+
+        </div>
+      </div>
+
+      <div class="row">
+        <div align="center">
+          <label style="text-align: center">Swap</label>
+        </div>
+
+      </div>
+
+      <div class="row">
+
+        <div class="form-group col-md-4">
+          <label>Swap With</label>
+
+          <ng-multiselect-dropdown
+            [placeholder]="'Select Employee'"
+            [data]="empByRequesterDepartment"
+            [(ngModel)]="swap.swap_for"
+            [settings]="dropdownSettingsEmp"
+
+
+          >
+          </ng-multiselect-dropdown>
+
+        </div>
+
+        <div class="form-group col-md-4">
+          <label>Swap_for_Date</label>
+          <input bsDatepicker
+                 [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }" name="Swap_for_Date" [(ngModel)]="swap.swap_for_date" class="form-control input">
+        </div>
+
+        <div class="form-group col-md-4">
+          <label>Shift</label>
+          <ng-multiselect-dropdown
+            [placeholder]="'Select Shift'"
+            [data]="shiftByRequesterDepartment"
+            [(ngModel)]="swap.swap_for_shift"
+            [settings]="dropdownSettingsShift"
+
+
+          >
+          </ng-multiselect-dropdown>
+
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="form-group col-md-12">
+          <button class="btn btn-success pull-left" (click)="submitEditSwapRequest()" >Submit</button>
+        </div>
+      </div>
+
+
+  </div>
+</ng-template>
+
+
+
 <div class="card">
   <div class="card-header">
     Make Swap Request

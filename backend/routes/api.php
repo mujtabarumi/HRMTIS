@@ -165,6 +165,12 @@ Route::group([
     Route::get('swap/getAllemployeeByRequesterDepartment','swapController@getAllemployeeByRequesterDepartment');
     Route::post('swap/submitNewSwapRequestByEmp','swapController@submitNewSwapRequestByEmp');
     Route::post('swap/getEmpSwapReq','swapController@getEmpSwapReq');
+    Route::post('swap/editSwapRequest','swapController@editSwapRequest');
+    Route::post('swap/acceptSwapReq','swapController@acceptSwapReq');
+
+    /*empDesignation */
+
+    Route::post('getEmpDesignation','EmployeeController@getempDesignation');
 
 
 
