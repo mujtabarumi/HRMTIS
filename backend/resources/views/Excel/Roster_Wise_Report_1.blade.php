@@ -108,11 +108,11 @@
                                     {{$FINALIN->format('H:i')}}
 
                                 @elseif($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
-                                            ->where('fkAttDevice',$allE->inDeviceNo)->first())
+                                            ->where('accessTime','<=','04:00:00')->where('fkAttDevice',$allE->inDeviceNo)->first())
 
                                     @php
                                         $FINALIN=\Carbon\Carbon::parse($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
-                                            ->where('fkAttDevice',$allE->inDeviceNo)->first()->accessTime2);
+                                            ->where('accessTime','<=','04:00:00')->where('fkAttDevice',$allE->inDeviceNo)->first()->accessTime2);
                                     @endphp
 
                                     {{$FINALIN->format('H:i')}}
@@ -121,17 +121,16 @@
 
                             @else
 
-                                @if($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
-                                            ->where('fkAttDevice',$allE->inDeviceNo)->first())
+                                    @if($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
+                                    ->where('fkAttDevice',$allE->inDeviceNo)->first())
 
-                                    @php
-                                        $FINALIN=\Carbon\Carbon::parse($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
+                                        @php
+                                            $FINALIN=\Carbon\Carbon::parse($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
                                             ->where('fkAttDevice',$allE->inDeviceNo)->first()->accessTime2);
-                                    @endphp
+                                        @endphp
 
-                                    {{$FINALIN->format('H:i')}}
-
-                                @endif
+                                        {{$FINALIN->format('H:i')}}
+                                    @endif
 
                             @endif
 
