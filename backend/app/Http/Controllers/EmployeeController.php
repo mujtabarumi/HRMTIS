@@ -25,20 +25,22 @@ class EmployeeController extends Controller {
 
     public function updateJoinInfo(Request $r) {
 
+
+
         //$aa =Route::getCurrentRoute()->getActionName();
         //return $r->route()->getAction()['prefix']; // return 'api'
-        $log = new Log();
-        $aa = $r->route()->getActionMethod();
-        preg_match('/([a-z]*)@/i', $r->route()->getActionName(), $matches);
-
-        $controllerName = $matches[1];
-
-        $localIp = gethostbyname(gethostname());
-
-        $date_time = date("Y-m-d H:i:s");
-
-        //return Auth::user();
-        //$u_id = auth()->user()->id;
+       // $log = new Log();
+//        $aa = $r->route()->getActionMethod();
+//        preg_match('/([a-z]*)@/i', $r->route()->getActionName(), $matches);
+//
+//        $controllerName = $matches[1];
+//
+//        $localIp = gethostbyname(gethostname());
+//
+//        $date_time = date("Y-m-d H:i:s");
+//
+//        //return Auth::user();
+ //     return  $u_id = auth()->user()->id;
 //        return $controllerName . ' ' . $aa . ' ' . $localIp . ' ' . $date_time . ' ' . $u_id;
         //return $aa; 
 

@@ -139,13 +139,18 @@ class TestController extends Controller
     public function Rumi1(Request $r){
 
 
-//        return $r->route()->getActionName();
-        return $r->route()->getActionMethod();
-
+        $aa = $r->route()->getActionMethod();
         preg_match('/([a-z]*)@/i', $r->route()->getActionName(), $matches);
 
         $controllerName = $matches[1];
-       return $controllerName;
+
+        $localIp = gethostbyname(gethostname());
+
+        $date_time = date("Y-m-d H:i:s");
+
+        //return Auth::user();
+        $u_id = auth()->user()->id;
+        return $controllerName . ' ' . $aa . ' ' . $localIp . ' ' . $date_time . ' ' . $u_id;
 
 
 

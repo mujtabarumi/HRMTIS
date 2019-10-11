@@ -150,7 +150,7 @@ export class JoiningInfoComponent implements OnInit {
       return false;
     }else {
 
-      // console.log(this.employeeJoiningForm);
+       console.log(this.employeeJoiningForm);
       this.employeeJoiningForm.weekend=this.selectedItems;
 
 
@@ -173,6 +173,8 @@ export class JoiningInfoComponent implements OnInit {
 
 
       this.http.post(Constants.API_URL+'joinInfo/post'+'?token='+token,this.employeeJoiningForm).subscribe(data => {
+
+        console.log(data);
 
           this.getData();
           $.alert({
