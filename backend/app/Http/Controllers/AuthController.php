@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Employee;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -82,11 +83,14 @@ class AuthController extends Controller
      */
     protected function respondWithToken($token)
     {
+
+
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => 1 * (60 * 24),
-            'user' => auth()->user()
+            'user' => auth()->user(),
+
         ]);
     }
 

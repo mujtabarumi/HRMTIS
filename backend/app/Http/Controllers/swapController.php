@@ -129,9 +129,61 @@ class swapController extends Controller
 
 
     }
-    public function acceptSwapReq(Request $r){
+    public function acceptSwapReq(Request $r)
+    {
+        $msg='';
 
-        
+        $emp=Employee::select('employeeinfo.fkDepartmentId','employeeinfo.id','employeeinfo.fkDesignation',
+            'designations.title as designationTitle','departments.departmentName')
+            ->leftJoin('departments','departments.id','employeeinfo.fkDepartmentId')
+            ->leftJoin('designations','designations.id','employeeinfo.fkDesignation')
+            ->where('fkUserId',Auth::user()->id)->first();
+
+
+        $getSwapRequest=Swap::findOrFail($r->id);
+
+
+
+
+        if ($emp['designationTitle']==Swap_Accept_Access['Manager']){
+
+            if ($getSwapRequest->departmentHeadApproval!=null)
+            {
+                $msg='You Already Approved This Req';
+            }else{
+                $getSwapRequest->departmentHeadApproval=$emp['id'];
+                $getSwapRequest->save();
+                $msg='Request Accepted';
+            }
+
+
+
+        }elseif ($emp['designationTitle']==Swap_Accept_Access['Hr']){
+
+            if ($getSwapRequest->HR_adminApproval == null){
+
+                if ($getSwapRequest->departmentHeadApproval!=null)
+                {
+                    $getSwapRequest->HR_adminApproval=$emp['id'];
+                    $getSwapRequest->save();
+                    $msg='Request Accepted';
+                }else{
+                    $msg='Department Head did not Approved this req Yet';
+                }
+
+            }else{
+                $msg='You Already Approved This Req';
+            }
+
+        }
+
+
+        return response()->json($msg);
+
+
+
+
+
 
     }
 }

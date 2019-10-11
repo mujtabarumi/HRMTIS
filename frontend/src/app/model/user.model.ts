@@ -10,4 +10,5 @@ export class  User {
     rememberToken: string;
     userName: string;
 
+
 }

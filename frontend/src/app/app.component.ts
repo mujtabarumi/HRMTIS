@@ -57,8 +57,6 @@ export class AppComponent {
                 permissionsService.loadPermissions(perm);
 
 
-
-
             },
             error => {
                 console.log(error);

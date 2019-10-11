@@ -6,6 +6,7 @@ import {Subject} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
 import {DataTableDirective} from "angular-datatables";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {NgxPermissionsService} from "ngx-permissions";
 declare var $ :any;
 
 @Component({
@@ -27,13 +28,15 @@ export class ShowSwapComponent implements AfterViewInit,OnDestroy,OnInit {
 
 
 
-  constructor(private modalService: NgbModal,private renderer: Renderer,public http: HttpClient, private token:TokenService , public route:ActivatedRoute, private router: Router) { }
+  constructor(private permissionsService: NgxPermissionsService,private modalService: NgbModal,private renderer: Renderer,public http: HttpClient, private token:TokenService , public route:ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     this.getSwapData();
 
   }
   getSwapData(){
+
+    let that=this;
 
     const token=this.token.get();
     this.dtOptions = {
@@ -62,20 +65,44 @@ export class ShowSwapComponent implements AfterViewInit,OnDestroy,OnInit {
         { data: 'swap_for_date' ,name:'swap_for_date'},
         { data: 'shift_forName' ,name:'shift_forName'},
 
+        {
+
+          "data": function (data: any, type: any, full: any)
+          {
+            if (data.departmentHeadApproval==null){
+              return 'Department Head Approval Pending';
+            }else if(data.departmentHeadApproval!=null) {
+              if (data.HR_adminApproval==null){
+
+                return 'HR Approval Pending';
+
+              }else if (data.HR_adminApproval!=null){
+                return 'Approved';
+              }
+            }
+          },
+          "orderable": false, "searchable":false, "name":"selected_rows"
+        },
+
 
         {
 
           "data": function (data: any, type: any, full: any) {
 
 
-            return '<div class="dropdown">\n' +
-              '  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">\n' +
-              '  </button>\n' +
-              '  <div class="dropdown-menu">\n' +
-              '    <button class="dropdown-item" data-edit-id="'+data.id+'" >Edit</button>\n' +
-              '    <button ngxPermissionsOnly="['+"admin"+','+"Manager"+']" class="dropdown-item" data-Accept-id="'+data.id+'" >Accept</button>\n' +
-              '  </div>\n' +
-              '</div>';
+                return '<div class="dropdown">\n' +
+                  '  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">\n' +
+                  '  </button>\n' +
+                  '  <div class="dropdown-menu">\n' +
+                  '    <button class="dropdown-item" data-edit-id="'+data.id+'" >Edit</button>\n' +
+                  '    <button class="dropdown-item" data-Accept-id="'+data.id+'" >Accept</button>\n' +
+                  '    <button class="dropdown-item" data-Reject-id="'+data.id+'" >Reject</button>\n' +
+
+                  '  </div>\n' +
+                  '</div>';
+
+
+
           },
           "orderable": false, "searchable":false, "name":"selected_rows"
         }
@@ -110,6 +137,14 @@ export class ShowSwapComponent implements AfterViewInit,OnDestroy,OnInit {
 
         this.acceptSwapReq(id);
 
+      }else if (event.target.hasAttribute("data-Reject-id")){
+
+        let id=event.target.getAttribute("data-Reject-id");
+
+
+
+        this.rejectSwapReq(id);
+
       }
 
 
@@ -133,15 +168,15 @@ export class ShowSwapComponent implements AfterViewInit,OnDestroy,OnInit {
   acceptSwapReq(id)
   {
 
+
     const token=this.token.get();
 
     this.http.post(Constants.API_URL+'swap/acceptSwapReq'+'?token='+token,{'id':id}).subscribe(data1 => {
 
-        console.log(data1);
 
         $.alert({
-          title: 'Success',
-          content: 'Update Successfull',
+          title: 'Msg',
+          content: data1,
         });
 
 
@@ -157,6 +192,37 @@ export class ShowSwapComponent implements AfterViewInit,OnDestroy,OnInit {
         console.log(error);
       }
     );
+
+
+
+  }
+  rejectSwapReq(id)
+  {
+
+
+    // const token=this.token.get();
+    //
+    // this.http.post(Constants.API_URL+'swap/acceptSwapReq'+'?token='+token,{'id':id}).subscribe(data1 => {
+    //
+    //
+    //     $.alert({
+    //       title: 'Msg',
+    //       content: data1,
+    //     });
+    //
+    //
+    //
+    //     this.rerender();
+    //
+    //
+    //
+    //
+    //
+    //   },
+    //   error => {
+    //     console.log(error);
+    //   }
+    // );
 
 
 

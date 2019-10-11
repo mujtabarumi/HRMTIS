@@ -150,7 +150,9 @@ export class JoiningInfoComponent implements OnInit {
       return false;
     }else {
 
-       console.log(this.employeeJoiningForm);
+
+      // console.log(this.employeeJoiningForm);
+
       this.employeeJoiningForm.weekend=this.selectedItems;
 
 
