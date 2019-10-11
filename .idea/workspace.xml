@@ -3,8 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="79f3b666-98ca-415d-99bb-8f59ccc47ed0" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/shiftController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/shiftController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/configuration/edit-assigned-shift/edit-assigned-shift.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/configuration/edit-assigned-shift/edit-assigned-shift.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/resources/views/Excel/Final_Report_1.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/resources/views/Excel/Final_Report_1.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/resources/views/Excel/Final_Report_3.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/resources/views/Excel/Final_Report_3.blade.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -149,7 +149,7 @@
       <workItem from="1570430175246" duration="18113000" />
       <workItem from="1570603387325" duration="19797000" />
       <workItem from="1570687409952" duration="21998000" />
-      <workItem from="1570776208790" duration="7931000" />
+      <workItem from="1570776208790" duration="12349000" />
     </task>
     <servers />
   </component>
