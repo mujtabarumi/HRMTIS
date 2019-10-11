@@ -276,33 +276,45 @@ export class EditAssignedShiftComponent implements OnInit {
 
 
   }
-  submitFuture() // Assign roster for future date
+  submitFuture()// Assign roster for future date
   {
-    this.futureShift.empId=this.selectedItems[0]['empid'];
-    this.futureShift.startDate=new Date(this.futureShift.startDate).toLocaleDateString();
-    this.futureShift.endDate=new Date(this.futureShift.endDate).toLocaleDateString();
-    this.futureShift.futureStartDate=new Date(this.futureShift.futureStartDate).toLocaleDateString();
-    this.futureShift.futureEndDate=new Date(this.futureShift.futureEndDate).toLocaleDateString();
+    let form={
+      empId:this.selectedItems[0]['empid'],
+      startDate:new Date(this.futureShift.startDate).toLocaleDateString(),
+      endDate:new Date(this.futureShift.endDate).toLocaleDateString(),
+      futureStartDate:new Date(this.futureShift.futureStartDate).toLocaleDateString(),
+      futureEndDate:new Date(this.futureShift.futureEndDate).toLocaleDateString(),
 
-   // console.log(this.futureShift);
+    };
+    // this.futureShift.empId=this.selectedItems[0]['empid'];
+    // this.futureShift.startDate=new Date(this.futureShift.startDate).toLocaleDateString();
+    // this.futureShift.endDate=new Date(this.futureShift.endDate).toLocaleDateString();
+    // this.futureShift.futureStartDate=new Date(this.futureShift.futureStartDate).toLocaleDateString();
+    // this.futureShift.futureEndDate=new Date(this.futureShift.futureEndDate).toLocaleDateString();
+
+
 
 
     const token=this.token.get();
 
-    this.http.post(Constants.API_URL+'shift/AssignFutureShift'+'?token='+token,this.futureShift).subscribe(data1 => {
+    this.http.post(Constants.API_URL+'shift/AssignFutureShift'+'?token='+token,form).subscribe(data4 => {
 
-      this.findAttendence();
-      console.log(data1);
+     // this.findAttendence();
+      console.log(data4);
 
       $.alert({
           title: 'Success',
           content: 'Update Successfull',
         });
 
-        this.futureShift=[];
+
         this.selectedItems2=[];
         this.shiftObj.adjustment=false;
         this.modalRef.close();
+        this.futureShift=[];
+        this.findAttendence();
+
+
 
 
 
@@ -408,7 +420,7 @@ export class EditAssignedShiftComponent implements OnInit {
 
       this.http.post(Constants.API_URL+'dateRanges/AssignedShift'+'?token='+token,form).subscribe(data1 => {
           this.assignedLog=data1;
-          console.log(data1);
+        //  console.log(data1);
 
 
 
@@ -530,6 +542,7 @@ export class EditAssignedShiftComponent implements OnInit {
 
 
 
+
           },
           error => {
             console.log(error);
@@ -567,6 +580,7 @@ export class EditAssignedShiftComponent implements OnInit {
             this.selectedItems2=[];
             this.shiftObj.adjustment=false;
             this.modalRef.close();
+
 
 
 
@@ -638,6 +652,7 @@ export class EditAssignedShiftComponent implements OnInit {
   {
 
     this.shiftObj.empId = this.selectedItems[0]['empid'];
+
 
     this.modalRef = this.modalService.open(future, {size: 'lg',backdrop:'static'});
 
@@ -786,6 +801,7 @@ export class EditAssignedShiftComponent implements OnInit {
           this.selectedItems2=[];
           this.shiftObj.adjustment=false;
           this.modalRef.close();
+
         },
         error => {
           console.log(error);
@@ -827,6 +843,7 @@ export class EditAssignedShiftComponent implements OnInit {
           this.selectedItems2=[];
           this.shiftObj.adjustment=false;
           this.modalRef.close();
+
         },
         error => {
           console.log(error);
@@ -1031,6 +1048,9 @@ export class EditAssignedShiftComponent implements OnInit {
     this.shiftObj.adjustment=false;
     this.modalRef.close();
 
+  }
+  reload(){
+    this.router.navigate(["configuration/shift/edit-assign"]);
   }
 
   // openLg(content) {

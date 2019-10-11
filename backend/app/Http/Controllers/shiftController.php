@@ -400,7 +400,6 @@ class shiftController extends Controller
     public function AssignFutureShift(Request $r)
     {
 
-        return $r;
 
         $start=Carbon::parse($r->startDate);
         $end=Carbon::parse($r->endDate);
@@ -408,54 +407,116 @@ class shiftController extends Controller
         $futureStart=Carbon::parse($r->futureStartDate);
         $futureEnd=Carbon::parse($r->futureEndDate);
 
+      //  return $r;
+
          $dates1 = $this->getDatesFromRanges($start, $end);
          $dates2 = $this->getDatesFromRanges($futureStart, $futureEnd);
 
         $dates2 = collect($dates2);
         $dates1 = collect($dates1);
 
-        $result = $dates2->map(function ($a) use ($dates1,$r) {
-            $day = $a['day'];
-            $date = $a['date'];
+        foreach ($dates1 as $d1){
 
-            $res = $dates1->first(function ($val) use ($day,$r,$date) {
-               if ($val['day'] == $day){
-                   
-                   $oldLog=ShiftLog::where('startDate',$val['date'])->where('endDate',$val['date'])->where('fkemployeeId',$r->empId)->first();
+            foreach ($dates2 as $d2){
 
-                   if ($oldLog)
-                   {
+                if ($d1['day']==$d2['day'])
+                {
 
-                       if (!$oldLog->holiday){
+                    $deleteOldS=ShiftLog::whereDate('startDate',$d2['date'])->whereDate('endDate',$d2['date'])->where('fkemployeeId',$r->empId)->first();
+                       if ($deleteOldS)
+                       {
 
-                           $newLog=new ShiftLog();
-
-                           $newLog->fkemployeeId=$r->empId;
-                           $newLog->startDate=$date;
-                           $newLog->endDate=$date;
-                           $newLog->inTime=$oldLog->inTime;
-                           $newLog->outTime=$oldLog->outTime;
-                           $newLog->fkshiftId=$oldLog->fkshiftId;
-                           //$newLog->adjustmentDate=$oldLog->adjustmentDate;
-                           if($oldLog->weekend){
-
-                               $newLog->weekend=$date;
-
-                           }
-
-
-                           $newLog->save();
-
-
+                           $deleteOldS->delete();
                        }
 
-                   }
+                    $oldLog=ShiftLog::whereDate('startDate',$d1['date'])->whereDate('endDate',$d1['date'])->where('fkemployeeId',$r->empId)->first();
+
+                    if ($oldLog)
+                    {
+
+                        if (!$oldLog->holiday){
+
+                            $newLog=new ShiftLog();
+
+                            $newLog->fkemployeeId=$r->empId;
+                            $newLog->startDate=$d2['date'];
+                            $newLog->endDate=$d2['date'];
+                            $newLog->inTime=$oldLog->inTime;
+                            $newLog->outTime=$oldLog->outTime;
+                            $newLog->fkshiftId=$oldLog->fkshiftId;
+                            //$newLog->adjustmentDate=$oldLog->adjustmentDate;
+                            if($oldLog->weekend){
+
+                                $newLog->weekend=$d2['date'];
+
+                            }
 
 
-               }
-            });
+                            $newLog->save();
 
-        });
+
+                        }
+
+                    }
+
+
+
+                }
+
+            }
+
+        }
+
+//        $result = $dates2->map(function ($a) use ($dates1,$r) {
+//            $day = $a['day'];
+//            $date = $a['date'];
+//
+//            $res = $dates1->map(function ($val) use ($day,$r,$date) {
+//               if ($val['day'] == $day){
+//
+//                   $deleteOldS=ShiftLog::where('startDate',$date)->where('endDate',$date)->where('fkemployeeId',$r->empId)->first();
+//                   if ($deleteOldS)
+//                   {
+//
+//                       $deleteOldS->delete();
+//                   }
+//
+//
+//                   $oldLog=ShiftLog::where('startDate',$val['date'])->where('endDate',$val['date'])->where('fkemployeeId',$r->empId)->first();
+//
+//                   if ($oldLog)
+//                   {
+//
+//                       if (!$oldLog->holiday){
+//
+//                           $newLog=new ShiftLog();
+//
+//                           $newLog->fkemployeeId=$r->empId;
+//                           $newLog->startDate=$date;
+//                           $newLog->endDate=$date;
+//                           $newLog->inTime=$oldLog->inTime;
+//                           $newLog->outTime=$oldLog->outTime;
+//                           $newLog->fkshiftId=$oldLog->fkshiftId;
+//                           //$newLog->adjustmentDate=$oldLog->adjustmentDate;
+//                           if($oldLog->weekend){
+//
+//                               $newLog->weekend=$date;
+//
+//                           }
+//
+//
+//                           $newLog->save();
+//
+//
+//                       }
+//
+//                   }
+//
+//
+//               }
+//            });
+//
+//        });
 
     }
     public function setshiftLogweekend(Request $r){
