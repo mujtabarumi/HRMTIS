@@ -17,13 +17,24 @@ class swapController extends Controller
 {
     public function getAllswapRequest(Request $r)
     {
-        $getAllswapRequest=Swap::select('swap_details.*','shift_by.shiftName as shift_byName','shift_for.shiftName as shift_forName',DB::raw("CONCAT(COALESCE(empi.firstName,''),' ',COALESCE(empi.middleName,''),' ',COALESCE(empi.lastName,'')) AS empFullnameBy"),
+
+        $emp=Employee::select('fkDepartmentId','id')->where('fkUserId',Auth::user()->id)->first();
+
+
+         $getAllswapRequest=Swap::select('designations.title as userDesignationTitle','swap_details.*','shift_by.shiftName as shift_byName','shift_for.shiftName as shift_forName',DB::raw("CONCAT(COALESCE(empi.firstName,''),' ',COALESCE(empi.middleName,''),' ',COALESCE(empi.lastName,'')) AS empFullnameBy"),
                         DB::raw("CONCAT(COALESCE(empinfo.firstName,''),' ',COALESCE(empinfo.middleName,''),' ',COALESCE(empinfo.lastName,'')) AS empFullnameFor"))
 
             ->leftJoin('shift as shift_by','shift_by.shiftId','swap_details.swap_by_shift')
             ->leftJoin('shift as shift_for','shift_for.shiftId','swap_details.swap_for_shift')
+            ->leftJoin('employeeinfo as empinfoUser',function($join) use($emp) {
+                $join->where('empinfoUser.id', '=', $emp['id']);
+            })
+
+            ->leftJoin('designations','designations.id','empinfoUser.fkDesignation')
             ->leftJoin('employeeinfo as empi','empi.id','swap_details.swap_by')
             ->leftJoin('employeeinfo as empinfo','empinfo.id','swap_details.swap_for');
+
+
 
 
         $datatables = Datatables::of($getAllswapRequest);
@@ -160,9 +171,9 @@ class swapController extends Controller
 
         }elseif ($emp['designationTitle']==Swap_Accept_Access['Hr']){
 
-            if ($getSwapRequest->HR_adminApproval == null){
+            if ($getSwapRequest->HR_adminApproval == null || $getSwapRequest->HR_adminApproval == '0'){
 
-                if ($getSwapRequest->departmentHeadApproval!=null)
+                if ($getSwapRequest->departmentHeadApproval!=null || $getSwapRequest->departmentHeadApproval!='0')
                 {
                     $getSwapRequest->HR_adminApproval=$emp['id'];
                     $getSwapRequest->save();
@@ -173,6 +184,60 @@ class swapController extends Controller
 
             }else{
                 $msg='You Already Approved This Req';
+            }
+
+        }
+
+
+        return response()->json($msg);
+
+
+
+
+
+
+    }
+    public function rejectSwapReq(Request $r)
+    {
+        $msg='';
+
+        $emp=Employee::select('employeeinfo.fkDepartmentId','employeeinfo.id','employeeinfo.fkDesignation',
+            'designations.title as designationTitle','departments.departmentName')
+            ->leftJoin('departments','departments.id','employeeinfo.fkDepartmentId')
+            ->leftJoin('designations','designations.id','employeeinfo.fkDesignation')
+            ->where('fkUserId',Auth::user()->id)->first();
+
+
+        $getSwapRequest=Swap::findOrFail($r->id);
+
+
+
+
+        if ($emp['designationTitle']==Swap_Accept_Access['Manager']) {
+
+            if ($getSwapRequest->departmentHeadApproval == '0') {
+                $msg = 'You Already Rejected This Req';
+            } else {
+                $getSwapRequest->departmentHeadApproval = 0;
+                $getSwapRequest->save();
+                $msg = 'Request Rejected';
+            }
+
+        }elseif ($emp['designationTitle']==Swap_Accept_Access['Hr']){
+
+            if ($getSwapRequest->HR_adminApproval == null || $getSwapRequest->departmentHeadApproval != 0){
+
+                if ($getSwapRequest->departmentHeadApproval!=null)
+                {
+                    $getSwapRequest->HR_adminApproval=0;
+                    $getSwapRequest->save();
+                    $msg='Request Rejrcted';
+                }else{
+                    $msg='Department Head did not Approved this req Yet';
+                }
+
+            }elseif($getSwapRequest->HR_adminApproval=='0'){
+                $msg='You Already Rejected This Req';
             }
 
         }
