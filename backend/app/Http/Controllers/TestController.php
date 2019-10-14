@@ -7,6 +7,7 @@ use App\Employee;
 use App\Leave;
 use App\OrganizationCalander;
 use App\ShiftLog;
+use App\TimeSwap;
 use DateTime;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -138,8 +139,7 @@ class TestController extends Controller
     }
     public function Rumi1(Request $r){
 
-
-
+        $array=array();
 
          $currentDate=Carbon::now()->format('Y-m-d');
 
@@ -175,8 +175,6 @@ class TestController extends Controller
 
 
 
-
-
                 if($results->where('employeeId',$allE->id)->where('attendanceDate',$currentDate)->first()->inTime <'20:00:00'){
 
                     if ($results->where('employeeId',$allE->id)->where('attendanceDate',$currentDate)
@@ -188,7 +186,15 @@ class TestController extends Controller
                             ->where('fkAttDevice',$allE->inDeviceNo)->first()->inTime);
 
                         if ($access->diffInHours($ins) >= 4) {
-                            print_r($access->diffInHours($ins));
+
+                            $newArray=array(
+                              'date'=>$currentDate,
+                                'fkEmployeeId'=>$allE->id,
+                                'old_inTime'=>$ins,
+                                'accessTime'=>$access,
+                            );
+                            array_push($array,$newArray);
+
                         }
 
 
@@ -208,7 +214,13 @@ class TestController extends Controller
                             ->where('fkAttDevice',$allE->inDeviceNo)->first()->inTime);
 
                         if ($access->diffInHours($ins) >= 4){
-                            print_r($access->diffInHours($ins));
+                            $newArray=array(
+                                'date'=>$currentDate,
+                                'fkEmployeeId'=>$allE->id,
+                                'old_inTime'=>$ins,
+                                'accessTime'=>$access,
+                            );
+                            array_push($array,$newArray);
                         }
 
 
@@ -224,7 +236,14 @@ class TestController extends Controller
                             ->where('fkAttDevice',$allE->inDeviceNo)->first()->inTime);
 
                         if ($access->diffInHours($ins) >= 3){
-                            print_r($access->diffInHours($ins));
+
+                            $newArray=array(
+                                'date'=>$currentDate,
+                                'fkEmployeeId'=>$allE->id,
+                                'old_inTime'=>$ins,
+                                'accessTime'=>$access,
+                            );
+                            array_push($array,$newArray);
                         }
 
                     }
@@ -237,27 +256,46 @@ class TestController extends Controller
 
             }
 
-
-
-
-
-//            if ($aE->inTime != null){
-//
-//                AttendanceData::select('fkAttDevice',DB::raw("date_format(accessTime,'%Y-%m-%d') attendanceDate"),
-//                    DB::raw("date_format(accessTime,'%Y-%m-%d') attendanceDate"))
-//                    ->whereDate('accessTime',$currentDate)->;
-//
-//            }
-
-
-
         }
 
 
 
+        if (count($array)>0){
+
+            foreach ($array as $ar){
+
+                 try {
+
+                 //   $save=new TimeSwap();
+
+                    TimeSwap::firstOrCreate(
+                      ['fkEmployeeId'=>$ar['fkEmployeeId'],'date'=>$ar['date'],'accessTime'=>$ar['accessTime']],
+                      ['old_inTime'=>$ar['old_inTime'], 'status'=> '0']
+                    );
+
+//                    $save->fkEmployeeId=$ar['fkEmployeeId'];
+//                    $save->date=$ar['date'];
+//                    $save->old_inTime=$ar['old_inTime'];
+//                    $save->accessTime=$ar['accessTime'];
+//                    $save->status=0;
+//                    $save->save();
 
 
 
+                } catch (Exception $e) {
+
+
+
+                }
+
+
+            }
+
+
+
+
+
+        }
 
 
     }
