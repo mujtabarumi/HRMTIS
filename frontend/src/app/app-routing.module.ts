@@ -26,6 +26,7 @@ import { GovmentHolidayComponent } from './components/configuration/govment-holi
 import { ExtraWorkHistoryComponent } from './components/report/extra-work-history/extra-work-history.component';
 import { ShowSwapComponent } from './components/configuration/swap/show-swap/show-swap.component';
 import { RequestSwapComponent } from './components/configuration/swap/request-swap/request-swap.component';
+import { ShowTimeSwapComponent } from './components/configuration/swap/show-time-swap/show-time-swap.component';
 
 
 
@@ -65,6 +66,7 @@ const routes: Routes = [
     { path: 'adjustment/showAdjustment', component: ExtraWorkHistoryComponent,canActivate: [AuthService]  },
     { path: 'swap/showSwap', component: ShowSwapComponent,canActivate: [AuthService]  },
     { path: 'swap/RequestSwap', component: RequestSwapComponent,canActivate: [AuthService]  },
+    { path: 'swap/showTimeSwap', component: ShowTimeSwapComponent,canActivate: [AuthService]  },
 
 
 

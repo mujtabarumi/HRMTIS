@@ -81,94 +81,97 @@
 
                     <td class="Border"style="text-align: center;vertical-align: middle;" width="15">
 
-                        @if($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])->first()->inTime == null)
 
-                            {{
-                                \Carbon\Carbon::parse($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
-                                ->first()->accessTime2)->format('H:i')
-                            }}
 
-                        @elseif(
-                                        $results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])->first()->inTime != null  &&
-                                        $results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])->first()->outTime !=null &&
-                                        $results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])->first()->inTime <
-                                        $results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])->first()->outTime
-                               )
+                            @if($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])->first()->inTime == null)
 
-                                @if($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])->first()->inTime =='00:00:00')
+                                {{
+                                    \Carbon\Carbon::parse($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
+                                    ->first()->accessTime2)->format('H:i')
+                                }}
 
-                                    @if($results->where('employeeId',$allE->id)->where('attendanceDate',$previousday)
-                                    ->where('accessTime','>=','21:00:00')->where('fkAttDevice',$allE->inDeviceNo)->first())
+                            @elseif(
+                                            $results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])->first()->inTime != null  &&
+                                            $results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])->first()->outTime !=null &&
+                                            $results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])->first()->inTime <
+                                            $results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])->first()->outTime
+                                   )
 
-                                        @php
-                                            $FINALIN=\Carbon\Carbon::parse($results->where('employeeId',$allE->id)->where('attendanceDate',$previousday)
-                                                ->where('accessTime','>=','21:00:00')->where('fkAttDevice',$allE->inDeviceNo)->first()->accessTime2);
-                                        @endphp
+                                    @if($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])->first()->inTime =='00:00:00')
 
-                                        {{$FINALIN->format('H:i')}}
+                                        @if($results->where('employeeId',$allE->id)->where('attendanceDate',$previousday)
+                                        ->where('accessTime','>=','21:00:00')->where('fkAttDevice',$allE->inDeviceNo)->first())
 
-                                    @elseif($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
-                                                ->where('fkAttDevice',$allE->inDeviceNo)->first())
+                                            @php
+                                                $FINALIN=\Carbon\Carbon::parse($results->where('employeeId',$allE->id)->where('attendanceDate',$previousday)
+                                                    ->where('accessTime','>=','21:00:00')->where('fkAttDevice',$allE->inDeviceNo)->first()->accessTime2);
+                                            @endphp
+
+                                            {{$FINALIN->format('H:i')}}
+
+                                        @elseif($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
+                                                    ->where('fkAttDevice',$allE->inDeviceNo)->first())
+
+                                                    @php
+                                                        $FINALIN=\Carbon\Carbon::parse($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
+                                                            ->where('fkAttDevice',$allE->inDeviceNo)->first()->accessTime2);
+                                                    @endphp
+
+                                                    {{$FINALIN->format('H:i')}}
+
+                                        @endif
+
+                                    @else
+
+                                        @if($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])->first()->inTime < '09:00:00')
+
+                                            @if($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
+                                                        ->where('fkAttDevice',$allE->inDeviceNo)->where('accessTime','<','09:00:00')->first())
 
                                                 @php
                                                     $FINALIN=\Carbon\Carbon::parse($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
-                                                        ->where('fkAttDevice',$allE->inDeviceNo)->first()->accessTime2);
+                                                        ->where('fkAttDevice',$allE->inDeviceNo)->where('accessTime','<','09:00:00')->first()->accessTime2);
                                                 @endphp
 
                                                 {{$FINALIN->format('H:i')}}
 
-                                    @endif
+                                            @endif
+                                        @elseif($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])->first()->inTime >= '09:01:00' && $results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])->first()->inTime <= '18:00:00')
 
-                                @else
+                                            @if($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
+                                                        ->where('fkAttDevice',$allE->inDeviceNo)->where('accessTime','>=','09:01:00')->where('accessTime','<=','18:00:00')->first())
 
-                                    @if($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])->first()->inTime < '09:00:00')
+                                                @php
+                                                    $FINALIN=\Carbon\Carbon::parse($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
+                                                        ->where('fkAttDevice',$allE->inDeviceNo)->where('accessTime','>=','09:01:00')->where('accessTime','<=','18:00:00')->first()->accessTime2);
+                                                @endphp
 
-                                        @if($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
-                                                    ->where('fkAttDevice',$allE->inDeviceNo)->where('accessTime','<','09:00:00')->first())
+                                                {{$FINALIN->format('H:i')}}
 
-                                            @php
-                                                $FINALIN=\Carbon\Carbon::parse($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
-                                                    ->where('fkAttDevice',$allE->inDeviceNo)->where('accessTime','<','09:00:00')->first()->accessTime2);
-                                            @endphp
+                                            @endif
 
-                                            {{$FINALIN->format('H:i')}}
-
-                                        @endif
-                                    @elseif($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])->first()->inTime >= '09:01:00' && $results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])->first()->inTime <= '18:00:00')
-
-                                        @if($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
-                                                    ->where('fkAttDevice',$allE->inDeviceNo)->where('accessTime','>=','09:01:00')->where('accessTime','<=','18:00:00')->first())
-
-                                            @php
-                                                $FINALIN=\Carbon\Carbon::parse($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
-                                                    ->where('fkAttDevice',$allE->inDeviceNo)->where('accessTime','>=','09:01:00')->where('accessTime','<=','18:00:00')->first()->accessTime2);
-                                            @endphp
-
-                                            {{$FINALIN->format('H:i')}}
 
                                         @endif
 
-
                                     @endif
+
+                            @else
+
+                                @if($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])->where('fkAttDevice',$allE->inDeviceNo)
+                                        ->where('accessTime','>=','19:00:00')->first())
+
+                                    @php
+                                        $FINALIN=\Carbon\Carbon::parse($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
+                                        ->where('fkAttDevice',$allE->inDeviceNo)
+                                            ->where('accessTime','>=','19:00:00')->first()->accessTime2);
+                                    @endphp
+
+                                    {{$FINALIN->format('H:i')}}
 
                                 @endif
 
-                        @else
-
-                            @if($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])->where('fkAttDevice',$allE->inDeviceNo)
-                                    ->where('accessTime','>=','19:00:00')->first())
-
-                                @php
-                                    $FINALIN=\Carbon\Carbon::parse($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
-                                    ->where('fkAttDevice',$allE->inDeviceNo)
-                                        ->where('accessTime','>=','19:00:00')->first()->accessTime2);
-                                @endphp
-
-                                {{$FINALIN->format('H:i')}}
-
                             @endif
-
-                        @endif
+                        
 
                     </td>
                     <td class="Border"style="text-align: center;vertical-align: middle;" width="15">
@@ -545,6 +548,7 @@
 
 
                         </td>
+
                     @else
 
                         <td class="Border"class="cell" width="15">
@@ -552,9 +556,20 @@
                             @php
 
                                 $present++;
-                            $T_present=($T_present+$present);
+                                $T_present=($T_present+$present);
                             @endphp
-                            P
+
+                            @if($allTimeSwap->where('fkEmployeeId',$allE->id)->where('date',$date['date'])->first())
+
+
+                                Time Swaped
+
+
+
+                            @else
+
+                                P
+                            @endif
                         </td>
 
 
@@ -601,13 +616,25 @@
 
                                 @php
 
-                                    $govHoliday++;
+                                $govHoliday++;
                                 $T_govHoliday=($T_govHoliday+$govHoliday);
                                 @endphp
 
                                 Govt Holiday
 
                             </td>
+
+                        @elseif($dutySwap->where('swap_by_date',$date['date'])->where('swap_by',$allE->id)->first())
+
+                        <td class="cell Border" width="15">
+
+
+                            Duty swapped To {{Carbon\Carbon::parse($dutySwap->where('swap_by_date',$date['date'])->where('swap_by',$allE->id)->first()->swap_for_date)->format('Y-m-d')}}
+
+                        </td>
+
+
+
 
                         @else
 

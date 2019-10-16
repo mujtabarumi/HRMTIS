@@ -124,15 +124,19 @@ class TestController extends Controller
         return $time = microtime(true) - $start;
     }
 
-    public function Rumi($content){
+    public function Rumi(){
 
-        $path=public_path ()."/exportedExcel/Final Report.xlsx";
-        $filePath=public_path ()."/exportedExcel";
+        $allTimeSwap=TimeSwap::
+//            ->whereBetween('date', array($fromDate, $toDate))
+            where(function ($query) {
+                $query->where('departmentHeadApproval', '!=', '0')
+                    ->orWhere('departmentHeadApproval', '!=', null);
+            })->where(function ($query) {
+                $query->where('HR_adminApproval', '!=', '0')
+                    ->orWhere('HR_adminApproval', '!=', null);
+            })->get();
 
-        Excel::load($path, function ($excel) use ($content){
-
-
-        })->setFilename('shetName')->store('xls', $filePath);
+        return $allTimeSwap=collect($allTimeSwap);
 
         
 

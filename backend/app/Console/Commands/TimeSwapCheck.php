@@ -173,7 +173,7 @@ class TimeSwapCheck extends Command
 
                     TimeSwap::firstOrCreate(
                         ['fkEmployeeId'=>$ar['fkEmployeeId'],'date'=>$ar['date'],'accessTime'=>$ar['accessTime']],
-                        ['old_inTime'=>$ar['old_inTime'], 'status'=> '0']
+                        ['old_inTime'=>$ar['old_inTime']]
                     );
 
 //                    $save->fkEmployeeId=$ar['fkEmployeeId'];

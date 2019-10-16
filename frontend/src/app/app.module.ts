@@ -34,6 +34,7 @@ import { GovmentHolidayComponent } from './components/configuration/govment-holi
 import { ExtraWorkHistoryComponent } from './components/report/extra-work-history/extra-work-history.component';
 import { ShowSwapComponent } from './components/configuration/swap/show-swap/show-swap.component';
 import { RequestSwapComponent } from './components/configuration/swap/request-swap/request-swap.component';
+import { ShowTimeSwapComponent } from './components/configuration/swap/show-time-swap/show-time-swap.component';
 
 
 
@@ -69,6 +70,7 @@ import { RequestSwapComponent } from './components/configuration/swap/request-sw
     ExtraWorkHistoryComponent,
     ShowSwapComponent,
     RequestSwapComponent,
+    ShowTimeSwapComponent,
 
 
 

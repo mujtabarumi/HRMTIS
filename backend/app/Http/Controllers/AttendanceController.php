@@ -10,6 +10,8 @@ use App\Leave;
 use App\OrganizationCalander;
 use App\Shift;
 use App\ShiftLog;
+use App\Swap;
+use App\TimeSwap;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
@@ -448,6 +450,27 @@ class AttendanceController extends Controller {
 
         if ($r->empId) {
 
+            $dutySwap=Swap::whereIn('swap_by', $r->empId)->whereBetween('swap_by_date', array($fromDate, $toDate))
+                ->where(function ($query) {
+                    $query->where('departmentHeadApproval', '!=', '0')
+                        ->orWhere('departmentHeadApproval', '!=', null);
+                })->where(function ($query) {
+                    $query->where('HR_adminApproval', '!=', '0')
+                        ->orWhere('HR_adminApproval', '!=', null);
+                })->get();
+
+            $allTimeSwap=TimeSwap::whereIn('fkEmployeeId', $r->empId)
+                    ->whereBetween('date', array($fromDate, $toDate))
+                ->where(function ($query) {
+                    $query->where('departmentHeadApproval', '!=', '0')
+                        ->orWhere('departmentHeadApproval', '!=', null);
+                })->where(function ($query) {
+                    $query->where('HR_adminApproval', '!=', '0')
+                        ->orWhere('HR_adminApproval', '!=', null);
+                })->get();
+
+            $allTimeSwap=collect($allTimeSwap);
+
             $allLeave = Leave::leftJoin('leavecategories', 'leavecategories.id', '=', 'leaves.fkLeaveCategory')
                     ->where('applicationStatus', "Approved")
                     ->whereIn('leaves.fkEmployeeId', $r->empId)
@@ -502,6 +525,26 @@ class AttendanceController extends Controller {
             $results = collect($results);
         } else {
 
+            $dutySwap=Swap::whereIn('swap_by', $r->empId)->whereBetween('swap_by_date', array($fromDate, $toDate))
+                ->where(function ($query) {
+                    $query->where('departmentHeadApproval', '!=', '0')
+                        ->orWhere('departmentHeadApproval', '!=', null);
+                })->where(function ($query) {
+                    $query->where('HR_adminApproval', '!=', '0')
+                        ->orWhere('HR_adminApproval', '!=', null);
+                })->get();
+
+            $allTimeSwap=TimeSwap::whereBetween('date', array($fromDate, $toDate))
+                ->where(function ($query) {
+                    $query->where('departmentHeadApproval', '!=', '0')
+                        ->orWhere('departmentHeadApproval', '!=', null);
+                })->where(function ($query) {
+                    $query->where('HR_adminApproval', '!=', '0')
+                        ->orWhere('HR_adminApproval', '!=', null);
+                })->get();
+
+            $allTimeSwap=collect($allTimeSwap);
+
             $allLeave = Leave::leftJoin('leavecategories', 'leavecategories.id', '=', 'leaves.fkLeaveCategory')
                     ->where('applicationStatus', "Approved")
                     ->whereBetween('startDate', array($fromDate, $toDate))
@@ -549,12 +592,12 @@ class AttendanceController extends Controller {
         }
 
         $check = Excel::create($fileName, function ($excel) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate, $endDate, $allLeave, $allHoliday,
-            $allWeekend,$govtHoliday) {
+            $allWeekend,$govtHoliday,$allTimeSwap,$dutySwap) {
 
                     foreach ($allEmp as $allE) {
 
                         $excel->sheet($allE->attDeviceUserId, function ($sheet) use ($results, $allE, $dates, $allEmp, $fromDate, $toDate, $startDate,
-                                $endDate, $allLeave, $allHoliday, $allWeekend,$govtHoliday) {
+                                $endDate, $allLeave, $allHoliday, $allWeekend,$govtHoliday,$allTimeSwap,$dutySwap) {
 
                             $sheet->freezePane('B5');
 //                            $sheet->setpaperSize(5);
@@ -569,7 +612,7 @@ class AttendanceController extends Controller {
                             ));
 
                             $sheet->loadView('Excel.Final_Report_1', compact('results', 'allE', 'fromDate', 'toDate', 'dates', 'allEmp',
-                                'startDate', 'endDate', 'allLeave', 'allWeekend', 'allHoliday','govtHoliday'));
+                                'startDate', 'endDate', 'allLeave', 'allWeekend', 'allHoliday','govtHoliday','allTimeSwap','dutySwap'));
                         });
                     }
                 })->store('xls', $filePath);
