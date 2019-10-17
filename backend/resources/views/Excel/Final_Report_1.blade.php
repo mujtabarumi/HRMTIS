@@ -121,15 +121,33 @@
 
                                 @else
 
-                                    @if($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
-                                                ->where('fkAttDevice',$allE->inDeviceNo)->first())
+                                    @if($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])->first()->inTime < '11:00:00')
 
-                                        @php
-                                            $FINALIN=\Carbon\Carbon::parse($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
-                                                ->where('fkAttDevice',$allE->inDeviceNo)->first()->accessTime2);
-                                        @endphp
+                                        @if($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
+                                                    ->where('fkAttDevice',$allE->inDeviceNo)->first())
 
-                                        {{$FINALIN->format('H:i')}}
+                                            @php
+                                                $FINALIN=\Carbon\Carbon::parse($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
+                                                    ->where('fkAttDevice',$allE->inDeviceNo)->first()->accessTime2);
+                                            @endphp
+
+                                            {{$FINALIN->format('H:i')}}
+
+                                        @endif
+                                    @elseif($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])->first()->inTime >= '11:01:00' && $results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])->first()->inTime <= '18:00:00')
+
+                                        @if($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
+                                                    ->where('fkAttDevice',$allE->inDeviceNo)->where('accessTime','>=','11:01:00')->where('accessTime','<=','18:00:00')->first())
+
+                                            @php
+                                                $FINALIN=\Carbon\Carbon::parse($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
+                                                    ->where('fkAttDevice',$allE->inDeviceNo)->where('accessTime','>=','11:01:00')->where('accessTime','<=','18:00:00')->first()->accessTime2);
+                                            @endphp
+
+                                            {{$FINALIN->format('H:i')}}
+
+                                        @endif
+
 
                                     @endif
 
@@ -300,33 +318,70 @@
 
                             @else
 
-                                @if($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
-                                        ->where('fkAttDevice',$allE->inDeviceNo)->first())
+                                @if($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])->first()->inTime < '11:00:00')
 
-                                    @php
-                                        $access=\Carbon\Carbon::parse($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
-                                            ->where('fkAttDevice',$allE->inDeviceNo)->first()->accessTime);
-                                        $ins=\Carbon\Carbon::parse($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
-                                                ->first()->inTime)
-                                    @endphp
+                                    @if($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
+                                            ->where('fkAttDevice',$allE->inDeviceNo)->first())
 
-                                    @if($access > $ins)
+                                        @php
+                                            $access=\Carbon\Carbon::parse($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
+                                                ->where('fkAttDevice',$allE->inDeviceNo)->first()->accessTime);
+                                            $ins=\Carbon\Carbon::parse($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
+                                                    ->first()->inTime)
+                                        @endphp
 
-                                        @if($access->diffInMinutes($ins) >= 21 )
+                                        @if($access > $ins)
 
-                                            @php
-                                                $late++;
-                                                $T_late=($T_late+$late);
-                                                $LateHour=$access->diffInMinutes($ins);
-                                                $T_LateHour=($LateHour+$T_LateHour);
-                                            @endphp
+                                            @if($access->diffInMinutes($ins) >= 21 )
 
-                                            {{$access->diff($ins)->format('%H:%i')}}
+                                                @php
+                                                    $late++;
+                                                    $T_late=($T_late+$late);
+                                                    $LateHour=$access->diffInMinutes($ins);
+                                                    $T_LateHour=($LateHour+$T_LateHour);
+                                                @endphp
 
+                                                {{$access->diff($ins)->format('%H:%i')}}
+
+                                            @endif
                                         @endif
+
+
+
+
                                     @endif
+                                @elseif($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])->first()->inTime >= '11:01:00' && $results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])->first()->inTime <= '18:00:00')
+
+                                    @if($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
+                                                ->where('fkAttDevice',$allE->inDeviceNo)->where('accessTime','>=','11:01:00')->where('accessTime','<=','18:00:00')->first())
 
 
+                                        @php
+                                            $access=\Carbon\Carbon::parse($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
+                                                ->where('fkAttDevice',$allE->inDeviceNo)->where('accessTime','>=','11:01:00')->where('accessTime','<=','18:00:00')->first()->accessTime);
+                                            $ins=\Carbon\Carbon::parse($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
+                                                ->where('accessTime','>=','11:01:00')->where('accessTime','<=','18:00:00')
+                                                    ->first()->inTime)
+                                        @endphp
+
+                                        @if($access > $ins)
+
+                                            @if($access->diffInMinutes($ins) >= 21 )
+
+                                                @php
+                                                    $late++;
+                                                    $T_late=($T_late+$late);
+                                                    $LateHour=$access->diffInMinutes($ins);
+                                                    $T_LateHour=($LateHour+$T_LateHour);
+                                                @endphp
+
+                                                {{$access->diff($ins)->format('%H:%i')}}
+
+                                            @endif
+                                        @endif
+
+
+                                    @endif
 
 
                                 @endif
@@ -339,14 +394,16 @@
                        @else
 
                                 @if($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
-                                    ->where('fkAttDevice',$allE->inDeviceNo)->where('accessTime','<=','23:59:59')->first())
+                                    ->where('fkAttDevice',$allE->inDeviceNo)->where('accessTime','>=','19:00:00')->where('accessTime','<=','23:59:59')->first())
 
                                         @php
                                             $access=\Carbon\Carbon::parse($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
-                                                ->where('fkAttDevice',$allE->inDeviceNo)->where('accessTime','<=','23:59:59')->first()->accessTime);
+                                                ->where('fkAttDevice',$allE->inDeviceNo)->where('accessTime','>=','19:00:00')->where('accessTime','<=','23:59:59')->first()->accessTime);
                                             $ins=\Carbon\Carbon::parse($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
                                                     ->first()->inTime)
                                         @endphp
+
+                                    @if($access > $ins)
 
                                         @if($access->diffInMinutes($ins) >= 21 )
 
@@ -360,6 +417,7 @@
                                             {{$access->diff($ins)->format('%H:%i')}}
 
                                         @endif
+                                     @endif
 
 
 
