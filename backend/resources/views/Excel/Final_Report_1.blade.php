@@ -53,14 +53,14 @@
 
     @php
         $T_roundworkinghour=null;$T_weekendcount=0;$T_adjustment=0;$finalholiDay=0;$T_weekend=0;$T_late=0;$T_LateHour=0;$T_FinalWorkHour=0;
-    $T_offDay=0;$T_govHoliday=0;$T_leave=0;$T_absent=0;$T_present=0;
+    $T_offDay=0;$T_govHoliday=0;$T_leave=0;$T_absent=0;$T_present=0;$T_Swap=0;$T_timeSwap=0;
     @endphp
 
     @foreach($dates as $date)
 
         @php
             $FINALIN=null;$FINALOUT=null;$FINALWORKINGHOUR=null;$ROUNDFINALWORKINGHOUR=null;$weekendCount=0;$adjustment=0;$holiDay=0;$next=false;
-            $weekend=0;$late=0;$LateHour=0;$FINALWORKINGHOUR2=0;$offDay=0;$govHoliday=0;$leave=0;$absent=0;$present=0;
+            $weekend=0;$late=0;$LateHour=0;$FINALWORKINGHOUR2=0;$offDay=0;$govHoliday=0;$leave=0;$absent=0;$present=0;$Swap=0;$timeSwap=0;
 
         @endphp
 
@@ -171,7 +171,7 @@
                                 @endif
 
                             @endif
-                        
+
 
                     </td>
                     <td class="Border"style="text-align: center;vertical-align: middle;" width="15">
@@ -561,10 +561,14 @@
 
                             @if($allTimeSwap->where('fkEmployeeId',$allE->id)->where('date',$date['date'])->first())
 
+                                @php
+
+                                    $present++;
+                                    $T_present=($T_present+$present);
+                                @endphp
+
 
                                 Time Swaped
-
-
 
                             @else
 
@@ -624,12 +628,30 @@
 
                             </td>
 
-                        @elseif($dutySwap->where('swap_by_date',$date['date'])->where('swap_by',$allE->id)->first())
+                        @elseif($dutySwap->where('swap_by',$allE->id)->where('swap_by_date',$date['date'])->first())
 
                         <td class="cell Border" width="15">
 
+                            @php
+                                $Swap++;
+                                $T_Swap=($Swap+$T_Swap)
+                            @endphp
+
 
                             Duty swapped To {{Carbon\Carbon::parse($dutySwap->where('swap_by_date',$date['date'])->where('swap_by',$allE->id)->first()->swap_for_date)->format('Y-m-d')}}
+
+                        </td>
+                        @elseif($dutySwap->where('swap_for',$allE->id)->where('swap_for_date',$date['date'])->first())
+
+                        <td class="cell Border" width="15">
+
+                            @php
+                                $Swap++;
+                                $T_Swap=($Swap+$T_Swap)
+                            @endphp
+
+
+                            Duty swapped To {{Carbon\Carbon::parse($dutySwap->where('swap_for_date',$date['date'])->where('swap_for',$allE->id)->first()->swap_by_date)->format('Y-m-d')}}
 
                         </td>
 
@@ -642,8 +664,8 @@
                             <td class="cell Border" style="background-color:#ff0000;color: #ffffff;" width="15">
 
                                 @php
-                                    $absent++;
-                                    $T_absent=($absent+$T_absent)
+                                    $timeSwap++;
+                                    $T_timeSwap=($timeSwap+$T_timeSwap)
                                 @endphp
 
                                 Absent
@@ -675,7 +697,7 @@
 
         $offDay=0;$govHoliday=0;
         $leave=0;
-$present=0;$absent=0;
+$present=0;$absent=0;$Swap=0;$timeSwap=0;
 
 
 
@@ -719,6 +741,8 @@ $present=0;$absent=0;
 
                 Total Absent ={{$T_absent}}<br>
                 Total Present ={{$T_present}}<br>
+                Total Duty Swap ={{$T_Swap}}<br>
+                Total Time Swap ={{$T_timeSwap}}<br>
 
 
 

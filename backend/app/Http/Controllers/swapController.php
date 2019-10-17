@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Department;
 use App\Employee;
 use App\Shift;
+use App\ShiftLog;
 use App\Swap;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -151,9 +152,7 @@ class swapController extends Controller
             ->where('fkUserId',Auth::user()->id)->first();
 
 
-        $getSwapRequest=Swap::findOrFail($r->id);
-
-
+         $getSwapRequest=Swap::findOrFail($r->id);
 
 
         if ($emp['designationTitle']==Swap_Accept_Access['Manager']){
@@ -178,6 +177,73 @@ class swapController extends Controller
                     $getSwapRequest->HR_adminApproval=$emp['id'];
                     $getSwapRequest->save();
                     $msg='Request Accepted';
+
+                    $changShiftLog=ShiftLog::where('fkemployeeId',$getSwapRequest->swap_by)->where('startDate',$getSwapRequest->swap_by_date)
+                        ->where('endDate',$getSwapRequest->swap_by_date)->first();
+
+                    if ($changShiftLog){
+
+//                        $changShiftLog->startDate=$getSwapRequest->swap_for_date;
+//                        $changShiftLog->endDate=$getSwapRequest->swap_for_date;
+//                        $changShiftLog->fkshiftId=$getSwapRequest->swap_for_shift;
+//
+//                        $changShiftLog->inTime=$getSwapRequest->swap_for_inTime;
+//                        $changShiftLog->outTime=$getSwapRequest->swap_for_outTime;
+
+                        $changShiftLog->swapWtihDate=$getSwapRequest->swap_for_date;
+
+                        $changShiftLog->save();
+
+                    }
+
+                    $chdL=ShiftLog::firstOrNew(array('fkemployeeId' => $getSwapRequest->swap_by,'startDate'=>$getSwapRequest->swap_for_date,
+                        'endDate'=>$getSwapRequest->swap_for_date,));
+
+                    $chdL->inTime=$getSwapRequest->swap_for_inTime;
+                    $chdL->outTime=$getSwapRequest->swap_for_outTime;
+
+                    $chdL->save();
+
+
+
+                    $chenagedForShift=ShiftLog::where('fkemployeeId',$getSwapRequest->swap_for)->where('startDate',$getSwapRequest->swap_for_date)
+                        ->where('endDate',$getSwapRequest->swap_for_date)->first();
+
+                    if ($chenagedForShift){
+
+
+                        $chenagedForShift->swapWtihDate=$getSwapRequest->swap_by_date;
+
+                        $chenagedForShift->save();
+
+                    }
+
+                    $chdL1=ShiftLog::firstOrNew(array('fkemployeeId' => $getSwapRequest->swap_for,'startDate'=>$getSwapRequest->swap_by_date,
+                        'endDate'=>$getSwapRequest->swap_by_date,));
+
+                    $chdL1->inTime=$getSwapRequest->swap_by_inTime;
+                    $chdL1->outTime=$getSwapRequest->swap_by_outTime;
+
+                    $chdL1->save();
+
+
+
+//                    ShiftLog::updateOrCreate([
+//                        'fkemployeeId'=>$getSwapRequest->swap_for,
+//                        'startDate'=>$getSwapRequest->swap_by_date,
+//                        'endDate'=>$getSwapRequest->swap_by_date,
+//                    ],[
+//                        'inTime'=>$getSwapRequest->swap_by_inTime,
+//                        'outTime'=>$getSwapRequest->swap_by_outTime,
+//                    ]);
+
+
+
+
+
+
+
+
                 }else{
                     $msg='Department Head did not Approved this req Yet';
                 }
@@ -187,6 +253,8 @@ class swapController extends Controller
             }
 
         }
+
+
 
 
         return response()->json($msg);

@@ -257,6 +257,8 @@ export class ShowSwapComponent implements AfterViewInit,OnDestroy,OnInit {
 
         this.rerender();
 
+    //  console.log(data1);
+
 
 
 

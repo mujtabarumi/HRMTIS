@@ -124,24 +124,13 @@ class TestController extends Controller
         return $time = microtime(true) - $start;
     }
 
-    public function Rumi(){
+    public function Rumi()
+    {
 
-        $allTimeSwap=TimeSwap::
-//            ->whereBetween('date', array($fromDate, $toDate))
-            where(function ($query) {
-                $query->where('departmentHeadApproval', '!=', '0')
-                    ->orWhere('departmentHeadApproval', '!=', null);
-            })->where(function ($query) {
-                $query->where('HR_adminApproval', '!=', '0')
-                    ->orWhere('HR_adminApproval', '!=', null);
-            })->get();
-
-        return $allTimeSwap=collect($allTimeSwap);
-
-        
 
     }
-    public function Rumi1(Request $r){
+    public function Rumi1(Request $r)
+    {
 
         $array=array();
 

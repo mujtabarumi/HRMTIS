@@ -768,9 +768,6 @@ class AttendanceController extends Controller {
         })->store('xls', $filePath);
 
 
-
-
-
         return response()->json($fileName);
     }
 

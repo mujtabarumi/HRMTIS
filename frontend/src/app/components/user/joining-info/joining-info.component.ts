@@ -44,6 +44,10 @@ export class JoiningInfoComponent implements OnInit {
   selectedItems = [];
   dropdownSettings = {};
 
+  // deviceList=[];
+  // selectedDeviceList = [];
+  // deviceListSettings={};
+
   constructor(public http: HttpClient, private token:TokenService,private router: Router) { }
 
   ngOnInit() {
