@@ -167,6 +167,7 @@ Route::group([
     Route::post('swap/getEmpSwapReq','swapController@getEmpSwapReq');
     Route::post('swap/editSwapRequest','swapController@editSwapRequest');
     Route::post('swap/acceptSwapReq','swapController@acceptSwapReq');
+    Route::post('swap/rejectSwapReq','swapController@rejectSwapReq');
 
     /*empDesignation */
 

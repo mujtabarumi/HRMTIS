@@ -33,6 +33,7 @@ export class ShowSwapComponent implements AfterViewInit,OnDestroy,OnInit {
   ngOnInit() {
     this.getSwapData();
 
+
   }
   getSwapData(){
 
@@ -71,15 +72,19 @@ export class ShowSwapComponent implements AfterViewInit,OnDestroy,OnInit {
           {
             if (data.departmentHeadApproval==null){
               return 'Department Head Approval Pending';
-            }else if(data.departmentHeadApproval!=null) {
-              if (data.HR_adminApproval==null){
+            }if (data.departmentHeadApproval==0){
+            return 'Rejected by Department Head';
+          }else if(data.departmentHeadApproval!=null && data.departmentHeadApproval !=0) {
+            if (data.HR_adminApproval==null){
 
-                return 'HR Approval Pending';
+              return 'HR Approval Pending';
 
-              }else if (data.HR_adminApproval!=null){
-                return 'Approved';
-              }
+            }else if (data.HR_adminApproval!=null && data.HR_adminApproval !=0){
+              return 'Approved';
+            }else if (data.HR_adminApproval ==0){
+              return 'Rejected by Hr/Admin';
             }
+          }
           },
           "orderable": false, "searchable":false, "name":"selected_rows"
         },
@@ -90,18 +95,87 @@ export class ShowSwapComponent implements AfterViewInit,OnDestroy,OnInit {
           "data": function (data: any, type: any, full: any) {
 
 
-                return '<div class="dropdown">\n' +
-                  '  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">\n' +
-                  '  </button>\n' +
-                  '  <div class="dropdown-menu">\n' +
-                  '    <button class="dropdown-item" data-edit-id="'+data.id+'" >Edit</button>\n' +
-                  '    <button class="dropdown-item" data-Accept-id="'+data.id+'" >Accept</button>\n' +
-                  '    <button class="dropdown-item" data-Reject-id="'+data.id+'" >Reject</button>\n' +
+            if (data.userDesignationTitle == Constants.manager && data.departmentHeadApproval == null){
 
-                  '  </div>\n' +
-                  '</div>';
+              return '<div class="dropdown">\n' +
+                '  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">\n' +
+                '  </button>\n' +
+                '  <div class="dropdown-menu">\n' +
+                '    <button class="dropdown-item" data-edit-id="'+data.id+'" >Edit</button>\n' +
+                '    <button class="dropdown-item" data-Accept-id="'+data.id+'" >Accept</button>\n' +
+                '    <button class="dropdown-item" data-Reject-id="'+data.id+'" >Reject</button>\n' +
 
+                '  </div>\n' +
+                '</div>';
 
+            }else if (data.userDesignationTitle == Constants.manager && data.departmentHeadApproval != null && data.departmentHeadApproval !=0){
+
+              return '<div class="dropdown">\n' +
+                '  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">\n' +
+                '  </button>\n' +
+                '  <div class="dropdown-menu">\n' +
+                '    <button class="dropdown-item" data-edit-id="'+data.id+'" >Edit</button>\n' +
+
+                '    <button class="dropdown-item" data-Reject-id="'+data.id+'" >Reject</button>\n' +
+
+                '  </div>\n' +
+                '</div>';
+
+            } else if (data.userDesignationTitle == Constants.manager && data.departmentHeadApproval ==0){
+
+              return '<div class="dropdown">\n' +
+                '  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">\n' +
+                '  </button>\n' +
+                '  <div class="dropdown-menu">\n' +
+                '    <button class="dropdown-item" data-edit-id="'+data.id+'" >Edit</button>\n' +
+
+                '    <button class="dropdown-item" data-Accept-id="'+data.id+'" >Accept</button>\n' +
+
+                '  </div>\n' +
+                '</div>';
+
+            }else if (data.userDesignationTitle == Constants.HR && data.HR_adminApproval == null && data.departmentHeadApproval != null && data.departmentHeadApproval !=0){
+
+              return '<div class="dropdown">\n' +
+                '  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">\n' +
+                '  </button>\n' +
+                '  <div class="dropdown-menu">\n' +
+                '    <button class="dropdown-item" data-edit-id="'+data.id+'" >Edit</button>\n' +
+                '    <button class="dropdown-item" data-Accept-id="'+data.id+'" >Accept</button>\n' +
+                '    <button class="dropdown-item" data-Reject-id="'+data.id+'" >Reject</button>\n' +
+
+                '  </div>\n' +
+                '</div>';
+
+            }else if (data.userDesignationTitle == Constants.HR && data.HR_adminApproval != null && data.HR_adminApproval != 0 && data.departmentHeadApproval != null && data.departmentHeadApproval !=0){
+
+              return '<div class="dropdown">\n' +
+                '  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">\n' +
+                '  </button>\n' +
+                '  <div class="dropdown-menu">\n' +
+                '    <button class="dropdown-item" data-edit-id="'+data.id+'" >Edit</button>\n' +
+
+                '    <button class="dropdown-item" data-Reject-id="'+data.id+'" >Reject</button>\n' +
+
+                '  </div>\n' +
+                '</div>';
+
+            }else if (data.userDesignationTitle == Constants.HR && data.HR_adminApproval == 0 && data.departmentHeadApproval != null && data.departmentHeadApproval !=0){
+
+              return '<div class="dropdown">\n' +
+                '  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">\n' +
+                '  </button>\n' +
+                '  <div class="dropdown-menu">\n' +
+                '    <button class="dropdown-item" data-edit-id="'+data.id+'" >Edit</button>\n' +
+
+                '    <button class="dropdown-item" data-Accept-id="'+data.id+'" >Accept</button>\n' +
+
+                '  </div>\n' +
+                '</div>';
+
+            }else {
+              return '';
+            }
 
           },
           "orderable": false, "searchable":false, "name":"selected_rows"
@@ -200,29 +274,27 @@ export class ShowSwapComponent implements AfterViewInit,OnDestroy,OnInit {
   {
 
 
-    // const token=this.token.get();
-    //
-    // this.http.post(Constants.API_URL+'swap/acceptSwapReq'+'?token='+token,{'id':id}).subscribe(data1 => {
-    //
-    //
-    //     $.alert({
-    //       title: 'Msg',
-    //       content: data1,
-    //     });
-    //
-    //
-    //
-    //     this.rerender();
-    //
-    //
-    //
-    //
-    //
-    //   },
-    //   error => {
-    //     console.log(error);
-    //   }
-    // );
+    const token=this.token.get();
+
+    this.http.post(Constants.API_URL+'swap/rejectSwapReq'+'?token='+token,{'id':id}).subscribe(data1 => {
+
+
+        // $.alert({
+        //   title: 'Msg',
+        //   content: data1,
+        // });
+
+        console.log(data1);
+
+
+        this.rerender();
+
+
+      },
+      error => {
+        console.log(error);
+      }
+    );
 
 
 

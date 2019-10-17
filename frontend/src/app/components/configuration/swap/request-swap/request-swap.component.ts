@@ -231,13 +231,17 @@ export class RequestSwapComponent implements  AfterViewInit,OnDestroy,OnInit {
           {
             if (data.departmentHeadApproval==null){
               return 'Department Head Approval Pending';
-            }else if(data.departmentHeadApproval!=null) {
+            }if (data.departmentHeadApproval==0){
+              return 'Rejected by Department Head';
+            }else if(data.departmentHeadApproval!=null && data.departmentHeadApproval !=0) {
               if (data.HR_adminApproval==null){
 
                 return 'HR Approval Pending';
 
-              }else if (data.HR_adminApproval!=null){
+              }else if (data.HR_adminApproval!=null && data.HR_adminApproval !=0){
                 return 'Approved';
+              }else if (data.HR_adminApproval ==0){
+                return 'Rejected by Hr/Admin';
               }
             }
           },
