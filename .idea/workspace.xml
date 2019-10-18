@@ -2,15 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="79f3b666-98ca-415d-99bb-8f59ccc47ed0" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/resources/views/Excel/multiShift_sumDutyTime.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/resources/views/Excel/Multiple_Roster_Wise_Report_1.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/AttendanceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/AttendanceController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/TestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/TestController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/swapController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/swapController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Swap.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Swap.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/resources/views/Excel/Final_Report_1.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/resources/views/Excel/Final_Report_1.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/configuration/swap/show-swap/show-swap.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/configuration/swap/show-swap/show-swap.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/user/joining-info/joining-info.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/user/joining-info/joining-info.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/resources/views/Excel/multiShift_sumDutyTime.blade.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/report/attendance/attendance.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/report/attendance/attendance.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/report/attendance/attendance.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/report/attendance/attendance.component.ts" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -122,6 +121,11 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../hrsolution" />
     <property name="ts.external.directory.path" value="C:\xampp\htdocs\HRMTIS\frontend\node_modules\typescript\lib" />
   </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\HRMTIS\backend\app\Http\Controllers" />
+    </key>
+  </component>
   <component name="RunDashboard">
     <option name="ruleStates">
       <list>
@@ -160,7 +164,8 @@
       <workItem from="1571036949900" duration="12732000" />
       <workItem from="1571120570291" duration="14880000" />
       <workItem from="1571223987660" duration="8437000" />
-      <workItem from="1571295831048" duration="15630000" />
+      <workItem from="1571295831048" duration="16227000" />
+      <workItem from="1571381381227" duration="9628000" />
     </task>
     <servers />
   </component>
