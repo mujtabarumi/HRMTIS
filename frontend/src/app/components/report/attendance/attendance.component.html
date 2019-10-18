@@ -1,6 +1,9 @@
+
+
 <div class="container-fluid">
     <div class="card">
-        <div class="card-header"></div>
+        <div class="card-header"><h2>Attendance report generate</h2></div>
+      <div style="margin-top: 100px;"></div>
         <div class="card-body">
             <div class="row">
                 <div class="form-group col-md-3">
@@ -8,7 +11,7 @@
                     <input class="form-control"
                            bsDatepicker
                            [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD'}" id="startDate">
-                </div>
+                </div><br>
                 <div class="form-group col-md-3">
                     <label>To</label>
                     <input class="form-control"
@@ -20,10 +23,7 @@
 
 
                 <div class="form-group col-md-4">
-
-
-                    <label>Department</label>
-
+                    <label> &nbsp;</label>
                     <ng-multiselect-dropdown
                         [placeholder]="'Select Department'"
                         [data]="departments"
@@ -31,32 +31,18 @@
                         [settings]="dropdownSettings2"
                         (onSelect)="onItemSelectDepartment($event)"
                         (onDeSelect)="onItemDeSelectDepartment($event)"
-
-
                         >
-                    </ng-multiselect-dropdown>
-
-
-                </div>
-
-              <div *ngIf="rosterDiv" class="form-group col-md-4">
-
+                </ng-multiselect-dropdown>
+            </div><br>
+            <div *ngIf="rosterDiv" class="form-group col-md-4">
                 <label>Roster Info</label>
                 <select class="form-control" id="RosterInfo"  name="RosterInfo">
-                  <option value="">Select Roster</option>
-                  <option *ngFor="let RI of RosterInfo" value="{{RI.shiftId}}">{{RI.shiftName}}</option>
-
+                    <option value="">Select Roster</option>
+                    <option *ngFor="let RI of RosterInfo" value="{{RI.shiftId}}">{{RI.shiftName}}</option>
                 </select>
-
-              </div>
-
-
-
-            <div *ngIf="empDiv" class="form-group col-md-4">
-
-
-                <label>Employee</label>
-
+            </div>
+            <div *ngIf="empDiv" class="form-group col-md-3">
+                <label></label>
                 <ng-multiselect-dropdown
                     [placeholder]="'Select Employee'"
                     [data]="employee"
@@ -68,22 +54,26 @@
             </ng-multiselect-dropdown>
         </div>
 
-        <div class="form-group col-md-4">
 
-          <label>Excel type</label>
-          <select class="form-control" id="excelType"  name="excelType">
-            <option value="">Select Type</option>
-            <option value="1">Daily IN/OUT</option>
-            <option value="2">Daily All Punch</option>
-            <option value="3">Monthly Report</option>
-            <option value="4">Final Report-1</option>
-            <option value="5">Final Report-2</option>
-            <option value="6">Final Report-3</option>
-            <option value="7">Roster Wise Report-1</option>
-            <option value="8">Roster Wise Report-2</option>
-            <option value="9">Roster Wise Report-3</option>
-            <option value="10">Multiple shift Report</option>
-          </select>
+        <div class="form-group col-md-3">
+
+            <label></label>
+            <select class="form-control" id="excelType"  name="excelType">
+                <option value="">Select Excel Type</option>
+                <option value="1">Daily IN/OUT</option>
+                <option value="2">Daily All Punch</option>
+
+                <option value="3">Monthly Report test</option>
+                <option value="4">Monthly Report</option>
+                <option value="5">Punch Report</option>
+                <option value="6">Final Report</option>
+
+                <option value="7">Roster Wise Report-1</option>
+                <option value="8">Roster Wise Report-2</option>
+                <option value="9">Roster Wise Report-3</option>
+                <option value="10">Multiple shift Report</option>
+            </select>
+
 
         </div>
         <!--        <div class="form-group col-md-8">-->
@@ -98,17 +88,12 @@
         <!--        </div>-->
 
 
-
-
-
-
-
     </div>
     <div class="row">
 
-        <div class="form-group col-md-3">
+        <div class="form-group col-md-3 ">
 
-            <button class="btn btn-success" (click)="searchAttendance()">Search</button>
+            <button class="btn btn-success" (click)="searchAttendance()" style="margin-top: 25px;">Search</button>
         </div>
 
 
@@ -119,7 +104,7 @@
         <!--        </div>-->
         <div class="form-group col-md-3">
 
-            <button class="btn btn-info pull-right" (click)="generateINOUTExcel()" *ngxPermissionsOnly="['admin']">Report Download</button>
+            <button class="btn btn-info pull-right" (click)="generateINOUTExcel()" *ngxPermissionsOnly="['admin']"  style="margin-top: 25px;">Report Download</button>
 
         </div>
         <!--        <div class="form-group col-md-3">-->
@@ -130,19 +115,18 @@
 
 
     </div>
-    <hr>
-
-    <div class="row">
-
-        <table class="table table-striped table-hover" >
+          <div style="margin-top: 150px;"></div>
+<!--    <hr>-->
+          <div class="row">
+          <table class="table table-striped table-hover" >
             <thead>
                 <tr>
-                    <th>Id</th>
-                    <th>FullName</th>
-                    <th>Department</th>
-                    <th>Date</th>
-                    <th>In Time</th>
-                    <th>Out Time</th>
+                    <th style=" font-weight: bold;">Id</th>
+                    <th style=" font-weight: bold;">FullName</th>
+                    <th style=" font-weight: bold;">Department</th>
+                    <th style=" font-weight: bold;">Date</th>
+                    <th style=" font-weight: bold;">In Time</th>
+                    <th style=" font-weight: bold;">Out Time</th>
                 </tr>
             </thead>
 

@@ -49,14 +49,29 @@
     <tbody>
 
     @php
-        $T_roundworkinghour=null;$T_weekendcount=0;$T_adjustment=0;$finalholiDay=0;$T_FINALWORKINGHOUR=null;$T_govHoliday=0;$T_dateCount=0;
+        $T_roundworkinghour=null; 
+        $T_weekendcount=0; 
+        $T_adjustment=0; 
+        $finalholiDay=0; 
+        $T_FINALWORKINGHOUR=null; 
+        $T_govHoliday=0; 
+        $T_dateCount=0;
     @endphp
 
     @foreach($allEmp as $aE)
 
         @php
-            $FINALIN=null;$FINALOUT=null;$FINALWORKINGHOUR=null;$ROUNDFINALWORKINGHOUR=null;$adjustment=0;$holiDay=0;$next=false;
-            $weekend=0;$T_present=0;$govHoliday=0;$dateCount=0;
+            $FINALIN=null; 
+            $FINALOUT=null; 
+            $FINALWORKINGHOUR=null; 
+            $ROUNDFINALWORKINGHOUR=null; 
+            $adjustment=0; 
+            $holiDay=0; 
+            $next=false;
+            $weekend=0; 
+            $T_present=0; 
+            $govHoliday=0; 
+            $dateCount=0;
 
         @endphp
 

@@ -2,7 +2,7 @@
 <!--modal-->
 <ng-template #content let-c="close" let-d="dismiss" >
   <div class="modal-header">
-    <h4 class="modal-title">Shift</h4>
+    <h2 class="modal-title">Roaster</h2>
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -15,23 +15,19 @@
         <label>Department</label>
 
         <ng-multiselect-dropdown
-          [placeholder]="'Select Department'"
+
           [data]="departments"
           [(ngModel)]="selectedDropDown"
           [settings]="dropdownSettings2"
           (onSelect)="onItemSelectDepartment($event)"
           (onDeSelect)="onItemDeSelectDepartment($event)"
-
-
         >
         </ng-multiselect-dropdown>
-
-
       </div>
 
       <div class="form-group col-md-6">
         <label>Shift Name</label>
-        <input type="text" [(ngModel)]="shiftObj.shiftName" placeholder="shift" class="form-control">
+        <input type="text" [(ngModel)]="shiftObj.shiftName" placeholder="Shift" class="form-control">
       </div>
       <div class="form-group col-md-6">
         <label>In Time</label>
@@ -43,7 +39,7 @@
       </div>
       <div class="form-group col-md-12">
 
-        <button class="btn btn-success pull-right" (click)="onSubmit()">Submit</button>
+        <button class="btn btn-success pull-right" (click)="onSubmit()">Save</button>
       </div>
 
 
@@ -55,7 +51,7 @@
 <!--modal end-->
 <div class="container">
   <div class="card">
-    <div class="card-header">Shift Details</div>
+    <div class="card-header"><h2>All Roaster</h2></div>
 
     <div class="card-body">
       <a style=" float: right" class="btn btn-outline-primary mb-2 mr-2" (click)="openLg(content)" >Add New</a>  <br><br>
@@ -80,14 +76,8 @@
           <td>  <button class="btn btn-info" (click)="edit(shift.shiftId,content)"> Edit</button></td>
 
         </tr>
-
         </tbody>
-
       </table>
-
-
     </div>
   </div>
-
-
 </div>

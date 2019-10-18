@@ -19,9 +19,6 @@ class DepartmentController extends Controller
     }
 
 
-
-
-
     public function postDepartment(Request $r){
 //        return $r;
         $this->validate($r,[

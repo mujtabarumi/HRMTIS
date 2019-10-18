@@ -154,7 +154,9 @@ export class JoiningInfoComponent implements OnInit {
       return false;
     }else {
 
-       //console.log(new Date(this.employeeJoiningForm.actualJoinDate).toLocaleDateString());
+
+      // console.log(this.employeeJoiningForm);
+
       this.employeeJoiningForm.weekend=this.selectedItems;
 
 
@@ -166,7 +168,9 @@ export class JoiningInfoComponent implements OnInit {
       if(this.employeeJoiningForm.actualJoinDate !=null){
         this.employeeJoiningForm.actualJoinDate=new Date(this.employeeJoiningForm.actualJoinDate).toLocaleDateString();
 
+
       }
+
 
       if(this.employeeJoiningForm.resignDate !=null) {
         this.employeeJoiningForm.resignDate=new Date(this.employeeJoiningForm.resignDate).toLocaleDateString();
@@ -175,6 +179,8 @@ export class JoiningInfoComponent implements OnInit {
 
 
       this.http.post(Constants.API_URL+'joinInfo/post'+'?token='+token,this.employeeJoiningForm).subscribe(data => {
+
+        console.log(data);
 
           this.getData();
           $.alert({

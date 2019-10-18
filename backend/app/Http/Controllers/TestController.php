@@ -147,6 +147,20 @@ class TestController extends Controller
 
         $array=array();
 
+
+        //$aa = $r->route()->getActionMethod();
+       // preg_match('/([a-z]*)@/i', $r->route()->getActionName(), $matches);
+
+       // $controllerName = $matches[1];
+
+       // $localIp = gethostbyname(gethostname());
+
+        //$date_time = date("Y-m-d H:i:s");
+
+        //return Auth::user();
+      //  $u_id = auth()->user()->id;
+       // return $controllerName . ' ' . $aa . ' ' . $localIp . ' ' . $date_time . ' ' . $u_id;
+
          $currentDate=Carbon::now()->format('Y-m-d');
 
           $results = DB::select(DB::raw("select em.employeeId,ad.id,sl.inTime,sl.outTime,sl.adjustmentDate,ad.fkAttDevice,sl.holiday,sl.weekend,ad.fkAttDevice
@@ -202,10 +216,6 @@ class TestController extends Controller
                             array_push($array,$newArray);
 
                         }
-
-
-
-
                     }
                 }elseif($results->where('employeeId',$allE->id)->where('attendanceDate',$currentDate)->first()->inTime >='20:01:00' &&
                     $results->where('employeeId',$allE->id)->where('attendanceDate',$currentDate)->first()->inTime <= '23:59:00'){
