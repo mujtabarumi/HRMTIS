@@ -124,20 +124,13 @@ class TestController extends Controller
         return $time = microtime(true) - $start;
     }
 
-    public function Rumi($content){
+    public function Rumi()
+    {
 
-        $path=public_path ()."/exportedExcel/Final Report.xlsx";
-        $filePath=public_path ()."/exportedExcel";
-
-        Excel::load($path, function ($excel) use ($content){
-
-
-        })->setFilename('shetName')->store('xls', $filePath);
-
-        
 
     }
-    public function Rumi1(Request $r){
+    public function Rumi1(Request $r)
+    {
 
         $array=array();
 

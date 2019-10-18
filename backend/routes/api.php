@@ -169,6 +169,13 @@ Route::group([
     Route::post('swap/acceptSwapReq','swapController@acceptSwapReq');
     Route::post('swap/rejectSwapReq','swapController@rejectSwapReq');
 
+
+    /* time swap */
+
+    Route::post('swap/getAllTimeSwapReq','TimeSwapController@getAllEmpTimeSwap');
+    Route::post('swap/acceptTimeSwap','TimeSwapController@acceptTimeSwap');
+    Route::post('swap/rejectTimeSwap','TimeSwapController@rejectTimeSwap');
+
     /*empDesignation */
 
     Route::post('getEmpDesignation','EmployeeController@getempDesignation');

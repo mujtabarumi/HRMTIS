@@ -10,5 +10,5 @@ class TimeSwap extends Model
     protected $primaryKey='id';
     public $timestamps = false;
 
-    protected $fillable=['fkEmployeeId','date','accessTime','status'];
+    protected $fillable=['fkEmployeeId','date','accessTime','old_inTime'];
 }

@@ -26,7 +26,8 @@ Route::get('rumi','TestController@Rumi');
 Route::get('faruk','EmployeeController@updateJoinInfo');
 
 //Route::get('test/rumi/{from}/{start}','TestController@testRumi');
-//Route::get('rumi','TestController@Rumi');
+
+Route::get('rumi','TestController@Rumi');
 
 Route::get('rumi1','TestController@Rumi1');
 

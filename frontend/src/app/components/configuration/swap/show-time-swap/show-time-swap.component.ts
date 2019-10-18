@@ -10,32 +10,28 @@ import {NgxPermissionsService} from "ngx-permissions";
 declare var $ :any;
 
 @Component({
-  selector: 'app-show-swap',
-  templateUrl: './show-swap.component.html',
-  styleUrls: ['./show-swap.component.css']
+  selector: 'app-show-time-swap',
+  templateUrl: './show-time-swap.component.html',
+  styleUrls: ['./show-time-swap.component.css']
 })
-export class ShowSwapComponent implements AfterViewInit,OnDestroy,OnInit {
-
+export class ShowTimeSwapComponent implements AfterViewInit,OnDestroy,OnInit {
 
   @ViewChild(DataTableDirective)
-
 
   dtElement: DataTableDirective;
   dtOptions:DataTables.Settings={};
   dtTrigger:Subject<any>=new Subject();
   dtInstance:DataTables.Api;
 
-
-
-
-  constructor(private permissionsService: NgxPermissionsService,private modalService: NgbModal,private renderer: Renderer,public http: HttpClient, private token:TokenService , public route:ActivatedRoute, private router: Router) { }
+  constructor(private permissionsService: NgxPermissionsService,private modalService: NgbModal,private renderer: Renderer,public http: HttpClient, private token:TokenService ,
+              public route:ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
-    this.getSwapData();
 
-
+    this.getTimeSwapData();
   }
-  getSwapData(){
+
+  getTimeSwapData(){
 
     let that=this;
 
@@ -49,7 +45,7 @@ export class ShowSwapComponent implements AfterViewInit,OnDestroy,OnInit {
 
       },
       ajax: {
-        url: Constants.API_URL+'swap/getAllSwapReq'+'?token='+token,
+        url: Constants.API_URL+'swap/getAllTimeSwapReq'+'?token='+token,
         type: 'POST',
         data:function (d){
 
@@ -59,13 +55,10 @@ export class ShowSwapComponent implements AfterViewInit,OnDestroy,OnInit {
       },
       columns: [
 
-        { data: 'empFullnameBy' ,name:'empFullnameBy'},
-        { data: 'swap_by_date' ,name:'swap_by_date'},
-        { data: 'shift_byName' ,name:'shift_byName'},
-        { data: 'empFullnameFor' ,name:'empFullnameFor'},
-        { data: 'swap_for_date' ,name:'swap_for_date'},
-        { data: 'shift_forName' ,name:'shift_forName'},
-
+        { data: 'date' ,name:'date'},
+        { data: 'empFullname' ,name:'empFullname'},
+        { data: 'old_inTime' ,name:'old_inTime'},
+        { data: 'accessTime' ,name:'accessTime'},
         {
 
           "data": function (data: any, type: any, full: any)
@@ -89,11 +82,9 @@ export class ShowSwapComponent implements AfterViewInit,OnDestroy,OnInit {
           "orderable": false, "searchable":false, "name":"selected_rows"
         },
 
-
         {
 
           "data": function (data: any, type: any, full: any) {
-
 
             if (data.userDesignationTitle == Constants.manager && data.departmentHeadApproval == null){
 
@@ -101,7 +92,7 @@ export class ShowSwapComponent implements AfterViewInit,OnDestroy,OnInit {
                 '  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">\n' +
                 '  </button>\n' +
                 '  <div class="dropdown-menu">\n' +
-                '    <button class="dropdown-item" data-edit-id="'+data.id+'" >Edit</button>\n' +
+
                 '    <button class="dropdown-item" data-Accept-id="'+data.id+'" >Accept</button>\n' +
                 '    <button class="dropdown-item" data-Reject-id="'+data.id+'" >Reject</button>\n' +
 
@@ -114,7 +105,7 @@ export class ShowSwapComponent implements AfterViewInit,OnDestroy,OnInit {
                 '  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">\n' +
                 '  </button>\n' +
                 '  <div class="dropdown-menu">\n' +
-                '    <button class="dropdown-item" data-edit-id="'+data.id+'" >Edit</button>\n' +
+
 
                 '    <button class="dropdown-item" data-Reject-id="'+data.id+'" >Reject</button>\n' +
 
@@ -127,7 +118,7 @@ export class ShowSwapComponent implements AfterViewInit,OnDestroy,OnInit {
                 '  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">\n' +
                 '  </button>\n' +
                 '  <div class="dropdown-menu">\n' +
-                '    <button class="dropdown-item" data-edit-id="'+data.id+'" >Edit</button>\n' +
+
 
                 '    <button class="dropdown-item" data-Accept-id="'+data.id+'" >Accept</button>\n' +
 
@@ -140,7 +131,7 @@ export class ShowSwapComponent implements AfterViewInit,OnDestroy,OnInit {
                 '  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">\n' +
                 '  </button>\n' +
                 '  <div class="dropdown-menu">\n' +
-                '    <button class="dropdown-item" data-edit-id="'+data.id+'" >Edit</button>\n' +
+
                 '    <button class="dropdown-item" data-Accept-id="'+data.id+'" >Accept</button>\n' +
                 '    <button class="dropdown-item" data-Reject-id="'+data.id+'" >Reject</button>\n' +
 
@@ -153,7 +144,7 @@ export class ShowSwapComponent implements AfterViewInit,OnDestroy,OnInit {
                 '  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">\n' +
                 '  </button>\n' +
                 '  <div class="dropdown-menu">\n' +
-                '    <button class="dropdown-item" data-edit-id="'+data.id+'" >Edit</button>\n' +
+
 
                 '    <button class="dropdown-item" data-Reject-id="'+data.id+'" >Reject</button>\n' +
 
@@ -166,7 +157,7 @@ export class ShowSwapComponent implements AfterViewInit,OnDestroy,OnInit {
                 '  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">\n' +
                 '  </button>\n' +
                 '  <div class="dropdown-menu">\n' +
-                '    <button class="dropdown-item" data-edit-id="'+data.id+'" >Edit</button>\n' +
+
 
                 '    <button class="dropdown-item" data-Accept-id="'+data.id+'" >Accept</button>\n' +
 
@@ -177,9 +168,10 @@ export class ShowSwapComponent implements AfterViewInit,OnDestroy,OnInit {
               return '';
             }
 
+
           },
           "orderable": false, "searchable":false, "name":"selected_rows"
-        }
+        },
 
 
       ],
@@ -196,28 +188,22 @@ export class ShowSwapComponent implements AfterViewInit,OnDestroy,OnInit {
 
     this.renderer.listenGlobal('document', 'click', (event) => {
 
-      if (event.target.hasAttribute("data-edit-id")) {
-
-        let id=event.target.getAttribute("data-edit-id");
-
-       // this.editRequestSwap(id);
-
-
-      }else if (event.target.hasAttribute("data-Accept-id")){
+      if (event.target.hasAttribute("data-Accept-id")){
 
         let id=event.target.getAttribute("data-Accept-id");
 
 
 
-        this.acceptSwapReq(id);
+        this.acceptTimeSwapReq(id);
 
-      }else if (event.target.hasAttribute("data-Reject-id")){
+      }
+      if (event.target.hasAttribute("data-Reject-id")){
 
         let id=event.target.getAttribute("data-Reject-id");
 
 
 
-        this.rejectSwapReq(id);
+        this.rejectTimeSwapReq(id);
 
       }
 
@@ -239,13 +225,11 @@ export class ShowSwapComponent implements AfterViewInit,OnDestroy,OnInit {
     this.dtTrigger.unsubscribe();
   }
 
-  acceptSwapReq(id)
-  {
-
+  acceptTimeSwapReq(id){
 
     const token=this.token.get();
 
-    this.http.post(Constants.API_URL+'swap/acceptSwapReq'+'?token='+token,{'id':id}).subscribe(data1 => {
+    this.http.post(Constants.API_URL+'swap/acceptTimeSwap'+'?token='+token,{'id':id}).subscribe(data1 => {
 
 
         $.alert({
@@ -257,8 +241,6 @@ export class ShowSwapComponent implements AfterViewInit,OnDestroy,OnInit {
 
         this.rerender();
 
-    //  console.log(data1);
-
 
 
 
@@ -269,43 +251,33 @@ export class ShowSwapComponent implements AfterViewInit,OnDestroy,OnInit {
       }
     );
 
-
-
   }
-  rejectSwapReq(id)
-  {
-
+  rejectTimeSwapReq(id){
 
     const token=this.token.get();
 
-    this.http.post(Constants.API_URL+'swap/rejectSwapReq'+'?token='+token,{'id':id}).subscribe(data1 => {
+    this.http.post(Constants.API_URL+'swap/rejectTimeSwap'+'?token='+token,{'id':id}).subscribe(data1 => {
 
 
-        // $.alert({
-        //   title: 'Msg',
-        //   content: data1,
-        // });
+        $.alert({
+          title: 'Msg',
+          content: data1,
+        });
 
-        console.log(data1);
 
 
         this.rerender();
 
 
+
+
+
       },
       error => {
         console.log(error);
       }
     );
 
-
-
   }
-
-
-
-
-
-
 
 }
