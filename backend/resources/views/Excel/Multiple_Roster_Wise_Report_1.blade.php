@@ -27,8 +27,8 @@
     <tr>
         <th class="Border"style="text-align: center;vertical-align: middle;" width="25">Date</th>
 
-        @foreach($rosrLog->where('fkemployeeId',$allE->id) as $RL)
-            <th class="Border" colspan="5" style="text-align: center;vertical-align: middle;" >{{$RL->inTime}}-{{$RL->outTime}}</th>
+        @foreach($RosterInfo as $RI)
+            <th class="Border" colspan="5" style="text-align: center;vertical-align: middle;" >{{$RI->inTime}}-{{$RI->outTime}}</th>
         @endforeach
 
 
@@ -36,7 +36,7 @@
     </tr>
     <tr>
         <th class="Border"style="text-align: center;vertical-align: middle;" width="25"></th>
-        @foreach($rosrLog->where('fkemployeeId',$allE->id) as $RL)
+        @foreach($RosterInfo as $RI)
 
             <th class="Border"style="text-align: center;vertical-align: middle;" width="15">IN Time</th>
             <th class="Border"style="text-align: center;vertical-align: middle;" width="15">OUT Time</th>
@@ -49,7 +49,7 @@
     </tr>
     <tr>
         <th class="Border"style="text-align: center;vertical-align: middle;" width="25"></th>
-        @foreach($rosrLog->where('fkemployeeId',$allE->id) as $RL)
+        @foreach($RosterInfo as $RI)
 
             <th class="Border"style="text-align: center;vertical-align: middle;" width="15"></th>
             <th class="Border"style="text-align: center;vertical-align: middle;" width="15"></th>

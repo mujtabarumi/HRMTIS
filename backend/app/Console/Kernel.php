@@ -28,6 +28,8 @@ class Kernel extends ConsoleKernel
         //          ->hourly();
         $schedule->command('TimeSwap:Twice')
             ->cron('0 */4 * * *');
+
+        $schedule->exec(base_path() .'../../ZKLibrary-master\finalAttScript\zklibrary.php')->monthlyOn(1, '15:00');
     }
 
     /**

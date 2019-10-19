@@ -129,7 +129,7 @@ class TestController extends Controller
     public function Rumi()
     {
 
-        include(base_path() .'../../'.'\ZKLibrary-master\finalAttScript/zklibrary.php');
+        include(base_path() .'../../ZKLibrary-master\finalAttScript\zklibrary.php');
 
         return $str=base_path().'../../'.'\ZKLibrary-master\finalAttScript/zklibrary.php';
 //        $zk = new ZKLibrary('192.168.50.167', 4370);
