@@ -1,5 +1,7 @@
+
+
 <div class="card">
-  <div class="card-header-pills"> <h3 align="center" style="font-family: 'Righteous', cursive;">Designation</h3></div>
+  <div class="card-header-pills"> <h3 align="center" style="font-family: 'Righteous', cursive;">Designation (Add/ Edit/ Update)</h3></div>
   <div class="card-body">
     <div class="row">
 
@@ -41,40 +43,32 @@
       <div class="form-group col-md-2">
         <button class="btn btn-danger" (click)="reset()">Reset</button>
       </div>
-
-
-
       <table class="table table-striped">
         <thead>
         <tr>
+          <th>ID</th>
           <th>Designation Name</th>
           <th>Short Name</th>
           <th>Salary Grade</th>
-          <th>Desig Level</th>
+          <th>Designation Level</th>
+          <th>Status</th>
           <th>Action</th>
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let desig of designation">
+          <td>{{desig.id}}</td>
           <td>{{desig.title}}</td>
           <td>{{desig.shortName}}</td>
           <td>{{desig.salaryGrade}}</td>
           <td>{{desig.desigLevel}}</td>
+          <td>{{desig.status | titlecase }}</td>
           <td>
-
             <button class="btn btn-danger" style="margin-left: 20px;" (click)="editDsig(desig)">Edit</button>
           </td>
         </tr>
         </tbody>
       </table>
-
-
-
-
-
     </div>
-
-
   </div>
-
 </div>

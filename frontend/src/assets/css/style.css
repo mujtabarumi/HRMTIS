@@ -2551,7 +2551,7 @@ body {
 .page-title-box {
     padding: 22px 0;
     display: none;
-    
+
 }
 
 .page-title-box .page-title {
@@ -3259,6 +3259,14 @@ body {
     border-color: black;
     color: #444;
     z-index: 2;
+}
+
+/*Faruk 19-10-2019*/
+th {
+  display: table-cell;
+  vertical-align: inherit;
+  font-weight: bold;
+  /*text-align: center;*/
 }
 
 /*# sourceMappingURL=style.css.map */
