@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 class DepartmentController extends Controller
 {
     public function get(){
-        $departments=Department::select('id','departmentName','deptHead','fkDeptParent','deptLevel')->orderBy('id','desc')->get();
+        $departments=Department::select('id','departmentName','deptHead','fkDeptParent','deptLevel','status')->where('status', 'active')->orderBy('departmentName','ASC')->get();
         return $departments;
     }
     public function getAllLevels()

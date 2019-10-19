@@ -9,7 +9,15 @@ use App\Http\Controllers\Controller;
 class DesignationController extends Controller
 {
     public function get(){
-        $designation=Designation::get();
+//        $designation=Designation::get();
+
+        $designation=Designation::select('*')->where('status', 'active')->get();
+        //$users = DB::table('users')->get();
+       // $designation=Designation::where('status', 'active');
+
+//        $designation = DB::Designation('designations')->where('status', 'active')->get();
+
+//        $designation = DB::table('Designation')->where('status', 'active')->get();
         return $designation;
     }
 
