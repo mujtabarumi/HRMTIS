@@ -1,6 +1,6 @@
 <div class="card container">
   <div class="card-header-pills">
-    <h2 align="center" style="font-family: 'Righteous', cursive;">Add Department</h2>
+    <h2 align="center" style="font-family: 'Righteous', cursive;">Add Department (Add/ Edit/ Update)</h2>
   </div>
   <div class="card-body">
     <div class="row">
@@ -67,13 +67,17 @@
     <table class="table table-striped">
       <thead>
       <tr>
+        <th>ID</th>
         <th>Department Name</th>
+        <th>Status</th>
         <th>Action</th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let dept of departments">
-        <td>{{dept.departmentName}}</td>
+        <td>{{dept.id}}</td>
+        <td>{{dept.departmentName | titlecase}}</td>
+        <td>{{dept.status | titlecase}}</td>
         <td>
           <!--<button class="btn btn-danger" (click)="deleteUser(user)"> Delete</button>-->
           <button class="btn btn-danger" (click)="editDept(dept)" style="margin-left: 20px;"> Edit</button>
