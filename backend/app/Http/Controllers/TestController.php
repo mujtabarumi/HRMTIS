@@ -129,16 +129,20 @@ class TestController extends Controller
     public function Rumi()
     {
 
-        include(base_path() .'../../ZKLibrary-master\finalAttScript\zklibrary.php');
+        $results = DB::select(DB::raw("select em.employeeId,ad.id,sl.inTime,sl.outTime,sl.adjustmentDate,ad.fkAttDevice,sl.holiday,sl.weekend,ad.fkAttDevice
+            , date_format(ad.accessTime,'%Y-%m-%d') attendanceDate
+            , date_format(ad.accessTime,'%H:%i:%s') accessTime
+            , date_format(ad.accessTime,'%Y-%m-%d %H:%i:%s') accessTime2
+            from attendancedata ad left join attemployeemap em on ad.attDeviceUserId = em.attDeviceUserId
+            and date_format(ad.accessTime,'%Y-%m-%d') between '2019-10-01' and '2019-10-30'
+            left join shiftlog sl on em.employeeId = sl.fkemployeeId and 
+            date_format(ad.accessTime,'%Y-%m-%d') between date_format(sl.startDate,'%Y-%m-%d') and ifnull(date_format(sl.endDate,'%Y-%m-%d'),curdate())
+            left join employeeinfo emInfo on em.employeeId = emInfo.id and emInfo.fkDepartmentId is not null
+            
+            where sl.fkshiftId IN (1,2) and date_format(ad.accessTime,'%Y-%m-%d') between '2019-10-01' and '2019-10-30'
+            and emInfo.id = 116 "));
 
-        return $str=base_path().'../../'.'\ZKLibrary-master\finalAttScript/zklibrary.php';
-//        $zk = new ZKLibrary('192.168.50.167', 4370);
-//        $zk->connect();
-//        return $zk->getUser();
-
-
-
-
+       return $results = collect($results);
 
 
     }
