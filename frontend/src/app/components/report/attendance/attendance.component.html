@@ -39,6 +39,7 @@
                 <select class="form-control" id="RosterInfo"  name="RosterInfo">
                     <option value="">Select Roster</option>
                     <option *ngFor="let RI of RosterInfo" value="{{RI.shiftId}}">{{RI.shiftName}}</option>
+                    <option value="allRoster">All Roster</option>
                 </select>
             </div>
             <div *ngIf="empDiv" class="form-group col-md-3">
@@ -53,6 +54,7 @@
                     >
             </ng-multiselect-dropdown>
         </div>
+
 
         <div class="form-group col-md-3">
 
@@ -72,6 +74,7 @@
                 <option value="9">Roster Wise Report-3</option>
 
             </select>
+
 
         </div>
         <!--        <div class="form-group col-md-8">-->

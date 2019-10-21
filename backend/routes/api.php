@@ -154,6 +154,10 @@ Route::group([
     Route::post('report/RoserWiseReport-2','AttendanceController@getRosterWiseReport_2');
     Route::post('report/RoserWiseReport-3','AttendanceController@getRosterWiseReport_3');
 
+    /* multiple Roster Report */
+
+    Route::post('report/MultipleRoserWiseReport-1','AttendanceController@multipleRosterWiseReport_1');
+
     /*delete File */
 
     Route::post('deleteFile','FileControllerController@deleteFile');

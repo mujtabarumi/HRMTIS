@@ -1,17 +1,17 @@
 import {Component, OnInit, AfterViewInit, Renderer, OnDestroy, ViewChild} from '@angular/core';
-import {Constants} from "../../../constants";
-import {HttpClient} from "@angular/common/http";
-import {TokenService} from "../../../services/token.service";
-import {Subject} from "rxjs";
-import {ActivatedRoute, Router} from "@angular/router";
-import {DataTableDirective} from "angular-datatables";
-import {NgxSpinnerService} from "ngx-spinner";
-import {st} from "@angular/core/src/render3";
-import {log} from "util";
-import {isEmpty} from "rxjs/operators";
+import {Constants} from '../../../constants';
+import {HttpClient} from '@angular/common/http';
+import {TokenService} from '../../../services/token.service';
+import {Subject} from 'rxjs';
+import {ActivatedRoute, Router} from '@angular/router';
+import {DataTableDirective} from 'angular-datatables';
+import {NgxSpinnerService} from 'ngx-spinner';
+import {st} from '@angular/core/src/render3';
+import {log} from 'util';
+import {isEmpty} from 'rxjs/operators';
 
 
-declare var $ :any;
+declare var $: any;
 
 @Component({
   selector: 'app-attendance',
@@ -21,60 +21,60 @@ declare var $ :any;
 export class AttendanceComponent implements OnInit {
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
-  employee:any;
-  dtOptions:DataTables.Settings={};
-  dtTrigger:Subject<any>=new Subject();
-  id:any;
-  allEmp=[];
-  shiftId:number;
-  shift:any;
-  dtInstance:DataTables.Api;
-  startDate:string;
-  endDate:string;
-  noOfDays:string;
-  remark:string;
-  fkLeaveCategory:string;
-  leaveCategories:any;
+  employee: any;
+  dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<any> = new Subject();
+  id: any;
+  allEmp = [];
+  shiftId: number;
+  shift: any;
+  dtInstance: DataTables.Api;
+  startDate: string;
+  endDate: string;
+  noOfDays: string;
+  remark: string;
+  fkLeaveCategory: string;
+  leaveCategories: any;
   dropdownSettings = {};
   dropdownSettings2 = {};
   selectedItems = [];
   selectedDropDown = [];
-  attendanceData:any;
-  attendanceDate:any;
-  test:any;
-  search:boolean;
-  departments:any;
-  emp:any;
-  attendenceDataDates:any;
-  attendenceDataResults:any;
-  attendenceDataAllEmp:any;
-  RosterInfo:any;
-  empDiv:boolean;
-  rosterDiv:boolean;
+  attendanceData: any;
+  attendanceDate: any;
+  test: any;
+  search: boolean;
+  departments: any;
+  emp: any;
+  attendenceDataDates: any;
+  attendenceDataResults: any;
+  attendenceDataAllEmp: any;
+  RosterInfo: any;
+  empDiv: boolean;
+  rosterDiv: boolean;
 
 
-  constructor(private renderer: Renderer,public http: HttpClient, private token:TokenService ,
-              public route:ActivatedRoute, private router: Router,private spinner: NgxSpinnerService) { }
+  constructor(private renderer: Renderer, public http: HttpClient, private token: TokenService ,
+              public route: ActivatedRoute, private router: Router, private spinner: NgxSpinnerService) { }
 
 
   ngOnInit() {
-    this.RosterInfo='';
-    this.search=false;
-    this.empDiv=true;
-    this.rosterDiv=false;
+    this.RosterInfo = '';
+    this.search = false;
+    this.empDiv = true;
+    this.rosterDiv = false;
 
     this.getAllEployee();
     this.getAllDepartment();
 
-    this.attendenceDataDates='';
-    this.attendenceDataResults='';
-    this.attendenceDataAllEmp='';
+    this.attendenceDataDates = '';
+    this.attendenceDataResults = '';
+    this.attendenceDataAllEmp = '';
 
    // this.getData();
     // console.log(new Date.today().clearTime().moveToFirstDayOfMonth());
-    let nowdate = new Date();
-    let monthStartDay=this.dateToYMD(new Date(nowdate.getFullYear(),nowdate.getMonth(),1));
-    let monthEndDay=this.dateToYMD(new Date(nowdate.getFullYear(),nowdate.getMonth()+1,0));
+    const nowdate = new Date();
+    const monthStartDay = this.dateToYMD(new Date(nowdate.getFullYear(), nowdate.getMonth(), 1));
+    const monthEndDay = this.dateToYMD(new Date(nowdate.getFullYear(), nowdate.getMonth() + 1, 0));
     $('#startDate').val(monthStartDay);
     $('#endDate').val(monthEndDay);
     // console.log(monthEndDay);
@@ -82,23 +82,23 @@ export class AttendanceComponent implements OnInit {
 
     this.dropdownSettings = {
       singleSelection: false,
-      idField:'empid',
-      textField:'attDeviceUserId',
+      idField: 'empid',
+      textField: 'attDeviceUserId',
       // selectAllText: 'Select All',
       // unSelectAllText: 'UnSelect All',
       // itemsShowLimit: 3,
       allowSearchFilter: true,
-      closeDropDownOnSelection:true,
+      closeDropDownOnSelection: true,
     };
     this.dropdownSettings2 = {
       singleSelection: false,
-      idField:'id',
-      textField:'departmentName',
+      idField: 'id',
+      textField: 'departmentName',
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
       // itemsShowLimit: 3,
       allowSearchFilter: true,
-      closeDropDownOnSelection:true,
+      closeDropDownOnSelection: true,
     };
 
 
@@ -106,13 +106,13 @@ export class AttendanceComponent implements OnInit {
 
   }
 
-  getAllEployee(){
+  getAllEployee() {
 
-    const token=this.token.get();
+    const token = this.token.get();
 
 
-    this.http.get(Constants.API_URL+'employee/getAll'+'?token='+token).subscribe(data => {
-        this.employee=data;
+    this.http.get(Constants.API_URL + 'employee/getAll' + '?token=' + token).subscribe(data => {
+        this.employee = data;
        // console.log(data);
       },
       error => {
@@ -122,51 +122,51 @@ export class AttendanceComponent implements OnInit {
 
   }
 
-  onItemSelect(value){
+  onItemSelect(value) {
 
 
 
   }
-  onItemDeSelect(value){
+  onItemDeSelect(value) {
 
 
 
   }
-  onItemSelectDepartment(value){
+  onItemSelectDepartment(value) {
 
-    this.selectedItems=[];
-    this.empDiv=false;
-
-
+    this.selectedItems = [];
+    this.empDiv = false;
 
 
-    if (this.selectedDropDown.length >0){
 
-      this.rosterDiv=true;
 
-      let deptId=[];
+    if (this.selectedDropDown.length > 0) {
 
-      for (var i=0;i<this.selectedDropDown.length;i++){
+      this.rosterDiv = true;
+
+      const deptId = [];
+
+      for (let i = 0; i < this.selectedDropDown.length; i++) {
 
         deptId.push(this.selectedDropDown[i]['id']);
       }
 
-      let form={
-        departments:deptId,
+      const form = {
+        departments: deptId,
 
       };
 
-      const token=this.token.get();
+      const token = this.token.get();
 
 
-      this.http.post(Constants.API_URL+'employee/getAllEmpForDepartment'+'?token='+token,form).subscribe(data => {
+      this.http.post(Constants.API_URL + 'employee/getAllEmpForDepartment' + '?token=' + token, form).subscribe(data => {
 
-        this.emp=data;
-        if (this.emp.length>0){
+        this.emp = data;
+        if (this.emp.length > 0) {
 
-          for (var i=0;i<this.emp.length;i++){
+          for (let i = 0; i < this.emp.length; i++) {
 
-            let r= {
+            const r = {
               empid: this.emp[i]['empid'],
               attDeviceUserId: this.emp[i]['attDeviceUserId']
 
@@ -189,9 +189,9 @@ export class AttendanceComponent implements OnInit {
         }
       );
 
-      this.http.post(Constants.API_URL+'department/getRosterInfo'+'?token='+token,form).subscribe(data => {
+      this.http.post(Constants.API_URL + 'department/getRosterInfo' + '?token=' + token, form).subscribe(data => {
 
-        this.RosterInfo=data;
+        this.RosterInfo = data;
 
 
 
@@ -207,34 +207,34 @@ export class AttendanceComponent implements OnInit {
 
 
   }
-  onItemDeSelectDepartment(value){
+  onItemDeSelectDepartment(value) {
 
-    if (this.selectedDropDown.length >0){
+    if (this.selectedDropDown.length > 0) {
       // this.selectedItems=[];
 
-      let deptId=[];
+      const deptId = [];
 
-      for (var i=0;i<this.selectedDropDown.length;i++){
+      for (let i = 0; i < this.selectedDropDown.length; i++) {
 
         deptId.push(this.selectedDropDown[i]['id']);
       }
 
-      let form={
-        departments:deptId,
+      const form = {
+        departments: deptId,
 
       };
 
-      const token=this.token.get();
+      const token = this.token.get();
 
 
-      this.http.post(Constants.API_URL+'employee/getAllEmpForDepartment'+'?token='+token,form).subscribe(data => {
+      this.http.post(Constants.API_URL + 'employee/getAllEmpForDepartment' + '?token=' + token, form).subscribe(data => {
 
-          this.emp=data;
-          if (this.emp.length>0){
+          this.emp = data;
+          if (this.emp.length > 0) {
 
-            for (var i=0;i<this.emp.length;i++){
+            for (let i = 0; i < this.emp.length; i++) {
 
-              let r= {
+              const r = {
 
                 empid: this.emp[i]['empid'],
                 attDeviceUserId: this.emp[i]['attDeviceUserId']
@@ -261,24 +261,24 @@ export class AttendanceComponent implements OnInit {
       );
 
 
-    }else {
-      this.selectedItems=[];
+    } else {
+      this.selectedItems = [];
 
-      this.empDiv=true;
-      this.rosterDiv=false;
+      this.empDiv = true;
+      this.rosterDiv = false;
 
 
     }
 
   }
-  getAllDepartment(){
+  getAllDepartment() {
 
-    const token=this.token.get();
+    const token = this.token.get();
 
 
-    this.http.get(Constants.API_URL+'department/get'+'?token='+token).subscribe(data => {
+    this.http.get(Constants.API_URL + 'department/get' + '?token=' + token).subscribe(data => {
 
-        this.departments=data;
+        this.departments = data;
 
       },
       error => {
@@ -291,19 +291,19 @@ export class AttendanceComponent implements OnInit {
 
 
   dateToYMD(date) {
-    let strArray=['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
-    let d = date.getDate();
-    let m = strArray[date.getMonth()];
-    let y = date.getFullYear();
+    const strArray = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+    const d = date.getDate();
+    const m = strArray[date.getMonth()];
+    const y = date.getFullYear();
     // return '' + (d <= 9 ? '0' + d : d) + '-' + m + '-' + y;
     return '' + y + '-' + m + '-' + (d <= 9 ? '0' + d : d);
   }
 
   dateToYMD2(date) {
-    let strArray=['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
-    let d = date.getDate();
-    let m = strArray[date.getMonth()];
-    let y = date.getFullYear();
+    const strArray = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+    const d = date.getDate();
+    const m = strArray[date.getMonth()];
+    const y = date.getFullYear();
     return '' + (d <= 9 ? '0' + d : d) + '-' + m + '-' + y;
   }
 
@@ -311,21 +311,21 @@ export class AttendanceComponent implements OnInit {
 
 
 
-  generateDetailsExcel(){
+  generateDetailsExcel() {
     this.spinner.show();
-    const token=this.token.get();
+    const token = this.token.get();
 
-    this.http.post(Constants.API_URL+'report/attendanceHR'+'?token='+token,{startDate:$('#startDate').val(),endDate:$('#endDate').val()}).subscribe(data => {
+    this.http.post(Constants.API_URL + 'report/attendanceHR' + '?token=' + token, {startDate: $('#startDate').val(), endDate: $('#endDate').val()}).subscribe(data => {
 
         this.spinner.hide();
         console.log(data);
 
 
-        let fileName=Constants.Image_URL+'exportedExcel/'+data;
+        const fileName = Constants.Image_URL + 'exportedExcel/' + data;
 
-        let link = document.createElement("a");
-        link.download = data+".xls";
-        let uri = fileName+".xls";
+        const link = document.createElement('a');
+        link.download = data + '.xls';
+        const uri = fileName + '.xls';
         link.href = uri;
         document.body.appendChild(link);
         link.click();
@@ -340,22 +340,22 @@ export class AttendanceComponent implements OnInit {
     );
 
   }
-  generateMonthlyINOUTExcel(){
+  generateMonthlyINOUTExcel() {
 
     this.spinner.show();
-    const token=this.token.get();
+    const token = this.token.get();
 
-    this.http.post(Constants.API_URL+'report/attendanceHRINOUTmonthly'+'?token='+token,{report:'monthly',startDate:$('#startDate').val(),endDate:$('#endDate').val()}).subscribe(data => {
+    this.http.post(Constants.API_URL + 'report/attendanceHRINOUTmonthly' + '?token=' + token, {report: 'monthly', startDate: $('#startDate').val(), endDate: $('#endDate').val()}).subscribe(data => {
 
         this.spinner.hide();
         console.log(data);
 
 
-        let fileName=Constants.Image_URL+'exportedExcel/'+data;
+        const fileName = Constants.Image_URL + 'exportedExcel/' + data;
 
-        let link = document.createElement("a");
-        link.download = data+".xls";
-        let uri = fileName+".xls";
+        const link = document.createElement('a');
+        link.download = data + '.xls';
+        const uri = fileName + '.xls';
         link.href = uri;
         document.body.appendChild(link);
         link.click();
@@ -370,18 +370,18 @@ export class AttendanceComponent implements OnInit {
     );
 
   }
-  generateINOUTExcel(){
+  generateINOUTExcel() {
 
-    if($('#notAssignedRoster').is(':checked')){
+    if ($('#notAssignedRoster').is(':checked')) {
 
-      if ($('#excelType').val() == "") {
+      if ($('#excelType').val() == '') {
 
         $.alert({
           title: 'Alert',
           content: 'Please select Excel Type',
         });
 
-      }else {
+      } else {
 
         // this.spinner.show();
         // const token = this.token.get();
@@ -423,7 +423,7 @@ export class AttendanceComponent implements OnInit {
 
 
 
-    }else {
+    } else {
 
 
       if (this.selectedItems.length > 0) {
@@ -431,7 +431,7 @@ export class AttendanceComponent implements OnInit {
       //  console.log(this.selectedItems);
 
 
-        if ($('#excelType').val() == "") {
+        if ($('#excelType').val() == '') {
 
           $.alert({
             title: 'Alert',
@@ -440,7 +440,7 @@ export class AttendanceComponent implements OnInit {
 
         } else {
 
-          let empList = [];
+          const empList = [];
           for (let $i = 0; $i < this.selectedItems.length; $i++) {
             empList.push(this.selectedItems[$i]['empid']);
           }
@@ -449,7 +449,7 @@ export class AttendanceComponent implements OnInit {
           this.spinner.show();
           const token = this.token.get();
 
-          if ($('#excelType').val() == "1") {
+          if ($('#excelType').val() == '1') {
 
 
             this.http.post(Constants.API_URL + 'report/attendanceHRINOUT' + '?token=' + token, {
@@ -463,26 +463,26 @@ export class AttendanceComponent implements OnInit {
                 console.log(data);
 
 
-                let fileName = Constants.Image_URL + 'exportedExcel/' + data;
+                const fileName = Constants.Image_URL + 'exportedExcel/' + data;
 
-                let link = document.createElement("a");
-                link.download = data + ".xls";
-                let uri = fileName + ".xls";
+                const link = document.createElement('a');
+                link.download = data + '.xls';
+                const uri = fileName + '.xls';
                 link.href = uri;
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
-                $("#excelType").val("");
+                $('#excelType').val('');
                 this.selectedItems = [];
 
                 /* delete the server file */
 
-                let fileinfo={
-                  'filePath':'exportedExcel/',
-                  'fileName':data + ".xls",
-                }
+                const fileinfo = {
+                  'filePath': 'exportedExcel/',
+                  'fileName': data + '.xls',
+                };
 
-                this.http.post(Constants.API_URL+'deleteFile'+'?token='+token,fileinfo).subscribe(data => {
+                this.http.post(Constants.API_URL + 'deleteFile' + '?token=' + token, fileinfo).subscribe(data => {
 
                     //  console.log(data);
 
@@ -501,7 +501,7 @@ export class AttendanceComponent implements OnInit {
               }
             );
 
-          } else if ($('#excelType').val() == "2") {
+          } else if ($('#excelType').val() == '2') {
 
 
             this.http.post(Constants.API_URL + 'report/attendanceHRINOUT' + '?token=' + token, {
@@ -514,26 +514,26 @@ export class AttendanceComponent implements OnInit {
                 console.log(data);
 
 
-                let fileName = Constants.Image_URL + 'exportedExcel/' + data;
+                const fileName = Constants.Image_URL + 'exportedExcel/' + data;
 
-                let link = document.createElement("a");
-                link.download = data + ".xls";
-                let uri = fileName + ".xls";
+                const link = document.createElement('a');
+                link.download = data + '.xls';
+                const uri = fileName + '.xls';
                 link.href = uri;
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
-                $("#excelType").val("");
+                $('#excelType').val('');
                 this.selectedItems = [];
 
                 /* delete the server file */
 
-                let fileinfo={
-                  'filePath':'exportedExcel/',
-                  'fileName':data + ".xls",
-                }
+                const fileinfo = {
+                  'filePath': 'exportedExcel/',
+                  'fileName': data + '.xls',
+                };
 
-                this.http.post(Constants.API_URL+'deleteFile'+'?token='+token,fileinfo).subscribe(data => {
+                this.http.post(Constants.API_URL + 'deleteFile' + '?token=' + token, fileinfo).subscribe(data => {
 
                     //  console.log(data);
 
@@ -553,7 +553,7 @@ export class AttendanceComponent implements OnInit {
             );
 
 
-          } else if ($('#excelType').val() == "3") {
+          } else if ($('#excelType').val() == '3') {
 
             this.http.post(Constants.API_URL + 'report/attendanceHRINOUT' + '?token=' + token, {
               startDate: $('#startDate').val(),
@@ -566,26 +566,26 @@ export class AttendanceComponent implements OnInit {
                 console.log(data);
 
 
-                let fileName = Constants.Image_URL + 'exportedExcel/' + data;
+                const fileName = Constants.Image_URL + 'exportedExcel/' + data;
 
-                let link = document.createElement("a");
-                link.download = data + ".xls";
-                let uri = fileName + ".xls";
+                const link = document.createElement('a');
+                link.download = data + '.xls';
+                const uri = fileName + '.xls';
                 link.href = uri;
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
-                $("#excelType").val("");
+                $('#excelType').val('');
                 this.selectedItems = [];
 
                 /* delete the server file */
 
-                let fileinfo={
-                  'filePath':'exportedExcel/',
-                  'fileName':data + ".xls",
-                }
+                const fileinfo = {
+                  'filePath': 'exportedExcel/',
+                  'fileName': data + '.xls',
+                };
 
-                this.http.post(Constants.API_URL+'deleteFile'+'?token='+token,fileinfo).subscribe(data => {
+                this.http.post(Constants.API_URL + 'deleteFile' + '?token=' + token, fileinfo).subscribe(data => {
 
                     //  console.log(data);
 
@@ -604,7 +604,7 @@ export class AttendanceComponent implements OnInit {
               }
             );
 
-          } else if ($('#excelType').val() == "4") {
+          } else if ($('#excelType').val() == '4') {
 
             this.http.post(Constants.API_URL + 'report/finalReport-1' + '?token=' + token, {
 
@@ -618,26 +618,26 @@ export class AttendanceComponent implements OnInit {
                 console.log(data);
 
 
-                let fileName = Constants.Image_URL + 'exportedExcel/' + data;
+                const fileName = Constants.Image_URL + 'exportedExcel/' + data;
 
-                let link = document.createElement("a");
-                link.download = data + ".xls";
-                let uri = fileName + ".xls";
+                const link = document.createElement('a');
+                link.download = data + '.xls';
+                const uri = fileName + '.xls';
                 link.href = uri;
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
-                $("#excelType").val("");
+                $('#excelType').val('');
                 this.selectedItems = [];
 
                 /* delete the server file */
 
-                let fileinfo={
-                  'filePath':'exportedExcel/',
-                  'fileName':data + ".xls",
-                }
+                const fileinfo = {
+                  'filePath': 'exportedExcel/',
+                  'fileName': data + '.xls',
+                };
 
-                this.http.post(Constants.API_URL+'deleteFile'+'?token='+token,fileinfo).subscribe(data => {
+                this.http.post(Constants.API_URL + 'deleteFile' + '?token=' + token, fileinfo).subscribe(data => {
 
                     //  console.log(data);
 
@@ -656,7 +656,7 @@ export class AttendanceComponent implements OnInit {
               }
             );
 
-          }else if ($('#excelType').val() == "5") {
+          } else if ($('#excelType').val() == '5') {
 
             this.http.post(Constants.API_URL + 'report/finalReport-2' + '?token=' + token, {
 
@@ -669,26 +669,26 @@ export class AttendanceComponent implements OnInit {
                 this.spinner.hide();
                 console.log(data);
 
-                let fileName = Constants.Image_URL + 'exportedExcel/' + data;
+                const fileName = Constants.Image_URL + 'exportedExcel/' + data;
 
-                let link = document.createElement("a");
-                link.download = data + ".xls";
-                let uri = fileName + ".xls";
+                const link = document.createElement('a');
+                link.download = data + '.xls';
+                const uri = fileName + '.xls';
                 link.href = uri;
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
-                $("#excelType").val("");
+                $('#excelType').val('');
                 this.selectedItems = [];
 
                 /* delete the server file */
 
-                let fileinfo={
-                  'filePath':'exportedExcel/',
-                  'fileName':data + ".xls",
-                }
+                const fileinfo = {
+                  'filePath': 'exportedExcel/',
+                  'fileName': data + '.xls',
+                };
 
-                this.http.post(Constants.API_URL+'deleteFile'+'?token='+token,fileinfo).subscribe(data => {
+                this.http.post(Constants.API_URL + 'deleteFile' + '?token=' + token, fileinfo).subscribe(data => {
 
                     //  console.log(data);
 
@@ -707,9 +707,7 @@ export class AttendanceComponent implements OnInit {
               }
             );
 
-          }
-
-          else if ($('#excelType').val() == "6") {
+          } else if ($('#excelType').val() == '6') {
 
             this.http.post(Constants.API_URL + 'report/finalReport-3' + '?token=' + token, {
 
@@ -723,26 +721,26 @@ export class AttendanceComponent implements OnInit {
                 console.log(data);
 
 
-                let fileName = Constants.Image_URL + 'exportedExcel/' + data;
+                const fileName = Constants.Image_URL + 'exportedExcel/' + data;
 
-                let link = document.createElement("a");
-                link.download = data + ".xls";
-                let uri = fileName + ".xls";
+                const link = document.createElement('a');
+                link.download = data + '.xls';
+                const uri = fileName + '.xls';
                 link.href = uri;
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
-                $("#excelType").val("");
+                $('#excelType').val('');
                 this.selectedItems = [];
 
                 /* delete the server file */
 
-                let fileinfo={
-                  'filePath':'exportedExcel/',
-                  'fileName':data + ".xls",
-                }
+                const fileinfo = {
+                  'filePath': 'exportedExcel/',
+                  'fileName': data + '.xls',
+                };
 
-                this.http.post(Constants.API_URL+'deleteFile'+'?token='+token,fileinfo).subscribe(data => {
+                this.http.post(Constants.API_URL + 'deleteFile' + '?token=' + token, fileinfo).subscribe(data => {
 
                     //  console.log(data);
 
@@ -761,14 +759,12 @@ export class AttendanceComponent implements OnInit {
               }
             );
 
-          }
-          else if ($('#excelType').val() == "7") {
+          } else if ($('#excelType').val() == '7') {
 
 
 
 
-            if ($('#RosterInfo').find(":selected").val() ==''|| $('#RosterInfo').find(":selected").val() == null)
-            {
+            if ($('#RosterInfo').find(':selected').val() == '' || $('#RosterInfo').find(':selected').val() == null) {
 
               $.alert({
                 title: 'Alert',
@@ -783,7 +779,7 @@ export class AttendanceComponent implements OnInit {
                 startDate: $('#startDate').val(),
                 endDate: $('#endDate').val(),
                 empId: empList,
-                rosterId:$('#RosterInfo').find(":selected").val(),
+                rosterId: $('#RosterInfo').find(':selected').val(),
                 report: 'Roster_wise_Report'
 
               }).subscribe(data => {
@@ -792,30 +788,30 @@ export class AttendanceComponent implements OnInit {
                   console.log(data);
 
 
-                  let fileName = Constants.Image_URL + 'exportedExcel/' + data;
+                  const fileName = Constants.Image_URL + 'exportedExcel/' + data;
 
-                  let link = document.createElement("a");
-                  link.download = data + ".xls";
-                  let uri = fileName + ".xls";
+                  const link = document.createElement('a');
+                  link.download = data + '.xls';
+                  const uri = fileName + '.xls';
                   link.href = uri;
                   document.body.appendChild(link);
                   link.click();
                   document.body.removeChild(link);
-                  $("#excelType").val("");
+                  $('#excelType').val('');
                   this.selectedItems = [];
                   this.selectedDropDown = [];
-                  $("#RosterInfo").val("");
-                  this.rosterDiv=false;
-                  this.empDiv=true;
+                  $('#RosterInfo').val('');
+                  this.rosterDiv = false;
+                  this.empDiv = true;
 
                   /* delete the server file */
 
-                let fileinfo={
-                  'filePath':'exportedExcel/',
-                  'fileName':data + ".xls",
-                }
+                const fileinfo = {
+                  'filePath': 'exportedExcel/',
+                  'fileName': data + '.xls',
+                };
 
-                  this.http.post(Constants.API_URL+'deleteFile'+'?token='+token,fileinfo).subscribe(data => {
+                  this.http.post(Constants.API_URL + 'deleteFile' + '?token=' + token, fileinfo).subscribe(data => {
 
                   //  console.log(data);
 
@@ -841,14 +837,12 @@ export class AttendanceComponent implements OnInit {
 
 
 
-          }
-          else if ($('#excelType').val() == "9") {
+          } else if ($('#excelType').val() == '9') {
 
 
 
 
-            if ($('#RosterInfo').find(":selected").val() ==''|| $('#RosterInfo').find(":selected").val() == null)
-            {
+            if ($('#RosterInfo').find(':selected').val() == '' || $('#RosterInfo').find(':selected').val() == null) {
 
               $.alert({
                 title: 'Alert',
@@ -863,7 +857,7 @@ export class AttendanceComponent implements OnInit {
                 startDate: $('#startDate').val(),
                 endDate: $('#endDate').val(),
                 empId: empList,
-                rosterId:$('#RosterInfo').find(":selected").val(),
+                rosterId: $('#RosterInfo').find(':selected').val(),
                 report: 'Roster_wise_Report-3'
 
               }).subscribe(data => {
@@ -872,30 +866,30 @@ export class AttendanceComponent implements OnInit {
                   console.log(data);
 
 
-                  let fileName = Constants.Image_URL + 'exportedExcel/' + data;
+                  const fileName = Constants.Image_URL + 'exportedExcel/' + data;
 
-                  let link = document.createElement("a");
-                  link.download = data + ".xls";
-                  let uri = fileName + ".xls";
+                  const link = document.createElement('a');
+                  link.download = data + '.xls';
+                  const uri = fileName + '.xls';
                   link.href = uri;
                   document.body.appendChild(link);
                   link.click();
                   document.body.removeChild(link);
-                  $("#excelType").val("");
+                  $('#excelType').val('');
                   this.selectedItems = [];
                   this.selectedDropDown = [];
-                  $("#RosterInfo").val("");
-                  this.rosterDiv=false;
-                  this.empDiv=true;
+                  $('#RosterInfo').val('');
+                  this.rosterDiv = false;
+                  this.empDiv = true;
 
                   /* delete the server file */
 
-                let fileinfo={
-                  'filePath':'exportedExcel/',
-                  'fileName':data + ".xls",
-                }
+                const fileinfo = {
+                  'filePath': 'exportedExcel/',
+                  'fileName': data + '.xls',
+                };
 
-                  this.http.post(Constants.API_URL+'deleteFile'+'?token='+token,fileinfo).subscribe(data => {
+                  this.http.post(Constants.API_URL + 'deleteFile' + '?token=' + token, fileinfo).subscribe(data => {
 
                   //  console.log(data);
 
@@ -921,14 +915,12 @@ export class AttendanceComponent implements OnInit {
 
 
 
-          }
-          else if ($('#excelType').val() == "8") {
+          } else if ($('#excelType').val() == '8') {
 
 
 
 
-            if ($('#RosterInfo').find(":selected").val() ==''|| $('#RosterInfo').find(":selected").val() == null)
-            {
+            if ($('#RosterInfo').find(':selected').val() == '' || $('#RosterInfo').find(':selected').val() == null) {
 
               $.alert({
                 title: 'Alert',
@@ -943,7 +935,7 @@ export class AttendanceComponent implements OnInit {
                 startDate: $('#startDate').val(),
                 endDate: $('#endDate').val(),
                 empId: empList,
-                rosterId:$('#RosterInfo').find(":selected").val(),
+                rosterId: $('#RosterInfo').find(':selected').val(),
                 report: 'Roster_wise_Report-2'
 
               }).subscribe(data => {
@@ -952,30 +944,30 @@ export class AttendanceComponent implements OnInit {
                   console.log(data);
 
 
-                  let fileName = Constants.Image_URL + 'exportedExcel/' + data;
+                  const fileName = Constants.Image_URL + 'exportedExcel/' + data;
 
-                  let link = document.createElement("a");
-                  link.download = data + ".xls";
-                  let uri = fileName + ".xls";
+                  const link = document.createElement('a');
+                  link.download = data + '.xls';
+                  const uri = fileName + '.xls';
                   link.href = uri;
                   document.body.appendChild(link);
                   link.click();
                   document.body.removeChild(link);
-                  $("#excelType").val("");
+                  $('#excelType').val('');
                   this.selectedItems = [];
                   this.selectedDropDown = [];
-                  $("#RosterInfo").val("");
-                  this.rosterDiv=false;
-                  this.empDiv=true;
+                  $('#RosterInfo').val('');
+                  this.rosterDiv = false;
+                  this.empDiv = true;
 
                   /* delete the server file */
 
-                let fileinfo={
-                  'filePath':'exportedExcel/',
-                  'fileName':data + ".xls",
-                }
+                const fileinfo = {
+                  'filePath': 'exportedExcel/',
+                  'fileName': data + '.xls',
+                };
 
-                  this.http.post(Constants.API_URL+'deleteFile'+'?token='+token,fileinfo).subscribe(data => {
+                  this.http.post(Constants.API_URL + 'deleteFile' + '?token=' + token, fileinfo).subscribe(data => {
 
                   //  console.log(data);
 
@@ -1002,20 +994,82 @@ export class AttendanceComponent implements OnInit {
 
 
           }
+          // else if ($('#excelType').val() == "10") {
+          //
+          //
+          //     this.http.post(Constants.API_URL + 'report/MultipleRoserWiseReport-1' + '?token=' + token, {
+          //
+          //       startDate: $('#startDate').val(),
+          //       endDate: $('#endDate').val(),
+          //       empId: empList,
+          //       report: 'Multiple_Roster_wise_Report-1'
+          //
+          //     }).subscribe(data => {
+          //
+          //         this.spinner.hide();
+          //         console.log(data);
+          //
+          //
+          //         let fileName = Constants.Image_URL + 'exportedExcel/' + data;
+          //
+          //         let link = document.createElement("a");
+          //         link.download = data + ".xls";
+          //         let uri = fileName + ".xls";
+          //         link.href = uri;
+          //         document.body.appendChild(link);
+          //         link.click();
+          //         document.body.removeChild(link);
+          //         $("#excelType").val("");
+          //         this.selectedItems = [];
+          //         this.selectedDropDown = [];
+          //         $("#RosterInfo").val("");
+          //         this.rosterDiv=false;
+          //         this.empDiv=true;
+          //
+          //         /* delete the server file */
+          //
+          //       let fileinfo={
+          //         'filePath':'exportedExcel/',
+          //         'fileName':data + ".xls",
+          //       }
+          //
+          //         this.http.post(Constants.API_URL+'deleteFile'+'?token='+token,fileinfo).subscribe(data => {
+          //
+          //         //  console.log(data);
+          //
+          //
+          //           },
+          //           error => {
+          //             console.log(error);
+          //           }
+          //         );
+          //
+          //
+          //       },
+          //       error => {
+          //         console.log(error);
+          //         this.spinner.hide();
+          //       }
+          //     );
+          //
+          //
+          //
+          //
+          // }
 
 
         }
 
       } else {
 
-        if ($('#excelType').val() == "") {
+        if ($('#excelType').val() == '') {
 
           $.alert({
             title: 'Alert',
             content: 'Please select Excel Type',
           });
 
-        } else if ($('#excelType').val() == "1") {
+        } else if ($('#excelType').val() == '1') {
 
           this.spinner.show();
           const token = this.token.get();
@@ -1030,26 +1084,26 @@ export class AttendanceComponent implements OnInit {
               console.log(data);
 
 
-              let fileName = Constants.Image_URL + 'exportedExcel/' + data;
+              const fileName = Constants.Image_URL + 'exportedExcel/' + data;
 
-              let link = document.createElement("a");
-              link.download = data + ".xls";
-              let uri = fileName + ".xls";
+              const link = document.createElement('a');
+              link.download = data + '.xls';
+              const uri = fileName + '.xls';
               link.href = uri;
               document.body.appendChild(link);
               link.click();
               document.body.removeChild(link);
-              $("#excelType").val("");
+              $('#excelType').val('');
               this.selectedItems = [];
 
               /* delete the server file */
 
-              let fileinfo={
-                'filePath':'exportedExcel/',
-                'fileName':data + ".xls",
-              }
+              const fileinfo = {
+                'filePath': 'exportedExcel/',
+                'fileName': data + '.xls',
+              };
 
-              this.http.post(Constants.API_URL+'deleteFile'+'?token='+token,fileinfo).subscribe(data => {
+              this.http.post(Constants.API_URL + 'deleteFile' + '?token=' + token, fileinfo).subscribe(data => {
 
                   //  console.log(data);
 
@@ -1067,7 +1121,7 @@ export class AttendanceComponent implements OnInit {
             }
           );
 
-        } else if ($('#excelType').val() == "2") {
+        } else if ($('#excelType').val() == '2') {
 
           this.spinner.show();
           const token = this.token.get();
@@ -1082,26 +1136,26 @@ export class AttendanceComponent implements OnInit {
               console.log(data);
 
 
-              let fileName = Constants.Image_URL + 'exportedExcel/' + data;
+              const fileName = Constants.Image_URL + 'exportedExcel/' + data;
 
-              let link = document.createElement("a");
-              link.download = data + ".xls";
-              let uri = fileName + ".xls";
+              const link = document.createElement('a');
+              link.download = data + '.xls';
+              const uri = fileName + '.xls';
               link.href = uri;
               document.body.appendChild(link);
               link.click();
               document.body.removeChild(link);
-              $("#excelType").val("");
+              $('#excelType').val('');
               this.selectedItems = [];
 
               /* delete the server file */
 
-              let fileinfo={
-                'filePath':'exportedExcel/',
-                'fileName':data + ".xls",
-              }
+              const fileinfo = {
+                'filePath': 'exportedExcel/',
+                'fileName': data + '.xls',
+              };
 
-              this.http.post(Constants.API_URL+'deleteFile'+'?token='+token,fileinfo).subscribe(data => {
+              this.http.post(Constants.API_URL + 'deleteFile' + '?token=' + token, fileinfo).subscribe(data => {
 
                   //  console.log(data);
 
@@ -1121,7 +1175,7 @@ export class AttendanceComponent implements OnInit {
           );
 
 
-        } else if ($('#excelType').val() == "3") {
+        } else if ($('#excelType').val() == '3') {
 
           this.spinner.show();
           const token = this.token.get();
@@ -1136,26 +1190,26 @@ export class AttendanceComponent implements OnInit {
               console.log(data);
 
 
-              let fileName = Constants.Image_URL + 'exportedExcel/' + data;
+              const fileName = Constants.Image_URL + 'exportedExcel/' + data;
 
-              let link = document.createElement("a");
-              link.download = data + ".xls";
-              let uri = fileName + ".xls";
+              const link = document.createElement('a');
+              link.download = data + '.xls';
+              const uri = fileName + '.xls';
               link.href = uri;
               document.body.appendChild(link);
               link.click();
               document.body.removeChild(link);
-              $("#excelType").val("");
+              $('#excelType').val('');
               this.selectedItems = [];
 
               /* delete the server file */
 
-              let fileinfo={
-                'filePath':'exportedExcel/',
-                'fileName':data + ".xls",
-              }
+              const fileinfo = {
+                'filePath': 'exportedExcel/',
+                'fileName': data + '.xls',
+              };
 
-              this.http.post(Constants.API_URL+'deleteFile'+'?token='+token,fileinfo).subscribe(data => {
+              this.http.post(Constants.API_URL + 'deleteFile' + '?token=' + token, fileinfo).subscribe(data => {
 
                   //  console.log(data);
 
@@ -1175,8 +1229,7 @@ export class AttendanceComponent implements OnInit {
           );
 
 
-        }
-        else if ($('#excelType').val() == "4") {
+        } else if ($('#excelType').val() == '4') {
 
           this.spinner.show();
           const token = this.token.get();
@@ -1193,26 +1246,26 @@ export class AttendanceComponent implements OnInit {
               console.log(data);
 
 
-              let fileName = Constants.Image_URL + 'exportedExcel/' + data;
+              const fileName = Constants.Image_URL + 'exportedExcel/' + data;
 
-              let link = document.createElement("a");
-              link.download = data + ".xls";
-              let uri = fileName + ".xls";
+              const link = document.createElement('a');
+              link.download = data + '.xls';
+              const uri = fileName + '.xls';
               link.href = uri;
               document.body.appendChild(link);
               link.click();
               document.body.removeChild(link);
-              $("#excelType").val("");
+              $('#excelType').val('');
               this.selectedItems = [];
 
               /* delete the server file */
 
-              let fileinfo={
-                'filePath':'exportedExcel/',
-                'fileName':data + ".xls",
-              }
+              const fileinfo = {
+                'filePath': 'exportedExcel/',
+                'fileName': data + '.xls',
+              };
 
-              this.http.post(Constants.API_URL+'deleteFile'+'?token='+token,fileinfo).subscribe(data => {
+              this.http.post(Constants.API_URL + 'deleteFile' + '?token=' + token, fileinfo).subscribe(data => {
 
                   //  console.log(data);
 
@@ -1231,8 +1284,7 @@ export class AttendanceComponent implements OnInit {
             }
           );
 
-        }
-        else if ($('#excelType').val() == "6") {
+        } else if ($('#excelType').val() == '6') {
 
           this.spinner.show();
           const token = this.token.get();
@@ -1249,26 +1301,26 @@ export class AttendanceComponent implements OnInit {
               console.log(data);
 
 
-              let fileName = Constants.Image_URL + 'exportedExcel/' + data;
+              const fileName = Constants.Image_URL + 'exportedExcel/' + data;
 
-              let link = document.createElement("a");
-              link.download = data + ".xls";
-              let uri = fileName + ".xls";
+              const link = document.createElement('a');
+              link.download = data + '.xls';
+              const uri = fileName + '.xls';
               link.href = uri;
               document.body.appendChild(link);
               link.click();
               document.body.removeChild(link);
-              $("#excelType").val("");
+              $('#excelType').val('');
               this.selectedItems = [];
 
               /* delete the server file */
 
-              let fileinfo={
-                'filePath':'exportedExcel/',
-                'fileName':data + ".xls",
-              }
+              const fileinfo = {
+                'filePath': 'exportedExcel/',
+                'fileName': data + '.xls',
+              };
 
-              this.http.post(Constants.API_URL+'deleteFile'+'?token='+token,fileinfo).subscribe(data => {
+              this.http.post(Constants.API_URL + 'deleteFile' + '?token=' + token, fileinfo).subscribe(data => {
 
                   //  console.log(data);
 
@@ -1287,8 +1339,7 @@ export class AttendanceComponent implements OnInit {
             }
           );
 
-        }
-        else if ($('#excelType').val() == "7") {
+        } else if ($('#excelType').val() == '7') {
 
               $.alert({
                 title: 'Alert',
@@ -1297,8 +1348,7 @@ export class AttendanceComponent implements OnInit {
 
 
 
-        }
-        else if ($('#excelType').val() == "9") {
+        } else if ($('#excelType').val() == '9') {
 
               $.alert({
                 title: 'Alert',
@@ -1307,8 +1357,7 @@ export class AttendanceComponent implements OnInit {
 
 
 
-        }
-        else if ($('#excelType').val() == "8") {
+        } else if ($('#excelType').val() == '8') {
 
               $.alert({
                 title: 'Alert',
@@ -1328,7 +1377,7 @@ export class AttendanceComponent implements OnInit {
 
   }
 
-  total(){
+  total() {
 
   }
 
@@ -1341,26 +1390,26 @@ export class AttendanceComponent implements OnInit {
   //   });
   // }
 
-  searchAttendance(){
+  searchAttendance() {
 
 
 
-    if(this.selectedItems.length<=0){
+    if (this.selectedItems.length <= 0) {
         $.alert({
           title: 'Alert',
           content: 'Please select an Employee',
         });
-    }else if(this.selectedItems.length>1){
+    } else if (this.selectedItems.length > 1) {
 
         $.alert({
           title: 'Alert',
           content: 'Please select only 1 Employee',
         });
 
-    }else {
-          const token=this.token.get();
+    } else {
+          const token = this.token.get();
 
-          let empList = [];
+          const empList = [];
           for (let $i = 0; $i < this.selectedItems.length; $i++) {
             empList.push(this.selectedItems[$i]['empid']);
           }
@@ -1374,9 +1423,9 @@ export class AttendanceComponent implements OnInit {
 
               this.spinner.hide();
 
-              this.attendenceDataDates=data['dates'];
-              this.attendenceDataResults=data['result'];
-              this.attendenceDataAllEmp=data['allEmp'];
+              this.attendenceDataDates = data['dates'];
+              this.attendenceDataResults = data['result'];
+              this.attendenceDataAllEmp = data['allEmp'];
               console.log(this.attendenceDataResults);
 
 
@@ -1399,36 +1448,36 @@ export class AttendanceComponent implements OnInit {
 
   }
 
-  getPreAndNextDate(){
+  getPreAndNextDate() {
 
    // console.log('test');
 
   }
-  previusDay(date){
+  previusDay(date) {
 
 
 
 
-     let d = new Date(date);
-     let previousdate=d.getDate()-1;
-     let dd='';
-     let mm='';
+     const d = new Date(date);
+     const previousdate = d.getDate() - 1;
+     let dd = '';
+     let mm = '';
 
 
 
-   var month = d.getMonth() + 1;
+   const month = d.getMonth() + 1;
 
     if (previousdate < 10) {
        dd = '0' + previousdate;
-    }else {
-      dd=''+previousdate;
+    } else {
+      dd = '' + previousdate;
     }
     if (month < 10) {
        mm = '0' + month;
-    }else {
-        mm=''+month;
+    } else {
+        mm = '' + month;
     }
-    let yesterdayString = d.getFullYear() + '-' + mm + '-' + dd;
+    const yesterdayString = d.getFullYear() + '-' + mm + '-' + dd;
 
     return yesterdayString;
 

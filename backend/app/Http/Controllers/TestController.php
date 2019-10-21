@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\AttendanceData;
 use App\Employee;
+use App\GovtHoliday;
 use App\Leave;
 use App\OrganizationCalander;
 use App\ShiftLog;
+use App\Swap;
 use App\TimeSwap;
 use DateTime;
 use Illuminate\Http\Request;
@@ -126,6 +128,17 @@ class TestController extends Controller
 
     public function Rumi()
     {
+
+        include(base_path() .'../../ZKLibrary-master\finalAttScript\zklibrary.php');
+
+        return $str=base_path().'../../'.'\ZKLibrary-master\finalAttScript/zklibrary.php';
+//        $zk = new ZKLibrary('192.168.50.167', 4370);
+//        $zk->connect();
+//        return $zk->getUser();
+
+
+
+
 
 
     }
