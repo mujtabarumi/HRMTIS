@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import  { Constants }  from '../../../../constants';
 import {Designation} from "../../../../model/designation.model";
 import {TokenService} from "../../../../services/token.service";
+import {Department} from "../../../../model/department.model";
 
 @Component({
   selector: 'app-add-designation',
@@ -58,6 +59,21 @@ export class AddDesignationComponent implements OnInit {
     this.http.post(Constants.API_URL+'designationinfo/post'+'?token='+token,this.designationForm).subscribe(data => {
 
         this.getAllDesignations();
+
+        this.designationForm = {} as Designation;
+        $.alert({
+          title: 'Success!',
+          type: 'Green',
+          content: data['message'],
+          buttons: {
+            tryAgain: {
+              text: 'Ok',
+              btnClass: 'btn-red',
+              action: function () {
+              }
+            }
+          }
+        });
       },
       error => {
         console.log(error);

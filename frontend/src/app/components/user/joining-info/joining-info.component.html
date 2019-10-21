@@ -19,8 +19,6 @@
                [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD'}">
       </div>
 
-
-
       <div class="form-group col-md-6">
         <label>Resign Date</label>
         <input bsDatepicker
@@ -53,12 +51,9 @@
           [data]="dropdownList"
           [(ngModel)]="selectedItems"
           [settings]="dropdownSettings"
-
-
         >
         </ng-multiselect-dropdown>
       </div>
-
 
       <div class="form-group col-md-4">
         <label>Card Number</label>
@@ -77,16 +72,9 @@
         <input type="text" name="accessPin" placeholder="out device number" [(ngModel)]="employeeJoiningForm.outDeviceNo" class="form-control">
       </div>
 
-
-
-
-
-
-
       <div class="col-md-12">
         <button class="btn btn-success" (click)="submit()">Save</button>
       </div>
-
 
       <!--Leave Limit-->
       <div class="form-group col-md-12">
@@ -108,7 +96,6 @@
       <div class="col-md-12">
         <button class="btn btn-success" (click)="submitLeaveLimit()" >Save Leave Limit</button>
       </div>
-
 
     </div>
   </div>
