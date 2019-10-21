@@ -6,5 +6,6 @@ export interface  Department {
     fkDeptParent:number;
     fkCompany:number;
     deptLevel:number;
+    status:string;
     createdBy:number;
 }
