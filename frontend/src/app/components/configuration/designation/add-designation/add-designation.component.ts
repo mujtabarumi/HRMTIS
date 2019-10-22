@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import  { Constants }  from '../../../../constants';
-import {Designation} from "../../../../model/designation.model";
-import {TokenService} from "../../../../services/token.service";
-import {Department} from "../../../../model/department.model";
+import { Constants } from '../../../../constants';
+import {Designation} from '../../../../model/designation.model';
+import {TokenService} from '../../../../services/token.service';
+import {Department} from '../../../../model/department.model';
+declare var $: any;
 
 @Component({
   selector: 'app-add-designation',
@@ -12,21 +13,22 @@ import {Department} from "../../../../model/department.model";
 })
 export class AddDesignationComponent implements OnInit {
 
-  id:number;
+  id: number;
 
-  designationForm={} as Designation;
-  designation:any;
+  designationForm = {} as Designation;
+  designation: any;
 
-  constructor(public http: HttpClient,private token:TokenService) { }
+
+  constructor(public http: HttpClient, private token: TokenService) { }
 
   ngOnInit() {
     this.getAllDesignations();
   }
 
-  getAllDesignations(){
-    this.http.get(Constants.API_URL+'designation/get').subscribe(data => {
+  getAllDesignations() {
+    this.http.get(Constants.API_URL + 'designation/get').subscribe(data => {
 
-        this.designation=<Designation>data;
+        this.designation = <Designation>data;
 
       },
       error => {
@@ -34,29 +36,29 @@ export class AddDesignationComponent implements OnInit {
       }
     );
   }
-  checkId(){
+  checkId() {
     //
-    if(Object.keys(this.designationForm).length === 0){
+    if (Object.keys(this.designationForm).length === 0) {
       return true;
     }
     return false;
     // else {return true;}
   }
 
-  editDsig(desig){
-    this.designationForm=desig;
+  editDsig(desig) {
+    this.designationForm = desig;
 
 
   }
 
-  reset(){
-    this.designationForm={} as Designation;
+  reset() {
+    this.designationForm = {} as Designation;
   }
 
-  onSubmit(){
+  onSubmit() {
 
-    const token=this.token.get();
-    this.http.post(Constants.API_URL+'designationinfo/post'+'?token='+token,this.designationForm).subscribe(data => {
+    const token = this.token.get();
+    this.http.post(Constants.API_URL + 'designationinfo/post' + '?token=' + token, this.designationForm).subscribe(data => {
 
         this.getAllDesignations();
 

@@ -984,7 +984,22 @@ class AttendanceController extends Controller {
         );
 
 
+
+
         if ($r->empId) {
+
+            $allTimeSwap=TimeSwap::whereBetween('date', array($fromDate, $toDate))
+                ->where(function ($query) {
+                    $query->where('departmentHeadApproval', '!=', '0')
+                        ->orWhere('departmentHeadApproval', '!=', null);
+                })->where(function ($query) {
+                    $query->where('HR_adminApproval', '!=', '0')
+                        ->orWhere('HR_adminApproval', '!=', null);
+                })
+                ->whereIn('time_swap.fkEmployeeId', $r->empId)
+                ->get();
+
+            $allTimeSwap=collect($allTimeSwap);
 
             $allLeave = Leave::leftJoin('leavecategories', 'leavecategories.id', '=', 'leaves.fkLeaveCategory')
                 ->where('applicationStatus', "Approved")
@@ -1055,7 +1070,9 @@ class AttendanceController extends Controller {
             , date_format(ad.accessTime,'%Y-%m-%d %H:%i:%s') accessTime2
             from attendancedata ad left join attemployeemap em on ad.attDeviceUserId = em.attDeviceUserId
             and date_format(ad.accessTime,'%Y-%m-%d') between '" . $fromDate . "' and '" . $toDate . "'
-            left join shiftlog sl on em.employeeId = sl.fkemployeeId and date_format(ad.accessTime,'%Y-%m-%d') between date_format(sl.startDate,'%Y-%m-%d') and ifnull(date_format(sl.endDate,'%Y-%m-%d'),curdate())
+            left join shiftlog sl on em.employeeId = sl.fkemployeeId 
+            and date_format(ad.accessTime,'%Y-%m-%d') between date_format(sl.startDate,'%Y-%m-%d') and ifnull(date_format(sl.endDate,'%Y-%m-%d'),curdate())
+            and date_format(ad.accessTime,'%H:%i:%s') between sl.inTime and sl.outTime
             left join employeeinfo emInfo on em.employeeId = emInfo.id and emInfo.fkDepartmentId is not null
             
             where sl.fkshiftId IN (" . $roster . ") and date_format(ad.accessTime,'%Y-%m-%d') between '" . $fromDate . "' and '" . $toDate . "'
@@ -1092,12 +1109,12 @@ class AttendanceController extends Controller {
 
 
         $check = Excel::create($fileName, function ($excel) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate, $endDate, $allLeave, $allHoliday,
-            $allWeekend,$govtHoliday,$RosterInfo) {
+            $allWeekend,$govtHoliday,$RosterInfo,$allTimeSwap) {
 
             foreach ($allEmp as $allE) {
 
                 $excel->sheet($allE->attDeviceUserId, function ($sheet) use ($results, $allE, $dates, $allEmp, $fromDate, $toDate, $startDate,
-                    $endDate, $allLeave, $allHoliday, $allWeekend,$govtHoliday,$RosterInfo) {
+                    $endDate, $allLeave, $allHoliday, $allWeekend,$govtHoliday,$RosterInfo,$allTimeSwap) {
 
                     $sheet->freezePane('B5');
 //                    $sheet->setpaperSize(5);
@@ -1112,7 +1129,7 @@ class AttendanceController extends Controller {
                     ));
 
                     $sheet->loadView('Excel.Multiple_Roster_Wise_Report_1', compact('results', 'allE', 'fromDate', 'toDate', 'dates', 'allEmp',
-                        'startDate', 'endDate', 'allLeave', 'allWeekend', 'allHoliday','govtHoliday','RosterInfo'));
+                        'startDate', 'endDate', 'allLeave', 'allWeekend', 'allHoliday','govtHoliday','RosterInfo','allTimeSwap'));
                 });
             }
         })->store('xls', $filePath);

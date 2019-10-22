@@ -137,6 +137,7 @@ class TestController extends Controller
             and date_format(ad.accessTime,'%Y-%m-%d') between '2019-10-01' and '2019-10-30'
             left join shiftlog sl on em.employeeId = sl.fkemployeeId and 
             date_format(ad.accessTime,'%Y-%m-%d') between date_format(sl.startDate,'%Y-%m-%d') and ifnull(date_format(sl.endDate,'%Y-%m-%d'),curdate())
+            and date_format(ad.accessTime,'%H:%i:%s') between sl.inTime and sl.outTime
             left join employeeinfo emInfo on em.employeeId = emInfo.id and emInfo.fkDepartmentId is not null
             
             where sl.fkshiftId IN (1,2) and date_format(ad.accessTime,'%Y-%m-%d') between '2019-10-01' and '2019-10-30'
