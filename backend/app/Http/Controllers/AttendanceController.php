@@ -1058,8 +1058,8 @@ class AttendanceController extends Controller {
 
 
             }else{
-                $RosterInfo=Shift::findOrFail($r->rosterId);
-                $roster= implode(',', $r->rosterId);
+                $RosterInfo=Shift::where('shiftId',$r->rosterId)->get();
+                $roster= $r->rosterId;
             }
 
 
@@ -1080,6 +1080,8 @@ class AttendanceController extends Controller {
 
             $results = collect($results);
         }
+
+      //  return $RosterInfo;
 
 //        $check = Excel::create($fileName, function ($excel) use ($results, $dates, $allEmp, $fromDate, $toDate, $startDate, $endDate, $allLeave, $allHoliday,
 //            $allWeekend,$govtHoliday,$RosterInfo) {

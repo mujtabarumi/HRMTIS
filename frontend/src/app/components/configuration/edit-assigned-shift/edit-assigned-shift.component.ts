@@ -54,6 +54,7 @@ export class EditAssignedShiftComponent implements OnInit {
   AdjustmentCheckBox = false;
   LeaveCheckBox = false;
   modalRef: any;
+
   constructor(private modalService: NgbModal, private renderer: Renderer, public http: HttpClient, private token: TokenService , public route: ActivatedRoute, private router: Router) {
     this.notAssignedView = false;
 
