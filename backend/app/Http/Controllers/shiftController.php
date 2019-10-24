@@ -627,5 +627,47 @@ class shiftController extends Controller
 
 
     }
+    public function getEmpAndRoster(Request $r){
+
+       return $roster=Shift::select('shift.shiftId',DB::raw("GROUP_CONCAT(shiftlog.fkemployeeId) as EmpRosterId"),
+           DB::raw("CONCAT(shift.shiftname,'(',shift.inTime,'-',shift.outTime,')') as shiftName"),
+           DB::raw("TRIM(BOTH '  ,  ' FROM GROUP_CONCAT(COALESCE(EmpDuty.firstName,''),' ',COALESCE(EmpDuty.middleName,''),' ',COALESCE(EmpDuty.lastName,''))) as EmpRosterNames"),
+           DB::raw("TRIM(BOTH '  ,' FROM GROUP_CONCAT(COALESCE(EmpOffDuty.firstName,''),' ',COALESCE(EmpOffDuty.middleName,''),' ',COALESCE(EmpOffDuty.lastName,''))) as EmpRosterOffDutyNames"))
+           ->where('shift.fkDepartmentId',$r->departments)
+
+           ->leftJoin('shiftlog',function($join) use($r) {
+               $join->on('shiftlog.fkshiftId', '=', 'shift.shiftId')
+                   ->where('shiftlog.startDate',$r->date)->where('shiftlog.endDate',$r->date);
+           })
+           ->leftJoin('employeeinfo as EmpDuty',function($join) {
+               $join->on('EmpDuty.id', '=', 'shiftlog.fkemployeeId')
+                   ->whereNull('shiftlog.weekend');
+           })
+            ->leftJoin('employeeinfo as EmpOffDuty',function($join) {
+               $join->on('EmpOffDuty.id', '=', 'shiftlog.fkemployeeId')
+                   ->whereNotNull('shiftlog.weekend');
+           })
+
+
+           ->groupBy('shift.shiftId')
+           ->get();
+
+    }
+
+    public function getDepartmentShiftEmpAndRoster(Request $r){
+
+        return $empList=ShiftLog::select('employeeinfo.id as EmployeeId',DB::raw("CONCAT(COALESCE(firstName,''),' ',COALESCE(middleName,''),' ',COALESCE(lastName,'')) AS empFullname"),
+            DB::raw("CONCAT(shift.shiftname,'(',shift.inTime,'-',shift.outTime,')') as shiftName"))
+            ->leftJoin('employeeinfo','employeeinfo.id','shiftlog.fkemployeeId')
+            ->leftJoin('shift',function($join) use($r) {
+                $join->on('shiftlog.fkshiftId', '=', 'shift.shiftId');
+
+            })
+            ->where('fkshiftId',$r->shift)
+            ->where('shiftlog.startDate',$r->date)
+            ->where('shiftlog.endDate',$r->date)
+            ->where('employeeinfo.fkDepartmentId',$r->departments)->get();
+
+    }
 
 }

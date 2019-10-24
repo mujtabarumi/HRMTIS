@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\DataTables;
 use Route;
 use Auth;
+use DB;
 
 //$user_id = Auth::user()->id;
 
@@ -151,7 +152,9 @@ class EmployeeController extends Controller {
     }
 
     public function getAllEmployeeInfoForDepartment(Request $r) {
-        return $employee = Employee::select('employeeinfo.firstName', 'employeeinfo.lastName', 'employeeinfo.middleName', 'employeeinfo.EmployeeId', 'designations.title', 'departments.departmentName', 'employeeinfo.id as empid', 'attemployeemap.attDeviceUserId')
+        return $employee = Employee::select('employeeinfo.firstName', 'employeeinfo.lastName', 'employeeinfo.middleName', 'employeeinfo.EmployeeId',
+            'designations.title', 'departments.departmentName', 'employeeinfo.id as empid', 'attemployeemap.attDeviceUserId')
+
                 ->leftjoin('designations', 'designations.id', '=', 'employeeinfo.fkDesignation')
                 ->leftjoin('departments', 'departments.id', '=', 'employeeinfo.fkDepartmentId')
                 ->leftjoin('attemployeemap', 'attemployeemap.employeeId', '=', 'employeeinfo.id')
