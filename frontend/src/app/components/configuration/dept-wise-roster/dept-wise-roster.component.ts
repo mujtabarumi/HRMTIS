@@ -135,16 +135,16 @@ export class DeptWiseRosterComponent implements OnInit {
 
 
 
-          for (let i = 0; i < data.length; i++) {
-            const d = {
-              'EmployeeId': data[i]['EmployeeId'],
-              'EmpFullNames': data[i]['empFullname']
-            };
-            this.selectedDropDownEmp.push(d);
-          }
+          // for (let i = 0; i < data.length; i++) {
+          //   const d = {
+          //     'EmployeeId': data[i]['EmployeeId'],
+          //     'EmpFullNames': data[i]['empFullname']
+          //   };
+          //   this.selectedDropDownEmp.push(d);
+          // }
 
 
-            console.log(this.selectedDropDownEmp);
+            // console.log(this.selectedDropDownEmp);
 
 
 

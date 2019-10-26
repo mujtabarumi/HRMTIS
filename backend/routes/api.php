@@ -190,6 +190,10 @@ Route::group([
     Route::post('department/shift/getRosterAndEmpInfo','shiftController@getDepartmentShiftEmpAndRoster');
 
 
+    Route::post('rosterLog/getStaticRosterInfo','StaticRosterController@getStaticRosterInfo');
+
+
+
 
 
 });

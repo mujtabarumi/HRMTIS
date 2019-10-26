@@ -654,7 +654,8 @@ class shiftController extends Controller
 
     }
 
-    public function getDepartmentShiftEmpAndRoster(Request $r){
+    public function getDepartmentShiftEmpAndRoster(Request $r)
+    {
 
         return $empList=ShiftLog::select('employeeinfo.id as EmployeeId',DB::raw("CONCAT(COALESCE(firstName,''),' ',COALESCE(middleName,''),' ',COALESCE(lastName,'')) AS empFullname"),
             DB::raw("CONCAT(shift.shiftname,'(',shift.inTime,'-',shift.outTime,')') as shiftName"))
@@ -666,7 +667,8 @@ class shiftController extends Controller
             ->where('fkshiftId',$r->shift)
             ->where('shiftlog.startDate',$r->date)
             ->where('shiftlog.endDate',$r->date)
-            ->where('employeeinfo.fkDepartmentId',$r->departments)->get();
+            ->where('employeeinfo.fkDepartmentId',$r->departments)
+            ->get();
 
     }
 
