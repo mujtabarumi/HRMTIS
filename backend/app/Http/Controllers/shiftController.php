@@ -653,6 +653,34 @@ class shiftController extends Controller
            ->get();
 
     }
+    public function getEmpAndStaticRoster(Request $r){
+
+       return $roster=Shift::select('static_rosterlog.day','shift.shiftId',DB::raw("GROUP_CONCAT(static_rosterlog.fkemployeeId) as EmpRosterId"),
+           DB::raw("CONCAT(shift.shiftname,'(',shift.inTime,'-',shift.outTime,')') as shiftName"),
+           DB::raw("TRIM(BOTH '  ,  ' FROM GROUP_CONCAT(COALESCE(EmpDuty.firstName,''),' ',COALESCE(EmpDuty.middleName,''),' ',COALESCE(EmpDuty.lastName,''))) as EmpRosterNames"),
+           DB::raw("TRIM(BOTH '  ,' FROM GROUP_CONCAT(COALESCE(EmpOffDuty.firstName,''),' ',COALESCE(EmpOffDuty.middleName,''),' ',COALESCE(EmpOffDuty.lastName,''))) as EmpRosterOffDutyNames"))
+           ->where('shift.fkDepartmentId',$r->departments)
+
+           ->join('static_rosterlog',function($join) use($r) {
+               $join->on('static_rosterlog.fkshiftId', '=', 'shift.shiftId')
+                   ->whereIn('static_rosterlog.day',WEEK_Days);
+           })
+           ->leftJoin('employeeinfo as EmpDuty',function($join) {
+               $join->on('EmpDuty.id', '=', 'static_rosterlog.fkemployeeId')
+                   ->whereNull('static_rosterlog.weekend');
+           })
+            ->leftJoin('employeeinfo as EmpOffDuty',function($join) {
+               $join->on('EmpOffDuty.id', '=', 'static_rosterlog.fkemployeeId')
+                   ->whereNotNull('static_rosterlog.weekend');
+           })
+
+           ->groupBy('static_rosterlog.day')
+           ->groupBy('shift.shiftId')
+
+
+           ->get();
+
+    }
 
     public function getDepartmentShiftEmpAndRoster(Request $r)
     {

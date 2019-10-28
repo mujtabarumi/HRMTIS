@@ -10,6 +10,8 @@ define('LEAVE_CATEGORY',array(
 
 ));
 
+define('WEEK_Days',array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'));
+
 
 
 

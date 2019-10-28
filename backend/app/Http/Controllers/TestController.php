@@ -157,7 +157,7 @@ class TestController extends Controller
                 $join->on('EmpOffDuty.id', '=', 'static_rosterlog.fkemployeeId')
                     ->whereNotNull('static_rosterlog.weekend');
             })
-            ->where('day','Sunday')->where('static_rosterlog.fkshiftId',1)->get();
+            ->where('day','Sunday')->where('static_rosterlog.fkshiftId',2)->get();
 
 
     }

@@ -1,3 +1,47 @@
+<!--modal-->
+<ng-template #content let-c="close" let-d="dismiss" >
+  <div class="modal-header">
+    <h4 class="modal-title">Change Roster</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modalClose()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <div class="row" >
+
+      <div class="form-group col-md-9">
+        <label>Employees</label>
+
+        <ng-multiselect-dropdown
+          [placeholder]="'Select Employees'"
+          [data]="employees"
+          [(ngModel)]="selectedDropDownEmp"
+          [settings]="dropdownSettingsEmp"
+          (onSelect)="test($event)"
+
+        >
+        </ng-multiselect-dropdown>
+
+      </div>
+
+
+    </div>
+    <div class="row" >
+
+      <div class="form-group col-md-9">
+
+        <button class="btn btn-success" (click)="updateRoster()" style="margin-top: 25px;">update</button>
+
+      </div>
+
+
+    </div>
+
+  </div>
+</ng-template>
+
+
 <div class="container-fluid">
   <div class="card">
     <div class="card-header"><h2>Department Wise Roster</h2></div>
@@ -44,7 +88,7 @@
             <th>Day</th>
             <th>Roster</th>
 
-            <th>Action</th>
+
 
           </tr>
 
@@ -54,16 +98,81 @@
             <td>{{dN}}</td>
             <td>
               <table class="table table-striped table-hover">
+                <thead>
 
-                <tr *ngFor="let Roster of RosterInfo; index as i">
+                <tr >
 
                   <th>
-                    {{Roster['shiftName']}}
+                      shiftName
                   </th>
                   <th>
-
+                      Duty
                   </th>
+                  <th>
+                      off Day
+                  </th>
+                  <th>Action</th>
                 </tr>
+
+                </thead>
+
+
+                <tbody>
+                <tr *ngFor="let Roster of AllRosterInfo; index as i">
+
+
+                  <td>
+
+                    {{Roster['shiftName']}}
+
+                  </td>
+
+                  <td>
+                    <span *ngFor="let Ros of RosterInfo">
+                      <p *ngIf="Ros['shiftId']==Roster['shiftId'] && Ros['day']==dN">
+                        {{Ros['EmpRosterNames']}}
+                      </p>
+                    </span>
+
+
+                  </td>
+                  <td>
+                    <span *ngFor="let Ros of RosterInfo">
+                      <p *ngIf="Ros['shiftId']==Roster['shiftId'] && Ros['day']==dN">
+                        {{Ros['EmpRosterOffDutyNames']}}
+                      </p>
+                    </span>
+
+
+                  </td>
+                  <td>
+
+                    <span *ngFor="let Ros of RosterInfo;let index = index">
+                      <p *ngIf="Ros['shiftId']==Roster['shiftId'] && Ros['day']==dN">
+
+                        <ng-template ngIf="this.showbtn">
+                          <button class="btn btn-info" (click)="ChangeRosterLog(Roster['shiftId'],dN,Ros['rosterLogId'],content)" >change</button>
+                          {{adddiv()}}
+
+                        </ng-template>
+
+                      </p>
+
+
+                    </span>
+
+                    <ng-template ngIf="this.showbtn">
+                      <button class="btn btn-info" (click)="ChangeRosterLog(Roster['shiftId'],dN,null,content)" >Add</button>
+                      {{adddiv()}}
+                    </ng-template>
+
+
+
+                  </td>
+
+                </tr>
+
+                </tbody>
 
 
 
