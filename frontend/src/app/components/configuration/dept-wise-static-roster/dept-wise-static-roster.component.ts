@@ -6,6 +6,7 @@ import {Subject} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
 import {DataTableDirective} from 'angular-datatables';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {forEach} from '@angular/router/src/utils/collection';
 
 declare var $: any;
 
@@ -21,12 +22,14 @@ export class DeptWiseStaticRosterComponent implements OnInit {
   departments: any;
   selectedDropDown = [];
   selectedDropDownEmp = [];
+  selectedDropDownoffDutyEmp = [];
   RosterInfo: any;
   AllRosterInfo: any;
   dayName = [];
   modalRef: any;
   employees: any;
   showbtn: boolean;
+  staticRoster: any;
 
   newEmpRoster: any = {
 
@@ -200,40 +203,73 @@ export class DeptWiseStaticRosterComponent implements OnInit {
       day: dayName,
 
     };
+    this.http.post(Constants.API_URL + 'rosterLog/getStaticRosterInfo' + '?token=' + token, form).subscribe(datas => {
 
-   // console.log(form);
+     // this.staticRoster = datas;
+
+      console.log(datas);
+
+      if (datas[0]['EmpRosterIds'] !== null && datas[0]['EmpRosterIds'] !== '') {
+        const duty = datas[0]['EmpRosterIds'].split(',');
+        const dutyNames = datas[0]['EmpRosterNames'].split(',');
+
+        if (duty.length > 0) {
+
+          for (let i = 0; i < duty.length; i++) {
+
+            const d = {
+              'empid': duty[i],
+              'empFullname': dutyNames[i]
+            };
+            const e = {
+              'empid': duty[i],
+
+            };
+
+            this.selectedDropDownEmp.push(d);
+            this.newEmpRoster.dutyempIds.push(e);
 
 
 
-    this.http.post(Constants.API_URL + 'rosterLog/getStaticRosterInfo' + '?token=' + token, form).subscribe(data => {
+          }
 
-
-        for (let i = 0; i < data.length; i++) {
-          const d = {
-            'empid': data[i]['EmployeeId'],
-            'empFullname': data[i]['empFullname']
-          };
-          const e = {
-            'empid': data[i]['EmployeeId'],
-
-          };
-          this.selectedDropDownEmp.push(d);
-          this.newEmpRoster.dutyempIds.push(e);
         }
+        this.selectedDropDownEmp = [];
 
+      }
+      if (datas[0]['EmpRosterOffDutyIds'] !== null && datas[0]['EmpRosterOffDutyIds'] !== '') {
+        const offduty = datas[0]['EmpRosterOffDutyIds'].split(',');
+        const offdutyNames = datas[0]['EmpRosterOffDutyNames'].split(',');
 
+        if (offduty.length > 0) {
 
-        console.log(this.selectedDropDownEmp);
+          for (let i = 0; i < offduty.length; i++) {
 
+            const o = {
+              'empid': offduty[i],
+              'empFullname': offdutyNames[i]
+            };
+            const od = {
+              'empid': offduty[i],
+
+            };
+            this.selectedDropDownoffDutyEmp.push(o);
+            this.newEmpRoster.offdutyempIds.push(od);
+
+          }
+
+        }
+        this.selectedDropDownoffDutyEmp = [];
+      }
 
       },
       error => {
         console.log(error);
       }
     );
-    this.newEmpRoster.shiftId = shiftId;
-    this.newEmpRoster.dayName = dayName;
-    this.newEmpRoster.rosterLogId = rosterLogId;
+     this.newEmpRoster.shiftId = shiftId;
+     this.newEmpRoster.dayName = dayName;
+     this.newEmpRoster.rosterLogId = rosterLogId;
 
     this.modalRef = this.modalService.open(content, {size: 'lg', backdrop: 'static'});
 
@@ -243,7 +279,15 @@ export class DeptWiseStaticRosterComponent implements OnInit {
     console.log(this.selectedDropDownEmp);
   }
   private modalClose() {
-
+    this.selectedDropDownEmp = [];
+    this.newEmpRoster = {
+      rosterLogId: '',
+      shiftId: '',
+      dayName: '',
+      dutyempIds: [],
+      offdutyempIds: [],
+    };
+    this.selectedDropDownoffDutyEmp = [];
     this.modalRef.close();
 
   }

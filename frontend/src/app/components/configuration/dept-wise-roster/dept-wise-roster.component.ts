@@ -21,11 +21,13 @@ export class DeptWiseRosterComponent implements OnInit {
   departments: any;
   Date: string;
   RosterInfo: any;
+  getRosterInfo: any;
   ChangeRosterInfo: any;
   selectedDropDown = [];
   selectedDropDownEmp = [];
   modalRef: any;
   employees: any;
+
 
   constructor(private modalService: NgbModal, private renderer: Renderer, public http: HttpClient, private token: TokenService ,
               public route: ActivatedRoute, private router: Router) {
@@ -33,6 +35,7 @@ export class DeptWiseRosterComponent implements OnInit {
   }
 
   ngOnInit() {
+
     this.dropdownSettings2 = {
       singleSelection: true,
       idField: 'id',
@@ -75,6 +78,92 @@ export class DeptWiseRosterComponent implements OnInit {
 
   }
 
+  onItemSelectDepartment(value) {
+
+
+
+
+
+
+    if (this.selectedDropDown.length > 0) {
+
+
+
+      const deptId = [];
+
+      for (let i = 0; i < this.selectedDropDown.length; i++) {
+
+        deptId.push(this.selectedDropDown[i]['id']);
+      }
+
+      const form = {
+        departments: deptId,
+
+      };
+
+      const token = this.token.get();
+
+
+      this.http.post(Constants.API_URL + 'department/getRosterInfo' + '?token=' + token, form).subscribe(data => {
+
+          this.RosterInfo = data;
+
+
+
+        },
+        error => {
+          console.log(error);
+        }
+      );
+
+
+    }
+
+
+
+  }
+  onItemDeSelectDepartment(value) {
+
+    if (this.selectedDropDown.length > 0) {
+
+
+
+      const deptId = [];
+
+      for (let i = 0; i < this.selectedDropDown.length; i++) {
+
+        deptId.push(this.selectedDropDown[i]['id']);
+      }
+
+      const form = {
+        departments: deptId,
+
+      };
+
+      const token = this.token.get();
+
+
+      this.http.post(Constants.API_URL + 'department/getRosterInfo' + '?token=' + token, form).subscribe(data => {
+
+          this.RosterInfo = data;
+
+
+
+        },
+        error => {
+          console.log(error);
+        }
+      );
+
+
+    } else {
+      this.RosterInfo = [];
+    }
+
+
+
+  }
+
   searchRoster() {
 
     const token = this.token.get();
@@ -84,12 +173,11 @@ export class DeptWiseRosterComponent implements OnInit {
 
     };
 
-    console.log(form);
+   // console.log(form);
 
-    this.http.post(Constants.API_URL + 'department/getRosterAndEmpInfo' + '?token=' + token, form).subscribe(data => {
+    this.http.post(Constants.API_URL + 'rosterLog/getDataFromStaticRoster' + '?token=' + token, form).subscribe(data => {
 
-        this.RosterInfo = data;
-        console.log(data);
+        this.getRosterInfo = data;
 
       },
       error => {
@@ -132,19 +220,6 @@ export class DeptWiseRosterComponent implements OnInit {
 
 
           this.ChangeRosterInfo = data;
-
-
-
-          // for (let i = 0; i < data.length; i++) {
-          //   const d = {
-          //     'EmployeeId': data[i]['EmployeeId'],
-          //     'EmpFullNames': data[i]['empFullname']
-          //   };
-          //   this.selectedDropDownEmp.push(d);
-          // }
-
-
-            // console.log(this.selectedDropDownEmp);
 
 
 

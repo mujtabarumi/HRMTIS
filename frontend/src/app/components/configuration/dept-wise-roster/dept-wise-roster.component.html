@@ -31,6 +31,8 @@
 
 
 
+
+
     </div>
 
   </div>
@@ -59,10 +61,22 @@
             [data]="departments"
             [(ngModel)]="selectedDropDown"
             [settings]="dropdownSettings2"
+            (onSelect)="onItemSelectDepartment($event)"
+            (onDeSelect)="onItemDeSelectDepartment($event)"
 
           >
           </ng-multiselect-dropdown>
         </div>
+
+        <div class="form-group col-md-4">
+          <label>Roster Info</label>
+          <select class="form-control" id="RosterInfo"  name="RosterInfo">
+            <option value="">Select Roster</option>
+            <option *ngFor="let RI of RosterInfo" value="{{RI.shiftId}}">{{RI.shiftName}}</option>
+
+          </select>
+        </div>
+
         <br>
 
       </div>
@@ -87,23 +101,16 @@
             <thead>
               <tr>
 
-                <th>Roster name</th>
-                <th>Emp (Duty)</th>
-                <th>Emp (Day off)</th>
-                <th>Action</th>
+
 
 
               </tr>
 
             </thead>
           <tbody>
-            <tr *ngFor="let Roster of RosterInfo; index as i">
+            <tr>
 
-              <td>{{Roster['shiftName']}}</td>
-              <td>{{Roster['EmpRosterNames']}}</td>
-              <td>{{Roster['EmpRosterOffDutyNames']}}</td>
 
-              <td><button class="btn btn-info" (click)="ChangeRosterLog(Roster['shiftId'],content)" >Change</button> &nbsp;&nbsp;</td>
 
             </tr>
           </tbody>

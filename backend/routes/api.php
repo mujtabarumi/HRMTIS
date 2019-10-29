@@ -198,6 +198,9 @@ Route::group([
     Route::post('rosterLog/setStaticRosterInfo','StaticRosterController@setStaticRosterInfo');
 
 
+    Route::post('rosterLog/getDataFromStaticRoster','StaticRosterController@getDataFromStaticRoster');
+
+
 
 
 
