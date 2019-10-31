@@ -43,9 +43,7 @@ class TimeSwapCheck extends Command
     public function handle()
     {
         $array=array();
-
         $currentDate=Carbon::now()->format('Y-m-d');
-
         $results = DB::select(DB::raw("select em.employeeId,ad.id,sl.inTime,sl.outTime,sl.adjustmentDate,ad.fkAttDevice,sl.holiday,sl.weekend,ad.fkAttDevice
             , date_format(ad.accessTime,'%Y-%m-%d') attendanceDate
             , date_format(ad.accessTime,'%H:%i:%s') accessTime
@@ -54,7 +52,6 @@ class TimeSwapCheck extends Command
             and date_format(ad.accessTime,'%Y-%m-%d') between '" . $currentDate . "' and '" . $currentDate . "'
             left join shiftlog sl on em.employeeId = sl.fkemployeeId and date_format(ad.accessTime,'%Y-%m-%d') between date_format(sl.startDate,'%Y-%m-%d') and ifnull(date_format(sl.endDate,'%Y-%m-%d'),curdate())
             left join employeeinfo emInfo on em.employeeId = emInfo.id and emInfo.fkDepartmentId is not null
-            
             where date_format(ad.accessTime,'%Y-%m-%d') between '" . $currentDate . "' and '" . $currentDate . "'"));
 
         $results = collect($results);
@@ -75,9 +72,6 @@ class TimeSwapCheck extends Command
         foreach ($allEmp as $allE){
 
             if ($results->where('employeeId',$allE->id)->where('attendanceDate',$currentDate)->first()){
-
-
-
                 if($results->where('employeeId',$allE->id)->where('attendanceDate',$currentDate)->first()->inTime <'20:00:00'){
 
                     if ($results->where('employeeId',$allE->id)->where('attendanceDate',$currentDate)
@@ -89,7 +83,6 @@ class TimeSwapCheck extends Command
                             ->where('fkAttDevice',$allE->inDeviceNo)->first()->inTime);
 
                         if ($access->diffInHours($ins) >= 4) {
-
                             $newArray=array(
                                 'date'=>$currentDate,
                                 'fkEmployeeId'=>$allE->id,
@@ -99,10 +92,6 @@ class TimeSwapCheck extends Command
                             array_push($array,$newArray);
 
                         }
-
-
-
-
                     }
                 }elseif($results->where('employeeId',$allE->id)->where('attendanceDate',$currentDate)->first()->inTime >='20:01:00' &&
                     $results->where('employeeId',$allE->id)->where('attendanceDate',$currentDate)->first()->inTime <= '23:59:00'){
@@ -126,8 +115,6 @@ class TimeSwapCheck extends Command
                             array_push($array,$newArray);
                         }
 
-
-
                     }elseif($results->where('employeeId',$allE->id)->where('attendanceDate',\Carbon\Carbon::parse($currentDate)->addDay())
                         ->where('fkAttDevice',$allE->inDeviceNo)->where('accessTime','>=','02:01:00')
                         ->where('accessTime','<=','03:59:00')->first())
@@ -148,55 +135,28 @@ class TimeSwapCheck extends Command
                             );
                             array_push($array,$newArray);
                         }
-
                     }
-
-
-
-
-
                 }
-
             }
-
         }
 
-
-
         if (count($array)>0){
-
             foreach ($array as $ar){
-
                 try {
-
                     //   $save=new TimeSwap();
-
                     TimeSwap::firstOrCreate(
                         ['fkEmployeeId'=>$ar['fkEmployeeId'],'date'=>$ar['date'],'accessTime'=>$ar['accessTime']],
                         ['old_inTime'=>$ar['old_inTime']]
                     );
-
 //                    $save->fkEmployeeId=$ar['fkEmployeeId'];
 //                    $save->date=$ar['date'];
 //                    $save->old_inTime=$ar['old_inTime'];
 //                    $save->accessTime=$ar['accessTime'];
 //                    $save->status=0;
 //                    $save->save();
-
-
-
                 } catch (Exception $e) {
-
-
-
                 }
-
-
             }
-
-
-
-
 
         }
 
