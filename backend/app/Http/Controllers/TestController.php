@@ -8,6 +8,7 @@ use App\GovtHoliday;
 use App\Leave;
 use App\OrganizationCalander;
 use App\ShiftLog;
+use App\StaticRosterLog;
 use App\Swap;
 use App\TimeSwap;
 use DateTime;
@@ -129,16 +130,34 @@ class TestController extends Controller
     public function Rumi()
     {
 
-        include(base_path() .'../../ZKLibrary-master\finalAttScript\zklibrary.php');
+//        $results = DB::select(DB::raw("select em.employeeId,ad.id,sl.inTime,sl.outTime,sl.adjustmentDate,ad.fkAttDevice,sl.holiday,sl.weekend,ad.fkAttDevice
+//            , date_format(ad.accessTime,'%Y-%m-%d') attendanceDate
+//            , date_format(ad.accessTime,'%H:%i:%s') accessTime
+//            , date_format(ad.accessTime,'%Y-%m-%d %H:%i:%s') accessTime2
+//            from attendancedata ad left join attemployeemap em on ad.attDeviceUserId = em.attDeviceUserId
+//            and date_format(ad.accessTime,'%Y-%m-%d') between '2019-10-01' and '2019-10-30'
+//            left join shiftlog sl on em.employeeId = sl.fkemployeeId and
+//            date_format(ad.accessTime,'%Y-%m-%d') between date_format(sl.startDate,'%Y-%m-%d') and ifnull(date_format(sl.endDate,'%Y-%m-%d'),curdate())
+//            and date_format(ad.accessTime,'%H:%i:%s') between sl.inTime and sl.outTime
+//            left join employeeinfo emInfo on em.employeeId = emInfo.id and emInfo.fkDepartmentId is not null
+//
+//            where sl.fkshiftId IN (1,2) and date_format(ad.accessTime,'%Y-%m-%d') between '2019-10-01' and '2019-10-30'
+//            and emInfo.id = 116 "));
+//
+//       return $results = collect($results);
 
-        return $str=base_path().'../../'.'\ZKLibrary-master\finalAttScript/zklibrary.php';
-//        $zk = new ZKLibrary('192.168.50.167', 4370);
-//        $zk->connect();
-//        return $zk->getUser();
-
-
-
-
+        return $staticRoster=StaticRosterLog::select(DB::raw("TRIM(BOTH '  ,  ' FROM GROUP_CONCAT(COALESCE(EmpDuty.firstName,''),' ',COALESCE(EmpDuty.middleName,''),' ',COALESCE(EmpDuty.lastName,''))) as EmpRosterNames"),
+            DB::raw("TRIM(BOTH '  ,' FROM GROUP_CONCAT(COALESCE(EmpOffDuty.firstName,''),' ',COALESCE(EmpOffDuty.middleName,''),' ',COALESCE(EmpOffDuty.lastName,''))) as EmpRosterOffDutyNames")
+        )
+            ->leftJoin('employeeinfo as EmpDuty',function($join) {
+                $join->on('EmpDuty.id', '=', 'static_rosterlog.fkemployeeId')
+                    ->whereNull('static_rosterlog.weekend');
+            })
+            ->leftJoin('employeeinfo as EmpOffDuty',function($join) {
+                $join->on('EmpOffDuty.id', '=', 'static_rosterlog.fkemployeeId')
+                    ->whereNotNull('static_rosterlog.weekend');
+            })
+            ->where('day','Sunday')->where('static_rosterlog.fkshiftId',2)->get();
 
 
     }

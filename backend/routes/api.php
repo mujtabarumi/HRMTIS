@@ -184,6 +184,23 @@ Route::group([
 
     Route::post('getEmpDesignation','EmployeeController@getempDesignation');
 
+    /* department wise Roste */
+
+    Route::post('department/getStaticRosterAndEmpInfo','shiftController@getEmpAndStaticRoster');
+
+
+
+    Route::post('department/getRosterAndEmpInfo','shiftController@getEmpAndRoster');
+    Route::post('department/shift/getRosterAndEmpInfo','shiftController@getDepartmentShiftEmpAndRoster');
+
+
+    Route::post('rosterLog/getStaticRosterInfo','StaticRosterController@getStaticRosterInfo');
+    Route::post('rosterLog/setStaticRosterInfo','StaticRosterController@setStaticRosterInfo');
+
+
+    Route::post('rosterLog/getDataFromStaticRoster','StaticRosterController@getDataFromStaticRoster');
+
+
 
 
 

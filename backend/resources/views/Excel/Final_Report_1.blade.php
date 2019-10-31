@@ -561,11 +561,6 @@
 
                             @if($allTimeSwap->where('fkEmployeeId',$allE->id)->where('date',$date['date'])->first())
 
-                                @php
-
-                                    $present++;
-                                    $T_present=($T_present+$present);
-                                @endphp
 
 
                                 Time Swaped

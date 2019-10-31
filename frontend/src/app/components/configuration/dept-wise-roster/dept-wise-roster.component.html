@@ -1,0 +1,129 @@
+<!--modal-->
+<ng-template #content let-c="close" let-d="dismiss" >
+  <div class="modal-header">
+    <h4 class="modal-title">Change Roster</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modalClose()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <div class="row" >
+
+      <div class="form-group col-md-3">
+        <label>{{ChangeRosterInfo[0]['shiftName']}}</label>
+      </div>
+      <div class="form-group col-md-9">
+        <label>Employees</label>
+
+        <ng-multiselect-dropdown
+          [placeholder]="'Select Employees'"
+          [data]="employees"
+          [(ngModel)]="selectedDropDownEmp"
+          [settings]="dropdownSettingsEmp"
+
+        >
+        </ng-multiselect-dropdown>
+
+      </div>
+
+
+
+
+
+
+
+    </div>
+
+  </div>
+</ng-template>
+
+
+
+
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-header"><h2>Department Wise Roster</h2></div>
+
+    <div class="card-body">
+      <div class="row">
+        <div class="form-group col-md-3">
+          <label>Date</label>
+          <input class="form-control"
+                 bsDatepicker
+                 [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD'}" id="Date">
+        </div><br>
+
+        <div class="form-group col-md-4">
+          <label> &nbsp;</label>
+          <ng-multiselect-dropdown
+            [placeholder]="'Select Department'"
+            [data]="departments"
+            [(ngModel)]="selectedDropDown"
+            [settings]="dropdownSettings2"
+            (onSelect)="onItemSelectDepartment($event)"
+            (onDeSelect)="onItemDeSelectDepartment($event)"
+
+          >
+          </ng-multiselect-dropdown>
+        </div>
+
+        <div class="form-group col-md-4">
+          <label>Roster Info</label>
+          <select class="form-control" id="RosterInfo"  name="RosterInfo">
+            <option value="">Select Roster</option>
+            <option *ngFor="let RI of RosterInfo" value="{{RI.shiftId}}">{{RI.shiftName}}</option>
+
+          </select>
+        </div>
+
+        <br>
+
+      </div>
+
+      <div class="row">
+
+        <div class="form-group col-md-3 ">
+
+          <button class="btn btn-success" (click)="searchRoster()" style="margin-top: 25px;">Search</button>
+        </div>
+
+
+
+
+      </div>
+
+    </div>
+
+    <div class="card-body">
+      <div class="row">
+        <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+
+
+
+
+              </tr>
+
+            </thead>
+          <tbody>
+            <tr>
+
+
+
+            </tr>
+          </tbody>
+
+
+
+
+        </table>
+
+      </div>
+
+
+
+    </div>
+  </div>
+</div>
