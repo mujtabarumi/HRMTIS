@@ -86,7 +86,6 @@ class swapController extends Controller
 
 
 
-
         $emp=Employee::select('fkDepartmentId','id')->where('fkUserId',Auth::user()->id)->first();
 
          $swapByShift=Shift::findOrFail($r->swap_by_shift);

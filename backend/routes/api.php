@@ -119,6 +119,8 @@ Route::group([
     Route::post('leave/assignLeave','LeaveController@assignLeave');
     Route::post('leave/assignLeavePersonal','LeaveController@assignLeavePersonal');
 
+    Route::post('leave/assignLeavePersonal','LeaveController@assignLeavePersonal');
+
     //Show Leave Requests
     Route::post('leave/getLeaveRequests','LeaveController@getLeaveRequests');
     Route::post('leave/summery','LeaveController@getLeaveSummery');
@@ -199,6 +201,8 @@ Route::group([
 
 
     Route::post('rosterLog/getDataFromStaticRoster','StaticRosterController@getDataFromStaticRoster');
+    Route::post('roster/setDepartmentWiseRosterByShift','StaticRosterController@setDepartmentWiseRosterByShift');
+    Route::post('roster/findDepartmentWiseRosterByShift','StaticRosterController@findDepartmentWiseRosterByShift');
 
 
 
