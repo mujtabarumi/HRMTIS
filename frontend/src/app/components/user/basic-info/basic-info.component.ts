@@ -20,18 +20,23 @@ export class BasicInfoComponent implements OnInit {
   error=[];
   employeeBasicForm:any={
     id:'',
-    EmployeeId:'',
-    department:'',
-    designation:'',
-    empType:'',
+
     firstName:'',
     middleName:'',
     lastName:'',
-    nickName:'',
+
     email:'',
+    streetAddress:'',
+    apartmentUnit:'',
+    city:'',
+    state:'',
+    zipCode:'',
     contactNo:'',
+    homePhone:'',
+
     alterContactNo:'',
     birthdate:'',
+    nationalId:'',
     gender:'',
     photo:''
 
@@ -45,35 +50,7 @@ export class BasicInfoComponent implements OnInit {
 
   ngOnInit() {
 
-    //Getting Departments
-    this.http.get(Constants.API_URL+'department/get').subscribe(data => {
 
-        this.department=data;
-      },
-      error => {
-        console.log(error);
-      }
-    );
-
-    //Getting Designations
-    this.http.get(Constants.API_URL+'designation/get').subscribe(data => {
-
-        this.designation=data;
-      },
-      error => {
-        console.log(error);
-      }
-    );
-
-    //Getting Employee Types
-    this.http.get(Constants.API_URL+'employee_type/get').subscribe(data => {
-
-        this.empType=data;
-      },
-      error => {
-        console.log(error);
-      }
-    );
 
     const token=this.token.get();
     this.http.post(Constants.API_URL+'employee/basicinfo'+'?token='+token,{ empid:this.empid}).subscribe(data => {
@@ -90,16 +67,20 @@ export class BasicInfoComponent implements OnInit {
           this.employeeBasicForm.email = this.basicinfo.email;
           this.employeeBasicForm.gender = this.basicinfo.gender;
           this.employeeBasicForm.birthdate = this.basicinfo.birthdate;
-          this.employeeBasicForm.department = this.basicinfo.fkDepartmentId;
-          this.employeeBasicForm.empType = this.basicinfo.fkEmployeeType;
-          this.employeeBasicForm.designation = this.basicinfo.fkDesignation;
-          this.employeeBasicForm.contactNo = this.basicinfo.contactNo;
+
+
+          this.employeeBasicForm.streetAddress = this.basicinfo.streetAddress;
+          this.employeeBasicForm.apartmentUnit = this.basicinfo.apartmentUnit;
+          this.employeeBasicForm.city = this.basicinfo.city;
+          this.employeeBasicForm.state = this.basicinfo.state;
+          this.employeeBasicForm.zipCode = this.basicinfo.zipCode;
+          this.employeeBasicForm.homePhone = this.basicinfo.homePhone;
+          this.employeeBasicForm.maritalStatus = this.basicinfo.maritalStatus;
+          this.employeeBasicForm.nationalId = this.basicinfo.nationalId;
           this.employeeBasicForm.alterContactNo = this.basicinfo.alterContactNo;
           this.employeeBasicForm.photo = Constants.Image_URL+'images/'+this.basicinfo.photo;
           // console.log(this.employeeBasicForm.photo);
         }
-
-
       },
       error => {
         console.log(error);
@@ -107,15 +88,7 @@ export class BasicInfoComponent implements OnInit {
     );
   }
 
-  selectDepartment(value){
 
-    this.employeeBasicForm.department=value;
-  }
-
-  selectDesignation(value){
-
-    this.employeeBasicForm.designation=value;
-  }
 
 
   onFileSelected(event) {
@@ -139,22 +112,19 @@ export class BasicInfoComponent implements OnInit {
     if(this.employeeBasicForm.birthdate == '' || this.employeeBasicForm.birthdate == null ){
       return false;
     }
-    if(this.employeeBasicForm.department == ''){
-      return false;
-    }
-    if(this.employeeBasicForm.empType == ''){
-      return false;
-    }
-    if(this.employeeBasicForm.designation == ''){
-      return false;
-    }
-    if(this.employeeBasicForm.contactNo == ''){
-      return false;
-    }
+    // if(this.employeeBasicForm.department == ''){
+    //   return false;
+    // }
+    // if(this.employeeBasicForm.empType == ''){
+    //   return false;
+    // }
+    // if(this.employeeBasicForm.designation == ''){
+    //   return false;
+    // }
+
     if(this.employeeBasicForm.email == ''){
       return false;
     }
-
     return true;
   }
 
@@ -192,12 +162,8 @@ export class BasicInfoComponent implements OnInit {
 
 
     const token=this.token.get();
-
     this.http.post(Constants.API_URL+'employee/storeBasicInfo'+'?token='+token,fd).subscribe(data => {
-
      // console.log(data);
-
-
         this.result=data;
         $.alert({
           title: 'Success!',
@@ -213,13 +179,10 @@ export class BasicInfoComponent implements OnInit {
           }
         });
         this.router.navigate(['employee', 'edit', this.result.id]);
-
       },
       error => {
         const data=error.error.errors;
-
         for (var p in data) {
-
           for (var k in data[p]) {
             this.error.push(data[p][k]);
           }

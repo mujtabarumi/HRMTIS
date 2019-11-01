@@ -26,8 +26,7 @@ class EmployeeController extends Controller {
 
     public function updateJoinInfo(Request $r) {
 
-
-
+      //  return $r;
         //$aa =Route::getCurrentRoute()->getActionName();
         //return $r->route()->getAction()['prefix']; // return 'api'
        // $log = new Log();
@@ -76,9 +75,29 @@ class EmployeeController extends Controller {
         $joinInfo->inDeviceNo = $r->inDeviceNo;
         $joinInfo->outDeviceNo = $r->outDeviceNo;
 
+        $joinInfo->employeeId = $r->employeeId;
+        $joinInfo->fkDepartmentId = $r->department;
+        $joinInfo->fkDesignation = $r->designation;
+        $joinInfo->fkEmployeeType = $r->empType;
+        $joinInfo->bloodGroup = $r->bloodGroup;
+        $joinInfo->email_off = $r->email_off;
+        $joinInfo->workingLocation = $r->workingLocation;
+        $joinInfo->contactNo = $r->contactNo;
+        $joinInfo->salary = $r->salary;
+
+        $joinInfo->e_name = $r->e_name;
+        $joinInfo->e_street_address = $r->e_street_address;
+        $joinInfo->e_apartment_unit = $r->e_apartment_unit;
+        $joinInfo->e_city = $r->e_city;
+        $joinInfo->e_state = $r->e_state;
+        $joinInfo->e_zip_code = $r->e_zip_code;
+        $joinInfo->e_phone = $r->e_phone;
+        $joinInfo->e_alternate_phone = $r->e_alternate_phone;
+        $joinInfo->e_relationship = $r->e_relationship;
+
+
         $joinInfo->supervisor = $r->supervisor;
         $joinInfo->probationPeriod = $r->probationPeriod;
-
         $joinInfo->fkActivationStatus = $r->fkActivationStatus;
 
         if ($r->attDeviceUserId != null) {
@@ -108,7 +127,11 @@ class EmployeeController extends Controller {
     }
 
     public function getJoinInfo(Request $r) {
-        $joinInfo = Employee::select('attemployeemap.attDeviceUserId', 'actualJoinDate', 'resignDate', 'weekend', 'accessPin', 'supervisor', 'probationPeriod', 'employeeinfo.fkActivationStatus', 'employeeinfo.inDeviceNo', 'employeeinfo.outDeviceNo')
+        $joinInfo = Employee::select('attemployeemap.attDeviceUserId','contactNo', 'salary','actualJoinDate', 'resignDate', 'weekend',
+            'accessPin','employeeinfo.fkDepartmentId','employeeinfo.employeeId','fkEmployeeType','employeeinfo.fkDesignation',
+            'workingLocation','supervisor', 'probationPeriod','bloodGroup','email_off', 'employeeinfo.fkActivationStatus', 'employeeinfo.inDeviceNo',
+            'e_name','e_street_address','e_apartment_unit','e_city','e_state','e_zip_code','e_phone','e_alternate_phone','e_relationship',
+            'employeeinfo.outDeviceNo')
                 ->leftJoin('attemployeemap', 'attemployeemap.employeeId', 'employeeinfo.id')
                 ->where('employeeinfo.id', '=', $r->id)
                 ->first();
@@ -118,7 +141,9 @@ class EmployeeController extends Controller {
 
     public function getBasicinfo(Request $r) {
 
-        $basicinfo = Employee::select('EmployeeId', 'photo', 'firstName', 'middleName', 'lastName', 'fkEmployeeType', 'email', 'gender', 'birthdate', 'contactNo', 'fkDesignation', 'fkDepartmentId', 'departmentName', 'title', 'alterContactNo')
+        $basicinfo = Employee::select('EmployeeId', 'photo', 'firstName', 'middleName', 'lastName', 'fkEmployeeType', 'email', 'gender', 'birthdate',
+             'streetAddress','apartmentUnit','city','state','zipCode','homePhone','maritalStatus','nationalId', 'fkDesignation', 'fkDepartmentId',
+            'departmentName', 'title', 'alterContactNo')
                 ->leftjoin('designations', 'designations.id', '=', 'employeeinfo.fkDesignation')
                 ->leftjoin('departments', 'departments.id', '=', 'employeeinfo.fkDepartmentId')
                 ->leftjoin('employeetypes', 'employeetypes.id', '=', 'employeeinfo.fkEmployeeType')
@@ -189,11 +214,17 @@ class EmployeeController extends Controller {
             'middleName'   => 'nullable|max:50',
             'lastName'   => 'nullable|max:50',
             'nickName'   => 'nullable|max:100',
-            'fkDepartmentId'   => 'max:11',
-            'fkDesignation'   => 'max:11',
-            'fkEmployeeType'   => 'max:11',
+
             'email'   => 'required|max:255',
             'contactNo'   => 'nullable|max:15',
+            'streetAddress'   => 'nullable|max:50',
+            'apartmentUnit'   => 'nullable|max:50',
+            'city'   => 'nullable|max:50',
+            'state'   => 'nullable|max:50',
+            'zipCode'   => 'nullable|max:50',
+            'homePhone'   => 'nullable|max:50',
+            'maritalStatus'   => 'nullable|max:15',
+            'nationalId'   => 'nullable|max:25',
             'alterContactNo'   => 'nullable|max:15',
             'birthdate'   => 'nullable|date',
             'gender'   => 'max:1',
@@ -224,12 +255,16 @@ class EmployeeController extends Controller {
         $employeeInfo->middleName = $r->middleName;
         $employeeInfo->lastName = $r->lastName;
 
-        $employeeInfo->nickName = $r->nickName;
-        $employeeInfo->fkDepartmentId = $r->department;
-        $employeeInfo->fkDesignation = $r->designation;
-        $employeeInfo->fkEmployeeType = $r->empType;
         $employeeInfo->email = $r->email;
         $employeeInfo->contactNo = $r->contactNo;
+        $employeeInfo->streetAddress = $r->streetAddress;
+        $employeeInfo->apartmentUnit = $r->apartmentUnit;
+        $employeeInfo->city = $r->city;
+        $employeeInfo->state = $r->state;
+        $employeeInfo->zipCode = $r->zipCode;
+        $employeeInfo->homePhone = $r->homePhone;
+        $employeeInfo->maritalStatus = $r->maritalStatus;
+        $employeeInfo->nationalId = $r->nationalId;
         $employeeInfo->alterContactNo = $r->alterContactNo;
         $employeeInfo->birthdate = $r->birthdate;
         $employeeInfo->gender = $r->gender;
