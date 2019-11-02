@@ -37,6 +37,11 @@ export class DeptWiseRosterComponent implements OnInit {
 
   existingRosterData: any;
 
+    dutyempIds = [];
+    offdutyempIds = [];
+
+
+
 
 
   constructor(private modalService: NgbModal, private renderer: Renderer, public http: HttpClient, private token: TokenService ,
@@ -178,28 +183,11 @@ export class DeptWiseRosterComponent implements OnInit {
 
   searchRoster() {
 
-    this.showTable = true;
+    this.offdutyempIds = [];
+    this.dutyempIds = [];
+    this.selectedDropDownEmpduty = [];
+    this.selectedDropDownEmpduty = [];
 
-    this.dropdownSettingsEmpduty = {
-      singleSelection: false,
-      idField: 'empId',
-      textField: 'empFullname',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      // itemsShowLimit: 3,
-      allowSearchFilter: true,
-      closeDropDownOnSelection: true,
-    };
-    this.dropdownSettingsEmpOffduty = {
-      singleSelection: false,
-      idField: 'empId',
-      textField: 'empFullname',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      // itemsShowLimit: 3,
-      allowSearchFilter: true,
-      closeDropDownOnSelection: true,
-    };
 
     const token = this.token.get();
 
@@ -214,6 +202,8 @@ export class DeptWiseRosterComponent implements OnInit {
       departments: deptId,
 
     };
+
+    //console.log(form1);
 
 
     this.http.post(Constants.API_URL + 'employee/getAllEmpForDepartment' + '?token=' + token, form1).subscribe(data => {
@@ -244,7 +234,12 @@ export class DeptWiseRosterComponent implements OnInit {
                   'empId': this.staticResult.duty[i]['EmployeeId'],
                   'empFullname': this.staticResult.duty[i]['empFullname']
                 };
+                const ed = {
+                  'empId': this.staticResult.duty[i]['EmployeeId'],
 
+                };
+
+                this.dutyempIds.push(ed);
                 this.selectedDropDownEmpduty.push(d);
               }
 
@@ -258,14 +253,42 @@ export class DeptWiseRosterComponent implements OnInit {
                   'empId': this.staticResult.Offduty[i]['EmployeeId'],
                   'empFullname': this.staticResult.Offduty[i]['empFullname']
                 };
+                const od = {
+                  'empId': this.staticResult.duty[i]['EmployeeId'],
+
+                };
+
+                this.offdutyempIds.push(od);
 
                 this.selectedDropDownEmpOffduty.push(o);
               }
 
             }
-            //
-              console.log(this.selectedDropDownEmpduty);
-              console.log(this.selectedDropDownEmpOffduty);
+
+            this.showTable = true;
+
+            this.dropdownSettingsEmpduty = {
+              singleSelection: false,
+              idField: 'empId',
+              textField: 'empFullname',
+             // selectAllText: 'Select All',
+            //  unSelectAllText: 'UnSelect All',
+              // itemsShowLimit: 3,
+              allowSearchFilter: true,
+              closeDropDownOnSelection: true,
+            };
+            this.dropdownSettingsEmpOffduty = {
+              singleSelection: false,
+              idField: 'empId',
+              textField: 'empFullname',
+            //  selectAllText: 'Select All',
+            //  unSelectAllText: 'UnSelect All',
+              // itemsShowLimit: 3,
+              allowSearchFilter: true,
+              closeDropDownOnSelection: true,
+            };
+
+
 
           },
           error => {
@@ -292,24 +315,84 @@ export class DeptWiseRosterComponent implements OnInit {
 
   onItemSelect(value) {
 
-    console.log(value);
-    console.log(this.selectedDropDownEmpduty);
+    this.dutyempIds = [];
+
+    if (this.selectedDropDownEmpduty.length > 0) {
+
+
+      for (let i = 0; i < this.selectedDropDownEmpduty.length; i++) {
+
+
+        this.dutyempIds.push({
+          'empid': this.selectedDropDownEmpduty[i]['empid'],
+        });
+
+      }
+
+    }
+
+
+
 
   }
   onItemDeSelect(value) {
 
-    console.log(this.selectedDropDownEmpduty);
+    this.dutyempIds = [];
+
+    if (this.selectedDropDownEmpduty.length > 0) {
+
+
+      for (let i = 0; i < this.selectedDropDownEmpduty.length; i++) {
+
+
+        this.dutyempIds.push({
+          'empid': this.selectedDropDownEmpduty[i]['empid'],
+        });
+
+      }
+
+    }
 
   }
   onItemSelectEmpOffduty(value) {
 
-    console.log(value);
-    console.log(this.selectedDropDownEmpOffduty);
+
+    this.offdutyempIds = [];
+
+
+    if (this.selectedDropDownEmpOffduty.length > 0) {
+
+
+      for (let i = 0; i < this.selectedDropDownEmpOffduty.length; i++) {
+
+
+        this.offdutyempIds.push({
+          'empid': this.selectedDropDownEmpOffduty[i]['empid'],
+        });
+
+      }
+
+    }
 
   }
   onItemDeSelectEmpOffduty(value) {
 
-    console.log(this.selectedDropDownEmpOffduty);
+    this.offdutyempIds = [];
+
+
+    if (this.selectedDropDownEmpOffduty.length > 0) {
+
+
+      for (let i = 0; i < this.selectedDropDownEmpOffduty.length; i++) {
+
+
+        this.offdutyempIds.push({
+          'empid': this.selectedDropDownEmpOffduty[i]['empid'],
+        });
+
+      }
+
+    }
 
   }
   submitRoster() {
@@ -321,10 +404,12 @@ export class DeptWiseRosterComponent implements OnInit {
       date: $('#Date').val(),
       shiftId: $('#RosterInfo').val(),
 
-      dutyEmp: this.selectedDropDownEmpduty,
-      offdutyEmp: this.selectedDropDownEmpOffduty,
+      dutyEmp: this.dutyempIds,
+      offdutyEmp: this.offdutyempIds,
 
     };
+
+   // console.log(form);
 
     this.http.post(Constants.API_URL + 'roster/setDepartmentWiseRosterByShift' + '?token=' + token, form).subscribe(data => {
 
@@ -375,11 +460,23 @@ export class DeptWiseRosterComponent implements OnInit {
   }
   ChangeRoster() {
 
+    this.showExistingData = false;
+    this.showTable = true;
+
+    this.offdutyempIds = [];
+    this.dutyempIds = [];
+    this.selectedDropDownEmpduty = [];
+    this.selectedDropDownEmpduty = [];
+
     this.searchRoster();
 
   }
-  private modalClose() {
+  modalClose() {
 
+    this.offdutyempIds = [];
+    this.dutyempIds = [];
+    this.selectedDropDownEmpduty = [];
+    this.selectedDropDownEmpduty = [];
     this.modalRef.close();
 
   }

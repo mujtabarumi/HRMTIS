@@ -65,7 +65,36 @@
           <tr *ngFor="let ml of myLeaves" [ngClass]="(ml.applicationStatus=='Pending')?'redcolumn':''">
             <td style="text-align: center">{{ml.applicationDate}}</td>
             <td style="text-align: center">{{ml.categoryName}}</td>
-            <td style="text-align: center">{{ml.applicationStatus}}</td>
+
+
+
+
+
+
+
+              <td *ngIf="ml.departmentHeadApproval==0" style="text-align: center">Department Head Rejected</td>
+
+
+
+
+              <td *ngIf="ml.departmentHeadApproval!=0 && ml.departmentHeadApproval!=null && ml.HR_adminApproval==0"style="text-align: center">HR Rejected</td>
+
+
+
+
+              <td *ngIf="ml.departmentHeadApproval!=0 && ml.departmentHeadApproval!=null && ml.HR_adminApproval!=0 && ml.HR_adminApproval ==null" style="text-align: center">HR Approval Pending</td>
+
+
+
+
+              <td *ngIf="ml.departmentHeadApproval==null && ml.HR_adminApproval ==null" style="text-align: center">Pending</td>
+
+
+
+
+              <td *ngIf="ml.departmentHeadApproval!=0 && ml.departmentHeadApproval!=null && ml.HR_adminApproval!=0 && ml.HR_adminApproval !=null" style="text-align: center">Approved</td>
+
+
             <td style="text-align: center">{{ml.startDate}}</td>
             <td style="text-align: center">{{ml.endDate}}</td>
             <td style="text-align: center">{{ml.noOfDays}}</td>

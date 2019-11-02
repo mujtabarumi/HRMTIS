@@ -18,7 +18,8 @@
           [data]="employees"
           [(ngModel)]="selectedDropDownEmp"
           [settings]="dropdownSettingsEmp"
-          (onSelect)="test($event)"
+          (onSelect)="onSelect($event)"
+          (onDeSelect)="onSelect($event)"
 
         >
         </ng-multiselect-dropdown>
@@ -32,7 +33,8 @@
           [data]="employees"
           [(ngModel)]="selectedDropDownoffDutyEmp"
           [settings]="dropdownSettingsEmp"
-          (onSelect)="test($event)"
+          (onSelect)="onSelect($event)"
+          (onDeSelect)="onSelect($event)"
 
         >
         </ng-multiselect-dropdown>
@@ -161,24 +163,12 @@
                   </td>
                   <td>
 
-                    <span *ngFor="let Ros of RosterInfo;let index = index">
-                      <p *ngIf="Ros['shiftId']==Roster['shiftId'] && Ros['day']==dN">
-
-                        <ng-template ngIf="this.showbtn">
-                          <button class="btn btn-info" (click)="ChangeRosterLog(Roster['shiftId'],dN,Ros['rosterLogId'],content)" >change</button>
-                          {{adddiv()}}
-
-                        </ng-template>
-
-                      </p>
 
 
-                    </span>
 
-                    <ng-template ngIf="this.showbtn">
-                      <button class="btn btn-info" (click)="ChangeRosterLog(Roster['shiftId'],dN,null,content)" >Add</button>
-                      {{adddiv()}}
-                    </ng-template>
+                      <button class="btn btn-info" (click)="ChangeRosterLog(Roster['shiftId'],dN,content)" >Change</button>
+
+
 
 
 

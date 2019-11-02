@@ -657,7 +657,7 @@ class shiftController extends Controller
 
        return $roster=Shift::select('static_rosterlog.day','shift.shiftId',DB::raw("GROUP_CONCAT(static_rosterlog.fkemployeeId) as EmpRosterId"),
            DB::raw("CONCAT(shift.shiftname,'(',shift.inTime,'-',shift.outTime,')') as shiftName"),
-           DB::raw("TRIM(BOTH '  ,  ' FROM GROUP_CONCAT(COALESCE(EmpDuty.firstName,''),' ',COALESCE(EmpDuty.middleName,''),' ',COALESCE(EmpDuty.lastName,''))) as EmpRosterNames"),
+           DB::raw("TRIM(BOTH '  ,' FROM GROUP_CONCAT(COALESCE(EmpDuty.firstName,''),' ',COALESCE(EmpDuty.middleName,''),' ',COALESCE(EmpDuty.lastName,''))) as EmpRosterNames"),
            DB::raw("TRIM(BOTH '  ,' FROM GROUP_CONCAT(COALESCE(EmpOffDuty.firstName,''),' ',COALESCE(EmpOffDuty.middleName,''),' ',COALESCE(EmpOffDuty.lastName,''))) as EmpRosterOffDutyNames"))
            ->where('shift.fkDepartmentId',$r->departments)
 
