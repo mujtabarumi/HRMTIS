@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
 import  { Constants }  from '../../constants';
-import {TokenService} from "../../services/token.service";
+import {TokenService} from '../../services/token.service';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
-import {NgxSpinnerService} from "ngx-spinner";
+import {NgxSpinnerService} from 'ngx-spinner';
 import { NgxPermissionsService, NgxPermissionsConfigurationService } from 'ngx-permissions';
-import {User} from "../../model/user.model";
+import {User} from '../../model/user.model';
 
 
 @Component({
@@ -15,16 +15,16 @@ import {User} from "../../model/user.model";
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-    form:any;
-    error:null;
+    form: any;
+    error: null;
     submitted = false;
-    userModel={} as User;
+    userModel = {} as User;
 
 
 
-  constructor(private http:HttpClient,
-              private router:Router,
-              private token:TokenService,
+  constructor(private http: HttpClient,
+              private router: Router,
+              private token: TokenService,
               private spinner: NgxSpinnerService,
               private permissionsService: NgxPermissionsService,
               private ngxPermissionsConfigurationService: NgxPermissionsConfigurationService,
@@ -34,28 +34,28 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
 
-      this.form=new FormGroup({
-          email:new FormControl('',[
+      this.form = new FormGroup({
+          email: new FormControl('', [
               Validators.required,
               Validators.email
           ]),
-          password:new FormControl('',[
+          password: new FormControl('', [
               Validators.required
           ])
       });
 
   }
 
-  onSubmit(value){
+  onSubmit(value) {
       this.submitted = true;
       if (!this.form.valid) {
           return;
       }
       this.spinner.show();
-    this.http.post(Constants.API_URL+'login',value).subscribe(data => {
+    this.http.post(Constants.API_URL + 'login', value).subscribe(data => {
         this.spinner.hide();
 
-          this.error=null;
+          this.error = null;
           this.handleResponse(data);
 
         },
@@ -63,8 +63,8 @@ export class LoginComponent implements OnInit {
             this.spinner.hide();
 
           console.log(error.error['error']);
-          if(error.statusText=='Unauthorized'){
-              this.error=error.error['error'];
+          if (error.statusText == 'Unauthorized') {
+              this.error = error.error['error'];
           }
 
 
@@ -78,8 +78,8 @@ export class LoginComponent implements OnInit {
 
     this.token.handle(data.access_token);
     this.token.getUser().subscribe(data => {
-              this.userModel=data as User;
-              let perm = [];
+              this.userModel = data as User;
+              const perm = [];
               perm.push(this.userModel.fkUserType);
               console.log(perm);
               this.permissionsService.loadPermissions(perm);

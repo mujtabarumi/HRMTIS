@@ -77,6 +77,7 @@ class LeaveController extends Controller
         if ($emp['email']!='' && $emp['email']!= null){
 
             Mail::to($emp['email'])->send(new LeaveApplied());
+            Mail::to('faruk.totaltvs@gmail.com')->send(new LeaveApplied());
         }
 
         foreach ($otherReceipant as $oR){
@@ -99,7 +100,7 @@ class LeaveController extends Controller
         $emp=Employee::where('fkUserId',auth()->user()->id)->first();
         $leaves=Leave::select('leaves.*','leavecategories.categoryName')
             ->where('fkEmployeeId',$emp->id)
-//            ->whereIn('leaves.fkLeaveCategory',[1,2,3,4])
+            ->whereIn('leaves.fkLeaveCategory',[1,2,3,4])
             ->leftJoin('leavecategories','leavecategories.id','leaves.fkLeaveCategory')
             ->orderBy('leaves.id','desc')
             ->get();
@@ -135,6 +136,29 @@ class LeaveController extends Controller
             ->get();
 
         return $leaves;
+    }
+    public function getLeaveSummery(Request $r){
+//
+//
+        $leaves=Leave::select('employeeinfo.id','employeeinfo.firstName','employeeinfo.middleName',
+            'employeeinfo.lastName',
+            DB::raw('sum(case when fkLeaveCategory = 1 then noOfDays else 0 end) as cs'),
+            DB::raw('sum(case when fkLeaveCategory = 2 then noOfDays else 0 end) as sick'),
+            DB::raw('sum(case when fkLeaveCategory = 5 then noOfDays else 0 end) as lwp'),
+            DB::raw('sum(case when fkLeaveCategory = 4 then noOfDays else 0 end) as marri'))
+            ->leftJoin('employeeinfo','employeeinfo.id','leaves.fkEmployeeId')
+            ->where('leaves.applicationStatus','Approved')
+            ->whereIn('leaves.fkLeaveCategory',[1,2,5,4])
+            ->groupBy('leaves.fkEmployeeId');
+        if($r->startDate && $r->endDate){
+
+            $leaves = $leaves->whereRaw("date(leaves.startDate) between '".$r->startDate."' and '".$r->endDate."'  ");
+        }
+        $leaves=$leaves->get();
+
+        $datatables = Datatables::of($leaves);
+        return $datatables->make(true);
+
     }
 
     public function getLeaveRequests(){

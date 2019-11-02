@@ -73,6 +73,8 @@ class StaticRosterController extends Controller
     }
     public function setStaticRosterInfo(Request $r){
 
+      //  return $r;
+
 
         $deletePreviousRoster=StaticRosterLog::select('rosterLogId')->where(function ($query) use($r){
                 $query->whereIn('fkemployeeId',$r->dutyempIds)

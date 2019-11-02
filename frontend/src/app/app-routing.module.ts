@@ -61,6 +61,7 @@ const routes: Routes = [
     { path: 'configuration/not-shift-assigned-list/notAssignedinfo', component: NotShiftAssignListComponent , canActivate: [AuthService] },
     { path: 'notAssignedinfoPerEmp/:id/:userId/:start/:end', component: EditAssignedShiftComponent , canActivate: [AuthService]},
     { path: 'notAssignedinfoPerEmp/:id/:userId/:start/:end', component: EditAssignedShiftComponent , canActivate: [AuthService]},
+    { path: 'leave/summery', component: LeaveSummeryComponent, canActivate: [AuthService]  },
     { path: 'leave/summery/:id', component: LeaveSummeryShowComponent, canActivate: [AuthService] },
     { path: 'configuration/leave/show', component: ShowLeaveComponent, canActivate: [AuthService]  },
     { path: 'configuration/designation/add', component: AddDesignationComponent, canActivate: [AuthService]  },
