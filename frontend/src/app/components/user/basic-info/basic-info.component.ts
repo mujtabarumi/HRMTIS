@@ -194,7 +194,7 @@ export class BasicInfoComponent implements OnInit {
         this.getBasicInfo();
         $('#photo').val('');
 
-        // this.router.navigate(['employee', 'edit', this.basicinfo.id]);
+
 
       },
       error => {

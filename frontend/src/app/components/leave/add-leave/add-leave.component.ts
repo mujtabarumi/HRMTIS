@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {TokenService} from '../../../services/token.service';
 import {HttpClient} from '@angular/common/http';
 import {Constants} from '../../../constants';
+import {NgxSpinnerService} from 'ngx-spinner';
 declare var $: any;
 
 @Component({
@@ -14,7 +15,8 @@ export class AddLeaveComponent implements OnInit {
   employee: any = {};
   leaveCategories: any;
   myLeaves: any;
-  constructor(public http: HttpClient, private token: TokenService , public route: ActivatedRoute, private router: Router) { }
+  // tslint:disable-next-line:max-line-length
+  constructor(public http: HttpClient, private token: TokenService , public route: ActivatedRoute, private router: Router, private spinner: NgxSpinnerService, ) { }
 
   ngOnInit() {
 
@@ -84,8 +86,9 @@ export class AddLeaveComponent implements OnInit {
     // leave/assignLeavePersonal
 
     const token = this.token.get();
-
+    this.spinner.show();
     this.http.post(Constants.API_URL + 'leave/assignLeavePersonal' + '?token=' + token, form).subscribe(data => {
+        this.spinner.hide();
         console.log(data);
         this.getMyLeaves();
 

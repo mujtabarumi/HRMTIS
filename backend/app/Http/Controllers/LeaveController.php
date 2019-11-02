@@ -100,7 +100,7 @@ class LeaveController extends Controller
         $emp=Employee::where('fkUserId',auth()->user()->id)->first();
         $leaves=Leave::select('leaves.*','leavecategories.categoryName')
             ->where('fkEmployeeId',$emp->id)
-            ->whereIn('leaves.fkLeaveCategory',[1,2,3,4])
+//            ->whereIn('leaves.fkLeaveCategory',[1,2,3,4])
             ->leftJoin('leavecategories','leavecategories.id','leaves.fkLeaveCategory')
             ->orderBy('leaves.id','desc')
             ->get();
@@ -147,8 +147,15 @@ class LeaveController extends Controller
             DB::raw('sum(case when fkLeaveCategory = 5 then noOfDays else 0 end) as lwp'),
             DB::raw('sum(case when fkLeaveCategory = 4 then noOfDays else 0 end) as marri'))
             ->leftJoin('employeeinfo','employeeinfo.id','leaves.fkEmployeeId')
-            ->where('leaves.applicationStatus','Approved')
-            ->whereIn('leaves.fkLeaveCategory',[1,2,5,4])
+            ->where(function ($query) {
+                $query->where('leaves.departmentHeadApproval', '!=', 0)
+                    ->Where('leaves.departmentHeadApproval', '!=', null);
+            })->where(function ($query) {
+                $query->where('leaves.HR_adminApproval', '!=', 0)
+                    ->Where('leaves.HR_adminApproval', '!=', null);
+            })
+//            ->where('leaves.applicationStatus','Approved')
+//            ->whereIn('leaves.fkLeaveCategory',[1,2,5,4])
             ->groupBy('leaves.fkEmployeeId');
         if($r->startDate && $r->endDate){
 
