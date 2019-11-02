@@ -1,9 +1,9 @@
 import {Component, OnInit, Input} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Constants} from "../../../constants";
-import {TokenService} from "../../../services/token.service";
+import {HttpClient} from '@angular/common/http';
+import {Constants} from '../../../constants';
+import {TokenService} from '../../../services/token.service';
 import {Router} from '@angular/router';
-declare var $ :any;
+declare var $: any;
 
 @Component({
   selector: 'app-basic-info',
@@ -12,52 +12,59 @@ declare var $ :any;
 })
 export class BasicInfoComponent implements OnInit {
 
-  department:any;
-  designation:any;
-  empType:any;
+  department: any;
+  designation: any;
+  empType: any;
   basicinfo: any;
-  result:any;
-  error=[];
-  employeeBasicForm:any={
-    id:'',
+  result: any;
+  error = [];
+  employeeBasicForm: any = {
+    id: '',
 
-    firstName:'',
-    middleName:'',
-    lastName:'',
+    firstName: '',
+    middleName: '',
+    lastName: '',
 
-    email:'',
-    streetAddress:'',
-    apartmentUnit:'',
-    city:'',
-    state:'',
-    zipCode:'',
-    contactNo:'',
-    homePhone:'',
+    email: '',
+    streetAddress: '',
+    apartmentUnit: '',
+    city: '',
+    state: '',
+    zipCode: '',
+    contactNo: '',
+    homePhone: '',
 
-    alterContactNo:'',
-    birthdate:'',
-    nationalId:'',
-    gender:'',
-    photo:''
+    alterContactNo: '',
+    birthdate: '',
+    nationalId: '',
+    gender: '',
+    photo: ''
 
   };
 
-  selectedFile:File;
+  selectedFile: File;
 
   @Input('empid') empid: any;
 
-  constructor(public http: HttpClient, private token:TokenService,private router: Router) { }
+  constructor(public http: HttpClient, private token: TokenService, private router: Router) { }
 
   ngOnInit() {
 
+        this.getBasicInfo();
 
 
-    const token=this.token.get();
-    this.http.post(Constants.API_URL+'employee/basicinfo'+'?token='+token,{ empid:this.empid}).subscribe(data => {
+  }
 
-       console.log(data);
+  getBasicInfo() {
+
+    const token = this.token.get();
+    this.http.post(Constants.API_URL + 'employee/basicinfo' + '?token=' + token, { empid: this.empid}).subscribe(data => {
+
+        // console.log(data);
+
         this.basicinfo  = data;
-        if(data !=null){
+
+        if (data != null) {
 
           this.employeeBasicForm.id = this.empid;
           this.employeeBasicForm.EmployeeId = this.basicinfo.EmployeeId;
@@ -78,7 +85,7 @@ export class BasicInfoComponent implements OnInit {
           this.employeeBasicForm.maritalStatus = this.basicinfo.maritalStatus;
           this.employeeBasicForm.nationalId = this.basicinfo.nationalId;
           this.employeeBasicForm.alterContactNo = this.basicinfo.alterContactNo;
-          this.employeeBasicForm.photo = Constants.Image_URL+'images/'+this.basicinfo.photo;
+          this.employeeBasicForm.photo = Constants.Image_URL + 'images/' + this.basicinfo.photo;
           // console.log(this.employeeBasicForm.photo);
         }
       },
@@ -86,6 +93,7 @@ export class BasicInfoComponent implements OnInit {
         console.log(error);
       }
     );
+
   }
 
 
@@ -93,23 +101,23 @@ export class BasicInfoComponent implements OnInit {
 
   onFileSelected(event) {
 
-    this.selectedFile =event.target.files[0];
+    this.selectedFile = event.target.files[0];
 
   }
-  checkRequiredFields(){
+  checkRequiredFields() {
     // if(this.employeeBasicForm.EmployeeId == ''){
     //   return false;
     // }
-    if(this.employeeBasicForm.firstName== ''){
+    if (this.employeeBasicForm.firstName == '') {
       return false;
     }
-    if(  this.employeeBasicForm.lastName == ''){
+    if (  this.employeeBasicForm.lastName == '') {
       return false;
     }
-    if(this.employeeBasicForm.gender == '' || this.employeeBasicForm.gender == null){
+    if (this.employeeBasicForm.gender == '' || this.employeeBasicForm.gender == null) {
       return false;
     }
-    if(this.employeeBasicForm.birthdate == '' || this.employeeBasicForm.birthdate == null ){
+    if (this.employeeBasicForm.birthdate == '' || this.employeeBasicForm.birthdate == null ) {
       return false;
     }
     // if(this.employeeBasicForm.department == ''){
@@ -122,14 +130,14 @@ export class BasicInfoComponent implements OnInit {
     //   return false;
     // }
 
-    if(this.employeeBasicForm.email == ''){
+    if (this.employeeBasicForm.email == '') {
       return false;
     }
     return true;
   }
 
-  onSubmit(){
-    if(!this.checkRequiredFields()){
+  onSubmit() {
+    if (!this.checkRequiredFields()) {
       $.alert({
         title: 'Alert!',
         type: 'Red',
@@ -146,12 +154,12 @@ export class BasicInfoComponent implements OnInit {
       return false;
     }
 
-    //console.log(this.employeeBasicForm.gender);
+    // console.log(this.employeeBasicForm.gender);
 
 
-    let fd = new FormData();
-    let value=this.employeeBasicForm;
-    for ( let key in value ) {
+    const fd = new FormData();
+    const value = this.employeeBasicForm;
+    for ( const key in value ) {
       fd.append(key, value[key]);
     }
 
@@ -161,14 +169,18 @@ export class BasicInfoComponent implements OnInit {
     }
 
 
-    const token=this.token.get();
-    this.http.post(Constants.API_URL+'employee/storeBasicInfo'+'?token='+token,fd).subscribe(data => {
-     // console.log(data);
-        this.result=data;
+    const token = this.token.get();
+
+    this.http.post(Constants.API_URL + 'employee/storeBasicInfo' + '?token=' + token, fd).subscribe(data => {
+
+
+
+        this.basicinfo = data;
+
         $.alert({
           title: 'Success!',
           type: 'Green',
-          content: "Employee Updated Successfully",
+          content: 'Employee Updated Successfully',
           buttons: {
             tryAgain: {
               text: 'Ok',
@@ -178,12 +190,17 @@ export class BasicInfoComponent implements OnInit {
             }
           }
         });
-        this.router.navigate(['employee', 'edit', this.result.id]);
+
+        this.getBasicInfo();
+        $('#photo').val('');
+
+        // this.router.navigate(['employee', 'edit', this.basicinfo.id]);
+
       },
       error => {
-        const data=error.error.errors;
-        for (var p in data) {
-          for (var k in data[p]) {
+        const data = error.error.errors;
+        for (const p in data) {
+          for (const k in data[p]) {
             this.error.push(data[p][k]);
           }
         }

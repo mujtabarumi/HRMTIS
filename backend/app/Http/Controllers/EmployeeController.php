@@ -141,7 +141,7 @@ class EmployeeController extends Controller {
 
     public function getBasicinfo(Request $r) {
 
-        $basicinfo = Employee::select('EmployeeId', 'photo', 'firstName', 'middleName', 'lastName', 'fkEmployeeType', 'email', 'gender', 'birthdate',
+        $basicinfo = Employee::select('employeeinfo.id','EmployeeId', 'photo', 'firstName', 'middleName', 'lastName', 'fkEmployeeType', 'email', 'gender', 'birthdate',
              'streetAddress','apartmentUnit','city','state','zipCode','homePhone','maritalStatus','nationalId', 'fkDesignation', 'fkDepartmentId',
             'departmentName', 'title', 'alterContactNo')
                 ->leftjoin('designations', 'designations.id', '=', 'employeeinfo.fkDesignation')
@@ -158,8 +158,8 @@ class EmployeeController extends Controller {
                         , 'employeeinfo.weekend')
                 ->leftjoin('designations', 'designations.id', '=', 'employeeinfo.fkDesignation')
                 ->leftjoin('departments', 'departments.id', '=', 'employeeinfo.fkDepartmentId')
-                ->leftJoin('attemployeemap', 'attemployeemap.employeeId', 'employeeinfo.id')
-                ->where('resignDate', null);
+                ->leftJoin('attemployeemap', 'attemployeemap.employeeId', 'employeeinfo.id');
+//                ->where('resignDate', null);
 //            ->where('employeeinfo.fkCompany' , auth()->user()->fkCompany);
 
         $datatables = Datatables::of($employee);
@@ -206,7 +206,7 @@ class EmployeeController extends Controller {
     public function storeBasicInfo(Request $r) {
 
 //        return auth()->user()->fkComapny;
-        //return $r;
+
         $this->validate($r, [
 
             'EmployeeId' => 'nullable|max:20',
@@ -274,8 +274,13 @@ class EmployeeController extends Controller {
 
             if ($employeeInfo->photo != null) {
 
+
+
                 $file_path = public_path('/images') . '/' . $employeeInfo->photo;
-                unlink($file_path);
+                if (file_exists($file_path)){
+                    unlink($file_path);
+                }
+
             }
 
             $images = $r->file('photo');
@@ -283,12 +288,16 @@ class EmployeeController extends Controller {
             $destinationPath = public_path('/images');
             $images->move($destinationPath, $name);
             $employeeInfo->photo = $name;
+
+
         }
         $employeeInfo->save();
 
+
+
         Artisan::call('cache:clear');
 
-        return $employeeInfo;
+        return Employee::findOrFail($employeeInfo->id);
     }
 
     public function getempDesignation(Request $r)

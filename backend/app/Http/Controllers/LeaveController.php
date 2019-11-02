@@ -168,7 +168,7 @@ class LeaveController extends Controller
         $leaves=Leave::select('designations.title as userDesignationTitle','leaves.*','employeeinfo.firstName','employeeinfo.middleName','employeeinfo.lastName','leavecategories.categoryName')
             ->leftJoin('employeeinfo','employeeinfo.id','leaves.fkEmployeeId')
 
-            ->join('designations',function($join) use($emp) {
+            ->leftJoin('designations',function($join) use($emp) {
                 $join->where('designations.id', '=', $emp['fkDesignation']);
 
             })

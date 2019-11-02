@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-declare var $ :any;
+import {ActivatedRoute} from '@angular/router';
+declare var $: any;
 
 @Component({
   selector: 'app-add-employee',
@@ -9,25 +9,23 @@ declare var $ :any;
 })
 export class AddEmployeeComponent implements OnInit {
 
-  infoFlag:number=1;
-  id:any;
-  empid:any;
-  error=[];
+  infoFlag = 1;
+  id: any;
+  empid: any;
+  error = [];
 
-  constructor(public route:ActivatedRoute) { }
+  constructor(public route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.empid =this.route.snapshot.params.id;
+    this.empid = this.route.snapshot.params.id;
   }
 
-  onInfoClick(value){
-    if(value ==1){
-      this.infoFlag=value;
-    }
-    else if(this.empid){
-      this.infoFlag=value;
-    }
-    else {
+  onInfoClick(value) {
+    if (value == 1) {
+      this.infoFlag = value;
+    } else if (this.empid) {
+      this.infoFlag = value;
+    } else {
       // alert('Please Create a user first');
 
       $.alert({
