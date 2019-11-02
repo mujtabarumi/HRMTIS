@@ -197,6 +197,8 @@ export class DeptWiseStaticRosterComponent implements OnInit {
 
 
 
+
+
     const token = this.token.get();
     const form = {
       shiftId: shiftId,
@@ -205,62 +207,58 @@ export class DeptWiseStaticRosterComponent implements OnInit {
     };
     this.http.post(Constants.API_URL + 'rosterLog/getStaticRosterInfo' + '?token=' + token, form).subscribe(datas => {
 
-     // this.staticRoster = datas;
 
-      console.log(datas);
-
-      if (datas[0]['EmpRosterIds'] !== null && datas[0]['EmpRosterIds'] !== '') {
-        const duty = datas[0]['EmpRosterIds'].split(',');
-        const dutyNames = datas[0]['EmpRosterNames'].split(',');
-
-        if (duty.length > 0) {
-
-          for (let i = 0; i < duty.length; i++) {
-
-            const d = {
-              'empid': duty[i],
-              'empFullname': dutyNames[i]
-            };
-            const e = {
-              'empid': duty[i],
-
-            };
-
-            this.selectedDropDownEmp.push(d);
-            this.newEmpRoster.dutyempIds.push(e);
+      if (datas['Offduty'] !== null && datas['Offduty'] !== '') {
 
 
-
-          }
-
-        }
-        this.selectedDropDownEmp = [];
-
-      }
-      if (datas[0]['EmpRosterOffDutyIds'] !== null && datas[0]['EmpRosterOffDutyIds'] !== '') {
-        const offduty = datas[0]['EmpRosterOffDutyIds'].split(',');
-        const offdutyNames = datas[0]['EmpRosterOffDutyNames'].split(',');
-
-        if (offduty.length > 0) {
-
-          for (let i = 0; i < offduty.length; i++) {
+          for (let i = 0; i < datas['Offduty'].length; i++) {
 
             const o = {
-              'empid': offduty[i],
-              'empFullname': offdutyNames[i]
+              'empid': datas['Offduty'][i]['EmployeeId'],
+              'empFullname': datas['Offduty'][i]['empFullname']
             };
             const od = {
-              'empid': offduty[i],
+              'empid': datas['Offduty'][i]['EmployeeId'],
 
             };
+
             this.selectedDropDownoffDutyEmp.push(o);
             this.newEmpRoster.offdutyempIds.push(od);
 
+
+
           }
 
-        }
-        this.selectedDropDownoffDutyEmp = [];
+        } else {
+            this.selectedDropDownoffDutyEmp = [];
       }
+
+
+
+      if (datas['duty'] !== null && datas['duty'] !== '') {
+
+
+
+          for (let i = 0; i < datas['duty'].length; i++) {
+
+            const d = {
+              'empid': datas['duty'][i]['EmployeeId'],
+              'empFullname': datas['duty'][i]['empFullname']
+            };
+            const e = {
+              'empid': datas['duty'][i]['EmployeeId'],
+
+            };
+            this.selectedDropDownEmp.push(d);
+            this.newEmpRoster.dutyempIds.push(e);
+
+          }
+
+        } else {
+        this.selectedDropDownEmp = [];
+      }
+
+
 
       },
       error => {
@@ -271,14 +269,20 @@ export class DeptWiseStaticRosterComponent implements OnInit {
      this.newEmpRoster.dayName = dayName;
      this.newEmpRoster.rosterLogId = rosterLogId;
 
-    this.modalRef = this.modalService.open(content, {size: 'lg', backdrop: 'static'});
+
+
+    this.showmodal(content);
 
 
   }
   test(event) {
     console.log(this.selectedDropDownEmp);
   }
+  private showmodal(content) {
+    this.modalRef = this.modalService.open(content, {size: 'lg', backdrop: 'static'});
+  }
   private modalClose() {
+
     this.selectedDropDownEmp = [];
     this.newEmpRoster = {
       rosterLogId: '',
@@ -287,7 +291,9 @@ export class DeptWiseStaticRosterComponent implements OnInit {
       dutyempIds: [],
       offdutyempIds: [],
     };
+
     this.selectedDropDownoffDutyEmp = [];
+
     this.modalRef.close();
 
   }
@@ -295,12 +301,21 @@ export class DeptWiseStaticRosterComponent implements OnInit {
   updateRoster() {
 
     const token = this.token.get();
-    console.log(this.newEmpRoster);
+
+    //console.log(this.newEmpRoster);
 
     this.http.post(Constants.API_URL + 'rosterLog/setStaticRosterInfo' + '?token=' + token, this.newEmpRoster).subscribe(data => {
 
 
-      console.log(data);
+      //console.log(data);
+
+        $.alert({
+          title: data,
+          content: 'Static Roster set Successfully',
+        });
+        this.modalClose();
+        this.searchRoster();
+
 
       },
       error => {

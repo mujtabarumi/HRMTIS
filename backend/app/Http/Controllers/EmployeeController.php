@@ -177,7 +177,7 @@ class EmployeeController extends Controller {
     }
 
     public function getAllEmployeeInfoForDepartment(Request $r) {
-        return $employee = Employee::select('employeeinfo.firstName', 'employeeinfo.lastName', 'employeeinfo.middleName', 'employeeinfo.EmployeeId',
+        return $employee = Employee::select('employeeinfo.id as empId','employeeinfo.firstName', 'employeeinfo.lastName', 'employeeinfo.middleName', 'employeeinfo.EmployeeId',
             'designations.title', 'departments.departmentName', 'employeeinfo.id as empid', 'attemployeemap.attDeviceUserId',
             DB::raw("CONCAT(COALESCE(firstName,''),' ',COALESCE(middleName,''),' ',COALESCE(lastName,'')) AS empFullname"))
 
