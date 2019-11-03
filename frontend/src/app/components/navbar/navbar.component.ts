@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {Constants} from '../../constants';
 import {HttpClient} from '@angular/common/http';
-import {TokenService} from "../../services/token.service";
-import {User} from "../../model/user.model";
-import {NgxPermissionsService} from "ngx-permissions";
+import {TokenService} from '../../services/token.service';
+import {User} from '../../model/user.model';
+import {NgxPermissionsService} from 'ngx-permissions';
 import { NavbarService } from '../../services/navbar.service';
 
 @Component({
@@ -13,34 +13,33 @@ import { NavbarService } from '../../services/navbar.service';
 })
 export class NavbarComponent implements OnInit {
 
-  data:any;
+  data: any;
 
-  userModel={} as User;
-    user:any={
-        contactNo: "",
-        email: "",
-        fkActivationStatus: "",
-        fkCompany: "",
-        fkUserType: "",
-        id:  "",
-        picture: "",
-        registrationdate:  "",
-        rememberToken:  "",
-        userName:  ""
+  userModel = {} as User;
+    user: any = {
+        contactNo: '',
+        email: '',
+        fkActivationStatus: '',
+        fkCompany: '',
+        fkUserType: '',
+        id:  '',
+        picture: '',
+        registrationdate:  '',
+        rememberToken:  '',
+        userName:  ''
 
     };
-    tokenUser:any={};
+    tokenUser: any = {};
   permission: string;
 
-  constructor(private permissionsService: NgxPermissionsService,public http: HttpClient,private token:TokenService,
-              public nav: NavbarService)
-  {
+  constructor(private permissionsService: NgxPermissionsService, public http: HttpClient, private token: TokenService,
+              public nav: NavbarService) {
 
   }
 
   ngOnInit() {
 
-    const token=this.token.get();
+    const token = this.token.get();
 
 
     //console.log(this.user);
@@ -63,42 +62,43 @@ export class NavbarComponent implements OnInit {
       //     });
 
 
-          this.http.post(Constants.API_URL+'me?token='+token,null).subscribe(data1 => {
+          this.http.post(Constants.API_URL + 'me?token=' + token, null).subscribe(data1 => {
 
 
 
-              if (data1['fkUserType']=='emp')
-              {
+              if (data1['fkUserType'] == 'emp') {
 
-                const token=this.token.get();
-                this.http.post(Constants.API_URL+'getEmpDesignation?token='+token,{'id':data1['id']}).subscribe(data => {
-
+                const token = this.token.get();
+                this.http.post(Constants.API_URL + 'getEmpDesignation?token=' + token, {'id': data1['id']}).subscribe(data => {
 
 
-                    if (data['designationTitle']==Constants.manager){
+                    if (data['designationTitle'] == Constants.manager) {
 
                       this.permissionsService.removePermission('emp');
                      // console.log(this.permissionsService.getPermissions());
 
 
-                      let perm = [];
+                      const perm = [];
                       perm.push(data['designationTitle']);
                       this.permissionsService.loadPermissions(perm);
 
-                       console.log(this.permissionsService.getPermissions());
+                      // console.log(this.permissionsService.getPermissions());
 
 
-                    }if (data['designationTitle']==Constants.HR){
+                    }if (data['designationTitle'] == Constants.HR) {
 
-                      let perm = [];
+                      const perm = [];
                       perm.push(data['designationTitle']);
                       this.permissionsService.loadPermissions(perm);
 
 
-                    }else {
+                    } else {
 
                      // this.permission=[data['fkUserType']]
                     }
+
+
+
 
 
                   },
@@ -123,20 +123,20 @@ export class NavbarComponent implements OnInit {
   }
 
 
-    isAdmin(){
-      if(this.user.fkUserType=='admin'){
+    isAdmin() {
+      if (this.user.fkUserType == 'admin') {
           return true;
       }
       //   console.log(this.user.fkUserType);
       return false;
     }
 
-  whoAmI(e: MouseEvent){
+  whoAmI(e: MouseEvent) {
       e.preventDefault();
 
 
-      const token=this.token.get();
-      this.http.post(Constants.API_URL+'me?token='+token,null).subscribe(data => {
+      const token = this.token.get();
+      this.http.post(Constants.API_URL + 'me?token=' + token, null).subscribe(data => {
               console.log(data);
 
           },
@@ -150,12 +150,12 @@ export class NavbarComponent implements OnInit {
 
   logout(e: MouseEvent) {
     e.preventDefault();
-    const token=this.token.get();
+    const token = this.token.get();
     // console.log(token);
     //
-    this.http.post(Constants.API_URL+'logout?token='+token,null).subscribe(data => {
+    this.http.post(Constants.API_URL + 'logout?token=' + token, null).subscribe(data => {
           // console.log(data);
-          this.data=data;
+          this.data = data;
           if (this.data.flag === 'true') {
             this.token.remove();
           }
@@ -163,7 +163,7 @@ export class NavbarComponent implements OnInit {
         },
         error => {
 
-          if(error.status==401 && error.error.message==='Unauthenticated.'){
+          if (error.status == 401 && error.error.message === 'Unauthenticated.') {
             this.token.remove();
           }
 
@@ -173,8 +173,8 @@ export class NavbarComponent implements OnInit {
 
   }
 
-  handleError(error){
-      if(error.status==401 && error.error.message==='Unauthenticated.'){
+  handleError(error) {
+      if (error.status == 401 && error.error.message === 'Unauthenticated.') {
           this.token.remove();
       }
 

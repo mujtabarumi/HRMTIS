@@ -133,16 +133,16 @@ export class LeaveSummeryComponent implements OnInit {
 
 
 
-  show(id){
+  show(id) {
 
-    this.router.navigate(["leave/summery/" + id]);
+    this.router.navigate(['leave/summery/' + id]);
     return false;
 
   }
 
-  changeStatus(id,status){
-    const token=this.token.get();
-    this.http.post(Constants.API_URL+'leave/change/status'+'?token='+token,{id:id,applicationStatus:status}).subscribe(data => {
+  changeStatus(id, status) {
+    const token = this.token.get();
+    this.http.post(Constants.API_URL + 'leave/change/status' + '?token=' + token, {id: id, applicationStatus: status}).subscribe(data => {
         this.rerender();
       },
       error => {
@@ -157,26 +157,26 @@ export class LeaveSummeryComponent implements OnInit {
     this.renderer.listenGlobal('document', 'click', (event) => {
       // this.approved();
 
-      if (event.target.hasAttribute("data-show-id")) {
+      if (event.target.hasAttribute('data-show-id')) {
 
-        let id=event.target.getAttribute("data-show-id");
+        const id = event.target.getAttribute('data-show-id');
         this.show(id);
       }
 
 
     });
   }
-  search(){
+  search() {
     this.rerender();
   }
 
-  reject(id){
+  reject(id) {
     // alert(id);
-    const token=this.token.get();
-    this.http.post(Constants.API_URL+'leave/get/individual'+'?token='+token,{id:id}).subscribe(data => {
+    const token = this.token.get();
+    this.http.post(Constants.API_URL + 'leave/get/individual' + '?token=' + token, {id: id}).subscribe(data => {
         console.log(data);
         // this.employee=data;
-        this.rejectModel=data;
+        this.rejectModel = data;
         $('#rejectModal').modal();
       },
       error => {
@@ -186,23 +186,23 @@ export class LeaveSummeryComponent implements OnInit {
   }
 
 
-  updateReject(){
+  updateReject() {
     // console.log(this.rejectModel);
-    let form={
-      id:this.rejectModel.id,
-      startDate:new Date(this.rejectModel.startDate).toLocaleDateString(),
-      endDate:new Date(this.rejectModel.endDate).toLocaleDateString(),
-      noOfDays:this.rejectModel.noOfDays,
-      remark:this.rejectModel.remark,
-      fkLeaveCategory:this.rejectModel.fkLeaveCategory,
-      status:'Rejected',
-      rejectCause:this.rejectModel.rejectCause,
+    const form = {
+      id: this.rejectModel.id,
+      startDate: new Date(this.rejectModel.startDate).toLocaleDateString(),
+      endDate: new Date(this.rejectModel.endDate).toLocaleDateString(),
+      noOfDays: this.rejectModel.noOfDays,
+      remark: this.rejectModel.remark,
+      fkLeaveCategory: this.rejectModel.fkLeaveCategory,
+      status: 'Rejected',
+      rejectCause: this.rejectModel.rejectCause,
 
     };
 
-    const token=this.token.get();
+    const token = this.token.get();
 
-    this.http.post(Constants.API_URL+'leave/individual/update'+'?token='+token,form).subscribe(data => {
+    this.http.post(Constants.API_URL + 'leave/individual/update' + '?token=' + token, form).subscribe(data => {
         // console.log(data);
         $('#rejectModal').modal('hide');
         this.rerender();
@@ -238,23 +238,23 @@ export class LeaveSummeryComponent implements OnInit {
     this.dtTrigger.unsubscribe();
   }
 
-  updateLeave(){
+  updateLeave() {
 
 
-    let form={
-      id:this.employee.id,
-      startDate:new Date(this.employee.startDate).toLocaleDateString(),
-      endDate:new Date(this.employee.endDate).toLocaleDateString(),
-      noOfDays:this.employee.noOfDays,
-      remark:this.employee.remark,
-      fkLeaveCategory:this.employee.fkLeaveCategory,
+    const form = {
+      id: this.employee.id,
+      startDate: new Date(this.employee.startDate).toLocaleDateString(),
+      endDate: new Date(this.employee.endDate).toLocaleDateString(),
+      noOfDays: this.employee.noOfDays,
+      remark: this.employee.remark,
+      fkLeaveCategory: this.employee.fkLeaveCategory,
 
     };
 
 
-    const token=this.token.get();
+    const token = this.token.get();
 
-    this.http.post(Constants.API_URL+'leave/individual/update'+'?token='+token,form).subscribe(data => {
+    this.http.post(Constants.API_URL + 'leave/individual/update' + '?token=' + token, form).subscribe(data => {
         console.log(data);
 
         $('#myModal').modal('hide');
@@ -282,7 +282,7 @@ export class LeaveSummeryComponent implements OnInit {
 
   }
 
-  rerender(){
+  rerender() {
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
 
       dtInstance.destroy();
