@@ -37,6 +37,7 @@ import { RequestSwapComponent } from './components/configuration/swap/request-sw
 import { ShowTimeSwapComponent } from './components/configuration/swap/show-time-swap/show-time-swap.component';
 import { DeptWiseRosterComponent } from './components/configuration/dept-wise-roster/dept-wise-roster.component';
 import { DeptWiseStaticRosterComponent } from './components/configuration/dept-wise-static-roster/dept-wise-static-roster.component';
+import { PasswordChangeComponent } from './components/configuration/password-change/password-change.component';
 
 
 
@@ -75,6 +76,7 @@ import { DeptWiseStaticRosterComponent } from './components/configuration/dept-w
     ShowTimeSwapComponent,
     DeptWiseRosterComponent,
     DeptWiseStaticRosterComponent,
+    PasswordChangeComponent,
 
 
 

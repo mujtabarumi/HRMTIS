@@ -73,16 +73,33 @@ export class DeptWiseStaticRosterComponent implements OnInit {
     };
 
 
-    this.getAllDepartment();
+  //  this.getAllDepartment();
+    this.getAllMultipleRosterDepartment();
 
   }
 
-  getAllDepartment() {
+  // getAllDepartment() {
+  //
+  //   const token = this.token.get();
+  //
+  //
+  //   this.http.get(Constants.API_URL + 'department/get' + '?token=' + token).subscribe(data => {
+  //
+  //       this.departments = data;
+  //
+  //     },
+  //     error => {
+  //       console.log(error);
+  //     }
+  //   );
+  //
+  // }
+  getAllMultipleRosterDepartment() {
 
     const token = this.token.get();
 
 
-    this.http.get(Constants.API_URL + 'department/get' + '?token=' + token).subscribe(data => {
+    this.http.get(Constants.API_URL + 'department/getAllMultipleRosterDepartment' + '?token=' + token).subscribe(data => {
 
         this.departments = data;
 

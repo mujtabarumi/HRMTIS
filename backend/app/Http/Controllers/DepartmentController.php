@@ -13,6 +13,12 @@ class DepartmentController extends Controller
         //$departments=Department::select('id','departmentName','deptHead','fkDeptParent','deptLevel','status')->where('status', 'active')->orderBy('departmentName','ASC')->get();
         return $departments;
     }
+    public function getAllMultipleRosterDepartment(){
+
+        $departments=Department::where('rosterType',2)->get();
+
+        return $departments;
+    }
     public function getAllLevels()
     {
         $departmentsLevels=Department::select('deptLevel')->orderBy('id','ASC')->distinct()->get();
@@ -26,6 +32,7 @@ class DepartmentController extends Controller
             'departmentName' => 'required|max:255',
             'deptLevel' => 'nullable|max:6',
             'status' =>'required|max:20',
+            'rosterType' =>'required|max:2',
         ]);
         if($r->id){
             $department = Department::findOrFail($r->id);
@@ -49,6 +56,7 @@ class DepartmentController extends Controller
         }
         $department->deptHead = $r->deptHead;
         $department->status = $r->status;
+        $department->rosterType = $r->rosterType;
         $department->save();
         return response()->json(["message" =>'Department Updated']);
     }

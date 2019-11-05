@@ -9,7 +9,7 @@
 </div>
 <br><br>
 <div>
-    Thanking you,
+    Thanking you
 </div>
 
 

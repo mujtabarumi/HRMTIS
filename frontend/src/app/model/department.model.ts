@@ -8,4 +8,5 @@ export interface  Department {
     deptLevel:number;
     status:string;
     createdBy:number;
+    rosterType:number;
 }

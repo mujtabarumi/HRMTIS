@@ -2,16 +2,12 @@
 
 namespace App\Mail;
 
-
-use App\Employee;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Auth;
-use DB;
 
-class LeaveApplied extends Mailable
+class PasswordChange extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -19,14 +15,16 @@ class LeaveApplied extends Mailable
      * Create a new message instance.
      *
      * @return void
+     *
      */
 
     protected $emp;
+    protected $newPass;
 
-    public function __construct($emp)
+    public function __construct($emp,$newPass)
     {
         $this->emp = $emp;
-
+        $this->newPass = $newPass;
     }
 
     /**
@@ -36,7 +34,11 @@ class LeaveApplied extends Mailable
      */
     public function build()
     {
+        return $this->view('Email.PasswordChanged')
+            ->with([
+                'emp' => $this->emp,
+                'newPass' => $this->newPass,
 
-        return $this->subject('Leave Applied in HRMTIS notification!')->view('Email.LeaveApplied')->with(['emp' => $this->emp]);
+            ]);
     }
 }
