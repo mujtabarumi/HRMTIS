@@ -190,6 +190,30 @@ class StaticRosterController extends Controller
     }
     public function setDepartmentWiseRosterByShift(Request $r){
 
+        $dE=array();
+        $ofdE=array();
+
+        foreach ($r->dutyEmp as $e){
+            array_push($dE,$e['empId']);
+        }
+        $List1 = implode(',', $dE);
+
+        foreach ($r->offdutyEmp as $oE){
+            array_push($ofdE,$oE['empId']);
+        }
+        $List2 = implode(',', $ofdE);
+
+
+
+
+        $oldRoster=ShiftLog::where('startDate',$r->date)
+            ->where('endDate',$r->date)
+            ->where('fkshiftId',$r->shiftId)
+            ->where(function ($query) use ($List1,$List2) {
+                $query->whereIn('fkemployeeId', [$List1])
+                    ->orWhereIn('fkemployeeId', [$List2]);
+            })->delete();
+
 
 
         $shift=Shift::findOrFail($r->shiftId);
@@ -301,6 +325,10 @@ class StaticRosterController extends Controller
         return $result;
 
 
+
+    }
+
+    public function getDataFromRoster(Request $r){
 
     }
 

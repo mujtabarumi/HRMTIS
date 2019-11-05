@@ -200,6 +200,9 @@ export class DeptWiseRosterComponent implements OnInit {
 
   searchRoster() {
 
+    // this.showExistingData = false;
+    // this.showTable = true;
+
     this.offdutyempIds = [];
     this.dutyempIds = [];
     this.selectedDropDownEmpduty = [];
@@ -341,12 +344,14 @@ export class DeptWiseRosterComponent implements OnInit {
 
 
         this.dutyempIds.push({
-          'empid': this.selectedDropDownEmpduty[i]['empid'],
+          'empId': this.selectedDropDownEmpduty[i]['empId'],
         });
 
       }
 
     }
+
+   // console.log(this.selectedDropDownEmpduty);
 
 
 
@@ -363,12 +368,13 @@ export class DeptWiseRosterComponent implements OnInit {
 
 
         this.dutyempIds.push({
-          'empid': this.selectedDropDownEmpduty[i]['empid'],
+          'empId': this.selectedDropDownEmpduty[i]['empId'],
         });
 
       }
 
     }
+
 
   }
   onItemSelectEmpOffduty(value) {
@@ -384,12 +390,13 @@ export class DeptWiseRosterComponent implements OnInit {
 
 
         this.offdutyempIds.push({
-          'empid': this.selectedDropDownEmpOffduty[i]['empid'],
+          'empId': this.selectedDropDownEmpOffduty[i]['empId'],
         });
 
       }
 
     }
+    console.log(this.offdutyempIds);
 
   }
   onItemDeSelectEmpOffduty(value) {
@@ -404,7 +411,7 @@ export class DeptWiseRosterComponent implements OnInit {
 
 
         this.offdutyempIds.push({
-          'empid': this.selectedDropDownEmpOffduty[i]['empid'],
+          'empId': this.selectedDropDownEmpOffduty[i]['empId'],
         });
 
       }
@@ -426,7 +433,7 @@ export class DeptWiseRosterComponent implements OnInit {
 
     };
 
-   // console.log(form);
+  //  console.log(form);
 
     this.http.post(Constants.API_URL + 'roster/setDepartmentWiseRosterByShift' + '?token=' + token, form).subscribe(data => {
 
@@ -435,7 +442,10 @@ export class DeptWiseRosterComponent implements OnInit {
           title: data,
           content: 'Roster set Successfully',
         });
-        this.modalClose();
+        this.findSetRoster();
+
+     // console.log(data);
+
 
 
       },
@@ -478,14 +488,9 @@ export class DeptWiseRosterComponent implements OnInit {
   ChangeRoster() {
 
     this.showExistingData = false;
-    this.showTable = true;
+  //  this.showTable = true;
 
-    this.offdutyempIds = [];
-    this.dutyempIds = [];
-    this.selectedDropDownEmpduty = [];
-    this.selectedDropDownEmpduty = [];
-
-    this.searchRoster();
+    this.editRoster();
 
   }
   modalClose() {
@@ -495,6 +500,132 @@ export class DeptWiseRosterComponent implements OnInit {
     this.selectedDropDownEmpduty = [];
     this.selectedDropDownEmpduty = [];
     this.modalRef.close();
+
+  }
+  editRoster() {
+
+
+    this.offdutyempIds = [];
+    this.dutyempIds = [];
+    this.selectedDropDownEmpduty = [];
+    this.selectedDropDownEmpduty = [];
+
+
+    const token = this.token.get();
+
+    const deptId = [];
+
+    for (let i = 0; i < this.selectedDropDown.length; i++) {
+
+      deptId.push(this.selectedDropDown[i]['id']);
+    }
+
+    const form1 = {
+      departments: deptId,
+
+    };
+
+    // console.log(form1);
+
+
+    this.http.post(Constants.API_URL + 'employee/getAllEmpForDepartment' + '?token=' + token, form1).subscribe(data => {
+
+
+        this.employees = data;
+
+        const form = {
+          departments: this.selectedDropDown[0]['id'],
+          date: $('#Date').val(),
+          shiftId: $('#RosterInfo').val(),
+
+        };
+
+
+
+        this.http.post(Constants.API_URL + 'rosterLog/getDataFromRoster' + '?token=' + token, form).subscribe(data1 => {
+
+            this.staticResult = data1;
+            console.log(data1);
+
+
+            for (let i = 0; i < this.staticResult.duty.length; i++) {
+
+              if (this.staticResult.duty[i]['weekend'] == null || this.staticResult.duty[i]['weekend'] == '') {
+
+                const d = {
+                  'empId': this.staticResult.duty[i]['EmployeeId'],
+                  'empFullname': this.staticResult.duty[i]['empFullname']
+                };
+                const ed = {
+                  'empId': this.staticResult.duty[i]['EmployeeId'],
+
+                };
+
+                this.dutyempIds.push(ed);
+                this.selectedDropDownEmpduty.push(d);
+              }
+
+
+            }
+            for (let i = 0; i < this.staticResult.Offduty.length; i++) {
+
+              if (this.staticResult.Offduty[i]['weekend'] != null || this.staticResult.Offduty[i]['weekend'] != '') {
+
+                const o = {
+                  'empId': this.staticResult.Offduty[i]['EmployeeId'],
+                  'empFullname': this.staticResult.Offduty[i]['empFullname']
+                };
+                const od = {
+                  'empId': this.staticResult.duty[i]['EmployeeId'],
+
+                };
+
+                this.offdutyempIds.push(od);
+
+                this.selectedDropDownEmpOffduty.push(o);
+              }
+
+            }
+
+            this.showTable = true;
+
+            this.dropdownSettingsEmpduty = {
+              singleSelection: false,
+              idField: 'empId',
+              textField: 'empFullname',
+              // selectAllText: 'Select All',
+              //  unSelectAllText: 'UnSelect All',
+              // itemsShowLimit: 3,
+              allowSearchFilter: true,
+              closeDropDownOnSelection: true,
+            };
+            this.dropdownSettingsEmpOffduty = {
+              singleSelection: false,
+              idField: 'empId',
+              textField: 'empFullname',
+              //  selectAllText: 'Select All',
+              //  unSelectAllText: 'UnSelect All',
+              // itemsShowLimit: 3,
+              allowSearchFilter: true,
+              closeDropDownOnSelection: true,
+            };
+
+
+
+          },
+          error => {
+            console.log(error);
+          }
+        );
+
+
+      },
+      error => {
+        console.log(error);
+      }
+    );
+
+
 
   }
 

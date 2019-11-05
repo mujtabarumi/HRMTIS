@@ -6,6 +6,7 @@ import {User} from '../../model/user.model';
 import {NgxPermissionsService} from 'ngx-permissions';
 import { NavbarService } from '../../services/navbar.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 declare var $: any;
 
@@ -37,7 +38,7 @@ export class NavbarComponent implements OnInit {
   modalRef: any;
 
   constructor(private permissionsService: NgxPermissionsService, public http: HttpClient, private token: TokenService,
-              public nav: NavbarService, private modalService: NgbModal) {
+              public nav: NavbarService, private modalService: NgbModal, private spinner: NgxSpinnerService) {
 
   }
 
@@ -254,7 +255,7 @@ export class NavbarComponent implements OnInit {
       message = 'Please insert a new Password';
 
     }
-    if ($('#new_password').val().length <=6 ) {
+    if ($('#new_password').val().length <= 6 ) {
 
       condition = false;
       message = 'New Password should be atleast 6 charecter';
@@ -299,6 +300,69 @@ export class NavbarComponent implements OnInit {
       if (error.status == 401 && error.error.message === 'Unauthenticated.') {
           this.token.remove();
       }
+
+  }
+
+  databaseDownload() {
+
+    const token = this.token.get();
+
+    this.spinner.show();
+    this.http.get(Constants.API_URL + 'database/backup' + '?token=' + token).subscribe(data => {
+
+        this.spinner.hide();
+         console.log(data);
+        if (data['flag'] == '1') {
+
+          $.alert({
+            title: 'Success!',
+            type: 'Green',
+            content: data['msg'],
+            buttons: {
+              tryAgain: {
+                text: 'Ok',
+                btnClass: 'btn-green',
+                action: function () {
+                }
+              }
+            }
+          });
+
+          const fileName = Constants.Image_URL + 'DBbackup/' + data['fileName'];
+
+          const link = document.createElement('a');
+
+          link.download = data['fileName'] + '.sql';
+          const uri = fileName + '.sql';
+          link.href = uri;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+
+        } else if (data['flag'] == '0') {
+
+          $.alert({
+            title: 'Alert!',
+            type: 'Red',
+            content: data['msg'],
+            buttons: {
+              tryAgain: {
+                text: 'Ok',
+                btnClass: 'btn-red',
+                action: function () {
+                }
+              }
+            }
+          });
+
+        }
+
+
+      },
+      error => {
+        console.log(error);
+      }
+    );
 
   }
 

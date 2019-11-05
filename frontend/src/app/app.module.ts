@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule,ReactiveFormsModule }   from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -38,6 +38,7 @@ import { ShowTimeSwapComponent } from './components/configuration/swap/show-time
 import { DeptWiseRosterComponent } from './components/configuration/dept-wise-roster/dept-wise-roster.component';
 import { DeptWiseStaticRosterComponent } from './components/configuration/dept-wise-static-roster/dept-wise-static-roster.component';
 import { PasswordChangeComponent } from './components/configuration/password-change/password-change.component';
+import { DatabaseComponent } from './components/configuration/database/database.component';
 
 
 
@@ -77,6 +78,7 @@ import { PasswordChangeComponent } from './components/configuration/password-cha
     DeptWiseRosterComponent,
     DeptWiseStaticRosterComponent,
     PasswordChangeComponent,
+    DatabaseComponent,
 
 
 

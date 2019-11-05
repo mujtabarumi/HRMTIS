@@ -206,6 +206,9 @@ Route::group([
 
 
     Route::post('rosterLog/getDataFromStaticRoster','StaticRosterController@getDataFromStaticRoster');
+
+    Route::post('rosterLog/getDataFromRoster','StaticRosterController@findDepartmentWiseRosterByShift');
+
     Route::post('roster/setDepartmentWiseRosterByShift','StaticRosterController@setDepartmentWiseRosterByShift');
     Route::post('roster/findDepartmentWiseRosterByShift','StaticRosterController@findDepartmentWiseRosterByShift');
 
@@ -214,6 +217,12 @@ Route::group([
 
     Route::post('password/changePasswordFromUser','PasswordChangeController@changePasswordFromUser');
     Route::post('password/changePasswordFromAdmin','PasswordChangeController@changePasswordFromAdmin');
+
+
+    /* database backup */
+
+
+    Route::get('database/backup','DatabaseController@wholeDbBackup');
 
 
 
