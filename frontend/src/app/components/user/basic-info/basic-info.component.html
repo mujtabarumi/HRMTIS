@@ -95,7 +95,7 @@
       </p>
       </div>
 
-      <div class="form-group col-md-2">
+      <div class="form-group col-md-4">
         <label>Marital Status </label>
         <select name="maritalStatus" class="form-control" [(ngModel)]="employeeBasicForm.maritalStatus">
           <option value="married">Married</option>
@@ -103,15 +103,25 @@
         </select>
       </div>
 
-      <div class="form-group col-md-8">
+      <div class="form-group col-md-4">
         <label>Image</label>
-        <input type="file" class="form-control" name="photo" id="photo" (change)="onFileSelected($event)" placeholder="image">
+        <input type="file" class="form-control" name="photo" id="photo" accept="image/*" (change)="onFileSelected($event)" placeholder="image">
       </div>
       <div class="form-group col-md-4">
+        <label>CV - PDF</label>
+        <input type="file" class="form-control" name="cv" id="cv" accept="application/pdf"(change)="onCVFileSelected($event)" placeholder="cv">
+      </div>
+      <div *ngIf="employeeBasicForm.photo" class="form-group col-md-4">
+        <label>uploaded Image</label>&nbsp; <button type="button" (click)="imageDelete()" class="btn btn-danger">Delete</button>
+        <p>
+        <img   [src]="employeeBasicForm.photoLink" height="200" width="200">
+        </p>
       </div>
 
-      <div class="form-group">
-      <img  *ngIf="employeeBasicForm.photo" [src]="employeeBasicForm.photo" height="200" width="200">
+      <div *ngIf="employeeBasicForm.cv"class="form-group col-md-4">
+          <label>uploaded Cv</label>
+          <p><a href="{{employeeBasicForm.cvLink}}" target="_blank">{{employeeBasicForm.cv}}</a>&nbsp; <button type="button" (click)="cvDelete()" class="btn btn-danger">Delete</button></p>
+
       </div>
 
       <div class="form-group col-md-12" align="right" style="margin-top: 20px" >

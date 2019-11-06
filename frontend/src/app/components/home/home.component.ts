@@ -15,6 +15,7 @@ export class HomeComponent implements OnInit {
 
   showTotalDiv: boolean;
   designation: any;
+  activeEmp: any;
 
   // tslint:disable-next-line:max-line-length
   constructor(private check: CheckService, public http: HttpClient, private token: TokenService , public route: ActivatedRoute, private router: Router) {
@@ -29,7 +30,7 @@ export class HomeComponent implements OnInit {
       this.showTotalDiv = true;
       this.designation = 'admin';
 
-      this.getTotalEmp();
+      this.getTotalActiveEmp();
 
     } else {
 
@@ -38,9 +39,21 @@ export class HomeComponent implements OnInit {
     }
 
   }
-  getTotalEmp() {
+  getTotalActiveEmp() {
+
+    const token = this.token.get();
 
 
+    this.http.get(Constants.API_URL + 'employee/getTotalActiveEmp' + '?token=' + token).subscribe(data => {
+
+      this.activeEmp = data;
+
+
+      },
+      error => {
+        console.log(error);
+      }
+    );
 
   }
 

@@ -495,6 +495,7 @@ export class DeptWiseRosterComponent implements OnInit {
           content: 'Roster set Successfully',
         });
         this.findSetRoster();
+        this.checkMainRoster();
 
 
       },

@@ -51,10 +51,18 @@ Route::group([
 
     Route::get('employee/getAllSingleRosterDepartmentEployee','EmployeeController@getAllSingleRosterDepartmentEployee');
 
+    Route::get('employee/getTotalActiveEmp','EmployeeController@getTotalActiveEmp');
+
+    Route::post('employee/viewEmpInfoPdf','EmployeeController@viewEmpInfoPdf');
+
 
     //Employee basicinfo
     Route::post('employee/basicinfo','EmployeeController@getBasicinfo');
     Route::post('employee/storeBasicInfo','EmployeeController@storeBasicInfo');
+    Route::post('employee/cvDelete','EmployeeController@cvDelete');
+    Route::post('employee/imageDelete','EmployeeController@imageDelete');
+
+
 
     //===============================Leave Limit==================================
     Route::post('leave/limit/get','LeaveLimitController@get');
@@ -64,6 +72,9 @@ Route::group([
 
     //EmployeeType Info
     Route::get('employee_type/get','EmployeeTypeController@get');
+
+
+
     //employee Join Info
     Route::post('joinInfo/get','EmployeeController@getJoinInfo');
 

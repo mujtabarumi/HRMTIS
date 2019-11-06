@@ -43,6 +43,7 @@ export class BasicInfoComponent implements OnInit {
   };
 
   selectedFile: File;
+  selectedCVFile: File;
 
   @Input('empid') empid: any;
 
@@ -85,9 +86,75 @@ export class BasicInfoComponent implements OnInit {
           this.employeeBasicForm.maritalStatus = this.basicinfo.maritalStatus;
           this.employeeBasicForm.nationalId = this.basicinfo.nationalId;
           this.employeeBasicForm.alterContactNo = this.basicinfo.alterContactNo;
-          this.employeeBasicForm.photo = Constants.Image_URL + 'images/' + this.basicinfo.photo;
+          this.employeeBasicForm.photo = this.basicinfo.photo;
+          this.employeeBasicForm.photoLink = Constants.Image_URL + 'images/' + this.basicinfo.photo;
+          this.employeeBasicForm.cvLink = Constants.Image_URL + 'cv/' + this.basicinfo.cv;
+          this.employeeBasicForm.cv = this.basicinfo.cv;
           // console.log(this.employeeBasicForm.photo);
         }
+      },
+      error => {
+        console.log(error);
+      }
+    );
+
+  }
+
+  cvDelete() {
+
+    const token = this.token.get();
+
+
+    this.http.post(Constants.API_URL + 'employee/cvDelete' + '?token=' + token, { empid: this.empid}).subscribe(data => {
+
+        $.alert({
+          title: 'Success!',
+          type: 'Green',
+          content: 'CV file deleted Successfully',
+          buttons: {
+            tryAgain: {
+              text: 'Ok',
+              btnClass: 'btn-green',
+              action: function () {
+              }
+            }
+          }
+        });
+
+      this.getBasicInfo();
+        $('#cv').val('');
+
+      },
+      error => {
+        console.log(error);
+      }
+    );
+
+  }
+  imageDelete() {
+
+    const token = this.token.get();
+
+
+    this.http.post(Constants.API_URL + 'employee/imageDelete' + '?token=' + token, { empid: this.empid}).subscribe(data => {
+
+        $.alert({
+          title: 'Success!',
+          type: 'Green',
+          content: 'Image deleted Successfully',
+          buttons: {
+            tryAgain: {
+              text: 'Ok',
+              btnClass: 'btn-green',
+              action: function () {
+              }
+            }
+          }
+        });
+
+      this.getBasicInfo();
+        $('#photo').val('');
+
       },
       error => {
         console.log(error);
@@ -102,6 +169,11 @@ export class BasicInfoComponent implements OnInit {
   onFileSelected(event) {
 
     this.selectedFile = event.target.files[0];
+
+  }
+  onCVFileSelected(event) {
+
+    this.selectedCVFile = event.target.files[0];
 
   }
   checkRequiredFields() {
@@ -167,6 +239,10 @@ export class BasicInfoComponent implements OnInit {
 
       fd.append('photo', this.selectedFile, this.selectedFile.name);
     }
+    if (this.selectedCVFile) {
+
+      fd.append('cv', this.selectedCVFile, this.selectedCVFile.name);
+    }
 
 
     const token = this.token.get();
@@ -193,6 +269,7 @@ export class BasicInfoComponent implements OnInit {
 
         this.getBasicInfo();
         $('#photo').val('');
+        $('#cv').val('');
 
 
 
