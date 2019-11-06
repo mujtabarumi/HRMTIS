@@ -116,7 +116,7 @@
 <div class="card">
   <div class="card-header">
     <h2>Govment Holidays Information</h2>
-    <a style=" float: right" class="btn btn-outline-primary mb-2 mr-2" (click)="addModal(addGovtHoliday)" >Add New</a>  <br><br>
+    <a style=" float: right" *ngIf="editShow" class="btn btn-outline-primary mb-2 mr-2" (click)="addModal(addGovtHoliday)" >Add New</a>
   </div>
 
   <div class="card-body">

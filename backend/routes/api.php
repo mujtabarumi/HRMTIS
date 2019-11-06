@@ -103,6 +103,8 @@ Route::group([
     Route::post('shift/adjustmentAdd','shiftController@addjustmentShiftLog');
     Route::post('shift/AssignFutureShift','shiftController@AssignFutureShift');
 
+    Route::post('roster/checkMainRoster','shiftController@checkMainRoster');
+
     //weekend
     Route::post('shiftLogWeekend/setWeekend','shiftController@setshiftLogweekend');
     //Holiday

@@ -87,6 +87,8 @@ export class NavbarComponent implements OnInit {
                       perm.push(data['designationTitle']);
                       this.permissionsService.loadPermissions(perm);
 
+                    //  localStorage.setItem('role', data['designationTitle']);
+
                       // console.log(this.permissionsService.getPermissions());
 
 
@@ -96,13 +98,17 @@ export class NavbarComponent implements OnInit {
                       perm.push(data['designationTitle']);
                       this.permissionsService.loadPermissions(perm);
 
+                   //   localStorage.setItem('role', data['designationTitle']);
+
 
                     } else {
 
-                     // this.permission=[data['fkUserType']]
+                   //   localStorage.setItem('role', data['fkUserType']);
+
+
                     }
 
-
+                    localStorage.setItem('role', data['designationTitle']);
 
 
 
@@ -113,6 +119,11 @@ export class NavbarComponent implements OnInit {
 
                   }
                 );
+
+              } else if (data1['fkUserType'] == 'admin') {
+
+                localStorage.setItem('role', 'admin');
+
 
               }
 
@@ -194,17 +205,17 @@ export class NavbarComponent implements OnInit {
 
       const form = {
         'userId': user.id,
-        // 'old_password': $('#old_password').val(),
+
         'new_password': $('#new_password').val(),
 
       };
 
       const token = this.token.get();
-
+      this.spinner.show();
       this.http.post(Constants.API_URL + 'password/changePasswordFromUser?token=' + token, form).subscribe(data => {
 
         // console.log(data);
-
+      this.spinner.hide();
 
           $.alert({
             title: 'Alert!',
@@ -255,7 +266,7 @@ export class NavbarComponent implements OnInit {
       message = 'Please insert a new Password';
 
     }
-    if ($('#new_password').val().length <= 6 ) {
+    if ($('#new_password').val().length < 6 ) {
 
       condition = false;
       message = 'New Password should be atleast 6 charecter';

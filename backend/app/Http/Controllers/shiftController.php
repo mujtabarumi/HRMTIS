@@ -700,4 +700,16 @@ class shiftController extends Controller
 
     }
 
+    public function checkMainRoster(Request $r){
+
+        $roster=ShiftLog::where('startDate',$r->date)->where('endDate',$r->date)->where('fkshiftId',$r->shiftId)->first();
+
+        if ($roster){
+            return 1;
+        }else{
+            return 0;
+        }
+
+    }
+
 }

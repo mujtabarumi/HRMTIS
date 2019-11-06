@@ -36,12 +36,14 @@ import { DatabaseComponent } from './components/configuration/database/database.
 
 
 export function testPermissions(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+
     // console.log(route.params);
     // if (route.params['id'] === 42) {
     //     return ['MANAGER', "UTILS"]
     // } else {
     //     return 'ADMIN'
-    // }
+
+
 }
 const routes: Routes = [
     {path: '', component: LoginComponent, canActivate: [GuestService] },

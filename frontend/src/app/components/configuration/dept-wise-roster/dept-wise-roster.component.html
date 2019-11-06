@@ -9,6 +9,7 @@
           <label>Date</label>
           <input class="form-control"
                  bsDatepicker
+                (bsValueChange)="change($event)"
                  [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD'}" id="Date">
         </div><br>
 
@@ -43,8 +44,8 @@
 
         <div class="form-group col-md-3 ">
 
-          <button class="btn btn-success" (click)="searchRoster()" style="margin-top: 25px;">Search from Static</button> &nbsp;&nbsp;
-          <button class="btn btn-danger" (click)="findSetRoster()" style="margin-top: 25px;">Search from Set Roster</button>
+          <button *ngIf="staticVisibility" class="btn btn-success" (click)="searchRoster()" style="margin-top: 25px;">Search from Static</button> &nbsp;&nbsp;
+          <button *ngIf="oldRosterVisibility" class="btn btn-danger" (click)="findSetRoster()" style="margin-top: 25px;">Search from Set Roster</button>
         </div>
 
 
