@@ -76,10 +76,12 @@ class StaticRosterController extends Controller
       //  return $r;
 
 
-        $deletePreviousRoster=StaticRosterLog::select('rosterLogId')->where(function ($query) use($r){
-                $query->whereIn('fkemployeeId',$r->dutyempIds)
-                    ->orWhereIn('fkemployeeId',$r->offdutyempIds);
-            })->where('day',$r->dayName)
+        $deletePreviousRoster=StaticRosterLog::select('rosterLogId')
+//            ->where(function ($query) use($r){
+//                $query->whereIn('fkemployeeId',$r->dutyempIds)
+//                    ->orWhereIn('fkemployeeId',$r->offdutyempIds);
+//            })
+            ->where('day',$r->dayName)
            ->where('fkshiftId',($r->shiftId))
            ->get();
 
@@ -209,10 +211,11 @@ class StaticRosterController extends Controller
         $oldRoster=ShiftLog::where('startDate',$r->date)
             ->where('endDate',$r->date)
             ->where('fkshiftId',$r->shiftId)
-            ->where(function ($query) use ($List1,$List2) {
-                $query->whereIn('fkemployeeId', [$List1])
-                    ->orWhereIn('fkemployeeId', [$List2]);
-            })->delete();
+//            ->where(function ($query) use ($List1,$List2) {
+//                $query->whereIn('fkemployeeId', [$List1])
+//                    ->orWhereIn('fkemployeeId', [$List2]);
+//            })
+            ->delete();
 
 
 

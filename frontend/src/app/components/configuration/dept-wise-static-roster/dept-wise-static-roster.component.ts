@@ -297,6 +297,7 @@ export class DeptWiseStaticRosterComponent implements OnInit {
 
     }
 
+
   }
 
    showmodal(content) {

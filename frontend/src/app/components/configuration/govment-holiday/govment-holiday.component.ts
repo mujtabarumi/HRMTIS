@@ -51,19 +51,26 @@ export class GovmentHolidayComponent implements  AfterViewInit, OnDestroy, OnIni
 
       this.getAllGovtHoliday();
 
-    if (this.permissionsService.hasPermission('admin')) {
-      this.editShow = true;
-      console.log(this.permissionsService.getPermissions());
-    } else {
-      this.editShow = false;
-    }
+      if (localStorage.getItem('role') == 'admin') {
+        this.editShow = true;
+      } else {
+        this.editShow = false;
+      }
+
+    // if (this.permissionsService.hasPermission('admin')) {
+    //   this.editShow = true;
+    //   console.log(this.permissionsService.getPermissions());
+    // } else {
+    //   this.editShow = false;
+    // }
+   // console.log(localStorage.getItem('designation'));
 
 
   }
 
    getAllGovtHoliday() {
 
-    if (this.permissionsService.hasPermission('admin')) {
+     if (localStorage.getItem('role') == 'admin') {
 
       const token = this.token.get();
       this.dtOptions = {

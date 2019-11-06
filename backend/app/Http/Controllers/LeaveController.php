@@ -225,6 +225,9 @@ class LeaveController extends Controller
 
             $leaves = $leaves->whereRaw("date(leaves.startDate) between '".$r->startDate."' and '".$r->endDate."'  ");
         }
+        if ($r->userId){
+            $leaves=$leaves->where('employeeinfo.fkUserId',$r->userId);
+        }
         $leaves=$leaves->get();
 
         $datatables = Datatables::of($leaves);

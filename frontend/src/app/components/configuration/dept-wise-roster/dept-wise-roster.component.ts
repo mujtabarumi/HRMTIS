@@ -40,6 +40,9 @@ export class DeptWiseRosterComponent implements OnInit {
     dutyempIds = [];
     offdutyempIds = [];
 
+    staticVisibility: boolean;
+    oldRosterVisibility: boolean;
+
 
 
 
@@ -65,9 +68,54 @@ export class DeptWiseRosterComponent implements OnInit {
     };
 
 
-
-
     this.getAllMultipleRosterDepartment();
+    this.checkMainRoster();
+
+  }
+  change(event) {
+    this.selectedDropDown = [];
+    $('#RosterInfo').val('');
+
+   // console.log($('#Date').val());
+  }
+  checkMainRoster() {
+
+    if (this.selectedDropDown.length <= 0 || $('#Date').val() == '' || $('#RosterInfo').val() == '') {
+      this.staticVisibility = false;
+      this.oldRosterVisibility = false;
+
+    } else {
+
+      const form = {
+        departments: this.selectedDropDown[0]['id'],
+        date: $('#Date').val(),
+        shiftId: $('#RosterInfo').val(),
+
+      };
+
+      const token = this.token.get();
+
+
+      this.http.post(Constants.API_URL + 'roster/checkMainRoster' + '?token=' + token, form).subscribe(data => {
+
+          if (data == 0) {
+            this.staticVisibility = true;
+            this.oldRosterVisibility = false;
+          } else if (data == 1) {
+            this.staticVisibility = false;
+            this.oldRosterVisibility = true;
+          }
+
+        },
+        error => {
+          console.log(error);
+        }
+      );
+
+    }
+
+
+
 
   }
   // getAllDepartment() {
@@ -145,6 +193,7 @@ export class DeptWiseRosterComponent implements OnInit {
 
 
     }
+    this.checkMainRoster();
 
 
 
@@ -192,6 +241,7 @@ export class DeptWiseRosterComponent implements OnInit {
 
     }
 
+    this.checkMainRoster();
 
 
   }
@@ -206,7 +256,7 @@ export class DeptWiseRosterComponent implements OnInit {
     this.offdutyempIds = [];
     this.dutyempIds = [];
     this.selectedDropDownEmpduty = [];
-    this.selectedDropDownEmpduty = [];
+    this.selectedDropDownEmpOffduty = [];
 
 
     const token = this.token.get();
@@ -242,57 +292,56 @@ export class DeptWiseRosterComponent implements OnInit {
 
         this.http.post(Constants.API_URL + 'rosterLog/getDataFromStaticRoster' + '?token=' + token, form).subscribe(data1 => {
 
-            this.staticResult = data1;
+         //   this.staticResult = data1;
             console.log(data1);
 
 
-            for (let i = 0; i < this.staticResult.duty.length; i++) {
+            for (let i = 0; i < data1['duty'].length; i++) {
 
-              if (this.staticResult.duty[i]['weekend'] == null || this.staticResult.duty[i]['weekend'] == '') {
+
 
                 const d = {
-                  'empId': this.staticResult.duty[i]['EmployeeId'],
-                  'empFullname': this.staticResult.duty[i]['empFullname']
+                  'empId': data1['duty'][i]['EmployeeId'],
+                  'empFullname': data1['duty'][i]['empFullname']
                 };
                 const ed = {
-                  'empId': this.staticResult.duty[i]['EmployeeId'],
+                  'empId': data1['duty'][i]['EmployeeId'],
 
                 };
 
                 this.dutyempIds.push(ed);
                 this.selectedDropDownEmpduty.push(d);
-              }
+
 
 
             }
-            for (let i = 0; i < this.staticResult.Offduty.length; i++) {
+            for (let i = 0; i < data1['Offduty'].length; i++) {
 
-              if (this.staticResult.Offduty[i]['weekend'] != null || this.staticResult.Offduty[i]['weekend'] != '') {
+
 
                 const o = {
-                  'empId': this.staticResult.Offduty[i]['EmployeeId'],
-                  'empFullname': this.staticResult.Offduty[i]['empFullname']
+                  'empId': data1['Offduty'][i]['EmployeeId'],
+                  'empFullname': data1['Offduty'][i]['empFullname']
                 };
                 const od = {
-                  'empId': this.staticResult.duty[i]['EmployeeId'],
+                  'empId': data1['Offduty'][i]['EmployeeId'],
 
                 };
 
                 this.offdutyempIds.push(od);
 
                 this.selectedDropDownEmpOffduty.push(o);
-              }
+
 
             }
-
             this.showTable = true;
 
             this.dropdownSettingsEmpduty = {
               singleSelection: false,
               idField: 'empId',
               textField: 'empFullname',
-             // selectAllText: 'Select All',
-            //  unSelectAllText: 'UnSelect All',
+              // selectAllText: 'Select All',
+              //  unSelectAllText: 'UnSelect All',
               // itemsShowLimit: 3,
               allowSearchFilter: true,
               closeDropDownOnSelection: true,
@@ -301,8 +350,8 @@ export class DeptWiseRosterComponent implements OnInit {
               singleSelection: false,
               idField: 'empId',
               textField: 'empFullname',
-            //  selectAllText: 'Select All',
-            //  unSelectAllText: 'UnSelect All',
+              //  selectAllText: 'Select All',
+              //  unSelectAllText: 'UnSelect All',
               // itemsShowLimit: 3,
               allowSearchFilter: true,
               closeDropDownOnSelection: true,
@@ -331,6 +380,7 @@ export class DeptWiseRosterComponent implements OnInit {
   rosterChange() {
     this.showExistingData = false;
     this.showTable = false;
+    this.checkMainRoster();
   }
 
   onItemSelect(value) {
@@ -376,6 +426,8 @@ export class DeptWiseRosterComponent implements OnInit {
     }
 
 
+
+
   }
   onItemSelectEmpOffduty(value) {
 
@@ -396,7 +448,7 @@ export class DeptWiseRosterComponent implements OnInit {
       }
 
     }
-    console.log(this.offdutyempIds);
+
 
   }
   onItemDeSelectEmpOffduty(value) {
@@ -444,9 +496,6 @@ export class DeptWiseRosterComponent implements OnInit {
         });
         this.findSetRoster();
 
-     // console.log(data);
-
-
 
       },
       error => {
@@ -459,6 +508,11 @@ export class DeptWiseRosterComponent implements OnInit {
   }
 
   findSetRoster() {
+
+    this.offdutyempIds = [];
+    this.dutyempIds = [];
+    this.selectedDropDownEmpduty = [];
+    this.selectedDropDownEmpOffduty = [];
 
     const token = this.token.get();
 
@@ -488,7 +542,7 @@ export class DeptWiseRosterComponent implements OnInit {
   ChangeRoster() {
 
     this.showExistingData = false;
-  //  this.showTable = true;
+
 
     this.editRoster();
 
@@ -498,7 +552,7 @@ export class DeptWiseRosterComponent implements OnInit {
     this.offdutyempIds = [];
     this.dutyempIds = [];
     this.selectedDropDownEmpduty = [];
-    this.selectedDropDownEmpduty = [];
+    this.selectedDropDownEmpOffduty = [];
     this.modalRef.close();
 
   }
@@ -508,7 +562,13 @@ export class DeptWiseRosterComponent implements OnInit {
     this.offdutyempIds = [];
     this.dutyempIds = [];
     this.selectedDropDownEmpduty = [];
-    this.selectedDropDownEmpduty = [];
+    this.selectedDropDownEmpOffduty = [];
+
+
+
+
+
+
 
 
     const token = this.token.get();
@@ -544,46 +604,44 @@ export class DeptWiseRosterComponent implements OnInit {
 
         this.http.post(Constants.API_URL + 'rosterLog/getDataFromRoster' + '?token=' + token, form).subscribe(data1 => {
 
-            this.staticResult = data1;
+          //  this.staticResult = data1;
             console.log(data1);
 
+            for (let i = 0; i < data1['duty'].length; i++) {
 
-            for (let i = 0; i < this.staticResult.duty.length; i++) {
 
-              if (this.staticResult.duty[i]['weekend'] == null || this.staticResult.duty[i]['weekend'] == '') {
 
                 const d = {
-                  'empId': this.staticResult.duty[i]['EmployeeId'],
-                  'empFullname': this.staticResult.duty[i]['empFullname']
+                  'empId': data1['duty'][i]['EmployeeId'],
+                  'empFullname': data1['duty'][i]['empFullname']
                 };
                 const ed = {
-                  'empId': this.staticResult.duty[i]['EmployeeId'],
+                  'empId': data1['duty'][i]['EmployeeId'],
 
                 };
 
                 this.dutyempIds.push(ed);
                 this.selectedDropDownEmpduty.push(d);
-              }
+
 
 
             }
-            for (let i = 0; i < this.staticResult.Offduty.length; i++) {
 
-              if (this.staticResult.Offduty[i]['weekend'] != null || this.staticResult.Offduty[i]['weekend'] != '') {
+
+            for (let i = 0; i < data1['Offduty'].length; i++) {
 
                 const o = {
-                  'empId': this.staticResult.Offduty[i]['EmployeeId'],
-                  'empFullname': this.staticResult.Offduty[i]['empFullname']
+                  'empId': data1['Offduty'][i]['EmployeeId'],
+                  'empFullname': data1['Offduty'][i]['empFullname']
                 };
                 const od = {
-                  'empId': this.staticResult.duty[i]['EmployeeId'],
+                  'empId': data1['Offduty'][i]['EmployeeId'],
 
                 };
 
                 this.offdutyempIds.push(od);
 
                 this.selectedDropDownEmpOffduty.push(o);
-              }
 
             }
 
@@ -609,6 +667,8 @@ export class DeptWiseRosterComponent implements OnInit {
               allowSearchFilter: true,
               closeDropDownOnSelection: true,
             };
+
+
 
 
 

@@ -40,6 +40,7 @@ export class LeaveSummeryComponent implements OnInit {
   ngOnInit() {
     this.getData();
     this.getCategory();
+   // console.log(localStorage.getItem('role'));
   }
 
   getCategory() {
@@ -56,7 +57,11 @@ export class LeaveSummeryComponent implements OnInit {
   }
 
   getData() {
+
+
+
     const token = this.token.get();
+
     this.dtOptions = {
       stateSave: true,
       'createdRow': function( row, data, dataIndex) {
@@ -91,6 +96,9 @@ export class LeaveSummeryComponent implements OnInit {
         data: function (d: any) {
           d.startDate = $('#startDate').val();
           d.endDate = $('#endDate').val();
+          if (localStorage.getItem('role') != 'admin') {
+            d.userId = JSON.parse(localStorage.getItem('user')).id;
+          }
         },
       },
       columns: [
