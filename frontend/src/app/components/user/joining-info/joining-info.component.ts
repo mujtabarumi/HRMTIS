@@ -16,6 +16,7 @@ export class JoiningInfoComponent implements OnInit {
   department: any;
   designation: any;
   empType: any;
+  previousURL: any;
   @Input('empid') empid: any;
   JoiningForm: any;
 
@@ -74,6 +75,7 @@ export class JoiningInfoComponent implements OnInit {
   constructor(public http: HttpClient, private token: TokenService, private router: Router) { }
 
   ngOnInit() {
+    this.previousURL = 'employee';
 
     //Getting Departments
     this.http.get(Constants.API_URL + 'department/get').subscribe(data => {

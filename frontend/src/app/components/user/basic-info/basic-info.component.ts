@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Constants} from '../../../constants';
 import {TokenService} from '../../../services/token.service';
 import {Router} from '@angular/router';
+
 declare var $: any;
 
 @Component({
@@ -13,6 +14,7 @@ declare var $: any;
 export class BasicInfoComponent implements OnInit {
 
   department: any;
+  previousURL: any;
   designation: any;
   empType: any;
   basicinfo: any;
@@ -52,7 +54,7 @@ export class BasicInfoComponent implements OnInit {
   ngOnInit() {
 
         this.getBasicInfo();
-
+        this.previousURL = 'employee';
 
   }
 
