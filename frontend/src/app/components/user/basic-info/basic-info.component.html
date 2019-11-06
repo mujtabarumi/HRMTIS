@@ -107,19 +107,21 @@
         <label>Image</label>
         <input type="file" class="form-control" name="photo" id="photo" accept="image/*" (change)="onFileSelected($event)" placeholder="image">
       </div>
+
       <div class="form-group col-md-4">
         <label>CV - PDF</label>
         <input type="file" class="form-control" name="cv" id="cv" accept="application/pdf"(change)="onCVFileSelected($event)" placeholder="cv">
       </div>
-      <div *ngIf="employeeBasicForm.photo" class="form-group col-md-4">
-        <label>uploaded Image</label>&nbsp; <button type="button" (click)="imageDelete()" class="btn btn-danger">Delete</button>
+
+      <div *ngIf="employeeBasicForm.photo" class="form-group col-md-8">
+        <label>Uploaded Image</label>&nbsp; <button type="button" (click)="imageDelete()" class="btn btn-danger">Delete</button>
         <p>
         <img   [src]="employeeBasicForm.photoLink" height="200" width="200">
         </p>
       </div>
 
       <div *ngIf="employeeBasicForm.cv"class="form-group col-md-4">
-          <label>uploaded Cv</label>
+          <label>Uploaded Cv</label>
           <p><a href="{{employeeBasicForm.cvLink}}" target="_blank">{{employeeBasicForm.cv}}</a>&nbsp; <button type="button" (click)="cvDelete()" class="btn btn-danger">Delete</button></p>
 
       </div>

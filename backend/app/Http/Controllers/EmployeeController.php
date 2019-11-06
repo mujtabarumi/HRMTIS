@@ -31,7 +31,13 @@ class EmployeeController extends Controller {
             ->where('resignDate', null)
             ->whereNotNull('attemployeemap.attDeviceUserId')
             ->count('employeeinfo.id');
+    }
 
+    public function getTotalInActiveEmp(){
+
+        return $employee = Employee::
+            whereNotNull('employeeinfo.resignDate')
+            ->count('employeeinfo.id');
     }
 
     public function updateJoinInfo(Request $r) {

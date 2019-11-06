@@ -52,6 +52,7 @@ Route::group([
     Route::get('employee/getAllSingleRosterDepartmentEployee','EmployeeController@getAllSingleRosterDepartmentEployee');
 
     Route::get('employee/getTotalActiveEmp','EmployeeController@getTotalActiveEmp');
+    Route::get('employee/getTotalInActiveEmp','EmployeeController@getTotalInActiveEmp');
 
     Route::post('employee/viewEmpInfoPdf','EmployeeController@viewEmpInfoPdf');
 

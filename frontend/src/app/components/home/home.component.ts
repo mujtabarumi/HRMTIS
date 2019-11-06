@@ -14,8 +14,11 @@ declare var $: any;
 export class HomeComponent implements OnInit {
 
   showTotalDiv: boolean;
+  showTotalDiv1: boolean;
   designation: any;
   activeEmp: any;
+  InActiveEmp: any;
+  inactiveEmp: any;
 
   // tslint:disable-next-line:max-line-length
   constructor(private check: CheckService, public http: HttpClient, private token: TokenService , public route: ActivatedRoute, private router: Router) {
@@ -28,9 +31,11 @@ export class HomeComponent implements OnInit {
     if (localStorage.getItem('role') == 'admin') {
 
       this.showTotalDiv = true;
+      this.showTotalDiv1 = true;
       this.designation = 'admin';
 
       this.getTotalActiveEmp();
+      this.getTotalInActiveEmp();
 
     } else {
 
@@ -39,16 +44,26 @@ export class HomeComponent implements OnInit {
     }
 
   }
-  getTotalActiveEmp() {
 
+  getTotalActiveEmp() {
     const token = this.token.get();
 
 
     this.http.get(Constants.API_URL + 'employee/getTotalActiveEmp' + '?token=' + token).subscribe(data => {
+    this.activeEmp = data;
+      },
+      error => {
+        console.log(error);
+      }
+    );
 
-      this.activeEmp = data;
 
+  }
+  getTotalInActiveEmp() {
 
+    const token = this.token.get();
+    this.http.get(Constants.API_URL + 'employee/getTotalInActiveEmp' + '?token=' + token).subscribe(data => {
+        this.InActiveEmp = data;
       },
       error => {
         console.log(error);
