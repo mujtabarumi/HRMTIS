@@ -2,14 +2,15 @@
   <div class="card-header-pills">
     <h2 align="center" style="font-family: 'Righteous', cursive;">{{designation}} Dashboard</h2>
   </div>
-  <div class="card-body">
-    <div *ngIf="showTotalDiv" class="card" style="width: 18rem;">
+  <div  class="card-body">
+    <div *ngIf="showTotalDiv" class="card" style="width: 18rem;color: white;background-color: #0b8ddd">
       <div class="card-body">
         <h5 class="card-title">Total Employee</h5>
-        <p class="card-text"></p>
+        <p class="card-subtitle">{{activeEmp}}</p>
 
       </div>
     </div>
+
   </div>
 
 </div>

@@ -15,13 +15,23 @@ use Yajra\DataTables\DataTables;
 use Route;
 use Auth;
 use DB;
+use PDF;
 
-//$user_id = Auth::user()->id;
+
 
 class EmployeeController extends Controller {
 
     public function __construct() {
 //        $this->middleware('auth:api');
+    }
+
+    public function getTotalActiveEmp(){
+
+        return $employee = Employee::leftjoin('attemployeemap', 'attemployeemap.employeeId', '=', 'employeeinfo.id')
+            ->where('resignDate', null)
+            ->whereNotNull('attemployeemap.attDeviceUserId')
+            ->count('employeeinfo.id');
+
     }
 
     public function updateJoinInfo(Request $r) {
@@ -141,7 +151,7 @@ class EmployeeController extends Controller {
 
     public function getBasicinfo(Request $r) {
 
-        $basicinfo = Employee::select('employeeinfo.id','EmployeeId', 'photo', 'firstName', 'middleName', 'lastName', 'fkEmployeeType', 'email', 'gender', 'birthdate',
+        $basicinfo = Employee::select('employeeinfo.id','EmployeeId', 'photo','cv', 'firstName', 'middleName', 'lastName', 'fkEmployeeType', 'email', 'gender', 'birthdate',
              'streetAddress','apartmentUnit','city','state','zipCode','homePhone','maritalStatus','nationalId', 'fkDesignation', 'fkDepartmentId',
             'departmentName', 'title', 'alterContactNo')
                 ->leftjoin('designations', 'designations.id', '=', 'employeeinfo.fkDesignation')
@@ -224,10 +234,89 @@ class EmployeeController extends Controller {
         $datatables = Datatables::of($employee);
         return $datatables->make(true);
     }
+    public function cvDelete(Request $r){
+
+       // return $r->empid;
+
+        $employeeInfo = Employee::findOrFail($r->empid);
+
+        if ($employeeInfo->cv != null) {
+
+
+
+            $file_path = public_path('/cv') . '/' . $employeeInfo->cv;
+            if (file_exists($file_path)){
+                unlink($file_path);
+            }
+
+        }
+        $employeeInfo->cv=null;
+        $employeeInfo->save();
+
+        Artisan::call('cache:clear');
+
+        return $employeeInfo;
+
+
+    }
+    public function imageDelete(Request $r){
+
+       // return $r->empid;
+
+        $employeeInfo = Employee::findOrFail($r->empid);
+
+        if ($employeeInfo->photo != null) {
+
+
+
+            $file_path = public_path('/images') . '/' . $employeeInfo->photo;
+            if (file_exists($file_path)){
+                unlink($file_path);
+            }
+
+        }
+        $employeeInfo->photo=null;
+        $employeeInfo->save();
+
+        Artisan::call('cache:clear');
+
+        return $employeeInfo;
+
+
+    }
+    public function viewEmpInfoPdf(Request $r){
+
+
+
+
+         $employee = Employee::select('employeeinfo.id as empId','employeeinfo.*',
+            'designations.title as designationTitle', 'departments.departmentName','attemployeemap.attDeviceUserId',
+            DB::raw("CONCAT(COALESCE(firstName,''),' ',COALESCE(middleName,''),' ',COALESCE(lastName,'')) AS empFullname"))
+
+            ->leftjoin('designations', 'designations.id', '=', 'employeeinfo.fkDesignation')
+            ->leftjoin('departments', 'departments.id', '=', 'employeeinfo.fkDepartmentId')
+            ->leftjoin('attemployeemap', 'attemployeemap.employeeId', '=', 'employeeinfo.id')
+
+            ->findOrFail($r->id);
+
+
+
+        $file_path = public_path('/employeeInfoPDF') . '/' . 'employeeInfoPDF.pdf';
+
+        $file_Name = 'employeeInfoPDF';
+
+        $pdf = PDF::loadView('PDF.employeeInfo', compact('employee'))->save($file_path);
+
+        return response()->json($file_Name);
+
+
+
+
+    }
 
     public function storeBasicInfo(Request $r) {
 
-//        return auth()->user()->fkComapny;
+
 
         $this->validate($r, [
 
@@ -250,7 +339,8 @@ class EmployeeController extends Controller {
             'alterContactNo'   => 'nullable|max:15',
             'birthdate'   => 'nullable|date',
             'gender'   => 'max:1',
-            'photo'   => 'max:256',
+//            'photo'   => 'max:255',
+//            'cv'   => 'max:255',
 
         ]);
 
@@ -310,6 +400,27 @@ class EmployeeController extends Controller {
             $destinationPath = public_path('/images');
             $images->move($destinationPath, $name);
             $employeeInfo->photo = $name;
+
+
+        }
+        if ($r->hasFile('cv')) {
+
+            if ($employeeInfo->cv != null) {
+
+
+
+                $file_path = public_path('/cv') . '/' . $employeeInfo->cv;
+                if (file_exists($file_path)){
+                    unlink($file_path);
+                }
+
+            }
+
+            $images = $r->file('cv');
+            $name = time() . '.' . $images->getClientOriginalName();
+            $destinationPath = public_path('/cv');
+            $images->move($destinationPath, $name);
+            $employeeInfo->cv = $name;
 
 
         }

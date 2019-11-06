@@ -38,7 +38,8 @@ export class EmployeeComponent implements AfterViewInit, OnInit {
         {
 
           'data': function (data: any, type: any, full: any) {
-            return ' <button class="btn btn-info" data-emp-id="' + data.empid + '"> Edit</button>';
+            return ' <button class="btn btn-info" data-emp-id="' + data.empid + '"> Edit</button>&nbsp;&nbsp;' +
+              '<button class="btn btn-info" data-emp-info="' + data.empid + '"> view Info</button>';
           },
           'orderable': false, 'searchable': false, 'name': 'selected_rows'
         }
@@ -61,13 +62,39 @@ export class EmployeeComponent implements AfterViewInit, OnInit {
       if (event.target.hasAttribute('data-emp-id')) {
         this.router.navigate(['employee/edit/' + event.target.getAttribute('data-emp-id')]);
       }
-      // else if (event.target.hasAttribute("data-emp-id2")) {
-      //
-      //   this.router.navigate([])
-      //     .then(result => {  window.open("user/user-cv-view/" + event.target.getAttribute("data-emp-id2", '_blank')) });
-      // }
+      if (event.target.hasAttribute('data-emp-info')) {
+
+        this.viewEmpInfoPdf(event.target.getAttribute('data-emp-info'));
+
+      //  this.router.navigate(['employee/view-emp-info-pdf/' + event.target.getAttribute('data-emp-info')]);
+
+      }
+
 
     });
+
+  }
+  viewEmpInfoPdf(empId) {
+
+    const token = this.token.get();
+
+    this.http.post(Constants.API_URL + 'employee/viewEmpInfoPdf' + '?token=' + token, {id: empId}).subscribe(data => {
+
+
+        const fileName = Constants.Image_URL + 'employeeInfoPDF/' + data;
+
+        const uri = fileName + '.pdf';
+
+        window.open(uri, '_blank');
+
+
+      },
+      error => {
+        console.log(error);
+      }
+    );
+
+
 
   }
 
