@@ -637,7 +637,7 @@
 
         $offDay=0;$govHoliday=0;
         $leave=0;
-$present=0;
+        $present=0;
 
 
 

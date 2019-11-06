@@ -20,8 +20,12 @@ class LeaveApplied extends Mailable
      *
      * @return void
      */
-    public function __construct()
+
+    protected $emp;
+
+    public function __construct($emp)
     {
+        $this->emp = $emp;
 
     }
 
@@ -32,6 +36,7 @@ class LeaveApplied extends Mailable
      */
     public function build()
     {
+
         $emp=Employee::select('employeeinfo.fkDepartmentId','employeeinfo.id','employeeinfo.fkDesignation',
             'designations.title as designationTitle','departments.departmentName','attemployeemap.attDeviceUserId',
             DB::raw("CONCAT(COALESCE(firstName,''),' ',COALESCE(middleName,''),' ',COALESCE(lastName,'')) AS empFullname"))
@@ -51,8 +56,11 @@ class LeaveApplied extends Mailable
 
         return $leaves;
 
-        print_r($emp); exit;
+        //print_r($emp); exit;
 
-        return $this->subject('Leave Applied in HRMTIS notification!')->view('Email.LeaveApplied')->with(['emp' => $emp]);
+        //return $this->subject('Leave Applied in HRMTIS notification!')->view('Email.-')->with(['emp' => $emp]);
+
+        return $this->subject('Leave Applied in HRMTIS notification!')->view('Email.LeaveApplied')->with(['emp' => $this->emp]);
+
     }
 }

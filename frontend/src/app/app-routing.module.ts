@@ -29,9 +29,9 @@ import { RequestSwapComponent } from './components/configuration/swap/request-sw
 import { ShowTimeSwapComponent } from './components/configuration/swap/show-time-swap/show-time-swap.component';
 import { DeptWiseRosterComponent } from './components/configuration/dept-wise-roster/dept-wise-roster.component';
 import { DeptWiseStaticRosterComponent } from './components/configuration/dept-wise-static-roster/dept-wise-static-roster.component';
+import { PasswordChangeComponent } from './components/configuration/password-change/password-change.component';
 
-
-
+import { DatabaseComponent } from './components/configuration/database/database.component';
 
 
 
@@ -72,6 +72,9 @@ const routes: Routes = [
     { path: 'swap/showTimeSwap', component: ShowTimeSwapComponent, canActivate: [AuthService]  },
     { path: 'configuration/roster/dept-wise-assign', component: DeptWiseRosterComponent, canActivate: [AuthService]  },
     { path: 'configuration/roster/dept-wise-static-roster', component: DeptWiseStaticRosterComponent, canActivate: [AuthService]  },
+    { path: 'configuration/employee/passwordChange', component: PasswordChangeComponent, canActivate: [AuthService]  },
+
+
 
 
 

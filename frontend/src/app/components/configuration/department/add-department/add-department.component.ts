@@ -1,23 +1,23 @@
 import {Component, OnInit, Input} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Constants} from "../../../../constants";
-import {TokenService} from "../../../../services/token.service";
-import {Department} from "../../../../model/department.model";
-declare var $ :any;
+import {HttpClient} from '@angular/common/http';
+import {Constants} from '../../../../constants';
+import {TokenService} from '../../../../services/token.service';
+import {Department} from '../../../../model/department.model';
+declare var $: any;
 @Component({
   selector: 'app-add-department',
   templateUrl: './add-department.component.html',
   styleUrls: ['./add-department.component.css']
 })
 export class AddDepartmentComponent implements OnInit {
-  @Input('master') data:any;
+  @Input('master') data: any;
 
-  departments:any[];
-  company:any;
-  Levels:any;
-  departmentField={} as Department;
+  departments: any[];
+  company: any;
+  Levels: any;
+  departmentField = {} as Department;
 
-  constructor(public http: HttpClient,private token:TokenService) { }
+  constructor(public http: HttpClient, private token: TokenService) { }
 
   ngOnInit() {
     this.getDepartments();
@@ -25,10 +25,10 @@ export class AddDepartmentComponent implements OnInit {
     //this.getCompany();
   }
 
-  getDepartments(){
-    const token=this.token.get();
-    this.http.get(Constants.API_URL+'department/get'+'?token='+token).subscribe(data => {
-        this.departments=<any[]>data;
+  getDepartments() {
+    const token = this.token.get();
+    this.http.get(Constants.API_URL + 'department/get' + '?token=' + token).subscribe(data => {
+        this.departments = <any[]>data;
       },
       error => {
         console.log(error);
@@ -84,31 +84,30 @@ export class AddDepartmentComponent implements OnInit {
 
 
 
-  editDept(dept){
+  editDept(dept) {
 
-    this.departmentField=dept;
+    this.departmentField = dept;
   }
 
-  checkId(){
-    if(Object.keys(this.departmentField).length === 0){
+  checkId() {
+    if (Object.keys(this.departmentField).length === 0) {
       return true;
-    }
-    else {
-      if(this.departmentField.id ==null){
+    } else {
+      if (this.departmentField.id == null) {
         return true;
       }
       return false;
     }
 
   }
-  onSubmit(){
+  onSubmit() {
 
-    const token=this.token.get();
-    this.http.post(Constants.API_URL+'department/post'+'?token='+token,this.departmentField).subscribe(data => {
+    const token = this.token.get();
+    this.http.post(Constants.API_URL + 'department/post' + '?token=' + token, this.departmentField).subscribe(data => {
 
         this.getDepartments();
 
-        this.departmentField={} as Department;
+        this.departmentField = {} as Department;
 
         $.alert({
           title: 'Success!',
@@ -133,8 +132,8 @@ export class AddDepartmentComponent implements OnInit {
     );
 
   }
-  reset(){
-    this.departmentField={} as Department;
+  reset() {
+    this.departmentField = {} as Department;
   }
 
 

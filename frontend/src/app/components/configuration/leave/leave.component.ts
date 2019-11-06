@@ -1,11 +1,12 @@
 import {Component, OnInit, AfterViewInit, Renderer, OnDestroy, ViewChild} from '@angular/core';
-import {Constants} from "../../../constants";
-import {HttpClient} from "@angular/common/http";
-import {TokenService} from "../../../services/token.service";
-import {Subject} from "rxjs";
-import {ActivatedRoute, Router} from "@angular/router";
-import {DataTableDirective} from "angular-datatables";
-declare var $ :any;
+import {Constants} from '../../../constants';
+import {HttpClient} from '@angular/common/http';
+import {TokenService} from '../../../services/token.service';
+import {Subject} from 'rxjs';
+import {ActivatedRoute, Router} from '@angular/router';
+import {DataTableDirective} from 'angular-datatables';
+import {NgxSpinnerService} from 'ngx-spinner';
+declare var $: any;
 
 @Component({
   selector: 'app-leave',
@@ -16,39 +17,41 @@ export class LeaveComponent implements OnInit {
 
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
-  employee:any;
-  dtOptions:DataTables.Settings={};
-  dtTrigger:Subject<any>=new Subject();
-  id:any;
-  allEmp=[];
-  shiftId:number;
-  shift:any;
-  team:any;
-  shiftTeam:any;
-  dtInstance:DataTables.Api;
-  startDate:string;
-  endDate:string;
-  noOfDays:string;
-  remark:string;
-  fkLeaveCategory:string;
-  leaveCategories:any;
+  employee: any;
+  dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<any> = new Subject();
+  id: any;
+  allEmp = [];
+  shiftId: number;
+  shift: any;
+  team: any;
+  shiftTeam: any;
+  dtInstance: DataTables.Api;
+  startDate: string;
+  endDate: string;
+  noOfDays: string;
+  remark: string;
+  fkLeaveCategory: string;
+  leaveCategories: any;
   // DROPDOWN
   dropdownList = [];
   selectedItems = [];
   dropdownSettings = {};
 
-  constructor(private renderer: Renderer,public http: HttpClient, private token:TokenService , public route:ActivatedRoute, private router: Router) { }
+  // tslint:disable-next-line:max-line-length
+  constructor(private renderer: Renderer, public http: HttpClient, private token: TokenService , public route: ActivatedRoute, private router: Router
+  , private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
 
     this.dropdownList = [
       { item_id: 'saturday', item_text: 'Saturday' },
-      { item_id:'sunday', item_text: 'Sunday' },
+      { item_id: 'sunday', item_text: 'Sunday' },
       { item_id: 'monday', item_text: 'Monday' },
       { item_id: 'tuesday', item_text: 'Tuesday' },
       { item_id: 'wednesday', item_text: 'Wednesday' },
       { item_id: 'thursday', item_text: 'Thursday' },
-      { item_id:'friday', item_text: 'Friday' }
+      { item_id: 'friday', item_text: 'Friday' }
     ];
 
     this.dropdownSettings = {
@@ -65,20 +68,20 @@ export class LeaveComponent implements OnInit {
 
 
 
-    this.fkLeaveCategory='';
-    this.startDate='';
-    this.endDate='';
-    this.noOfDays='';
-    this.remark='';
-    this.allEmp=[];
+    this.fkLeaveCategory = '';
+    this.startDate = '';
+    this.endDate = '';
+    this.noOfDays = '';
+    this.remark = '';
+    this.allEmp = [];
 
   }
 
-  getCategory(){
-    const token=this.token.get();
+  getCategory() {
+    const token = this.token.get();
 
-    this.http.get(Constants.API_URL+'leave/getLeaveCategory'+'?token='+token).subscribe(data => {
-        this.leaveCategories=data;
+    this.http.get(Constants.API_URL + 'leave/getLeaveCategory' + '?token=' + token).subscribe(data => {
+        this.leaveCategories = data;
       },
       error => {
         console.log(error);
@@ -86,41 +89,41 @@ export class LeaveComponent implements OnInit {
     );
   }
 
-  onItemSelect(value){
+  onItemSelect(value) {
     // console.log(value);
   }
-  onSelectAll(value){
+  onSelectAll(value) {
     // console.log(value);
   }
 
-  getData(){
-    const token=this.token.get();
+  getData() {
+    const token = this.token.get();
     this.dtOptions = {
       ajax: {
-        url: Constants.API_URL+'employee/get'+'?token='+token,
+        url: Constants.API_URL + 'employee/get' + '?token=' + token,
         type: 'POST',
-        data:function (d:any){
+        data: function (d: any) {
 
 
         },
       },
       columns: [
         {
-          "data": function (data: any, type: any, full: any) {
-            return '<input type="checkbox" class="chk form-control" name="selected_rows[]" value="'+ data.empid +'">';
+          'data': function (data: any, type: any, full: any) {
+            return '<input type="checkbox" class="chk form-control" name="selected_rows[]" value="' + data.empid + '">';
           },
-          "orderable": false, "searchable":false, "name":"selected_rows"
+          'orderable': false, 'searchable': false, 'name': 'selected_rows'
         },
-        { data: 'firstName' ,name:'employeeinfo.firstName'},
+        { data: 'firstName' , name: 'employeeinfo.firstName'},
         { data: 'EmployeeId' , name: 'employeeinfo.EmployeeId' },
 
         { data: 'weekend', name: 'employeeinfo.weekend'},
 
         {
-          "data": function (data: any, type: any, full: any) {
-            return ' <button class="btn btn-info" data-emp-id="'+data.empid+'"> View</button>';
+          'data': function (data: any, type: any, full: any) {
+            return ' <button class="btn btn-info" data-emp-id="' + data.empid + '"> View</button>';
           },
-          "orderable": false, "searchable":false, "name":"selected_rows"
+          'orderable': false, 'searchable': false, 'name': 'selected_rows'
         }
 
 
@@ -138,9 +141,9 @@ export class LeaveComponent implements OnInit {
 
     this.renderer.listenGlobal('document', 'click', (event) => {
 
-      if (event.target.hasAttribute("data-emp-id")) {
+      if (event.target.hasAttribute('data-emp-id')) {
 
-        let id=event.target.getAttribute("data-emp-id");
+        const id = event.target.getAttribute('data-emp-id');
         this.showLeaveOfEmp(id);
       }
 
@@ -154,66 +157,67 @@ export class LeaveComponent implements OnInit {
     this.dtTrigger.unsubscribe();
   }
 
-  selectAll(){
-    this.allEmp=[];
-    if($('#selectall2').is(":checked")) {
+  selectAll() {
+    this.allEmp = [];
+    if ($('#selectall2').is(':checked')) {
 
-      let  checkboxes = document.getElementsByName('selected_rows[]');
+      const  checkboxes = document.getElementsByName('selected_rows[]');
 
-      $('input:checkbox').prop('checked',true);
+      $('input:checkbox').prop('checked', true);
 
-      let that=this;
-      $(".chk:checked").each(function () {
+      const that = this;
+      $('.chk:checked').each(function () {
         that.allEmp.push($(this).val());
       });
       // console.log(this.allEmp);
-    }
-    else {
+    } else {
 
-      $(':checkbox:checked').prop('checked',false);
+      $(':checkbox:checked').prop('checked', false);
     }
 
 
   }
-  showLeaveOfEmp(id){
+  showLeaveOfEmp(id) {
 
-    this.router.navigate(["leave/summery/" + id]);
+    this.router.navigate(['leave/summery/' + id]);
     return false;
 
   }
 
 
-  selectCategory(value){
-    this.fkLeaveCategory=value;
+  selectCategory(value) {
+    this.fkLeaveCategory = value;
 
   }
 
-  assignLeave(){
-    if(!this.checkForm()){
+  assignLeave() {
+    if (!this.checkForm()) {
       return false;
     }
 
-    let form={
-      allEmp:this.allEmp,
-      startDate:new Date(this.startDate).toLocaleDateString(),
-      endDate:new Date(this.endDate).toLocaleDateString(),
-      noOfDays:this.noOfDays,
-      remark:this.remark,
-      fkLeaveCategory:this.fkLeaveCategory,
+    const form = {
+      allEmp: this.allEmp,
+      startDate: new Date(this.startDate).toLocaleDateString(),
+      endDate: new Date(this.endDate).toLocaleDateString(),
+      noOfDays: this.noOfDays,
+      remark: this.remark,
+      fkLeaveCategory: this.fkLeaveCategory,
 
     };
 
-    this.allEmp=[];
-    let that=this;
-    $(".chk:checked").each(function () {
+    this.allEmp = [];
+    const that = this;
+    $('.chk:checked').each(function () {
       that.allEmp.push($(this).val());
     });
 
    // console.log(this.allEmp);
 
-    const token=this.token.get();
+    const token = this.token.get();
+    this.spinner.show();
+    this.http.post(Constants.API_URL + 'leave/assignLeave' + '?token=' + token, form).subscribe(data => {
 
-    this.http.post(Constants.API_URL+'leave/assignLeave'+'?token='+token,form).subscribe(data => {
+        this.spinner.hide();
         // console.log(data);
         this.ngOnInit();
         this.rerender();
@@ -241,42 +245,55 @@ export class LeaveComponent implements OnInit {
 
   }
 
-  checkForm(){
-    let message="";
-    let condition=true;
-    this.allEmp=[];
-    let that=this;
-    $(".chk:checked").each(function () {
+  checkForm() {
+    let message = '';
+    let condition = true;
+    this.allEmp = [];
+    const that = this;
+    $('.chk:checked').each(function () {
       that.allEmp.push($(this).val());
     });
 
-    if(this.startDate==''){
-      condition=false;
-      message="Please Insert Start Date";
+    if (this.allEmp.length <= 0) {
+      condition = false;
+      message = 'Please Select at least one employee';
+    }
+    if (this.allEmp.length > 1) {
+      condition = false;
+      message = 'Please Select only one employee';
+    }
+
+    if (this.startDate == '') {
+      condition = false;
+      message = 'Please Insert Start Date';
 
     }
 
-    if(this.endDate==''){
-      condition=false;
-      message="Please Insert End Date";
+    if (this.endDate == '') {
+      condition = false;
+      message = 'Please Insert End Date';
     }
-    if(this.noOfDays==''){
-      condition=false;
-      message="Please Insert No Of Days";
+    if (this.endDate < this.startDate) {
+      condition = false;
+      message = 'End Date must be greater then Start Date';
     }
-    if(this.fkLeaveCategory==''){
-      condition=false;
-      message="Please Select Leave Category";
+    if (this.noOfDays == '') {
+      condition = false;
+      message = 'Please Insert No Of Days';
+    }
+    if (this.fkLeaveCategory == '') {
+      condition = false;
+      message = 'Please Select Leave Category';
     }
 
-    if (this.allEmp.length==0){
-      condition=false;
-      message="Please Select Employee";
+    if (this.allEmp.length == 0) {
+      condition = false;
+      message = 'Please Select Employee';
     }
 
 
 
-    if (condition==false){
+    if (condition == false) {
       $.alert({
         title: 'Alert!',
         type: 'Red',
@@ -299,7 +316,7 @@ export class LeaveComponent implements OnInit {
   }
 
 
-  rerender(){
+  rerender() {
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
 
       dtInstance.destroy();

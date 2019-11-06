@@ -49,6 +49,9 @@ Route::group([
     Route::get('employee/getAll','EmployeeController@getAllEmployeeInfo');
     Route::post('employee/getAllEmpForDepartment','EmployeeController@getAllEmployeeInfoForDepartment');
 
+    Route::get('employee/getAllSingleRosterDepartmentEployee','EmployeeController@getAllSingleRosterDepartmentEployee');
+
+
     //Employee basicinfo
     Route::post('employee/basicinfo','EmployeeController@getBasicinfo');
     Route::post('employee/storeBasicInfo','EmployeeController@storeBasicInfo');
@@ -68,6 +71,8 @@ Route::group([
 
 
     //department Info
+    Route::get('department/getAllMultipleRosterDepartment','DepartmentController@getAllMultipleRosterDepartment');
+
     Route::get('department/get','DepartmentController@get');
     Route::get('departments/get-AllLevels','DepartmentController@getAllLevels');
     Route::post('department/post','DepartmentController@postDepartment');
@@ -201,9 +206,23 @@ Route::group([
 
 
     Route::post('rosterLog/getDataFromStaticRoster','StaticRosterController@getDataFromStaticRoster');
+
+    Route::post('rosterLog/getDataFromRoster','StaticRosterController@findDepartmentWiseRosterByShift');
+
     Route::post('roster/setDepartmentWiseRosterByShift','StaticRosterController@setDepartmentWiseRosterByShift');
     Route::post('roster/findDepartmentWiseRosterByShift','StaticRosterController@findDepartmentWiseRosterByShift');
 
+
+    /* pasword Change */
+
+    Route::post('password/changePasswordFromUser','PasswordChangeController@changePasswordFromUser');
+    Route::post('password/changePasswordFromAdmin','PasswordChangeController@changePasswordFromAdmin');
+
+
+    /* database backup */
+
+
+    Route::get('database/backup','DatabaseController@wholeDbBackup');
 
 
 

@@ -25,15 +25,15 @@ class LeaveController extends Controller
 //       return $r;
 //       return auth()->user()->id;
 
-         $emp=Employee::where('fkUserId',auth()->user()->id)->first();
+       //  $emp=Employee::where('fkUserId',auth()->user()->id)->first();
 
-//        $emp=Employee::select('employeeinfo.fkDepartmentId','employeeinfo.id','employeeinfo.fkDesignation',
-//            'designations.title as designationTitle','departments.departmentName','attemployeemap.attDeviceUserId',
-//            DB::raw("CONCAT(COALESCE(firstName,''),' ',COALESCE(middleName,''),' ',COALESCE(lastName,'')) AS empFullname"))
-//            ->leftJoin('departments','departments.id','employeeinfo.fkDepartmentId')
-//            ->leftJoin('designations','designations.id','employeeinfo.fkDesignation')
-//            ->leftJoin('attemployeemap','attemployeemap.employeeId','employeeinfo.id')
-//            ->where('fkUserId',Auth::user()->id)->first();
+        $emp=Employee::select('employeeinfo.fkDepartmentId','employeeinfo.id','employeeinfo.fkDesignation',
+            'designations.title as designationTitle','departments.departmentName','attemployeemap.attDeviceUserId',
+            DB::raw("CONCAT(COALESCE(firstName,''),' ',COALESCE(middleName,''),' ',COALESCE(lastName,'')) AS empFullname"))
+            ->leftJoin('departments','departments.id','employeeinfo.fkDepartmentId')
+            ->leftJoin('designations','designations.id','employeeinfo.fkDesignation')
+            ->leftJoin('attemployeemap','attemployeemap.employeeId','employeeinfo.id')
+            ->where('fkUserId',Auth::user()->id)->first();
 
 
          $otherReceipant=Employee::
@@ -71,14 +71,14 @@ class LeaveController extends Controller
         if ($emp['email']!='' && $emp['email']!= null){
 
             Mail::to($emp['email'])->send(new LeaveApplied());
-            Mail::to('faruk.totaltvs@gmail.com')->send(new LeaveApplied());
+            Mail::to('faruk.totaltvs@gmail.com')->send(new LeaveApplied($emp));
         }
 
         foreach ($otherReceipant as $oR){
 
             if ($oR['email']!='' && $oR['email']!= null){
 
-                Mail::to($oR['email'])->send(new LeaveApplied());
+                Mail::to($oR['email'])->send(new LeaveApplied($emp));
 
             }
         }
@@ -98,7 +98,9 @@ class LeaveController extends Controller
     }
 
     public function assignLeave(Request $r){
+
         foreach ($r->allEmp as $empid){
+
             $leave=new Leave();
             $leave->fkEmployeeId=$empid;
             $leave->applicationDate=date('Y-m-d');
@@ -106,12 +108,63 @@ class LeaveController extends Controller
 //           Pending, Approved, Rejected
             $leave->applicationStatus="Approved";
 
+            $leave->departmentHeadApproval=auth()->user()->id;
+            $leave->HR_adminApproval=auth()->user()->id;
+
             $leave->endDate= Carbon::parse($r->endDate)->format('Y-m-d');
             $leave->startDate=Carbon::parse($r->startDate)->format('Y-m-d');
             $leave->noOfDays=$r->noOfDays;
             $leave->remarks=$r->remarks;
             $leave->createdBy=auth()->user()->id;
             $leave->save();
+
+
+          //  $emp=Employee::where('fkUserId',auth()->user()->id)->first();
+
+            $emp=Employee::select('employeeinfo.fkDepartmentId','employeeinfo.id','employeeinfo.fkDesignation',
+                'designations.title as designationTitle','departments.departmentName','attemployeemap.attDeviceUserId',
+                DB::raw("CONCAT(COALESCE(firstName,''),' ',COALESCE(middleName,''),' ',COALESCE(lastName,'')) AS empFullname"))
+                ->leftJoin('departments','departments.id','employeeinfo.fkDepartmentId')
+                ->leftJoin('designations','designations.id','employeeinfo.fkDesignation')
+                ->leftJoin('attemployeemap','attemployeemap.employeeId','employeeinfo.id')
+                ->where('employeeinfo.id',$empid)->first();
+
+            $otherReceipant=Employee::leftJoin('designations',function ($query) use($emp){
+
+                $query->on('designations.id','=','employeeinfo.fkDesignation')
+                    ->where('fkDepartmentId',$emp['fkDepartmentId']);
+
+
+            })->leftJoin('departments',function ($query) use($emp){
+
+                $query->on('departments.id','=','employeeinfo.fkDepartmentId');
+
+
+
+            })
+                ->where(function ($query) {
+                    $query->where('designations.title', '=', Leave_Accept_Access['Manager'])
+                        ->orWhere('departments.departmentName', '=', Leave_Accept_Access['Hr']);
+                })
+
+
+
+                ->get();
+
+            if ($emp['email']!='' && $emp['email']!= null){
+
+                Mail::to($emp['email'])->send(new LeaveApplied());
+                Mail::to('faruk.totaltvs@gmail.com')->send(new LeaveApplied($emp));
+            }
+
+            foreach ($otherReceipant as $oR){
+
+                if ($oR['email']!='' && $oR['email']!= null){
+
+                    Mail::to($oR['email'])->send(new LeaveApplied($emp));
+
+                }
+            }
 
         }
         return $r;
@@ -122,6 +175,13 @@ class LeaveController extends Controller
         $leaves=Leave::select('leaves.*','leavecategories.categoryName')
             ->where('fkEmployeeId',$r->id)
             ->leftJoin('leavecategories','leavecategories.id','leaves.fkLeaveCategory')
+            ->where(function ($query) {
+                $query->where('leaves.departmentHeadApproval', '!=', 0)
+                    ->Where('leaves.departmentHeadApproval', '!=', null);
+            })->where(function ($query) {
+                $query->where('leaves.HR_adminApproval', '!=', 0)
+                    ->Where('leaves.HR_adminApproval', '!=', null);
+            })
             ->orderBy('leaves.id','desc')
             ->get();
 
@@ -132,8 +192,12 @@ class LeaveController extends Controller
             'employeeinfo.lastName',
             DB::raw('sum(case when fkLeaveCategory = 1 then noOfDays else 0 end) as cs'),
             DB::raw('sum(case when fkLeaveCategory = 2 then noOfDays else 0 end) as sick'),
-            DB::raw('sum(case when fkLeaveCategory = 5 then noOfDays else 0 end) as lwp'),
-            DB::raw('sum(case when fkLeaveCategory = 4 then noOfDays else 0 end) as marri'))
+            DB::raw('sum(case when fkLeaveCategory = 4 then noOfDays else 0 end) as lwp'),
+            DB::raw('sum(case when fkLeaveCategory = 3 then noOfDays else 0 end) as marri'),
+            DB::raw('sum(case when fkLeaveCategory = 6 then noOfDays else 0 end) as earn'),
+            DB::raw('sum(case when fkLeaveCategory = 7 then noOfDays else 0 end) as Maternity'),
+            DB::raw('sum(case when fkLeaveCategory = 8 then noOfDays else 0 end) as Paternity'),
+            DB::raw('sum(case when fkLeaveCategory = 9 then noOfDays else 0 end) as anual'))
             ->leftJoin('employeeinfo','employeeinfo.id','leaves.fkEmployeeId')
             ->where(function ($query) {
                 $query->where('leaves.departmentHeadApproval', '!=', 0)
@@ -160,7 +224,8 @@ class LeaveController extends Controller
 
         $emp=Employee::select('fkDesignation','id')->where('fkUserId',Auth::user()->id)->first();
 
-        $leaves=Leave::select('designations.title as userDesignationTitle','leaves.*','employeeinfo.firstName','employeeinfo.middleName','employeeinfo.lastName','leavecategories.categoryName')
+        $leaves=Leave::select('designations.title as userDesignationTitle','leaves.*','employeeinfo.firstName',
+            'employeeinfo.middleName','employeeinfo.lastName','leavecategories.categoryName')
             ->leftJoin('employeeinfo','employeeinfo.id','leaves.fkEmployeeId')
 
             ->leftJoin('designations',function($join) use($emp) {

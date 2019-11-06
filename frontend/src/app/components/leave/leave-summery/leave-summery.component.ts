@@ -97,14 +97,18 @@ export class LeaveSummeryComponent implements OnInit {
 
         { data: 'firstName' , name: 'firstName'},
         { data: 'lastName' , name: 'lastName'},
-        { data: 'sick' , name: 'sick'},
         { data: 'cs' , name: 'cs'},
+        { data: 'sick' , name: 'sick'},
         { data: 'lwp' , name: 'lwp'},
         { data: 'marri' , name: 'marri'},
+        { data: 'earn' , name: 'earn'},
+        { data: 'Maternity' , name: 'Maternity'},
+        { data: 'Paternity' , name: 'Paternity'},
+        { data: 'anual' , name: 'anual'},
         {
 
           'data': function (data: any, type: any, full: any) {
-            return parseInt(data.sick) + parseInt(data.cs) + parseInt(data.marri);
+            return parseInt(data.cs) + parseInt(data.sick) + parseInt(data.lwp) + parseInt(data.marri) + parseInt(data.earn) + parseInt(data.Maternity) + parseInt(data.Paternity) + parseInt(data.anual);
           },
           'orderable': false, 'searchable': false, 'name': 'selected_rows'
         },

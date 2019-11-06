@@ -155,7 +155,7 @@ class EmployeeController extends Controller {
 
     public function getAllEmployee(Request $r) {
         $employee = Employee::select('attemployeemap.attDeviceUserId', 'employeeinfo.firstName', 'employeeinfo.lastName', 'employeeinfo.middleName', 'employeeinfo.EmployeeId', 'designations.title', 'departments.departmentName', 'employeeinfo.id as empid'
-                        , 'employeeinfo.weekend')
+                        , 'employeeinfo.weekend',DB::raw("CONCAT(COALESCE(employeeinfo.firstName,''),' ',COALESCE(employeeinfo.middleName,''),' ',COALESCE(employeeinfo.lastName,'')) AS empFullname"))
                 ->leftjoin('designations', 'designations.id', '=', 'employeeinfo.fkDesignation')
                 ->leftjoin('departments', 'departments.id', '=', 'employeeinfo.fkDepartmentId')
                 ->leftJoin('attemployeemap', 'attemployeemap.employeeId', 'employeeinfo.id');
@@ -175,6 +175,28 @@ class EmployeeController extends Controller {
                 ->whereNotNull('attemployeemap.attDeviceUserId')
                 ->get();
     }
+    public function getAllSingleRosterDepartmentEployee() {
+
+        return $employee = Employee::select('employeeinfo.firstName', 'employeeinfo.lastName', 'employeeinfo.middleName', 'employeeinfo.EmployeeId', 'designations.title', 'departments.departmentName', 'employeeinfo.id as empid', 'attemployeemap.attDeviceUserId')
+                ->leftjoin('designations', 'designations.id', '=', 'employeeinfo.fkDesignation')
+                ->leftjoin('departments', 'departments.id', '=', 'employeeinfo.fkDepartmentId')
+                ->leftjoin('attemployeemap', 'attemployeemap.employeeId', '=', 'employeeinfo.id')
+                ->where('resignDate', null)
+                ->where('departments.rosterType',1)
+                ->whereNotNull('attemployeemap.attDeviceUserId')
+                ->get();
+    }
+//    public function getAllMultipleRosterDepartmentEployee() {
+//
+//        return $employee = Employee::select('employeeinfo.firstName', 'employeeinfo.lastName', 'employeeinfo.middleName', 'employeeinfo.EmployeeId', 'designations.title', 'departments.departmentName', 'employeeinfo.id as empid', 'attemployeemap.attDeviceUserId')
+//                ->leftjoin('designations', 'designations.id', '=', 'employeeinfo.fkDesignation')
+//                ->leftjoin('departments', 'departments.id', '=', 'employeeinfo.fkDepartmentId')
+//                ->leftjoin('attemployeemap', 'attemployeemap.employeeId', '=', 'employeeinfo.id')
+//                ->where('resignDate', null)
+//                ->where('departments.rosterType',2)
+//                ->whereNotNull('attemployeemap.attDeviceUserId')
+//                ->get();
+//    }
 
     public function getAllEmployeeInfoForDepartment(Request $r) {
         return $employee = Employee::select('employeeinfo.id as empId','employeeinfo.firstName', 'employeeinfo.lastName', 'employeeinfo.middleName', 'employeeinfo.EmployeeId',

@@ -62,7 +62,7 @@
           <th style="text-align: center">Reject Cause</th>
           </thead>
           <tbody>
-          <tr *ngFor="let ml of myLeaves" [ngClass]="(ml.applicationStatus=='Pending')?'redcolumn':''">
+          <tr *ngFor="let ml of myLeaves" >
             <td style="text-align: center">{{ml.applicationDate}}</td>
             <td style="text-align: center">{{ml.categoryName}}</td>
 

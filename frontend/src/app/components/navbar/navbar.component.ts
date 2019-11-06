@@ -5,6 +5,10 @@ import {TokenService} from '../../services/token.service';
 import {User} from '../../model/user.model';
 import {NgxPermissionsService} from 'ngx-permissions';
 import { NavbarService } from '../../services/navbar.service';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NgxSpinnerService} from 'ngx-spinner';
+
+declare var $: any;
 
 @Component({
   selector: 'app-navbar',
@@ -31,9 +35,10 @@ export class NavbarComponent implements OnInit {
     };
     tokenUser: any = {};
   permission: string;
+  modalRef: any;
 
   constructor(private permissionsService: NgxPermissionsService, public http: HttpClient, private token: TokenService,
-              public nav: NavbarService) {
+              public nav: NavbarService, private modalService: NgbModal, private spinner: NgxSpinnerService) {
 
   }
 
@@ -42,7 +47,7 @@ export class NavbarComponent implements OnInit {
     const token = this.token.get();
 
 
-    //console.log(this.user);
+    // console.log(this.user);
 
 
 
@@ -150,6 +155,7 @@ export class NavbarComponent implements OnInit {
 
   logout(e: MouseEvent) {
     e.preventDefault();
+
     const token = this.token.get();
     // console.log(token);
     //
@@ -172,11 +178,191 @@ export class NavbarComponent implements OnInit {
 
 
   }
+  ChangePass(passwordChange) {
+
+    this.modalRef = this.modalService.open(passwordChange, {size: 'lg', backdrop: 'static'});
+
+  }
+  submitPasswordChange() {
+
+    if (!this.checkPasswordChangeForm()) {
+      return false;
+    } else {
+
+      const user = JSON.parse(localStorage.getItem('user'));
+
+
+      const form = {
+        'userId': user.id,
+        // 'old_password': $('#old_password').val(),
+        'new_password': $('#new_password').val(),
+
+      };
+
+      const token = this.token.get();
+
+      this.http.post(Constants.API_URL + 'password/changePasswordFromUser?token=' + token, form).subscribe(data => {
+
+        // console.log(data);
+
+
+          $.alert({
+            title: 'Alert!',
+            type: 'Green',
+            content: 'Password Change Successfully',
+            buttons: {
+              tryAgain: {
+                text: 'Ok',
+                btnClass: 'btn-red',
+                action: function () {
+                }
+              }
+            }
+          });
+
+
+
+
+        },
+        error => {
+
+
+
+        }
+      );
+
+
+    }
+
+
+  }
+  checkPasswordChangeForm() {
+
+    let message = '';
+    let condition = true;
+
+
+    // if ($('#old_password').val() == '') {
+    //
+    //   condition = false;
+    //   message = 'Please insert old Password';
+    //
+    // }
+
+    if ($('#new_password').val() == '') {
+
+      condition = false;
+      message = 'Please insert a new Password';
+
+    }
+    if ($('#new_password').val().length <= 6 ) {
+
+      condition = false;
+      message = 'New Password should be atleast 6 charecter';
+
+    }
+    if ($('#confirm_new_password').val() == '') {
+
+      condition = false;
+      message = 'Please insert a Confirm new Password';
+
+    }
+    if ($('#new_password').val() != $('#confirm_new_password').val()) {
+
+      condition = false;
+      message = 'new password and Confirm new password must be Same';
+
+    }
+
+
+    if (condition == false) {
+      $.alert({
+        title: 'Alert!',
+        type: 'Red',
+        content: message,
+        buttons: {
+          tryAgain: {
+            text: 'Ok',
+            btnClass: 'btn-red',
+            action: function () {
+            }
+          }
+        }
+      });
+      return false;
+
+    }
+
+    return true;
+  }
 
   handleError(error) {
       if (error.status == 401 && error.error.message === 'Unauthenticated.') {
           this.token.remove();
       }
+
+  }
+
+  databaseDownload() {
+
+    const token = this.token.get();
+
+    this.spinner.show();
+    this.http.get(Constants.API_URL + 'database/backup' + '?token=' + token).subscribe(data => {
+
+        this.spinner.hide();
+         console.log(data);
+        if (data['flag'] == '1') {
+
+          $.alert({
+            title: 'Success!',
+            type: 'Green',
+            content: data['msg'],
+            buttons: {
+              tryAgain: {
+                text: 'Ok',
+                btnClass: 'btn-green',
+                action: function () {
+                }
+              }
+            }
+          });
+
+          const fileName = Constants.Image_URL + 'DBbackup/' + data['fileName'];
+
+          const link = document.createElement('a');
+
+          link.download = data['fileName'] + '.sql';
+          const uri = fileName + '.sql';
+          link.href = uri;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+
+        } else if (data['flag'] == '0') {
+
+          $.alert({
+            title: 'Alert!',
+            type: 'Red',
+            content: data['msg'],
+            buttons: {
+              tryAgain: {
+                text: 'Ok',
+                btnClass: 'btn-red',
+                action: function () {
+                }
+              }
+            }
+          });
+
+        }
+
+
+      },
+      error => {
+        console.log(error);
+      }
+    );
 
   }
 

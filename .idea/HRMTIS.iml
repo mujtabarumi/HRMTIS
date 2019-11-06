@@ -18,6 +18,7 @@
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/filp/whoops" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/fzaninotto/faker" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/hamcrest/hamcrest-php" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/ifsnop/mysqldump-php" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/jakub-onderka/php-console-color" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/jakub-onderka/php-console-highlighter" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/jeremeamia/SuperClosure" />

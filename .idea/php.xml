@@ -85,6 +85,7 @@
       <path value="$PROJECT_DIR$/backend/vendor/jeremeamia/SuperClosure" />
       <path value="$PROJECT_DIR$/backend/vendor/ramsey/uuid" />
       <path value="$PROJECT_DIR$/backend/vendor/doctrine/inflector" />
+      <path value="$PROJECT_DIR$/backend/vendor/ifsnop/mysqldump-php" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.1" />

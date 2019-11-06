@@ -78,9 +78,12 @@ export class EditAssignedShiftComponent implements OnInit {
     });
 
 
-    this.getAllEployee();
+   // this.getAllEployee();
+    this.getOnlySingleRosterDepartmentEployee();
+
     this.getShift();
     this.dates = [];
+
     this.dropdownSettings = {
       singleSelection: true,
       idField: 'empid',
@@ -91,6 +94,7 @@ export class EditAssignedShiftComponent implements OnInit {
       allowSearchFilter: true,
       closeDropDownOnSelection: true,
     };
+
     this.dropdownSettings2 = {
       singleSelection: true,
       idField: 'shiftId',
@@ -111,12 +115,27 @@ export class EditAssignedShiftComponent implements OnInit {
   toggleLeave(e) {
   this.LeaveCheckBox = e.target.checked;
   }
-  getAllEployee() {
+  // getAllEployee() {
+  //
+  //   const token = this.token.get();
+  //
+  //
+  //   this.http.get(Constants.API_URL + 'employee/getAll' + '?token=' + token).subscribe(data => {
+  //       this.employee = data;
+  //        console.log(data);
+  //     },
+  //     error => {
+  //       console.log(error);
+  //     }
+  //   );
+  //
+  // }
+  getOnlySingleRosterDepartmentEployee() {
 
     const token = this.token.get();
 
 
-    this.http.get(Constants.API_URL + 'employee/getAll' + '?token=' + token).subscribe(data => {
+    this.http.get(Constants.API_URL + 'employee/getAllSingleRosterDepartmentEployee' + '?token=' + token).subscribe(data => {
         this.employee = data;
          console.log(data);
       },
@@ -907,6 +926,7 @@ export class EditAssignedShiftComponent implements OnInit {
 
 
     if (condition == false) {
+
       $.alert({
         title: 'Alert!',
         type: 'Red',

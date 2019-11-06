@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Constants} from "../../../constants";
-import {HttpClient} from "@angular/common/http";
-import {TokenService} from "../../../services/token.service";
-import {ActivatedRoute, Router} from "@angular/router";
-declare var $ :any;
+import {Constants} from '../../../constants';
+import {HttpClient} from '@angular/common/http';
+import {TokenService} from '../../../services/token.service';
+import {ActivatedRoute, Router} from '@angular/router';
+declare var $: any;
 
 @Component({
   selector: 'app-leave-summery-show',
@@ -13,25 +13,25 @@ declare var $ :any;
 export class LeaveSummeryShowComponent implements OnInit {
 
   empid: any;
-  myLeaves:any;
-  details:any={};
+  myLeaves: any;
+  details: any = {};
 
-  constructor(public http: HttpClient, private token:TokenService , public route:ActivatedRoute, private router: Router) { }
+  constructor(public http: HttpClient, private token: TokenService , public route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
 
-    this.empid =this.route.snapshot.params.id;
+    this.empid = this.route.snapshot.params.id;
     this.getMyLeaves();
 
   }
 
-  getMyLeaves(){
+  getMyLeaves() {
     //For name
-    const token=this.token.get();
-    this.http.post(Constants.API_URL+'employee/basicinfo'+'?token='+token,{ empid:this.empid}).subscribe(data => {
+    const token = this.token.get();
+    this.http.post(Constants.API_URL + 'employee/basicinfo' + '?token=' + token, { empid: this.empid}).subscribe(data => {
 
         console.log(data);
-        this.details=data;
+        this.details = data;
       },
       error => {
         console.log(error);
@@ -40,8 +40,8 @@ export class LeaveSummeryShowComponent implements OnInit {
 
 
     //For Leave List
-    this.http.post(Constants.API_URL+'leave/summery/details'+'?token='+token,{id:this.empid}).subscribe(data => {
-        this.myLeaves=data;
+    this.http.post(Constants.API_URL + 'leave/summery/details' + '?token=' + token, {id: this.empid}).subscribe(data => {
+        this.myLeaves = data;
       },
       error => {
         console.log(error);
