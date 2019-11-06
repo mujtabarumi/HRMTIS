@@ -40,6 +40,19 @@ class LeaveApplied extends Mailable
             ->leftJoin('attemployeemap','attemployeemap.employeeId','employeeinfo.id')
             ->where('fkUserId',Auth::user()->id)->first();
 
+
+
+        $emp=Employee::where('fkUserId',auth()->user()->id)->first();
+        $leaves=Leave::select('leaves.*','leavecategories.categoryName')
+            ->where('fkEmployeeId',$emp->id)
+
+            ->orderBy('leaves.id','desc')
+            ->get();
+
+        return $leaves;
+
+        print_r($emp); exit;
+
         return $this->subject('Leave Applied in HRMTIS notification!')->view('Email.LeaveApplied')->with(['emp' => $emp]);
     }
 }

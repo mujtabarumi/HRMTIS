@@ -21,7 +21,7 @@
 
       <div class="form-group col-md-2">
         <label>Employee Id <span style="color: red">*</span></label>
-        <input type="text" name="accessPin" placeholder="pin" [(ngModel)]="employeeJoiningForm.attDeviceUserId" class="form-control">
+        <input type="text" name="accessPin" placeholder="Employee Id" [(ngModel)]="employeeJoiningForm.attDeviceUserId" class="form-control">
       </div>
 
       <div class="form-group col-md-2">
@@ -52,6 +52,7 @@
       <div class="form-group col-md-2">
         <label>Blood Group</label>
         <select class="form-control" [(ngModel)]="employeeJoiningForm.bloodGroup">
+          <option value=" ">Select Blood Group</option>
           <option value="A+">A+</option>
           <option value="A-">A-</option>
           <option value="B+">B+</option>
@@ -88,7 +89,7 @@
 
       <div class="form-group col-md-2">
         <label>Probation Period</label>
-        <input type="text" name="probationPeriod" placeholder="month" [(ngModel)]="employeeJoiningForm.probationPeriod" class="form-control">
+        <input type="text" name="probationPeriod" placeholder="Month" [(ngModel)]="employeeJoiningForm.probationPeriod" class="form-control">
       </div>
 
       <div class="form-group col-md-2">
@@ -110,11 +111,11 @@
 
       <div class="form-group col-md-2">
         <label>Attendance In Device<span style="color: red">*</span></label>
-        <input type="text" name="accessPin" placeholder="in device number" [(ngModel)]="employeeJoiningForm.inDeviceNo" class="form-control">
+        <input type="text" name="accessPin" placeholder="In Device Number" [(ngModel)]="employeeJoiningForm.inDeviceNo" class="form-control">
       </div>
       <div class="form-group col-md-2">
         <label>Attendance Out Device<span style="color: red">*</span></label>
-        <input type="text" name="accessPin" placeholder="out device number" [(ngModel)]="employeeJoiningForm.outDeviceNo" class="form-control">
+        <input type="text" name="accessPin" placeholder="Out Device Number" [(ngModel)]="employeeJoiningForm.outDeviceNo" class="form-control">
       </div>
 
       <div class="form-group col-md-2">
@@ -203,13 +204,13 @@
 
       <div class="form-group col-md-6">
         <label>Total Leave</label>
-        <input type="text" [(ngModel)]="totalLeaveAssigned"  placeholder="total leave" class="form-control">
+        <input type="text" [(ngModel)]="totalLeaveAssigned"  placeholder="Lotal Leave" class="form-control">
       </div>
 
 
       <div class="form-group col-md-6">
         <label>Leave Taken</label>
-        <input type="number" [(ngModel)]="leaveTaken"  placeholder="total leave taken" class="form-control" readonly>
+        <input type="number" [(ngModel)]="leaveTaken"  placeholder="Total Leave Taken" class="form-control" readonly>
       </div>
 
 
