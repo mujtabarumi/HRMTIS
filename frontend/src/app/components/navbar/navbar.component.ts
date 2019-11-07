@@ -46,27 +46,6 @@ export class NavbarComponent implements OnInit {
 
     const token = this.token.get();
 
-
-    // console.log(this.user);
-
-
-
-      // this.token.getUser().subscribe(data => {
-      //         this.userModel=data as User;
-      //         // this.tokenUser=this.userModel;
-      //
-      //         let perm = [];
-      //         perm.push(this.userModel.fkUserType);
-      //         console.log(perm);
-      //         this.permissionsService.loadPermissions(perm);
-      //     },
-      //     error => {
-      //         console.log(error);
-      //
-      //
-      //     });
-
-
           this.http.post(Constants.API_URL + 'me?token=' + token, null).subscribe(data1 => {
 
 
