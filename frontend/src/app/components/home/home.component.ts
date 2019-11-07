@@ -4,6 +4,7 @@ import {TokenService} from '../../services/token.service';
 import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Constants} from '../../constants';
+import { RoleManagementService } from '../../services/role-management.service';
 declare var $: any;
 
 @Component({
@@ -17,16 +18,22 @@ export class HomeComponent implements OnInit {
   showTotalDiv1: boolean;
   designation: any;
   activeEmp: any;
+
   InActiveEmp: any;
-  inactiveEmp: any;
+
+  Role: any;
+
 
   // tslint:disable-next-line:max-line-length
-  constructor(private check: CheckService, public http: HttpClient, private token: TokenService , public route: ActivatedRoute, private router: Router) {
+  constructor(private check: CheckService, public http: HttpClient, private token: TokenService , public route: ActivatedRoute,
+              private router: Router, private roleService: RoleManagementService) {
 
   }
 
 
   ngOnInit() {
+
+
 
     if (localStorage.getItem('role') == 'admin') {
 
@@ -43,7 +50,11 @@ export class HomeComponent implements OnInit {
       this.designation = localStorage.getItem('role');
     }
 
+
+
   }
+
+
 
   getTotalActiveEmp() {
     const token = this.token.get();

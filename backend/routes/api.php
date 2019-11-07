@@ -244,6 +244,11 @@ Route::group([
     Route::get('database/backup','DatabaseController@wholeDbBackup');
 
 
+    /* punch */
+
+    Route::post('punch/getEmpRoster','PunchController@getEmpRoster');
+    Route::post('punch/getEmpPunches','PunchController@getEmpRoster');
+
 
 
 });

@@ -42,6 +42,7 @@ import { DeptWiseRosterComponent } from './components/configuration/dept-wise-ro
 import { DeptWiseStaticRosterComponent } from './components/configuration/dept-wise-static-roster/dept-wise-static-roster.component';
 import { PasswordChangeComponent } from './components/configuration/password-change/password-change.component';
 import { DatabaseComponent } from './components/configuration/database/database.component';
+import { PunchTimeEditComponent } from './components/configuration/punch-time-edit/punch-time-edit.component';
 
 
 
@@ -83,6 +84,7 @@ import { DatabaseComponent } from './components/configuration/database/database.
     DeptWiseStaticRosterComponent,
     PasswordChangeComponent,
     DatabaseComponent,
+    PunchTimeEditComponent,
 
 
 
