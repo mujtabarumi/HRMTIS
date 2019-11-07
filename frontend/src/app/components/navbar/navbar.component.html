@@ -140,14 +140,21 @@
                   <li><a routerLink="configuration/not-shift-assigned-list">Roster not Assigned list</a></li>
                 </ul>
               </li>
+
               <li class="has-submenu" *ngxPermissionsOnly="['admin']">
                 <a href="#">Department</a>
                 <ul class="submenu">
                   <li><a routerLink="configuration/department/add">Add Department</a></li>
-
-
                 </ul>
               </li>
+
+              <li class="has-submenu" *ngxPermissionsOnly="['admin']">
+                <a href="#">Email</a>
+                <ul class="submenu">
+                  <li><a routerLink="configuration/email/add">Add Email</a></li>
+                </ul>
+              </li>
+
               <li class="has-submenu" *ngxPermissionsOnly="['admin']">
                 <a href="#">Designation</a>
                 <ul class="submenu">

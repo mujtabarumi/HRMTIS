@@ -89,6 +89,11 @@ Route::group([
     Route::get('departments/get-AllLevels','DepartmentController@getAllLevels');
     Route::post('department/post','DepartmentController@postDepartment');
 
+    //Email
+    Route::get('email/get','EmailController@get');
+    Route::get('emails/get-AllLevels','EmailController@getAllLevels');
+    Route::post('email/post','EmailController@postEmail');
+
     //Designation Info
     Route::get('designation/get','DesignationController@get');
     Route::post('designationinfo/post','DesignationController@postDesignationInfo');

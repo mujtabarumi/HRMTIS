@@ -16,6 +16,9 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { EmployeeComponent } from './components/user/employee/employee.component';
 import { AddDepartmentComponent } from './components/configuration/department/add-department/add-department.component';
+
+// Email
+import { AddEmailComponent } from './components/configuration/email/add-email/add-email.component';
 import { ShiftComponent } from './components/configuration/shift/shift.component';
 import { ShiftAssignComponent } from './components/configuration/shift-assign/shift-assign.component';
 import { EditAssignedShiftComponent } from './components/configuration/edit-assigned-shift/edit-assigned-shift.component';
@@ -56,6 +59,7 @@ import { DatabaseComponent } from './components/configuration/database/database.
     LoginComponent,
     EmployeeComponent,
     AddDepartmentComponent,
+    AddEmailComponent,
     ShiftComponent,
     ShiftAssignComponent,
     EditAssignedShiftComponent,
