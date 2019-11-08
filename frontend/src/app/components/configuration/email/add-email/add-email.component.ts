@@ -12,9 +12,9 @@ declare var $: any;
 export class AddEmailComponent implements OnInit {
   @Input('master') data: any;
 
-  emails: any[];
-  emailField = {} as Email;
   email: any;
+  emails: any;
+  emailField = {} as Email;
   status: any;
 
   constructor(public http: HttpClient, private token: TokenService) { }
@@ -22,13 +22,14 @@ export class AddEmailComponent implements OnInit {
   ngOnInit() {
     this.getEmails();
    // this.getDepartmentLevels();
-    //this.getCompany();
+    // this.getCompany();
   }
 
   getEmails() {
     const token = this.token.get();
     this.http.get(Constants.API_URL + 'email/get' + '?token=' + token).subscribe(data => {
-        this.email = <any[]>data;
+        this.emails = data;
+        console.log(this.emails);
       },
       error => {
         console.log(error);

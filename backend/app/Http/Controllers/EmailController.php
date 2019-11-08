@@ -6,20 +6,12 @@ use App\Email;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class EmailController_ extends Controller
+class EmailController extends Controller
 {
     public function get(){
         $emails=Email::get();
         return $emails;
     }
-
-
-    public function getAllLevels()
-    {
-        $emails=Email::select('email')->orderBy('id','ASC')->distinct()->get();
-        return $emails;
-    }
-
 
     public function postEmail(Request $r){
 //        return $r;

@@ -2,7 +2,7 @@
 <html>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link href="{{url('public/css/exceltable.css')}}" rel="stylesheet">
+<link href="{{url('public/css/exceltable.css')}}" rel="stylesheet"> <!-- Css file call-->
 
 
 <body>
@@ -10,14 +10,15 @@
 <table class="blueTable">
     <thead>
     <tr>
-
+        <!-- date renge wise show-->
         <th colspan="12" style="text-align: center;">Multiple Roster Report 1 -( {{\Carbon\Carbon::parse($startDate)->format('Y-m-d')}} - {{\Carbon\Carbon::parse($endDate)->format('Y-m-d')}} )</th>
 
     </tr>
+    <!-- employee information view-->
     <tr>
         <td style="vertical-align: middle;text-align: center;"></td>
-        <th colspan="4"style="text-align: center;vertical-align: middle;" >Name: {{$allE->empFullname}}</th>
-        <th colspan="3"style="text-align: center;vertical-align: middle;" >ID: {{$allE->attDeviceUserId}}</th>
+        <th colspan="4"style="text-align: center;vertical-align: middle;" >Name: {{$allE->empFullname}}</th><!-- employee Name-->
+        <th colspan="3"style="text-align: center;vertical-align: middle;" >ID: {{$allE->attDeviceUserId}}</th><!-- employee Device Name-->
     </tr>
     <tr>
         <td style="vertical-align: middle;text-align: center;"></td>
@@ -27,8 +28,9 @@
     <tr>
         <th class="Border"style="text-align: center;vertical-align: middle;" width="25">Date</th>
 
+        <!-- shift wise Roster view-->
         @foreach($RosterInfo as $RI)
-            <th class="Border" colspan="5" style="text-align: center;vertical-align: middle;" >{{$RI->inTime}}-{{$RI->outTime}}</th>
+            <th class="Border" colspan="5" style="text-align: center;vertical-align: middle;" >{{$RI->inTime}}-{{$RI->outTime}}</th><!-- Roster in and out time -->
         @endforeach
 
 
@@ -36,7 +38,7 @@
     </tr>
     <tr>
         <th class="Border"style="text-align: center;vertical-align: middle;" width="25"></th>
-        @foreach($RosterInfo as $RI)
+        @foreach($RosterInfo as $RI)<!-- 1 roster data show table head-->
 
             <th class="Border"style="text-align: center;vertical-align: middle;" width="15">IN Time</th>
             <th class="Border"style="text-align: center;vertical-align: middle;" width="15">OUT Time</th>
@@ -73,7 +75,7 @@
 
 
 
-
+    <!-- date loop-->
     @foreach($dates as $date)
 
         @php
@@ -90,7 +92,7 @@
 
 
 
-
+            <!-- Roster loop-->
             @foreach($RosterInfo as $RI)
                 @php
                     $FINALIN=null;$FINALOUT=null;$FINALWORKINGHOUR=null;$ROUNDFINALWORKINGHOUR=null;$weekendCount=0;$adjustment=0;$holiDay=0;$next=false;
@@ -99,9 +101,9 @@
 
                 @endphp
 
-                @if($date['date'] <= \Carbon\Carbon::now()->format('Y-m-d'))
+                @if($date['date'] <= \Carbon\Carbon::now()->format('Y-m-d')) <!-- check date less or equal current date-->
 
-                    @if($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])->first())
+                    @if($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])->first()) <!-- check if punch exist or not by employee id and date-->
 
                         @php
                             $nextday=\Carbon\Carbon::parse($date['date'])->addDays(1)->format('Y-m-d');
@@ -112,20 +114,22 @@
                         <td class="Border"style="text-align: center;vertical-align: middle;" width="15">
 
                             @if($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])->first()->inTime == null)
+                                <!-- check if inTime null or not  by employee id and date-->
 
                                 {{
                                     \Carbon\Carbon::parse($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
                                     ->first()->accessTime2)->format('H:i')
                                 }}
-
+                                <!-- show the first punch as intime of the date-->
                             @else
 
 
-
+                                <!-- check if inTime 12Am  by employee id and date-->
                                 @if($RI->inTime == '00:00:00')
 
                                     @if($results->where('employeeId',$allE->id)->where('attendanceDate',$previousday)
                                        ->where('accessTime','>=','21:00:00')->where('fkAttDevice',$allE->inDeviceNo)->first())
+                                        <!-- check if there is any punch after 9 pm in previous day  by employee id and date-->
 
 
                                         @php
@@ -146,7 +150,7 @@
                                                 {{$FINALIN->format('H:i')}}
 
                                             @endif
-
+                                            <!-- check if there is any punch after 9 pm in previous day then show first punch as intime  by employee id and date-->
                                             @php
                                                 $i++;
                                             @endphp
@@ -161,7 +165,7 @@
 
                                     @elseif($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
                                                      ->where('fkAttDevice',$allE->inDeviceNo)->first())
-
+                                        <!-- check if there is any punch of the day by employee id and date-->
                                         @php
                                             $i=0;
                                         @endphp
@@ -180,7 +184,7 @@
                                                 {{$FINALIN->format('H:i')}}
 
                                             @endif
-
+                                            <!-- check if there is any punch of the day show the first punch as in Time by employee id and date-->
                                             @php
                                                 $i++;
                                             @endphp
@@ -198,7 +202,7 @@
 
 
 
-
+                                 <!-- check if there is any punch before 2 hours of roster in Time  by employee id and date-->
                                 @elseif($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
                                                      ->where('accessTime','>=' ,\Carbon\Carbon::parse($RI->inTime)->subHours(2)->format('H:i:s'))
                                                      ->where('accessTime','<=', $RI->outTime)
@@ -225,7 +229,7 @@
                                             {{$FINALIN->format('H:i')}}
 
                                         @endif
-
+                                        <!-- check if there is any punch before 2 hours of roster in Time then show first punch as in Time  by employee id and date-->
                                         @php
                                             $i++;
                                         @endphp
@@ -248,23 +252,23 @@
 
                         </td>
                         <td class="Border"style="text-align: center;vertical-align: middle;" width="15">
-
-                            @if($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])->first()->inTime == null)
+                            <!-- check if in Time null or not  by employee id and date-->
+                            @if($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])->first()->outTime == null)
 
                                 {{
                                     \Carbon\Carbon::parse($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
-                                    ->first()->accessTime2)->format('H:i')
+                                    ->last()->accessTime2)->format('H:i')
                                 }}
-
+                                <!-- show the last punch as intime of the date-->
                             @else
 
 
-
+                                <!-- check if out Time 12Am  by employee id and date-->
                                 @if($RI->outTime == '00:00:00')
 
                                     @if($results->where('employeeId',$allE->id)->where('attendanceDate',$nextday)
                                        ->where('accessTime','<=','03:00:00')->where('fkAttDevice',$allE->outDeviceNo)->first())
-
+                                        <!-- check if there is any punch before 3 am in next day  by employee id and date-->
                                         @php
                                             $ii=0;
                                             $len=count($results->where('employeeId',$allE->id)
@@ -284,7 +288,7 @@
 
                                                 {{$FINALOUT->format('H:i')}}
 
-
+                                                <!-- check if there is any punch before 3 am in next day then show the last punch as out Time by employee id and date-->
 
 
                                             @endif
@@ -303,7 +307,7 @@
                                         @php
                                             $ii=0;
                                         @endphp
-
+                                        <!-- check if there is any punch between roster in time and out time + 1 hour  of that day  by employee id and date-->
                                     @elseif($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
                                                      ->where('fkAttDevice',$allE->outDeviceNo)
                                                      ->where('accessTime','>=' ,$RI->inTime)
@@ -330,7 +334,7 @@
 
                                                 {{$FINALOUT->format('H:i')}}
 
-
+                                                <!-- check if there is any punch between roster in time and out time + 1 hour of that day then show last punch as out Time  by employee id and date-->
 
 
                                             @endif
@@ -353,7 +357,7 @@
 
                                     @endif
                                 @else
-
+                                    <!-- check if there is any punch between roster in time and out time + 59 minute  of that day  by employee id and date-->
                                     @php
                                         $ii=0;
                                         $len=count($results->where('employeeId',$allE->id)

@@ -91,7 +91,6 @@ Route::group([
 
     //Email
     Route::get('email/get','EmailController@get');
-    Route::get('emails/get-AllLevels','EmailController@getAllLevels');
     Route::post('email/post','EmailController@postEmail');
 
     //Designation Info
