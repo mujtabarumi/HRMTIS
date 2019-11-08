@@ -44,6 +44,7 @@ class TimeSwapCheck extends Command
     {
         $array=array();
         $currentDate=Carbon::now()->format('Y-m-d');
+
         $results = DB::select(DB::raw("select em.employeeId,ad.id,sl.inTime,sl.outTime,sl.adjustmentDate,ad.fkAttDevice,sl.holiday,sl.weekend,ad.fkAttDevice
             , date_format(ad.accessTime,'%Y-%m-%d') attendanceDate
             , date_format(ad.accessTime,'%H:%i:%s') accessTime

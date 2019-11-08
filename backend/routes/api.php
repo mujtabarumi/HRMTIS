@@ -240,8 +240,9 @@ Route::group([
 
     /* punch */
 
-    Route::post('punch/getEmpRoster','PunchController@getEmpRoster');
-    Route::post('punch/getEmpPunches','PunchController@getEmpRoster');
+    Route::post('punch/getEmpRosterAndPunches','PunchController@getEmpRosterAndPunches');
+
+   // Route::post('punch/getEmpPunches','PunchController@getEmpRoster');
 
 
 

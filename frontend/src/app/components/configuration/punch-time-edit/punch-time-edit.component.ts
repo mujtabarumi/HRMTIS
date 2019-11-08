@@ -68,31 +68,10 @@ export class PunchTimeEditComponent implements OnInit {
     };
 
 
-    this.http.post(Constants.API_URL + 'punch/getEmpRoster' + '?token=' + token, form).subscribe(data => {
+    this.http.post(Constants.API_URL + 'punch/getEmpRosterAndPunches' + '?token=' + token, form).subscribe(data => {
 
-       this.empRoster = data;
-
-      },
-      error => {
-        console.log(error);
-      }
-    );
-
-  }
-  empPunches(shiftLogId) {
-
-    const token = this.token.get();
-
-    const form = {
-      'empId': this.selectedItems[0]['empid'],
-      'date': $('#date').val(),
-      'shiftLog': shiftLogId
-    };
-
-
-    this.http.post(Constants.API_URL + 'punch/getEmpPunches' + '?token=' + token, form).subscribe(data => {
-
-        this.empRoster = data;
+      // this.empRoster = data;
+       console.log(data);
 
       },
       error => {
@@ -101,6 +80,28 @@ export class PunchTimeEditComponent implements OnInit {
     );
 
   }
+  // empPunches(shiftLogId) {
+  //
+  //   const token = this.token.get();
+  //
+  //   const form = {
+  //     'empId': this.selectedItems[0]['empid'],
+  //     'date': $('#date').val(),
+  //     'shiftLog': shiftLogId
+  //   };
+  //
+  //
+  //   this.http.post(Constants.API_URL + 'punch/getEmpPunches' + '?token=' + token, form).subscribe(data => {
+  //
+  //       this.empRoster = data;
+  //
+  //     },
+  //     error => {
+  //       console.log(error);
+  //     }
+  //   );
+  //
+  // }
 
 
 
