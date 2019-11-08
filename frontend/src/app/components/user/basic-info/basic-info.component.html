@@ -36,33 +36,33 @@
       </div>
 
       <div class="form-group col-md-2">
-        <label>Apartment / Unit# </label>
+        <label>Apartment / Unit# <span style="color: red">*</span> </label>
         <input type="text" class="form-control" name="apartmentUnit"  placeholder="Apartment Unit" [(ngModel)]="employeeBasicForm.apartmentUnit" >
       </div>
 
       <div class="form-group col-md-2">
-        <label>City </label>
+        <label>City <span style="color: red">*</span></label>
         <input type="text" class="form-control" name="city" placeholder="City" [(ngModel)]="employeeBasicForm.city" >
       </div>
 
       <div class="form-group col-md-2">
-        <label>State </label>
+        <label>State <span style="color: red">*</span></label>
         <input type="text" class="form-control" name="state" placeholder="State" [(ngModel)]="employeeBasicForm.state" >
       </div>
 
       <div class="form-group col-md-2">
-        <label>Zip Code </label>
+        <label>Zip Code <span style="color: red">*</span></label>
         <input type="text" class="form-control" name="zipCode" placeholder="Zip Code" [(ngModel)]="employeeBasicForm.zipCode" >
       </div>
 
 
       <div class="form-group col-md-2">
-        <label>Home Phone</label>
+        <label>Home Phone <span style="color: red">*</span></label>
         <input type="text" class="form-control" name="homePhone" placeholder="Home Phone" [(ngModel)]="employeeBasicForm.homePhone" required>
       </div>
 
       <div class="form-group col-md-2">
-        <label>Alternative Phone</label>
+        <label>Alternative Phone <span style="color: red">*</span></label>
         <input type="text" class="form-control" name="contactNo" placeholder="Alternative phone" [(ngModel)]="employeeBasicForm.alterContactNo" required>
       </div>
 
@@ -98,8 +98,8 @@
       </p>
       </div>
 
-      <div class="form-group col-md-4">
-        <label>Marital Status </label>
+      <div class="form-group col-md-2">
+        <label>Marital Status <span style="color: red">*</span></label>
         <select name="maritalStatus" class="form-control" [(ngModel)]="employeeBasicForm.maritalStatus">
           <option value="married">Married</option>
           <option value="unmarried">Unmarried</option>
@@ -110,19 +110,21 @@
         <label>Image</label>
         <input type="file" class="form-control" name="photo" id="photo" accept="image/*" (change)="onFileSelected($event)" placeholder="image">
       </div>
+
       <div class="form-group col-md-4">
         <label>CV - PDF</label>
         <input type="file" class="form-control" name="cv" id="cv" accept="application/pdf"(change)="onCVFileSelected($event)" placeholder="cv">
       </div>
-      <div *ngIf="employeeBasicForm.photo" class="form-group col-md-4">
-        <label>uploaded Image</label>&nbsp; <button type="button" (click)="imageDelete()" class="btn btn-danger">Delete</button>
+
+      <div *ngIf="employeeBasicForm.photo" class="form-group col-md-8">
+        <label>Uploaded Image</label>&nbsp; <button type="button" (click)="imageDelete()" class="btn btn-danger">Delete</button>
         <p>
         <img   [src]="employeeBasicForm.photoLink" height="200" width="200">
         </p>
       </div>
 
       <div *ngIf="employeeBasicForm.cv"class="form-group col-md-4">
-          <label>uploaded Cv</label>
+          <label>Uploaded Cv</label>
           <p><a href="{{employeeBasicForm.cvLink}}" target="_blank">{{employeeBasicForm.cv}}</a>&nbsp; <button type="button" (click)="cvDelete()" class="btn btn-danger">Delete</button></p>
 
       </div>

@@ -52,6 +52,7 @@ Route::group([
     Route::get('employee/getAllSingleRosterDepartmentEployee','EmployeeController@getAllSingleRosterDepartmentEployee');
 
     Route::get('employee/getTotalActiveEmp','EmployeeController@getTotalActiveEmp');
+    Route::get('employee/getTotalInActiveEmp','EmployeeController@getTotalInActiveEmp');
 
     Route::post('employee/viewEmpInfoPdf','EmployeeController@viewEmpInfoPdf');
 
@@ -87,6 +88,10 @@ Route::group([
     Route::get('department/get','DepartmentController@get');
     Route::get('departments/get-AllLevels','DepartmentController@getAllLevels');
     Route::post('department/post','DepartmentController@postDepartment');
+
+    //Email
+    Route::get('email/get','EmailController@get');
+    Route::post('email/post','EmailController@postEmail');
 
     //Designation Info
     Route::get('designation/get','DesignationController@get');

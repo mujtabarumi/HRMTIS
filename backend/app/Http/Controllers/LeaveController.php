@@ -46,17 +46,11 @@ class LeaveController extends Controller
             })->leftJoin('departments',function ($query) use($emp){
 
                 $query->on('departments.id','=','employeeinfo.fkDepartmentId');
-
-
-
             })
             ->where(function ($query) {
                 $query->where('designations.title', '=', Leave_Accept_Access['Manager'])
                     ->orWhere('departments.departmentName', '=', Leave_Accept_Access['Hr']);
             })
-
-
-
             ->get();
 
         $leave=new Leave();
@@ -88,13 +82,8 @@ class LeaveController extends Controller
 
             }
         }
-
-
-
-
-
-
     }
+
     public function getMyLeave(Request $r){
 
         $emp=Employee::where('fkUserId',auth()->user()->id)->first();
@@ -107,6 +96,7 @@ class LeaveController extends Controller
 
         return $leaves;
     }
+
     public function assignLeave(Request $r){
 
         foreach ($r->allEmp as $empid){
@@ -198,8 +188,6 @@ class LeaveController extends Controller
         return $leaves;
     }
     public function getLeaveSummery(Request $r){
-//
-//
         $leaves=Leave::select('employeeinfo.id','employeeinfo.firstName','employeeinfo.middleName',
             'employeeinfo.lastName',
             DB::raw('sum(case when fkLeaveCategory = 1 then noOfDays else 0 end) as cs'),
@@ -266,7 +254,6 @@ class LeaveController extends Controller
 
         $getLeaveInfo=Leave::findOrFail($r->id);
 
-
         if ($emp['designationTitle']==Leave_Accept_Access['Manager']){
 
             if ($getLeaveInfo->departmentHeadApproval!=null)
@@ -277,8 +264,6 @@ class LeaveController extends Controller
                 $getLeaveInfo->save();
                 $msg='Request Accepted';
             }
-
-
 
         }elseif ($emp['designationTitle']==Leave_Accept_Access['Hr']){
 

@@ -40,17 +40,18 @@
         <table border="0" style="width:100%; border: none;">
             <tr>
                 <td style="text-align: left; border: none;width: 85%; ">
-                    <h3 style="">{{$employee->empFullname}}</h3>
-                    <p style="max-width: 300px">
-                        ID No:{{$employee->empId}}
-                        Cell No: {{$employee->contactNo}} <br>
-                        Email: {{$employee->email}} <br>
-                        Department: {{$employee->departmentName}}
-                        Designation: {{$employee->designationTitle}}
+                    <h3 style="">Name: {{$employee->empFullname}}</h3>
+                    <p style="max-width: 300px; line-height: 30px;">
+                        <b>ID No:</b> {{$employee->empId}}<br>
+                        <b>Cell No:</b> {{$employee->contactNo}} <br>
+                        <b>Email:</b> {{$employee->email}} <br>
+                        <b>Department:</b> {{$employee->departmentName}}<br>
+                        <b>Designation:</b> {{$employee->designationTitle}}<br>
+                        <b>Working Location:</b> {{$employee->workingLocation}}
                     </p>
 
                 </td>
-                <td style="width: 15%; border: none; "><img height="150px" width="150px" src="{{url('public/images').'/'.$employee->photo}}" alt="employee Image"></td>
+                <td style="width: 15%; border: none; "><img height="130px" width="130px" src="{{url('public/images').'/'.$employee->photo}}" alt="employee Image"></td>
             </tr>
 
         </table>

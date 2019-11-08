@@ -249,7 +249,6 @@ export class JoiningInfoComponent implements OnInit {
           const data = error.error.errors;
 
           for (const p in data) {
-
             for (const k in data[p]) {
               this.error.push(data[p][k]);
             }
@@ -264,6 +263,10 @@ export class JoiningInfoComponent implements OnInit {
     const token = this.token.get();
     this.http.post(Constants.API_URL + 'leave/limit/post' + '?token=' + token, {id: this.empid, totalLeave: this.totalLeaveAssigned, leaveTaken: this.leaveTaken}).subscribe(data => {
         this.getLeaveLimit();
+        $.alert({
+          title: 'Success!',
+          content: 'Updated',
+        });
       },
       error => {
         console.log(error);
