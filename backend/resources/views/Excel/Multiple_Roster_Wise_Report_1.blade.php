@@ -356,22 +356,23 @@
 
 
                                     @endif
-                                @else
-                                    <!-- check if there is any punch between roster in time and out time + 59 minute  of that day  by employee id and date-->
+                                    <!-- check if out Time is equal or before 9 pm-->
+                                @elseif($RI->outTime <= '21:00:00')
+
                                     @php
                                         $ii=0;
                                         $len=count($results->where('employeeId',$allE->id)
                                         ->where('fkAttDevice',$allE->outDeviceNo)->where('attendanceDate',$date['date'])
                                         ->where('accessTime','>=' ,$RI->inTime)
-                                        ->where('accessTime','<=', \Carbon\Carbon::parse($RI->outTime)->addMinutes(59)->format('H:i:s')));
+                                        ->where('accessTime','<=', \Carbon\Carbon::parse($RI->outTime)->addHours(2)->format('H:i:s')));
                                     @endphp
 
 
-
+                                    <!-- check if there is any punch between roster in time and out time + 2 hour  of that day  by employee id and date-->
                                     @foreach($results->where('employeeId',$allE->id)->where('fkAttDevice',$allE->outDeviceNo)
                                      ->where('attendanceDate',$date['date'])
                                         ->where('accessTime','>=' ,$RI->inTime)
-                                                 ->where('accessTime','<=', \Carbon\Carbon::parse($RI->outTime)->addMinutes(59)->format('H:i:s')) as $out)
+                                                 ->where('accessTime','<=', \Carbon\Carbon::parse($RI->outTime)->addHours(2)->format('H:i:s')) as $out)
 
                                         @if($ii==($len-1))
 
@@ -382,7 +383,7 @@
                                             {{$FINALOUT->format('H:i')}}
 
 
-
+                                            <!-- check if there is any punch between roster in time and out time + 2 hour  of that day then show the last punch as out Time by employee id and date-->
 
                                         @endif
 
@@ -401,6 +402,97 @@
                                         $ii=0;
                                     @endphp
 
+                                    <!-- check if out Time is after 9 pm-->
+                                @elseif($RI->outTime > '21:00:00')
+
+                                    @if($results->where('employeeId',$allE->id)->where('attendanceDate',$nextday)
+                                      ->where('accessTime','<=','03:00:00')->where('fkAttDevice',$allE->outDeviceNo)->first())
+                                        <!-- check if there is any punch before 3 am in next day  by employee id and date-->
+
+                                            @php
+                                                $ii=0;
+                                                $len=count($results->where('employeeId',$allE->id)->where('attendanceDate',$nextday)
+                                                    ->where('accessTime','<=','03:00:00')->where('fkAttDevice',$allE->outDeviceNo));
+                                            @endphp
+
+
+                                            <!-- check if there is any punch before 3 am in next day  by employee id and date-->
+                                            @foreach($results->where('employeeId',$allE->id)->where('attendanceDate',$nextday)
+                                                    ->where('accessTime','<=','03:00:00')->where('fkAttDevice',$allE->outDeviceNo) as $out)
+
+                                                @if($ii==($len-1))
+
+                                                    @php
+                                                        $FINALOUT=\Carbon\Carbon::parse($out->accessTime2);
+                                                    @endphp
+
+                                                    {{$FINALOUT->format('H:i')}}
+
+
+                                                    <!-- check if there is any punch before 3 am in next day then show out time by employee id and date-->
+                                                @endif
+
+                                                @php
+                                                    $ii++;
+                                                @endphp
+
+
+
+
+
+                                            @endforeach
+
+
+                                            @php
+                                                $ii=0;
+                                            @endphp
+                                     @else
+
+                                        @php
+                                            $ii=0;
+                                            $len=count($results->where('employeeId',$allE->id)
+                                            ->where('fkAttDevice',$allE->outDeviceNo)->where('attendanceDate',$date['date'])
+                                            ->where('accessTime','>=' ,$RI->inTime)
+                                            ->where('accessTime','<=', \Carbon\Carbon::parse($RI->outTime)->addMinutes(59)->format('H:i:s')));
+                                        @endphp
+
+
+                                        <!-- check if there is any punch between roster in time and out time + 59 minutes  of that day  by employee id and date-->
+                                        @foreach($results->where('employeeId',$allE->id)->where('fkAttDevice',$allE->outDeviceNo)
+                                         ->where('attendanceDate',$date['date'])
+                                            ->where('accessTime','>=' ,$RI->inTime)
+                                                     ->where('accessTime','<=', \Carbon\Carbon::parse($RI->outTime)->addMinutes(59)->format('H:i:s')) as $out)
+
+                                            @if($ii==($len-1))
+
+                                                @php
+                                                    $FINALOUT=\Carbon\Carbon::parse($out->accessTime2);
+                                                @endphp
+
+                                                {{$FINALOUT->format('H:i')}}
+
+
+                                                <!-- check if there is any punch between roster in time and out time + 59 minutes  of that day then show the last punch as out Time by employee id and date-->
+
+                                                @endif
+
+                                                @php
+                                                    $ii++;
+                                                @endphp
+
+
+
+
+
+                                            @endforeach
+
+
+                                            @php
+                                                $ii=0;
+                                            @endphp
+
+                                     @endif
+
 
 
                                 @endif
@@ -411,23 +503,23 @@
                         <td class="Border"style="text-align: center;vertical-align: middle;" width="20">
 
 
-
+                                <!-- check if inTime null or not  by employee id and date-->
                             @if($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])->first()->inTime == null)
 
                                 {{
                                     \Carbon\Carbon::parse($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
                                     ->first()->accessTime2)->format('H:i')
                                 }}
-
+                                <!-- show the first punch as intime of the date-->
                             @else
 
 
-
+                                <!-- check if inTime 12Am  by employee id and date-->
                                 @if($RI->inTime == '00:00:00')
 
                                     @if($results->where('employeeId',$allE->id)->where('attendanceDate',$previousday)
                                        ->where('accessTime','>=','21:00:00')->where('fkAttDevice',$allE->inDeviceNo)->first())
-
+                                        <!-- check if there is any punch after 9 pm in previous day  by employee id and date-->
 
                                         @php
                                             $i=0;
@@ -444,7 +536,7 @@
                                                     $access=\Carbon\Carbon::parse($in->accessTime);
                                                     $ins=\Carbon\Carbon::parse($in->inTime);
                                                 @endphp
-
+                                                <!-- check if there is any punch after 9 pm in previous day then calculate punch time and roster inTime  by employee id and date-->
                                             @endif
 
                                             @php
@@ -461,7 +553,7 @@
 
                                     @elseif($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
                                                      ->where('fkAttDevice',$allE->inDeviceNo)->first())
-
+                                        <!-- check if there is any punch in that day  by employee id and date-->
                                         @php
                                             $i=0;
                                         @endphp
@@ -469,7 +561,7 @@
                                         @foreach($results->where('attendanceDate',$previousday)->where('employeeId',$allE->id)->where('fkAttDevice',$allE->inDeviceNo)
                                             ->where('accessTime','>=' ,$RI->inTime)->where('accessTime','<=', $RI->outTime) as $in)
 
-
+                                            <!-- check if there is any punch between roster in Time and out Time on that day then calculate punch time and roster inTime  by employee id and date-->
 
                                             @if($i==0)
 
@@ -477,7 +569,7 @@
                                                     $access=\Carbon\Carbon::parse($in->accessTime);
                                                     $ins=\Carbon\Carbon::parse($in->inTime);
                                                 @endphp
-
+                                                <!-- check if there is any punch between roster in Time and out Time on that day then calculate punch time and roster inTime  by employee id and date-->
                                             @endif
 
                                             @php
@@ -497,7 +589,7 @@
 
 
 
-
+                                    <!-- check if there is any punch before 2 hours of roster in Time  by employee id and date-->
                                 @elseif($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])
                                                      ->where('accessTime','>=' ,\Carbon\Carbon::parse($RI->inTime)->subHours(2)->format('H:i:s'))
                                                      ->where('accessTime','<=', $RI->outTime)
@@ -521,7 +613,7 @@
                                                 $access=\Carbon\Carbon::parse($in->accessTime);
                                                 $ins=\Carbon\Carbon::parse($in->inTime);
                                             @endphp
-
+                                            <!-- check if there is any punch before 2 hours of roster in Time then calculate pumch time and Roster in time  by employee id and date-->
                                         @endif
 
                                         @php
@@ -544,22 +636,23 @@
 
 
 
-                            @if($access !=null && $ins!=null && $access > $ins)
+                        <!-- Calculate late if punch time is grater then 21 miniutes  -->
+                        @if($access !=null && $ins!=null && $access > $ins)
 
                                 @if($access->diffInMinutes($ins) >= 21 )
 
 
                                     {{$access->diff($ins)->format('%H:%i')}}
-
+                                    <!-- Calculate late if punch time is grater then 21 miniutes  -->
                                 @endif
                             @endif
 
 
                         </td>
                         <td class="Border"style="text-align: center;vertical-align: middle;" width="15">
-
+                            <!-- Calculate Total working hour  -->
                             @if($FINALIN != null && $FINALOUT != null)
-
+                                <!-- Calculate diffrence in in time and out time & calculate total working time in miniute  -->
                                 @php
                                     $FINALWORKINGHOUR=$FINALOUT->diff($FINALIN);
                                     $FINALWORKINGHOUR2=$FINALOUT->diffInMinutes($FINALIN);
@@ -568,7 +661,7 @@
                                 @endphp
 
                                 {{$FINALWORKINGHOUR->format('%H:%i')}}
-
+                                <!-- show final working hour  -->
                             @endif
 
 
@@ -582,7 +675,7 @@
                                 @php
                                     $ROUNDFINALWORKINGHOUR=\Carbon\Carbon::createFromTime($FINALWORKINGHOUR->format('%H'),$FINALWORKINGHOUR->format('%i'),0);
                                 @endphp
-
+                                <!-- if  final working houre (if miniute greater then or equal 25 then increase 1 hour and miniute gets round to 0 )  -->
                                 @if($ROUNDFINALWORKINGHOUR->minute >=25)
 
                                     @php
@@ -592,7 +685,7 @@
                                     @endphp
 
                                 @else
-
+                                    <!-- else only  ( miniute gets round to 0 )  -->
                                     @php
                                         $ROUNDFINALWORKINGHOUR->minute(0);
                                         $T_roundworkinghour=($T_roundworkinghour+$ROUNDFINALWORKINGHOUR->hour);
@@ -600,7 +693,7 @@
                                     @endphp
 
                                 @endif
-
+                                <!-- show round total working hour  -->
                                 {{$ROUNDFINALWORKINGHOUR->format('H:i')}}
 
                             @endif
@@ -655,23 +748,24 @@
 
             <th class="Border"style="text-align: center;vertical-align: middle;" width="25">
                 {{$T_roundworkinghour}}
+                <!-- Total of  round total working hour  -->
             </th>
             <th class="Border"style="text-align: center;vertical-align: middle;" width="15">
 
                 @if($results->where('employeeId',$allE->id)->where('attendanceDate',$date['date'])->first())
 
                     p
-
+                    <!-- if there is a punch of that day then shows present  -->
 
                 @else
-
+                    <!-- check if there is any leave of that day by emp    -->
                     @if($allLeave->where('fkEmployeeId',$allE->id)->where('startDate','<=',$date['date'])->where('endDate','>=',$date['date'])->first())
 
 
                             {{$allLeave->where('fkEmployeeId',$allE->id)->where('startDate','<=',$date['date'])->where('endDate','>=',$date['date'])->first()->categoryName}}
 
 
-
+                        <!-- check if there is any off day of that day by emp    -->
                     @elseif($allWeekend->where('fkemployeeId',$allE->id)->where('startDate','<=',$date['date'])->where('endDate','>=',$date['date'])->first())
 
 
@@ -680,7 +774,7 @@
 
 
 
-
+                            <!-- check if there is any govt. holiday of that day by emp    -->
                     @elseif($govtHoliday->where('startDate','<=',$date['date'])->where('endDate','>=',$date['date'])->first())
 
 
@@ -688,6 +782,7 @@
                             Govt Holiday
 
                     @else
+                        <!-- other wise show absent    -->
                         Absent
                     @endif
 
