@@ -131,7 +131,8 @@ Route::group([
     Route::post('report/attendanceHR','AttendanceController@getAttendenceDataForHR');
     Route::post('report/attendanceHRINOUT','AttendanceController@getAttendenceDataForHRINOUT');
     Route::post('report/finalReport-1','AttendanceController@finalReport_1');
-    Route::post('report/finalReportWithSalary','AttendanceController@finalReportWithSalary');
+    Route::post('report/finalReportWithSalary','AttendanceController@finalReportSummeryWithSalary');
+
 
     Route::post('report/finalReport-2','AttendanceController@finalReport_2');
 
