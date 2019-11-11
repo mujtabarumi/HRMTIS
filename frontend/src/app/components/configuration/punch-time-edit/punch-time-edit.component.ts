@@ -22,6 +22,9 @@ export class PunchTimeEditComponent implements OnInit {
   selectedItems = [];
   date: any;
   empRoster: any;
+  modalRef: any;
+  inDevice: any;
+  outDevice: any;
 
   constructor(private modalService: NgbModal, private renderer: Renderer, public http: HttpClient,
               private token: TokenService , public route: ActivatedRoute, private router: Router) { }
@@ -70,7 +73,7 @@ export class PunchTimeEditComponent implements OnInit {
 
     this.http.post(Constants.API_URL + 'punch/getEmpRosterAndPunches' + '?token=' + token, form).subscribe(data => {
 
-      // this.empRoster = data;
+       this.empRoster = data;
        console.log(data);
 
       },
@@ -80,6 +83,132 @@ export class PunchTimeEditComponent implements OnInit {
     );
 
   }
+  AddPunch(punchTemplate) {
+
+    const token = this.token.get();
+
+    const form = {
+      'empId': this.selectedItems[0]['empid'],
+
+    };
+
+
+    this.http.post(Constants.API_URL + 'punch/getEmployeeINandOUTdevice' + '?token=' + token, form).subscribe(data => {
+
+         this.inDevice = data['inDeviceNo'];
+         this.outDevice = data['outDeviceNo'];
+
+
+      },
+      error => {
+        console.log(error);
+      }
+    );
+
+    this.modalRef = this.modalService.open(punchTemplate, {size: 'lg', backdrop: 'static'});
+
+  }
+  add() {
+
+  if (!this.checkForm()) {
+  return false;
+  } else {
+
+    const token = this.token.get();
+
+    const form = {
+      'empId': this.selectedItems[0]['empid'],
+      'dateFormate': $('#date').val(),
+      'timeFormate': $('#addTime').val(),
+      'deviceNumber': $('#deviceNumber').val(),
+    };
+
+
+    this.http.post(Constants.API_URL + 'punch/addPunches' + '?token=' + token, form).subscribe(data => {
+
+      console.log(data);
+
+        // $.alert({
+        //   title: 'Alert!',
+        //   type: 'green',
+        //   content: 'Punch Added Successfully',
+        //   buttons: {
+        //     tryAgain: {
+        //       text: 'Ok',
+        //       btnClass: 'btn-green',
+        //       action: function () {
+        //       }
+        //     }
+        //   }
+        // });
+
+      },
+      error => {
+        console.log(error);
+      }
+    );
+
+  }
+
+  }
+  checkForm() {
+    let message = '';
+    let condition = true;
+
+
+    if (this.selectedItems.length == 0) {
+
+      condition = false;
+      message = 'Please Select an Employee';
+
+    }
+
+    if ($('#date').val() == '') {
+
+      condition = false;
+      message = 'Please select a date';
+
+    }
+    if ($('#time').val() == '') {
+
+      condition = false;
+      message = 'Please select a Time';
+
+    }
+    if ($('#deviceNumber').val() == '') {
+
+      condition = false;
+      message = 'Please select a Device ';
+
+    }
+
+
+
+    if (condition == false) {
+      $.alert({
+        title: 'Alert!',
+        type: 'Red',
+        content: message,
+        buttons: {
+          tryAgain: {
+            text: 'Ok',
+            btnClass: 'btn-red',
+            action: function () {
+            }
+          }
+        }
+      });
+      return false;
+
+    }
+
+    return true;
+  }
+  modalClose() {
+    this.modalRef.close();
+  }
+
+
   // empPunches(shiftLogId) {
   //
   //   const token = this.token.get();

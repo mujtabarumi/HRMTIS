@@ -451,10 +451,11 @@
                 @php
                     $medical=round(($basicSalary*.06),2)
                 @endphp
-                @if($aE->pf_fund != null || $aE->pf_fund != '')
+                @if($aE->pf_fund ==1)
 
                     @php
                         $CompanyProvident=round(($basicSalary*.04),2);
+                        $PersonalProvident=round(($basicSalary*.06),2);
 
                     @endphp
 

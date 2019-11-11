@@ -100,6 +100,12 @@ class EmployeeController extends Controller {
         $joinInfo->workingLocation = $r->workingLocation;
         $joinInfo->contactNo = $r->contactNo;
         $joinInfo->salary = $r->salary;
+        if ($r->pf==1){
+            $joinInfo->pf_fund = $r->pf;
+        }else if ($r->pf==0){
+            $joinInfo->pf_fund = null;
+        }
+
 
         $joinInfo->e_name = $r->e_name;
         $joinInfo->e_street_address = $r->e_street_address;
@@ -147,7 +153,7 @@ class EmployeeController extends Controller {
             'accessPin','employeeinfo.fkDepartmentId','employeeinfo.employeeId','fkEmployeeType','employeeinfo.fkDesignation',
             'workingLocation','supervisor', 'probationPeriod','bloodGroup','email_off', 'employeeinfo.fkActivationStatus', 'employeeinfo.inDeviceNo',
             'e_name','e_street_address','e_apartment_unit','e_city','e_state','e_zip_code','e_phone','e_alternate_phone','e_relationship',
-            'employeeinfo.outDeviceNo')
+            'employeeinfo.outDeviceNo','employeeinfo.pf_fund')
                 ->leftJoin('attemployeemap', 'attemployeemap.employeeId', 'employeeinfo.id')
                 ->where('employeeinfo.id', '=', $r->id)
                 ->first();

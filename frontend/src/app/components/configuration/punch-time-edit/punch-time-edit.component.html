@@ -1,3 +1,51 @@
+<!--modal-->
+<ng-template #punchTemplate let-c="close" let-d="dismiss" >
+  <div class="modal-header">
+    <h4 class="modal-title">Add punch Time</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modalClose()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <div class="row" >
+
+
+
+        <div class="form-group col-md-4">
+          <label>Time</label>
+          <input type="time" id="addTime" class="form-control">
+        </div>
+
+      <div class="form-group col-md-4">
+          <label>Device</label>
+        <select class="form-control" id="deviceNumber"  name="deviceNumber">
+          <option value="">select Device</option>
+          <option value="{{inDevice}}">in Device-{{inDevice}}</option>
+          <option value="{{outDevice}}">out Device-{{outDevice}}</option>
+        </select>
+
+        </div>
+
+
+
+
+
+      <div class="form-group col-md-4">
+
+        <button class="btn btn-success" (click)="add()" style="margin-top: 25px;">Add</button>
+
+      </div>
+
+
+
+    </div>
+
+
+  </div>
+</ng-template>
+
+
 <div class="container-fluid">
   <div class="card">
     <div class="card-header"><h2>Punch Time Edit</h2></div>
@@ -15,8 +63,6 @@
             [data]="employee"
             [(ngModel)]="selectedItems"
             [settings]="dropdownSettings"
-
-
 
           >
           </ng-multiselect-dropdown>
@@ -52,6 +98,7 @@
                 <th>Roster In Time</th>
                 <th>Roster Out Time</th>
                 <th>Punches</th>
+                <th>Action</th>
 
               </tr>
 
@@ -61,8 +108,9 @@
                 <td>{{eR['inTime']}}</td>
                 <td>{{eR['outTime']}}</td>
                 <td></td>
-
-
+                <td>
+                  <button class="btn btn-info" (click)="AddPunch(punchTemplate)">Change</button>
+                </td>
 
 
               </tr>

@@ -248,6 +248,8 @@ Route::group([
     /* punch */
 
     Route::post('punch/getEmpRosterAndPunches','PunchController@getEmpRosterAndPunches');
+    Route::post('punch/addPunches','PunchController@addPunches');
+    Route::post('punch/getEmployeeINandOUTdevice','PunchController@getEmployeeINandOUTdevice');
 
    // Route::post('punch/getEmpPunches','PunchController@getEmpRoster');
 
