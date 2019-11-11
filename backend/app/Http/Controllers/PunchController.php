@@ -63,8 +63,9 @@ class PunchController extends Controller
     }
     public function addPunches(Request $r)
     {
-        return $r->dateFormate;
-        return $dateTime=\DateTime::createFromFormat('Y-m-dH:m:s',$r->date.$r->time);
+
+
+        $dateTime=Carbon::createFromTimestamp(strtotime($r->dateFormate.$r->timeFormate.":00"));
 
         $emp=AttEmployeeMap::where('employeeId',$r->empId)->first();
 

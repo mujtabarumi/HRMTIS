@@ -72,9 +72,27 @@ export class PunchTimeEditComponent implements OnInit {
 
 
     this.http.post(Constants.API_URL + 'punch/getEmpRosterAndPunches' + '?token=' + token, form).subscribe(data => {
+        this.empRoster = data;
+      if (this.empRoster.length == 0) {
 
-       this.empRoster = data;
-       console.log(data);
+        $.alert({
+          title: 'Alert!',
+          type: 'Red',
+          content: 'there is no roster for this employee on this day',
+          buttons: {
+            tryAgain: {
+              text: 'Ok',
+              btnClass: 'btn-red',
+              action: function () {
+              }
+            }
+          }
+        });
+
+      }
+
+
+      // console.log(data);
 
       },
       error => {
@@ -126,21 +144,21 @@ export class PunchTimeEditComponent implements OnInit {
 
     this.http.post(Constants.API_URL + 'punch/addPunches' + '?token=' + token, form).subscribe(data => {
 
-      console.log(data);
+     // console.log(data);
 
-        // $.alert({
-        //   title: 'Alert!',
-        //   type: 'green',
-        //   content: 'Punch Added Successfully',
-        //   buttons: {
-        //     tryAgain: {
-        //       text: 'Ok',
-        //       btnClass: 'btn-green',
-        //       action: function () {
-        //       }
-        //     }
-        //   }
-        // });
+        $.alert({
+          title: 'Alert!',
+          type: 'green',
+          content: 'Punch Added Successfully',
+          buttons: {
+            tryAgain: {
+              text: 'Ok',
+              btnClass: 'btn-green',
+              action: function () {
+              }
+            }
+          }
+        });
 
       },
       error => {
